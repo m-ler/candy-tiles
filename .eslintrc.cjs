@@ -6,6 +6,7 @@ module.exports = {
 	},
 	'extends': ['eslint:recommended', 'plugin:react/recommended', 'plugin:@typescript-eslint/recommended'],
 	'overrides': [],
+	'files': ['**/*.ts', '**/*.tsx'],
 	'parser': '@typescript-eslint/parser',
 	'parserOptions': {
 		'ecmaVersion': 'latest',
