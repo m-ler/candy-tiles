@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { MdKeyboardArrowRight } from 'react-icons/md';
 
-const LevelSelector: React.FC = () => {
+const LevelSelector = () => {
 	const [visible, setVisible] = useState<boolean>(false);
 
 	const toggleVisibility = (e: React.MouseEvent): void => setVisible(!visible);
