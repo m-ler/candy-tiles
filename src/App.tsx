@@ -1,9 +1,9 @@
 import { Routes, Route } from 'react-router-dom';
-import GamePage from './assets/pages/game';
+import GamePage from './pages/game';
 
 export default () => {
 	return (
-		<main className="">
+		<main className="flex min-h-screen">
 			<Routes>
 				<Route path="/" element={<GamePage></GamePage>}></Route>
 			</Routes>

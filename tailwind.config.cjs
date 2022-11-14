@@ -5,6 +5,11 @@ module.exports = {
 	content: ['./index.html', './src/**/*.{html,js,ts,jsx,tsx}'],
 	theme: {
 		colors: {
+			'transparent': 'transparent',
+			'current': 'currentColor',
+			'black': colors.black,
+			'white': colors.white,
+
 			'purple': '#5C004C',
 			'red': '#F70002',
 			'light-red': '#FF3D78',
@@ -25,7 +30,30 @@ module.exports = {
 		},
 
 		extend: {
-			colors,
+			fontFamily: {
+				Roboto: ['Roboto'],
+				Poppins: ['Poppins'],
+				OpenSans: ["'Open Sans'"],
+				Lato: ['Lato'],
+				Raleway: ['Raleway'],
+				System: [
+					'-apple-system',
+					'BlinkMacSystemFont',
+					'Segoe UI',
+					'Roboto',
+					'Oxygen-Sans',
+					'Ubuntu',
+					'Cantarell',
+					'Helvetica Neue',
+					'sans-serif',
+				],
+			},
+		},
+		screens: {
+			sm: { max: '640px' },
+			md: { max: '768px' },
+			lg: { max: '1024px' },
+			xl: { max: '1280px' },
 		},
 	},
 	plugins: [],
