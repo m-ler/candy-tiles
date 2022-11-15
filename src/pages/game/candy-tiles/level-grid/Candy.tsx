@@ -4,8 +4,7 @@ import yellow from './../../../../assets/candies/yellow.png';
 import green from './../../../../assets/candies/green.png';
 import blue from './../../../../assets/candies/blue.png';
 import purple from './../../../../assets/candies/purple.png';
-
-console.log(red);
+import { forwardRef } from 'react';
 
 export const CandyColors = ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple'];
 
@@ -20,14 +19,21 @@ const candyImages: { [key: string]: string } = {
 
 type CandyProps = {
 	color: string;
+	index: number;
 };
 
-const Candy = (props: CandyProps) => {
+const Candy = forwardRef<HTMLDivElement | null, CandyProps>(({ color, index }: CandyProps, ref) => {
 	return (
-		<div className="w-full aspect-square block p-[15%]">
-			<img src={candyImages[props.color]} className="block rounded-full w-full h-full m-0 select-none pointer-events-none"></img>
+		<div
+			className="w-full aspect-square block p-[15%] relative left-[0px] top-[0px] duration-200"
+			data-candy
+			ref={ref}
+			data-index={index}
+			data-color={color}
+		>
+			<img src={candyImages[color]} className="block rounded-full w-full h-full m-0 select-none pointer-events-none"></img>
 		</div>
 	);
-};
+});
 
 export default Candy;
