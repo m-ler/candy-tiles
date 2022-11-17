@@ -4,7 +4,7 @@ import yellow from './../../../../assets/candies/yellow.png';
 import green from './../../../../assets/candies/green.png';
 import blue from './../../../../assets/candies/blue.png';
 import purple from './../../../../assets/candies/purple.png';
-import { forwardRef } from 'react';
+import { forwardRef, useEffect } from 'react';
 
 export const CandyColors = ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple'];
 
@@ -23,6 +23,9 @@ type CandyProps = {
 };
 
 const Candy = forwardRef<HTMLDivElement | null, CandyProps>(({ color, index }: CandyProps, ref) => {
+	useEffect(() => {
+	}, [color]);
+
 	return (
 		<div
 			className="w-full aspect-square block p-[15%] relative left-[0px] top-[0px] duration-200"

@@ -1,15 +1,13 @@
 import { useContext, createContext, useState } from 'react';
 
-type LevelContextType = {
+type LevelData = {
 	gridElements: HTMLElement[] | undefined;
 	updateGridElements: (elementas: HTMLElement[]) => void;
+
+	currentLevelItems?: any[]; // TODO DEFINE GLOBAL TYPE FOR ITEM
 };
 
-type LevelData = {
-	gridElements: HTMLElement[];
-};
-
-export const LevelContext = createContext<LevelContextType | null>(null);
+export const LevelContext = createContext<LevelData | null>(null);
 
 const LevelContextProvider = () => {
 	const [gridElements, setGridElements] = useState<HTMLElement[] | undefined>();
@@ -21,6 +19,6 @@ const LevelContextProvider = () => {
 	};
 };
 
-export const useLevelContext = (): LevelContextType | null => useContext(LevelContext);
+export const useLevelContext = (): LevelData | null => useContext(LevelContext);
 
 export default LevelContextProvider;

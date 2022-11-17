@@ -9,7 +9,6 @@ const LevelGrid = () => {
 	const dragging = useRef<boolean>(false);
 
 	useEffect(() => {
-		console.log(selectedTiles);
 	}, [selectedTiles]);
 
 	const handleMouseDown = (e: React.MouseEvent): void => {
@@ -38,8 +37,6 @@ const LevelGrid = () => {
 			setSelectedTiles([]);
 			return;
 		}
-
-		console.log('may proceed');
 
 		setSelectedTiles([...selectedTiles, e.target as HTMLElement]);
 	};
