@@ -8,10 +8,7 @@ type TileProps = {
 };
 
 const Tile = ({ selectedTiles, index }: TileProps) => {
-	const randomCandyColor = useMemo(() => CandyColors[Math.floor(Math.random() * CandyColors.length)], []);
-
 	const [selected, setSelected] = useState<boolean>(false);
-	const [candyColor, setCandyColor] = useState<string>(randomCandyColor);
 	const tileElementRef = useRef<HTMLDivElement | null>(null);
 	const itemElementRef = useRef<HTMLDivElement | null>(null);
 
@@ -27,19 +24,16 @@ const Tile = ({ selectedTiles, index }: TileProps) => {
 	useEffect(() => {
 		if (!!tileElementRef?.current && selectedTiles.includes(itemElementRef?.current as HTMLElement) && selectedTiles.length === 2) {
 			moveToTargetTile();
-			//setCandyColor(otherCandy?.getAttribute('data-color') || '');
 		}
 	}, [selectedTiles]);
 
 	return (
 		<div
-			className="relative border border-purple hover:bg-light-yellow/50 duration-200 select-none"
+			className="relative bg-[#0983ed]/50 border border-pink hover:bg-light-yellow/50 duration-200 select-none"
 			ref={tileElementRef}
 			data-index={index}
-			data-color={candyColor}
-		>
-			<Candy color={candyColor} ref={itemElementRef} index={index}></Candy>
-		</div>
+			data-tile
+		></div>
 	);
 };
 

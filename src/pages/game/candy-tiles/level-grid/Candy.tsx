@@ -18,7 +18,7 @@ const candyImages: { [key: string]: string } = {
 };
 
 type CandyProps = {
-	color: string;
+	color: CandyColor;
 	index: number;
 };
 

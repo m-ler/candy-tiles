@@ -9,10 +9,10 @@ body {
 }
 
 body {
-	background-color: #ff739a;
-	background-image: url("assets/svg/diagonal-stripes.svg");
-  background-size: cover 100px;
-  background-position: center;
-  background-attachment: fixed;
-  background-repeat: repeat;
+	background-size: 100px;
+	background-position: center;
+	background-attachment: fixed;
+	background-repeat: repeat;
+  background-color: #ff739a;
+	background-image: url("./assets/svg/page-background.svg");
 }

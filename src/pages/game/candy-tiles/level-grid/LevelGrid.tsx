@@ -1,57 +1,67 @@
 import Tile from './Tile';
 import { useEffect, useRef, useState } from 'react';
 import { tilesAreAdjacent } from '../../../../utils/tile-matching';
+import { levelList } from '../../../../data/level-layouts';
+import Candy from './Candy';
+import LevelContextProvider, { useLevelContext } from '../../../../context/LevelContext';
 
-const elementIsCandy = (element: HTMLElement) => element.hasAttribute('data-candy');
+const elementIsTile = (element: HTMLElement) => element.hasAttribute('data-tile');
 
 const LevelGrid = () => {
 	const [selectedTiles, setSelectedTiles] = useState<HTMLElement[]>([]);
 	const dragging = useRef<boolean>(false);
+	const selectedLevelLayout = levelList[0];
+	const levelContext = useLevelContext();
+	const firstTile = useRef<HTMLElement | null>();
 
 	useEffect(() => {
-	}, [selectedTiles]);
+		console.log(levelContext?.selectedTiles);
+	}, [levelContext?.selectedTiles]);
 
 	const handleMouseDown = (e: React.MouseEvent): void => {
+		if (!elementIsTile(e.target as HTMLElement)) return;
 		dragging.current = true;
-		if (!elementIsCandy(e.target as HTMLElement)) return;
-		setSelectedTiles([e.target as HTMLElement]);
+		firstTile.current = e.target as HTMLElement;
 	};
 
 	const handleMouseUp = (e: React.MouseEvent): void => {
+		firstTile.current = null;
 		dragging.current = false;
-		//const selectedSameTile = (e.target as HTMLElement) === selectedTiles[0];
-	};
-
-	const handleMouseOut = (e: React.MouseEvent): void => {
-		if (!elementIsCandy(e.target as HTMLElement)) return;
 	};
 
 	const handleMouseOver = (e: React.MouseEvent): void => {
-		if (!elementIsCandy(e.target as HTMLElement) || !selectedTiles[0] || !dragging.current) return;
+		if (!elementIsTile(e.target as HTMLElement) || !firstTile.current || !dragging.current) return;
 
-		const tilesIndexes = [selectedTiles[0], e.target as HTMLElement].map(tileElement =>
-			parseInt(tileElement.getAttribute('data-index') ?? '')
-		) as [number, number];
+		const firstTileIndex = parseInt(firstTile.current.getAttribute('data-index') || '');
+		const secondTileIndex = parseInt((e.target as HTMLElement).getAttribute('data-index') || '');
 
-		if (!tilesAreAdjacent(...tilesIndexes)) {
-			setSelectedTiles([]);
+		if (!tilesAreAdjacent(firstTileIndex, secondTileIndex)) {
+			levelContext?.updateSelectedTiles([null, null]);
 			return;
 		}
-
-		setSelectedTiles([...selectedTiles, e.target as HTMLElement]);
+    
+		levelContext?.updateSelectedTiles([firstTileIndex, secondTileIndex]);
+		firstTile.current = null;
 	};
 
 	return (
-		<section
-			className="grid bg-purple/50 border border-white grow aspect-square rounded-lg grid-rows-[repeat(9,1fr)] grid-cols-[repeat(9,1fr)] overflow-hidden"
-			onMouseDown={handleMouseDown}
-			onMouseUp={handleMouseUp}
-			onMouseOut={handleMouseOut}
-			onMouseOver={handleMouseOver}
-		>
-			{Array.from(Array(81).keys()).map((tile, index) => (
-				<Tile key={index} selectedTiles={selectedTiles} index={index}></Tile>
-			))}
+		<section className="border border-white grow aspect-square rounded-lg overflow-hidden relative">
+			<div
+				className="grid grid-rows-[repeat(9,1fr)] grid-cols-[repeat(9,1fr)] absolute top-0 left-0 w-full h-full"
+				onMouseDown={handleMouseDown}
+				onMouseUp={handleMouseUp}
+				onMouseOver={handleMouseOver}
+			>
+				{selectedLevelLayout.tiles.map((tile, index) =>
+					tile === null ? <div key={index}></div> : <Tile key={index} selectedTiles={selectedTiles} index={index}></Tile>
+				)}
+			</div>
+
+			<div className="grid grid-rows-[repeat(9,1fr)] grid-cols-[repeat(9,1fr)] absolute top-0 left-0 w-full h-full pointer-events-none">
+				{selectedLevelLayout.items.map((item, index) =>
+					selectedLevelLayout.tiles[index] === null ? <div key={index}></div> : <Candy key={index} color={item.color} index={index}></Candy>
+				)}
+			</div>
 		</section>
 	);
 };
