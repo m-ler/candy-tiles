@@ -16,3 +16,7 @@ export const getTileTargetPosition = (index: number, tileTargetIndex: number): T
   const left = tileTargetIndex === index - 1 ? -100 : tileTargetIndex === index + 1 ? 100 : 0;
   return [top, left];
 };
+
+export const checkForMatchings = (): boolean => {
+  return false; 
+}

@@ -15,8 +15,10 @@ const LevelGrid = () => {
 	const firstTile = useRef<HTMLElement | null>();
 
 	useEffect(() => {
-		console.log(levelContext?.selectedTiles);
-	}, [levelContext?.selectedTiles]);
+		levelContext?.updateLevelItems(selectedLevelLayout.items);
+	}, []);
+
+	useEffect(() => {}, [levelContext?.selectedTiles]);
 
 	const handleMouseDown = (e: React.MouseEvent): void => {
 		if (!elementIsTile(e.target as HTMLElement)) return;
@@ -39,7 +41,7 @@ const LevelGrid = () => {
 			levelContext?.updateSelectedTiles([null, null]);
 			return;
 		}
-    
+
 		levelContext?.updateSelectedTiles([firstTileIndex, secondTileIndex]);
 		firstTile.current = null;
 	};
@@ -58,8 +60,14 @@ const LevelGrid = () => {
 			</div>
 
 			<div className="grid grid-rows-[repeat(9,1fr)] grid-cols-[repeat(9,1fr)] absolute top-0 left-0 w-full h-full pointer-events-none">
-				{selectedLevelLayout.items.map((item, index) =>
-					selectedLevelLayout.tiles[index] === null ? <div key={index}></div> : <Candy key={index} color={item.color} index={index}></Candy>
+				{levelContext?.currentLevelItems.map((item, index) =>
+					selectedLevelLayout.tiles[index] === null ? (
+						<div key={index}></div>
+					) : item.type === 'Candy' ? (
+						<Candy key={index} color={(item as Candy).color} index={index}></Candy>
+					) : (
+						''
+					)
 				)}
 			</div>
 		</section>

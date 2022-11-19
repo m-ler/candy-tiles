@@ -12,20 +12,14 @@ const Tile = ({ selectedTiles, index }: TileProps) => {
 	const tileElementRef = useRef<HTMLDivElement | null>(null);
 	const itemElementRef = useRef<HTMLDivElement | null>(null);
 
-	const moveToTargetTile = () => {
+/* 	const moveToTargetTile = () => {
 		const targetTileIndex = selectedTiles.find(x => x !== itemElementRef?.current)?.getAttribute('data-index');
 		const targetPosition = getTileTargetPosition(index, parseInt(targetTileIndex || ''));
 		if (itemElementRef.current) {
 			itemElementRef.current.style.top = `${targetPosition[0]}%` || '0%';
 			itemElementRef.current.style.left = `${targetPosition[1]}%` || '0%';
 		}
-	};
-
-	useEffect(() => {
-		if (!!tileElementRef?.current && selectedTiles.includes(itemElementRef?.current as HTMLElement) && selectedTiles.length === 2) {
-			moveToTargetTile();
-		}
-	}, [selectedTiles]);
+	}; */
 
 	return (
 		<div

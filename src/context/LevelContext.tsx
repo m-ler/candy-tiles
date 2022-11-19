@@ -1,4 +1,4 @@
-import React, { useContext, createContext, useState, useEffect } from 'react';
+import React, { useContext, createContext, useState, useEffect, useRef } from 'react';
 
 type TilePair = [number | null, number | null];
 
@@ -7,8 +7,9 @@ type LevelData = {
 	updateGridElements: (elements: HTMLElement[]) => void;
 	selectedTiles: TilePair;
 	updateSelectedTiles: (tilePair: TilePair) => void;
-	currentLevelItems: LevelItem[];
-	previousLevelItems: LevelItem[];
+	currentLevelItems: (Candy | Tile)[];
+	previousLevelItems: (Candy | Tile)[];
+	updateLevelItems: (items: (Candy | Tile)[]) => void;
 };
 
 export const LevelContext = createContext<LevelData | null>(null);
@@ -20,16 +21,25 @@ type LevelContextProviderProps = {
 const LevelContextProvider = ({ children }: LevelContextProviderProps) => {
 	const [gridElements, setGridElements] = useState<HTMLElement[] | undefined>();
 	const [selectedTiles, setSelectedTiles] = useState<TilePair>([null, null]);
+	const [currentLevelItems, setCurrentLevelItems] = useState<(Candy | Tile)[]>([]);
+	const previousLevelItemsRef = useRef<(Candy | Tile)[]>([]);
 
 	const updateGridElements = (elements: HTMLElement[]): void => setGridElements(elements);
 	const updateSelectedTiles = (tilePair: TilePair): void => setSelectedTiles(tilePair);
+	const updateLevelItems = (items: (Candy | Tile)[]): void => setCurrentLevelItems(items);
+
+	useEffect(() => {
+		previousLevelItemsRef.current = currentLevelItems;
+	}, [currentLevelItems]);
+
 	const providerValue: LevelData = {
 		gridElements,
 		updateGridElements,
 		selectedTiles,
 		updateSelectedTiles,
-		currentLevelItems: [],
-		previousLevelItems: [],
+		currentLevelItems,
+		previousLevelItems: previousLevelItemsRef.current,
+		updateLevelItems,
 	};
 
 	return <LevelContext.Provider value={providerValue}>{children}</LevelContext.Provider>;
