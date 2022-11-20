@@ -12,22 +12,15 @@ const Tile = ({ selectedTiles, index }: TileProps) => {
 	const tileElementRef = useRef<HTMLDivElement | null>(null);
 	const itemElementRef = useRef<HTMLDivElement | null>(null);
 
-/* 	const moveToTargetTile = () => {
-		const targetTileIndex = selectedTiles.find(x => x !== itemElementRef?.current)?.getAttribute('data-index');
-		const targetPosition = getTileTargetPosition(index, parseInt(targetTileIndex || ''));
-		if (itemElementRef.current) {
-			itemElementRef.current.style.top = `${targetPosition[0]}%` || '0%';
-			itemElementRef.current.style.left = `${targetPosition[1]}%` || '0%';
-		}
-	}; */
-
 	return (
 		<div
 			className="relative bg-[#0983ed]/50 border border-pink hover:bg-light-yellow/50 duration-200 select-none"
 			ref={tileElementRef}
 			data-index={index}
 			data-tile
-		></div>
+		>
+      <span className='absolute bottom-0 right-0 text-[12px] text-white font-bold'>{index}</span>
+    </div>
 	);
 };
 

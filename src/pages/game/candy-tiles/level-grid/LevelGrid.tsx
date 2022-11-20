@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { tilesAreAdjacent } from '../../../../utils/tile-matching';
 import { levelList } from '../../../../data/level-layouts';
 import Candy from './Candy';
-import LevelContextProvider, { useLevelContext } from '../../../../context/LevelContext';
+import { useLevelContext } from '../../../../context/LevelContext';
 
 const elementIsTile = (element: HTMLElement) => element.hasAttribute('data-tile');
 
@@ -15,7 +15,7 @@ const LevelGrid = () => {
 	const firstTile = useRef<HTMLElement | null>();
 
 	useEffect(() => {
-		levelContext?.updateLevelItems(selectedLevelLayout.items);
+		levelContext?.updateLevelItems(selectedLevelLayout.items as LevelItem[]);
 	}, []);
 
 	useEffect(() => {}, [levelContext?.selectedTiles]);
@@ -63,7 +63,7 @@ const LevelGrid = () => {
 				{levelContext?.currentLevelItems.map((item, index) =>
 					selectedLevelLayout.tiles[index] === null ? (
 						<div key={index}></div>
-					) : item.type === 'Candy' ? (
+					) : (item as Candy)?.type === 'Candy' ? (
 						<Candy key={index} color={(item as Candy).color} index={index}></Candy>
 					) : (
 						''

@@ -2,20 +2,18 @@ export { }
 
 declare global {
 
-  type LevelItem = {
-    index?: number,
-    type: "Candy" | "Chocolate"
-  };
-
   type CandyColor = 'Red' | 'Orange' | 'Yellow' | 'Green' | 'Blue' | 'Purple';
 
   type Candy = {
     color: CandyColor,
-  } & LevelItem;
-
-  type TileVariation = "Normal" | "Frozen" | "Thick"
+    type: "Candy",
+  };
 
   type Tile = {
-    type: TileVariation,
+    type: "Normal" | "Frozen" | "Thick",
   };
+
+  type LevelItem = Candy | Tile;
+
+  type MatchList = { index: number; matched: boolean }[]
 }  
