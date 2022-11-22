@@ -4,6 +4,7 @@ import { tilesAreAdjacent } from '../../../../utils/tile-matching';
 import { levelList } from '../../../../data/level-layouts';
 import Candy from './Candy';
 import { useLevelContext } from '../../../../context/LevelContext';
+import LevelManager from './level-manager';
 
 const elementIsTile = (element: HTMLElement) => element.hasAttribute('data-tile');
 
@@ -15,7 +16,12 @@ const LevelGrid = () => {
 	const firstTile = useRef<HTMLElement | null>();
 
 	useEffect(() => {
-		levelContext?.updateLevelItems(selectedLevelLayout.items as LevelItem[]);
+		const initialItems = selectedLevelLayout.items;
+		const initialTiles = selectedLevelLayout.tiles;
+
+		levelContext?.updateLevelItems(initialItems);
+		LevelManager.setItems(initialItems, false);
+		LevelManager.setTiles(initialTiles, false);
 	}, []);
 
 	useEffect(() => {}, [levelContext?.selectedTiles]);
@@ -47,7 +53,10 @@ const LevelGrid = () => {
 	};
 
 	return (
-		<section className="border border-white grow aspect-square rounded-lg overflow-hidden relative">
+		<section
+			className="border border-white grow aspect-square rounded-lg overflow-hidden relative select-none"
+			style={{ pointerEvents: levelContext?.lockInteraction ? 'none' : 'auto' }}
+		>
 			<div
 				className="grid grid-rows-[repeat(9,1fr)] grid-cols-[repeat(9,1fr)] absolute top-0 left-0 w-full h-full"
 				onMouseDown={handleMouseDown}
@@ -66,7 +75,7 @@ const LevelGrid = () => {
 					) : (item as Candy)?.type === 'Candy' ? (
 						<Candy key={index} color={(item as Candy).color} index={index}></Candy>
 					) : (
-						''
+						<div key={index}></div>
 					)
 				)}
 			</div>

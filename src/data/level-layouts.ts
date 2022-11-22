@@ -1,6 +1,6 @@
 type LevelLayout = {
-  items: (LevelItem | null)[],
-  tiles: (Tile | null)[]
+  items: LevelItem[],
+  tiles: LevelTile[]
 };
 
 export const levelList: LevelLayout[] = [
@@ -10,7 +10,7 @@ export const levelList: LevelLayout[] = [
       { type: "Candy", color: "Green" }, { type: "Candy", color: "Green" }, { type: "Candy", color: "Blue" }, { type: "Candy", color: "Blue" }, { type: "Candy", color: "Purple" }, { type: "Candy", color: "Orange" }, { type: "Candy", color: "Green" }, { type: "Candy", color: "Purple" }, { type: "Candy", color: "Orange" },
       { type: "Candy", color: "Orange" }, { type: "Candy", color: "Green" }, { type: "Candy", color: "Red" }, { type: "Candy", color: "Purple" }, { type: "Candy", color: "Red" }, { type: "Candy", color: "Yellow" }, { type: "Candy", color: "Blue" }, { type: "Candy", color: "Orange" }, { type: "Candy", color: "Purple" },
       { type: "Candy", color: "Purple" }, { type: "Candy", color: "Yellow" }, { type: "Candy", color: "Yellow" }, { type: "Candy", color: "Blue" }, { type: "Candy", color: "Purple" }, { type: "Candy", color: "Orange" }, { type: "Candy", color: "Green" }, { type: "Candy", color: "Purple" }, { type: "Candy", color: "Purple" },
-      { type: "Candy", color: "Red" }, { type: "Candy", color: "Orange" }, { type: "Candy", color: "Red" }, { type: "Candy", color: "Orange" }, { type: "Candy", color: "Red" }, { type: "Candy", color: "Blue" }, { type: "Candy", color: "Purple" }, { type: "Candy", color: "Purple" }, { type: "Candy", color: "Orange" },
+      { type: "Candy", color: "Red" }, { type: "Candy", color: "Orange" }, { type: "Candy", color: "Red" }, { type: "Candy", color: "Red" }, { type: "Candy", color: "Orange" }, { type: "Candy", color: "Blue" }, { type: "Candy", color: "Purple" }, { type: "Candy", color: "Purple" }, { type: "Candy", color: "Orange" },
       { type: "Candy", color: "Green" }, { type: "Candy", color: "Red" }, { type: "Candy", color: "Blue" }, { type: "Candy", color: "Purple" }, { type: "Candy", color: "Purple" }, { type: "Candy", color: "Blue" }, { type: "Candy", color: "Green" }, { type: "Candy", color: "Orange" }, { type: "Candy", color: "Green" },
       { type: "Candy", color: "Yellow" }, { type: "Candy", color: "Red" }, { type: "Candy", color: "Red" }, { type: "Candy", color: "Blue" }, { type: "Candy", color: "Red" }, { type: "Candy", color: "Orange" }, { type: "Candy", color: "Purple" }, { type: "Candy", color: "Purple" }, { type: "Candy", color: "Green" },
       { type: "Candy", color: "Purple" }, { type: "Candy", color: "Orange" }, { type: "Candy", color: "Yellow" }, { type: "Candy", color: "Purple" }, { type: "Candy", color: "Red" }, { type: "Candy", color: "Yellow" }, { type: "Candy", color: "Green" }, { type: "Candy", color: "Green" }, { type: "Candy", color: "Orange" },

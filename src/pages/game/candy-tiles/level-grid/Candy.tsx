@@ -4,10 +4,11 @@ import yellow from './../../../../assets/candies/yellow.png';
 import green from './../../../../assets/candies/green.png';
 import blue from './../../../../assets/candies/blue.png';
 import purple from './../../../../assets/candies/purple.png';
-import { forwardRef, useEffect, useRef, useState } from 'react';
+import { forwardRef, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useLevelContext } from '../../../../context/LevelContext';
 import { checkForMatchings, getTileTargetPosition } from '../../../../utils/tile-matching';
 import uuid from 'react-uuid';
+import LevelManager from './level-manager';
 
 export const CandyColors = ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple'];
 
@@ -26,59 +27,73 @@ type CandyProps = {
 };
 
 const Candy = ({ color, index }: CandyProps) => {
-	const [position, setPosition] = useState([0, 0]);
-	const [key, setKey] = useState(uuid());
 	const levelContext = useLevelContext();
-	const ref = useRef<HTMLDivElement | null>(null);
+	const elementRef = useRef<HTMLDivElement | null>(null);
+	const swappedIndex = useRef<number | null>(null);
 
 	useEffect(() => {
-		if (!levelContext?.selectedTiles.includes(index)) return;
-		const otherItemIndex = levelContext?.selectedTiles.find(x => x !== index) || 0;
-		const targetPosition = getTileTargetPosition(index, otherItemIndex);
-		setPosition(targetPosition);
+		LevelManager.subscribeItemsChange(onLevelItemsChanged);
 
-		//    if (levelContext.selectedTiles[0] !== index) return;
+		return () => {
+			LevelManager.unsubscribeItemsChange(onLevelItemsChanged);
+		};
+	}, []);
 
-		setTimeout(() => {
-			if (levelContext.selectedTiles[0] !== index) return;
-			const newItems = [...levelContext.currentLevelItems];
-			newItems[index] = levelContext.currentLevelItems[otherItemIndex];
-			newItems[otherItemIndex] = levelContext.currentLevelItems[index];
+	useEffect(() => {
+		const tileSelected = levelContext?.selectedTiles.includes(index);
+		if (!tileSelected) return;
 
-			levelContext.updateLevelItems(newItems);
-		}, 200);
+		swappedIndex.current = levelContext?.selectedTiles.find(x => x !== index) || 0;
+		const targetPosition = getTileTargetPosition(index, swappedIndex.current);
+
+		updatePosition(targetPosition);
+
+		const firstSelectedTile = levelContext?.selectedTiles[0] === index;
+		if (!firstSelectedTile) return;
+
+		setTimeout(swapSelectedTilesPositions, 200);
 	}, [levelContext?.selectedTiles]);
 
-	useEffect(() => {
-		if (!levelContext?.selectedTiles.includes(index)) return;
-		setPosition([0, 0]);
-		setKey(uuid());
-		//console.log(levelContext?.currentLevelItems);
-	}, [levelContext?.currentLevelItems]);
+	const onLevelItemsChanged = (items: LevelItem[], matched: boolean): void => {
+		// my index is now null, hide
+		const candyMatched = items[swappedIndex.current || index] === null;
+		candyMatched && updateOpacity('0');
+		candyMatched && console.log(index);
 
-	useEffect(() => {
-		if (levelContext?.matchingList.some(x => x.index === index && x.matched)) {
-			/* const newItems = [...levelContext.currentLevelItems];
-      newItems[index] = null;
-      levelContext.updateLevelItems(newItems) */
-			if (ref.current) ref.current.style.opacity = '0';
-		} else {
-			if (!levelContext?.matchingList.some(x => x.matched)) {
-				if (!levelContext?.selectedTiles.includes(index)) return;
-				const otherItemIndex = levelContext?.selectedTiles.find(x => x !== index) || 0;
-				const targetPosition = getTileTargetPosition(index, otherItemIndex);
-				setPosition(targetPosition);
-			}
+		!candyMatched && !matched && updatePosition([0, 0]);
+	};
+
+	const swapSelectedTilesPositions = (): void => {
+		if (levelContext === null) return;
+		const newItems = [...levelContext.currentLevelItems];
+		newItems[index] = levelContext.currentLevelItems[swappedIndex.current || 0];
+		newItems[swappedIndex.current || 0] = levelContext.currentLevelItems[index];
+
+		LevelManager.setItems(newItems, false);
+		LevelManager.checkMatchings();
+	};
+
+	const enableTransition = (enable: boolean): void => {
+		if (elementRef.current) elementRef.current.style.transitionProperty = enable ? 'opacity,top,left' : 'opacity';
+	};
+
+	const updatePosition = (position: [number, number]) => {
+		if (elementRef.current) {
+			elementRef.current.style.top = `${position[0]}%`;
+			elementRef.current.style.left = `${position[1]}%`;
 		}
-	}, [levelContext?.matchingList]);
+	};
+
+	const updateOpacity = (value: string) => {
+		if (elementRef.current) elementRef.current.style.opacity = value;
+	};
 
 	return (
 		<div
-			key={key}
-			className={`w-full aspect-square block p-[15%] relative duration-200`}
-			style={{ top: `${position[0]}%`, left: `${position[1]}%` }}
+			className={`w-full aspect-square block p-[15%] relative left-0 top-0 duration-200`}
+			style={{ transitionProperty: 'opacity,top,left' }}
 			data-candy
-			ref={ref}
+			ref={elementRef}
 			data-index={index}
 			data-color={color}
 		>

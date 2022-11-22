@@ -8,10 +8,11 @@ type LevelData = {
 	updateGridElements: (elements: HTMLElement[]) => void;
 	selectedTiles: TilePair;
 	updateSelectedTiles: (tilePair: TilePair) => void;
-	currentLevelItems: (LevelItem | null)[];
-	previousLevelItems: (LevelItem | null)[];
-	updateLevelItems: (items: (LevelItem | null)[]) => void;
-	matchingList: MatchList;
+	currentLevelItems: LevelItem[];
+	previousLevelItems: LevelItem[];
+	updateLevelItems: (items: LevelItem[]) => void;
+	matchingList: MatchData[];
+	lockInteraction: boolean;
 };
 
 export const LevelContext = createContext<LevelData | null>(null);
@@ -23,32 +24,22 @@ type LevelContextProviderProps = {
 const LevelContextProvider = ({ children }: LevelContextProviderProps) => {
 	const [gridElements, setGridElements] = useState<HTMLElement[] | undefined>();
 	const [selectedTiles, setSelectedTiles] = useState<TilePair>([null, null]);
-	const [currentLevelItems, setCurrentLevelItems] = useState<(LevelItem | null)[]>([]);
-	const [matchingList, setMatchingList] = useState<MatchList>([]);
-	const previousLevelItemsRef = useRef<(LevelItem | null)[]>([]);
+	const [currentLevelItems, setCurrentLevelItems] = useState<LevelItem[]>([]);
+	const [lockInteraction, setLockInteraction] = useState<boolean>(false);
+	const [matchingList, setMatchingList] = useState<LevelItem[]>([]);
+	const previousLevelItemsRef = useRef<LevelItem[]>([]);
 
 	const updateGridElements = (elements: HTMLElement[]): void => setGridElements(elements);
 	const updateSelectedTiles = (tilePair: TilePair): void => setSelectedTiles(tilePair);
-	const updateLevelItems = (items: (LevelItem | null)[]): void => {
-		console.log('pokémon');
-
+	const updateLevelItems = (items: LevelItem[]): void => {
 		previousLevelItemsRef.current = currentLevelItems;
 		setCurrentLevelItems(items);
 	};
 
 	useEffect(() => {
-		const matchResult = checkForMatchings(currentLevelItems);
-		if (matchResult.thereWereMatches) {
-			setMatchingList(matchResult.matchingList);
-		} else {
-			setMatchingList(matchResult.matchingList);
-			setTimeout(() => {
-				console.log(previousLevelItemsRef.current[1]);
-				console.log(currentLevelItems[1]);
-				//previousLevelItemsRef.current.length > 0 && setCurrentLevelItems(previousLevelItemsRef.current);
-			}, 200);
-		}
-	}, [currentLevelItems]);
+		
+	}, []);
+
 
 	const providerValue: LevelData = {
 		gridElements,
@@ -58,7 +49,8 @@ const LevelContextProvider = ({ children }: LevelContextProviderProps) => {
 		currentLevelItems,
 		previousLevelItems: previousLevelItemsRef.current,
 		updateLevelItems,
-		matchingList,
+		matchingList: [],
+		lockInteraction,
 	};
 
 	return <LevelContext.Provider value={providerValue}>{children}</LevelContext.Provider>;

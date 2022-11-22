@@ -13,7 +13,17 @@ declare global {
     type: "Normal" | "Frozen" | "Thick",
   };
 
-  type LevelItem = Candy | Tile;
+  type LevelItem = Candy | null;
+  type LevelTile = Tile | null;
 
-  type MatchList = { index: number; matched: boolean }[]
+  type MatchData = { index: number; matched: boolean }
+
+
+  type LevelRuntimeData = {
+    items: LevelItem[],
+    tiles: LevelTile[],
+    prevItems: LevelItem[],
+    matchList: MatchData[],
+    matched: boolean
+  };
 }  

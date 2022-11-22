@@ -23,18 +23,26 @@ type CandyMatchings = {
   up: number, right: number, down: number, left: number, matched: boolean
 };
 
-const getCandyMatchings = (candy: CandyInLevel, itemList: readonly (LevelItem | null)[]): CandyMatchings => {
+const getCandyMatchings = (candy: CandyInLevel, items: readonly LevelItem[]): CandyMatchings => {
   //console.log(candy.index);
+  const rowIndex = Math.ceil((candy.index + 1) / ROW_NUMBER);
+  const columnIndex = (candy.index + 1) - ((rowIndex - 1) * ROW_NUMBER);
+
+  const leftIterations = columnIndex - 1;
+  const upIterations = rowIndex - 1;
+  const rightIterations = COLUMN_NUMBER - columnIndex;
+  const downIterations = ROW_NUMBER - rowIndex;
+
   const matchings = {
-    "up": { count: 0, getAdjacent: (cycle: number) => candy.index - (COLUMN_NUMBER * cycle) },
-    "right": { count: 0, getAdjacent: (cycle: number) => candy.index + cycle },
-    "down": { count: 0, getAdjacent: (cycle: number) => candy.index + (COLUMN_NUMBER * cycle) },
-    "left": { count: 0, getAdjacent: (cycle: number) => candy.index - cycle },
+    "up": { count: 0, iterations: upIterations, getAdjacent: (cycle: number) => candy.index - (COLUMN_NUMBER * cycle) },
+    "right": { count: 0, iterations: rightIterations, getAdjacent: (cycle: number) => candy.index + cycle },
+    "down": { count: 0, iterations: downIterations, getAdjacent: (cycle: number) => candy.index + (COLUMN_NUMBER * cycle) },
+    "left": { count: 0, iterations: leftIterations, getAdjacent: (cycle: number) => candy.index - cycle },
   };
 
   Object.values(matchings).forEach(direction => {
-    for (let i = 1; i < ROW_NUMBER + 1; i++) {
-      const adjacentCandy = itemList[direction.getAdjacent(i)] || null;
+    for (let i = 1; i < direction.iterations + 1; i++) {
+      const adjacentCandy = items[direction.getAdjacent(i)] || null;
       if ((adjacentCandy as Candy)?.color !== candy.color) break;
       direction.count += 1;
     }
@@ -48,27 +56,38 @@ const getCandyMatchings = (candy: CandyInLevel, itemList: readonly (LevelItem | 
 
   /* console.log({
     up, right, down, left, matched
-  });
- */
+  }); */
+
   return { up, right, down, left, matched };
 };
 
 type MatchResult = {
   thereWereMatches: boolean,
-  matchingList: MatchList
+  matchingList: MatchData[]
 };
 
-export const checkForMatchings = (itemList: readonly (LevelItem | null)[]): MatchResult => {
-  const candies = [...itemList].map((x, index) => ({ ...x, index })).filter(x => (x as Candy)?.type === "Candy") as CandyInLevel[];
+export const checkForMatchings = (items: readonly LevelItem[]): MatchResult => {
+  const candies = [...items].map((x, index) => ({ ...x, index })).filter(x => (x as Candy)?.type === "Candy") as CandyInLevel[];
 
   const candyMatchings: ({ index: number } & CandyMatchings)[] = [];
-  candies.forEach(candy => candyMatchings.push({ index: candy.index, ...getCandyMatchings(candy, itemList) }));
+  candies.forEach(candy => candyMatchings.push({ index: candy.index, ...getCandyMatchings(candy, items) }));
 
   return {
     thereWereMatches: candyMatchings.some(x => x.matched),
-    matchingList: candyMatchings.map(x => {
-      return { index: x.index, matched: x.matched }
-    }) as MatchList
+    matchingList: candyMatchings.map(x => ({ index: x.index, matched: x.matched }) as MatchData)
   };
+};
+
+type RepositionResult = {
+  repositionedItems: LevelItem[],
+  newPositions: ({ index: number, tilesToMove: number })[]
+};
+
+export const repositionItems = (items: readonly LevelItem[], tiles: readonly LevelTile[]): RepositionResult => {
+
+  return {
+    repositionedItems: [],
+    newPositions: []
+  }
 };
 
