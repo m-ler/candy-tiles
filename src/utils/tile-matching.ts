@@ -1,3 +1,5 @@
+import uuid from "react-uuid";
+
 const COLUMN_NUMBER = 9;
 const ROW_NUMBER = 9;
 
@@ -78,16 +80,76 @@ export const checkForMatchings = (items: readonly LevelItem[]): MatchResult => {
   };
 };
 
+type ItemAbove = {
+  index: number | null,
+  tileDistanceCount: number
+}
+
+const getItemAbove = (itemIdex: number, items: readonly LevelItem[]): ItemAbove => {
+  let nextItemIndex = itemIdex - COLUMN_NUMBER;
+  let tileDistanceCount = 1;
+  let aboveItem: number | null = null;
+
+  while (nextItemIndex > -1) {
+    if (items[nextItemIndex] !== null) {
+      aboveItem = nextItemIndex;
+      break;
+    }
+    nextItemIndex -= COLUMN_NUMBER;
+    tileDistanceCount += 1;
+  };
+
+  return {
+    index: aboveItem,
+    tileDistanceCount
+  };
+};
+
+export type NewItemPosition = { index: number, tilesToMove: number };
 type RepositionResult = {
   repositionedItems: LevelItem[],
-  newPositions: ({ index: number, tilesToMove: number })[]
+  newPositions: NewItemPosition[]
 };
 
 export const repositionItems = (items: readonly LevelItem[], tiles: readonly LevelTile[]): RepositionResult => {
+  const repositionedItems = structuredClone(items) as LevelItem[];
+  const newPositions: NewItemPosition[] = []
+
+  for (let i = repositionedItems.length - 1; i > 0; i--) {
+    const tileAvaliable = tiles[i] !== null;
+    if (!tileAvaliable) continue;
+    const item = repositionedItems[i];
+
+    if (item === null) {
+      const itemAbove = getItemAbove(i, repositionedItems);
+      if (itemAbove.index !== null) {
+        repositionedItems[i] = structuredClone(repositionedItems[itemAbove.index]);
+        repositionedItems[itemAbove.index] = null;
+        newPositions.push({ index: itemAbove.index, tilesToMove: itemAbove.tileDistanceCount })
+      }
+    }
+  }
 
   return {
-    repositionedItems: [],
-    newPositions: []
+    repositionedItems,
+    newPositions
   }
+};
+
+export const generateNewCandies = (items: readonly LevelItem[], tiles: readonly LevelTile[]): LevelItem[] => {
+  const newCandies = structuredClone(items) as LevelItem[];
+  newCandies.forEach((item, index) => {
+    const tileAvaliable = tiles[index] !== null;
+    if (item === null && tileAvaliable) {
+      newCandies[index] = {
+        color: "Blue",
+        type: "Candy",
+        key: uuid()
+      } as Candy
+    }
+  });
+
+
+  return newCandies;
 };
 

@@ -1,4 +1,5 @@
 import React, { useContext, createContext, useState, useEffect, useRef } from 'react';
+import LevelManager from '../pages/game/candy-tiles/level-grid/level-manager';
 import { checkForMatchings } from '../utils/tile-matching';
 
 type TilePair = [number | null, number | null];
@@ -37,9 +38,19 @@ const LevelContextProvider = ({ children }: LevelContextProviderProps) => {
 	};
 
 	useEffect(() => {
-		
+		LevelManager.subscribeItemsRerender(onItemsRerender);
+		return () => {
+			LevelManager.unsubscribeItemsRerender(onItemsRerender);
+		};
 	}, []);
 
+	useEffect(() => {
+		console.log(currentLevelItems);
+	}, [currentLevelItems]);
+
+	const onItemsRerender = (items: LevelItem[]): void => {
+		setCurrentLevelItems(items);
+	};
 
 	const providerValue: LevelData = {
 		gridElements,

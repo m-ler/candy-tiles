@@ -6,7 +6,7 @@ import blue from './../../../../assets/candies/blue.png';
 import purple from './../../../../assets/candies/purple.png';
 import { forwardRef, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useLevelContext } from '../../../../context/LevelContext';
-import { checkForMatchings, getTileTargetPosition } from '../../../../utils/tile-matching';
+import { checkForMatchings, getTileTargetPosition, NewItemPosition } from '../../../../utils/tile-matching';
 import uuid from 'react-uuid';
 import LevelManager from './level-manager';
 
@@ -28,20 +28,29 @@ type CandyProps = {
 
 const Candy = ({ color, index }: CandyProps) => {
 	const levelContext = useLevelContext();
+	const [key, setKey] = useState(uuid());
 	const elementRef = useRef<HTMLDivElement | null>(null);
 	const swappedIndex = useRef<number | null>(null);
+	const firstRender = useRef<boolean>(true);
 
 	useEffect(() => {
+		if (!firstRender.current) return;
+		firstRender.current = false;
+
 		LevelManager.subscribeItemsChange(onLevelItemsChanged);
+		LevelManager.subscribeItemsReposition(onItemsReposition);
+		LevelManager.subscribeItemsRerender(onItemsRerender);
 
 		return () => {
 			LevelManager.unsubscribeItemsChange(onLevelItemsChanged);
+			LevelManager.unsubscribeItemsReposition(onItemsReposition);
+			LevelManager.unsubscribeItemsRerender(onItemsRerender);
 		};
 	}, []);
 
 	useEffect(() => {
 		const tileSelected = levelContext?.selectedTiles.includes(index);
-		if (!tileSelected) return;
+		if (!tileSelected || LevelManager.levelData.actionsLocked) return;
 
 		swappedIndex.current = levelContext?.selectedTiles.find(x => x !== index) || 0;
 		const targetPosition = getTileTargetPosition(index, swappedIndex.current);
@@ -55,12 +64,18 @@ const Candy = ({ color, index }: CandyProps) => {
 	}, [levelContext?.selectedTiles]);
 
 	const onLevelItemsChanged = (items: LevelItem[], matched: boolean): void => {
-		// my index is now null, hide
 		const candyMatched = items[swappedIndex.current || index] === null;
 		candyMatched && updateOpacity('0');
-		candyMatched && console.log(index);
-
 		!candyMatched && !matched && updatePosition([0, 0]);
+	};
+
+	const onItemsReposition = (newPositions: NewItemPosition[]): void => {
+		const newPosition = newPositions.find(x => x.index === (!!swappedIndex.current ? swappedIndex.current : index));
+		if (!!newPosition) updatePosition([newPosition.tilesToMove * 100, null]);
+	};
+
+	const onItemsRerender = (items: LevelItem[]) => {
+		setKey(uuid());
 	};
 
 	const swapSelectedTilesPositions = (): void => {
@@ -77,10 +92,10 @@ const Candy = ({ color, index }: CandyProps) => {
 		if (elementRef.current) elementRef.current.style.transitionProperty = enable ? 'opacity,top,left' : 'opacity';
 	};
 
-	const updatePosition = (position: [number, number]) => {
+	const updatePosition = (position: [number | null, number | null]) => {
 		if (elementRef.current) {
-			elementRef.current.style.top = `${position[0]}%`;
-			elementRef.current.style.left = `${position[1]}%`;
+			position[0] !== null && (elementRef.current.style.top = `${position[0]}%`);
+			position[1] !== null && (elementRef.current.style.left = `${position[1]}%`);
 		}
 	};
 
@@ -96,6 +111,7 @@ const Candy = ({ color, index }: CandyProps) => {
 			ref={elementRef}
 			data-index={index}
 			data-color={color}
+			key={key}
 		>
 			<img src={candyImages[color]} className="block rounded-full w-full h-full m-0 select-none pointer-events-none"></img>
 		</div>

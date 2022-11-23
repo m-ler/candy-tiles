@@ -7,6 +7,7 @@ declare global {
   type Candy = {
     color: CandyColor,
     type: "Candy",
+    key?: string
   };
 
   type Tile = {
@@ -24,6 +25,7 @@ declare global {
     tiles: LevelTile[],
     prevItems: LevelItem[],
     matchList: MatchData[],
-    matched: boolean
+    matched: boolean,
+    actionsLocked: boolean
   };
 }  
