@@ -18,7 +18,7 @@ const LevelGrid = () => {
 
 	useEffect(() => {
 		const initialItems = selectedLevelLayout.items;
-    initialItems.forEach(x => x !== null && (x.key = uuid()));
+		initialItems.forEach(x => x !== null && (x.key = uuid()));
 
 		const initialTiles = selectedLevelLayout.tiles;
 
@@ -51,14 +51,17 @@ const LevelGrid = () => {
 			return;
 		}
 
-		levelContext?.updateSelectedTiles([firstTileIndex, secondTileIndex]);
+		//levelContext?.updateSelectedTiles([firstTileIndex, secondTileIndex]);
+		LevelManager.swapItems([firstTileIndex, secondTileIndex]);
 		firstTile.current = null;
 	};
 
 	return (
 		<section
 			className="border border-white grow aspect-square rounded-lg overflow-hidden relative select-none"
-			style={{ pointerEvents: levelContext?.lockInteraction ? 'none' : 'auto' }}
+			style={{
+				pointerEvents: levelContext?.lockInteraction ? 'none' : 'auto',
+			}}
 		>
 			<div
 				className="grid grid-rows-[repeat(9,1fr)] grid-cols-[repeat(9,1fr)] absolute top-0 left-0 w-full h-full"
@@ -71,16 +74,17 @@ const LevelGrid = () => {
 				)}
 			</div>
 
-			<div className="grid grid-rows-[repeat(9,1fr)] grid-cols-[repeat(9,1fr)] absolute top-0 left-0 w-full h-full pointer-events-none">
-				{levelContext?.currentLevelItems.map((item, index) =>
-					selectedLevelLayout.tiles[index] === null ? (
+			<div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+				{levelContext?.currentLevelItems.map((item, index) => {
+					const id = uuid();
+					return selectedLevelLayout.tiles[index] === null ? (
 						<div key={index}></div>
 					) : (item as Candy)?.type === 'Candy' ? (
-						<Candy key={(item as Candy).key} color={(item as Candy).color} index={index}></Candy>
+						<Candy key={(item as Candy).key} color={(item as Candy).color} index={index} id={item?.key || ''}></Candy>
 					) : (
-						<div key={uuid()}></div>
-					)
-				)}
+						<div key={id}></div>
+					);
+				})}
 			</div>
 		</section>
 	);

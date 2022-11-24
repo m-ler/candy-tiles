@@ -85,18 +85,23 @@ type ItemAbove = {
   tileDistanceCount: number
 }
 
-const getItemAbove = (itemIdex: number, items: readonly LevelItem[]): ItemAbove => {
+const getItemAbove = (itemIdex: number, items: readonly LevelItem[], tiles: readonly LevelTile[]): ItemAbove => {
   let nextItemIndex = itemIdex - COLUMN_NUMBER;
   let tileDistanceCount = 1;
   let aboveItem: number | null = null;
 
   while (nextItemIndex > -1) {
-    if (items[nextItemIndex] !== null) {
-      aboveItem = nextItemIndex;
-      break;
+    const tileAvaliable = tiles[nextItemIndex] !== null;
+    const itemEmtpy = items[nextItemIndex] === null;
+
+    if (!tileAvaliable || itemEmtpy) {
+      nextItemIndex -= COLUMN_NUMBER;
+      tileDistanceCount += 1;
+      continue;
     }
-    nextItemIndex -= COLUMN_NUMBER;
-    tileDistanceCount += 1;
+
+    aboveItem = nextItemIndex;
+    break;
   };
 
   return {
@@ -121,7 +126,7 @@ export const repositionItems = (items: readonly LevelItem[], tiles: readonly Lev
     const item = repositionedItems[i];
 
     if (item === null) {
-      const itemAbove = getItemAbove(i, repositionedItems);
+      const itemAbove = getItemAbove(i, repositionedItems, tiles);
       if (itemAbove.index !== null) {
         repositionedItems[i] = structuredClone(repositionedItems[itemAbove.index]);
         repositionedItems[itemAbove.index] = null;
@@ -136,13 +141,14 @@ export const repositionItems = (items: readonly LevelItem[], tiles: readonly Lev
   }
 };
 
+const candyColorArray: string[] = ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple'];
 export const generateNewCandies = (items: readonly LevelItem[], tiles: readonly LevelTile[]): LevelItem[] => {
   const newCandies = structuredClone(items) as LevelItem[];
   newCandies.forEach((item, index) => {
     const tileAvaliable = tiles[index] !== null;
     if (item === null && tileAvaliable) {
       newCandies[index] = {
-        color: "Blue",
+        color: candyColorArray[Math.floor(Math.random() * candyColorArray.length)],
         type: "Candy",
         key: uuid()
       } as Candy

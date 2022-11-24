@@ -24,78 +24,42 @@ const candyImages: { [key: string]: string } = {
 type CandyProps = {
 	color: CandyColor;
 	index: number;
+	id: string;
 };
 
-const Candy = ({ color, index }: CandyProps) => {
-	const levelContext = useLevelContext();
-	const [key, setKey] = useState(uuid());
+const Candy = ({ color, index, id }: CandyProps) => {
 	const elementRef = useRef<HTMLDivElement | null>(null);
-	const swappedIndex = useRef<number | null>(null);
-	const firstRender = useRef<boolean>(true);
+
+	const initialIndex = LevelManager.levelData.items.findIndex(x => x?.key === id);
+	const initailColumnIndex = initialIndex + 1 - (Math.ceil((initialIndex + 1) / 9) - 1) * 9;
 
 	useEffect(() => {
-		if (!firstRender.current) return;
-		firstRender.current = false;
-
+		updatePosition();
 		LevelManager.subscribeItemsChange(onLevelItemsChanged);
-		LevelManager.subscribeItemsReposition(onItemsReposition);
-		LevelManager.subscribeItemsRerender(onItemsRerender);
 
 		return () => {
 			LevelManager.unsubscribeItemsChange(onLevelItemsChanged);
-			LevelManager.unsubscribeItemsReposition(onItemsReposition);
-			LevelManager.unsubscribeItemsRerender(onItemsRerender);
 		};
 	}, []);
 
-	useEffect(() => {
-		const tileSelected = levelContext?.selectedTiles.includes(index);
-		if (!tileSelected || LevelManager.levelData.actionsLocked) return;
-
-		swappedIndex.current = levelContext?.selectedTiles.find(x => x !== index) || 0;
-		const targetPosition = getTileTargetPosition(index, swappedIndex.current);
-
-		updatePosition(targetPosition);
-
-		const firstSelectedTile = levelContext?.selectedTiles[0] === index;
-		if (!firstSelectedTile) return;
-
-		setTimeout(swapSelectedTilesPositions, 200);
-	}, [levelContext?.selectedTiles]);
-
 	const onLevelItemsChanged = (items: LevelItem[], matched: boolean): void => {
-		const candyMatched = items[swappedIndex.current || index] === null;
+		const candyMatched = !items.some(x => x?.key === id);
 		candyMatched && updateOpacity('0');
-		!candyMatched && !matched && updatePosition([0, 0]);
-	};
-
-	const onItemsReposition = (newPositions: NewItemPosition[]): void => {
-		const newPosition = newPositions.find(x => x.index === (!!swappedIndex.current ? swappedIndex.current : index));
-		if (!!newPosition) updatePosition([newPosition.tilesToMove * 100, null]);
-	};
-
-	const onItemsRerender = (items: LevelItem[]) => {
-		setKey(uuid());
-	};
-
-	const swapSelectedTilesPositions = (): void => {
-		if (levelContext === null) return;
-		const newItems = [...levelContext.currentLevelItems];
-		newItems[index] = levelContext.currentLevelItems[swappedIndex.current || 0];
-		newItems[swappedIndex.current || 0] = levelContext.currentLevelItems[index];
-
-		LevelManager.setItems(newItems, false);
-		LevelManager.checkMatchings();
+		!candyMatched && updatePosition();
 	};
 
 	const enableTransition = (enable: boolean): void => {
 		if (elementRef.current) elementRef.current.style.transitionProperty = enable ? 'opacity,top,left' : 'opacity';
 	};
 
-	const updatePosition = (position: [number | null, number | null]) => {
+	const updatePosition = () => {
+		const currentIndex = LevelManager.levelData.items.findIndex(x => x?.key === id);
+		const rowIndex = Math.ceil((currentIndex + 1) / 9);
+		const columnIndex = currentIndex + 1 - (rowIndex - 1) * 9;
+
 		if (elementRef.current) {
-			position[0] !== null && (elementRef.current.style.top = `${position[0]}%`);
-			position[1] !== null && (elementRef.current.style.left = `${position[1]}%`);
+			elementRef.current.style.top = `${(rowIndex - 1) * 11.125}%`;
+			elementRef.current.style.left = `${(columnIndex - 1) * 11.125}%`;
 		}
 	};
 
@@ -105,13 +69,14 @@ const Candy = ({ color, index }: CandyProps) => {
 
 	return (
 		<div
-			className={`w-full aspect-square block p-[15%] relative left-0 top-0 duration-200`}
+			className={`w-[calc(100%/9)] p-[1.7%] aspect-square block absolute left-[${
+				(initailColumnIndex - 1) * 11.125
+			}%] top-[-100%] duration-300`}
 			style={{ transitionProperty: 'opacity,top,left' }}
 			data-candy
 			ref={elementRef}
 			data-index={index}
 			data-color={color}
-			key={key}
 		>
 			<img src={candyImages[color]} className="block rounded-full w-full h-full m-0 select-none pointer-events-none"></img>
 		</div>
