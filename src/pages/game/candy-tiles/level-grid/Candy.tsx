@@ -4,10 +4,7 @@ import yellow from './../../../../assets/candies/yellow.png';
 import green from './../../../../assets/candies/green.png';
 import blue from './../../../../assets/candies/blue.png';
 import purple from './../../../../assets/candies/purple.png';
-import { forwardRef, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { useLevelContext } from '../../../../context/LevelContext';
-import { checkForMatchings, getTileTargetPosition, NewItemPosition } from '../../../../utils/tile-matching';
-import uuid from 'react-uuid';
+import { useEffect, useRef } from 'react';
 import LevelManager from './level-manager';
 
 export const CandyColors = ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple'];
@@ -28,12 +25,15 @@ type CandyProps = {
 };
 
 const Candy = ({ color, index, id }: CandyProps) => {
+  const firstRender = useRef<boolean>(true);
 	const elementRef = useRef<HTMLDivElement | null>(null);
-
-	const initialIndex = LevelManager.levelData.items.findIndex(x => x?.key === id);
-	const initailColumnIndex = initialIndex + 1 - (Math.ceil((initialIndex + 1) / 9) - 1) * 9;
+	const rowIndexRef = useRef<number>(0);
+	const columnIndexRef = useRef<number>(0);
+	const positionXRef = useRef<number>(0);
+	const positionYRef = useRef<number>(0);
 
 	useEffect(() => {
+    firstRender.current = false;
 		updatePosition();
 		LevelManager.subscribeItemsChange(onLevelItemsChanged);
 
@@ -48,18 +48,18 @@ const Candy = ({ color, index, id }: CandyProps) => {
 		!candyMatched && updatePosition();
 	};
 
-	const enableTransition = (enable: boolean): void => {
-		if (elementRef.current) elementRef.current.style.transitionProperty = enable ? 'opacity,top,left' : 'opacity';
+	const updateGridPosition = () => {
+		const gridIndex = LevelManager.levelData.items.findIndex(x => x?.key === id);
+		rowIndexRef.current = Math.ceil((gridIndex + 1) / 9);
+		columnIndexRef.current = gridIndex + 1 - (rowIndexRef.current - 1) * 9;
+		positionXRef.current = 100 * (columnIndexRef.current - 1);
+		positionYRef.current = firstRender.current ? -500 : 100 * (rowIndexRef.current - 1);
 	};
 
 	const updatePosition = () => {
-		const currentIndex = LevelManager.levelData.items.findIndex(x => x?.key === id);
-		const rowIndex = Math.ceil((currentIndex + 1) / 9);
-		const columnIndex = currentIndex + 1 - (rowIndex - 1) * 9;
-
+    updateGridPosition();
 		if (elementRef.current) {
-			elementRef.current.style.top = `${(rowIndex - 1) * 11.125}%`;
-			elementRef.current.style.left = `${(columnIndex - 1) * 11.125}%`;
+			elementRef.current.style.transform = `translate(${positionXRef.current}%, ${positionYRef.current}%)`;
 		}
 	};
 
@@ -67,12 +67,14 @@ const Candy = ({ color, index, id }: CandyProps) => {
 		if (elementRef.current) elementRef.current.style.opacity = value;
 	};
 
+	updateGridPosition();
+
 	return (
 		<div
-			className={`w-[calc(100%/9)] p-[1.7%] aspect-square block absolute left-[${
-				(initailColumnIndex - 1) * 11.125
-			}%] top-[-100%] duration-300`}
-			style={{ transitionProperty: 'opacity,top,left' }}
+			className={`w-[calc(100%/9)] p-[1.7%] aspect-square block absolute duration-300`}
+			style={{
+				transform: `translate(${positionXRef.current}%, ${positionYRef.current}%)`,
+			}}
 			data-candy
 			ref={elementRef}
 			data-index={index}

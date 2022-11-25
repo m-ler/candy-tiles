@@ -19,8 +19,8 @@ const Tile = ({ selectedTiles, index }: TileProps) => {
 			data-index={index}
 			data-tile
 		>
-      <span className='absolute bottom-0 right-0 text-[12px] text-white font-bold'>{index}</span>
-    </div>
+			<span className="absolute bottom-0 right-0 text-[12px] text-white font-bold hidden">{index}</span>
+		</div>
 	);
 };
 

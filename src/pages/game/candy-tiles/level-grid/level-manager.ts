@@ -47,6 +47,7 @@ class LevelManager {
   };
 
   swapItems = async (items: [number, number]) => {
+    this.notifySequenceStart();
     this._levelData.actionsLocked = true;
     const firstItem = structuredClone(this._levelData.items[items[0]]);
     this._levelData.items[items[0]] = this._levelData.items[items[1]];
@@ -56,11 +57,13 @@ class LevelManager {
     this.notifyItemsChange();
 
     await delay(300);
+
     await this.checkMatchings();
     if (!this._levelData.matched) {
       this._levelData.items[items[1]] = structuredClone(this._levelData.items[items[0]]);
       this._levelData.items[items[0]] = firstItem;
       this.notifyItemsChange();
+      return;
     }
   };
 
@@ -72,6 +75,7 @@ class LevelManager {
 
     if (matchResult.thereWereMatches) {
       this.notifyItemsChange();
+      await delay(300);
       this.updateItemsPositions();
       await delay(300);
       this.fillEmptyTiles();

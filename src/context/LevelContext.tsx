@@ -39,23 +39,14 @@ const LevelContextProvider = ({ children }: LevelContextProviderProps) => {
 
 	useEffect(() => {
 		LevelManager.subscribeItemsRerender(onItemsRerender);
-		LevelManager.subscribeSequenceStart(onSequenceStart);
-		LevelManager.subscribeSequenceEnd(onSequenceEnd);
 		return () => {
 			LevelManager.unsubscribeItemsRerender(onItemsRerender);
-			LevelManager.unsubscribeSequenceStart(onSequenceStart);
-			LevelManager.unsubscribeSequenceEnd(onSequenceEnd);
 		};
 	}, []);
 
 	useEffect(() => {}, [currentLevelItems]);
 
 	const onItemsRerender = (items: LevelItem[]): void => setCurrentLevelItems(items);
-	const onSequenceStart = (): void => setLockInteraction(true);
-	const onSequenceEnd = (): void => {
-    setSelectedTiles([null, null])
-    setLockInteraction(false)
-  };
 
 	const providerValue: LevelData = {
 		gridElements,
