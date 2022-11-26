@@ -6,7 +6,6 @@ import Candy from './Candy';
 import { useLevelContext } from '../../../../context/LevelContext';
 import LevelManager from './level-manager';
 import uuid from 'react-uuid';
-import swapSFX from './../../../../assets/audio/swap.mp3';
 import tileClickSFX from './../../../../assets/audio/tileClick.mp3';
 
 const elementIsTile = (element: HTMLElement) => element.hasAttribute('data-tile');
@@ -18,12 +17,10 @@ const LevelGrid = () => {
 	const levelContext = useLevelContext();
 	const levelGridElement = useRef<HTMLElement | null>(null);
 	const firstTile = useRef<HTMLElement | null>();
-  const swapAudio = useRef<HTMLAudioElement>(new Audio(swapSFX));
-  const tileClickAudio = useRef<HTMLAudioElement>(new Audio(tileClickSFX));
+	const tileClickAudio = useRef<HTMLAudioElement>(new Audio(tileClickSFX));
 
 	useEffect(() => {
-    swapAudio.current.volume = .5;
-    tileClickAudio.current.volume = .5;
+		tileClickAudio.current.volume = 0.3;
 		const initialItems = selectedLevelLayout.items;
 		initialItems.forEach(x => x !== null && (x.key = uuid()));
 
@@ -52,7 +49,7 @@ const LevelGrid = () => {
 		if (!elementIsTile(e.target as HTMLElement)) return;
 		dragging.current = true;
 		firstTile.current = e.target as HTMLElement;
-    tileClickAudio.current.play();
+		tileClickAudio.current.play();
 	};
 
 	const handleMouseUp = (e: React.MouseEvent): void => {
@@ -72,8 +69,7 @@ const LevelGrid = () => {
 		}
 
 		LevelManager.swapItems([firstTileIndex, secondTileIndex]);
-		swapAudio.current.play();
-    
+
 		firstTile.current = null;
 	};
 

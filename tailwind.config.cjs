@@ -48,6 +48,12 @@ module.exports = {
 					'sans-serif',
 				],
 			},
+			keyframes: {
+				fall: {
+					'from': { transform: 'translateY(-500px)' },
+					'to': { transform: 'translateY(0px)' },
+				},
+			},
 		},
 		screens: {
 			sm: { max: '640px' },

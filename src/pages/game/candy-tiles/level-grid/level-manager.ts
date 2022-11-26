@@ -1,5 +1,6 @@
 import { delay } from "../../../../utils/delay";
 import { checkForMatchings, generateNewCandies, NewItemPosition, repositionItems } from "../../../../utils/tile-matching";
+import matchSFX from './../../../../assets/audio/match.mp3';
 
 class LevelManager {
 
@@ -17,9 +18,16 @@ class LevelManager {
     actionsLocked: false
   };
 
+  private matchSound = new Audio(matchSFX);
+
   get levelData(): Readonly<LevelRuntimeData> {
     return this._levelData;
   };
+
+  constructor() {
+    this.matchSound.volume = 0.5;
+    this.matchSound.preservesPitch = false;
+  }
 
   subscribeItemsChange = (callback: (items: LevelItem[], matched: boolean) => void) => this.itemsChangeSubscribers.push(callback);
   unsubscribeItemsChange = (callback: (items: LevelItem[], matched: boolean) => void) => this.itemsChangeSubscribers = this.itemsChangeSubscribers.filter(x => x !== callback);
@@ -35,7 +43,10 @@ class LevelManager {
 
   subscribeSequenceEnd = (callback: () => void) => this.sequenceEndStartSubscribers.push(callback);
   unsubscribeSequenceEnd = (callback: () => void) => this.sequenceEndStartSubscribers = this.sequenceEndStartSubscribers.filter(x => x !== callback);
-  notifySequenceEnd = () => this.sequenceEndStartSubscribers.forEach(callback => callback());
+  notifySequenceEnd = () => {
+    this.matchSound.playbackRate = 1;
+    this.sequenceEndStartSubscribers.forEach(callback => callback());
+  };
 
   setItems = (items: LevelItem[], notify: boolean) => {
     this._levelData.items = items;
@@ -74,6 +85,9 @@ class LevelManager {
     matchResult.matchingList.filter(x => x.matched).forEach(match => this._levelData.items[match.index] = null);
 
     if (matchResult.thereWereMatches) {
+
+      this.matchSound.playbackRate < 2 && (this.matchSound.playbackRate *= 1.1);
+      this.matchSound.play();
       this.notifyItemsChange();
       await delay(300);
       this.updateItemsPositions();

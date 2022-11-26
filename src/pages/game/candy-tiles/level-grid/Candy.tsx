@@ -6,6 +6,7 @@ import blue from './../../../../assets/candies/blue.png';
 import purple from './../../../../assets/candies/purple.png';
 import { useEffect, useRef } from 'react';
 import LevelManager from './level-manager';
+import useFirstRender from '../../../../hooks/useFirstRender';
 
 export const CandyColors = ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple'];
 
@@ -25,15 +26,15 @@ type CandyProps = {
 };
 
 const Candy = ({ color, index, id }: CandyProps) => {
-  const firstRender = useRef<boolean>(true);
 	const elementRef = useRef<HTMLDivElement | null>(null);
 	const rowIndexRef = useRef<number>(0);
 	const columnIndexRef = useRef<number>(0);
 	const positionXRef = useRef<number>(0);
-	const positionYRef = useRef<number>(0);
+	const positionYRef = useRef<number>(-500);
+
+	const firstRender = useFirstRender();
 
 	useEffect(() => {
-    firstRender.current = false;
 		updatePosition();
 		LevelManager.subscribeItemsChange(onLevelItemsChanged);
 
@@ -48,26 +49,26 @@ const Candy = ({ color, index, id }: CandyProps) => {
 		!candyMatched && updatePosition();
 	};
 
-	const updateGridPosition = () => {
+	const updateGridPosition = (updateX: boolean = true, updateY: boolean = true): void => {
 		const gridIndex = LevelManager.levelData.items.findIndex(x => x?.key === id);
 		rowIndexRef.current = Math.ceil((gridIndex + 1) / 9);
 		columnIndexRef.current = gridIndex + 1 - (rowIndexRef.current - 1) * 9;
-		positionXRef.current = 100 * (columnIndexRef.current - 1);
-		positionYRef.current = firstRender.current ? -500 : 100 * (rowIndexRef.current - 1);
+		updateX && (positionXRef.current = 100 * (columnIndexRef.current - 1));
+		updateY && (positionYRef.current = 100 * (rowIndexRef.current - 1));
 	};
 
-	const updatePosition = () => {
-    updateGridPosition();
+	const updatePosition = (): void => {
+		updateGridPosition();
 		if (elementRef.current) {
 			elementRef.current.style.transform = `translate(${positionXRef.current}%, ${positionYRef.current}%)`;
 		}
 	};
 
-	const updateOpacity = (value: string) => {
+	const updateOpacity = (value: string): void => {
 		if (elementRef.current) elementRef.current.style.opacity = value;
 	};
 
-	updateGridPosition();
+	updateGridPosition(true, false);
 
 	return (
 		<div
