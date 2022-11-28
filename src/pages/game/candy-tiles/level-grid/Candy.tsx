@@ -81,7 +81,7 @@ const Candy = ({ color, index, id }: CandyProps) => {
 			data-index={index}
 			data-color={color}
 		>
-			<img src={candyImages[color]} className="block rounded-full w-full h-full m-0 select-none pointer-events-none"></img>
+			<img src={candyImages[color]} className="block w-full h-full m-0 select-none pointer-events-none"></img>
 		</div>
 	);
 };

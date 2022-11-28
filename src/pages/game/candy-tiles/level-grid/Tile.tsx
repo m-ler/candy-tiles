@@ -14,7 +14,7 @@ const Tile = ({ selectedTiles, index }: TileProps) => {
 
 	return (
 		<div
-			className="relative bg-[#0983ed]/50 border border-pink hover:bg-light-yellow/50 duration-200 select-none"
+			className="relative bg-black/25 m-[2%] hover:bg-light-yellow/50 duration-200 select-none rounded"
 			ref={tileElementRef}
 			data-index={index}
 			data-tile

@@ -9,10 +9,10 @@ body {
 }
 
 body {
-	background-size: 100px;
+	background-size: cover;
 	background-position: center;
 	background-attachment: fixed;
-	background-repeat: repeat;
+	background-repeat: no-repeat;
   background-color: #ff739a;
 	background-image: url("./assets/svg/page-background.svg");
 }

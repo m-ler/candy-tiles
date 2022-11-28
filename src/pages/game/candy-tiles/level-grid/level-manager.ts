@@ -25,7 +25,7 @@ class LevelManager {
   };
 
   constructor() {
-    this.matchSound.volume = 0.5;
+    this.matchSound.volume = 0.4;
     this.matchSound.preservesPitch = false;
   }
 
@@ -86,8 +86,8 @@ class LevelManager {
 
     if (matchResult.thereWereMatches) {
 
-      this.matchSound.playbackRate < 2 && (this.matchSound.playbackRate *= 1.1);
       this.matchSound.play();
+      this.matchSound.playbackRate < 2 && (this.matchSound.playbackRate *= 1.1);
       this.notifyItemsChange();
       await delay(300);
       this.updateItemsPositions();
