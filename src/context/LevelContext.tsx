@@ -6,11 +6,11 @@ type TilePair = [number | null, number | null];
 type LevelData = {
 	selectedTiles: TilePair;
 	updateSelectedTiles: (tilePair: TilePair) => void;
-	currentLevelItems: LevelItem[];
+	levelItems: LevelItem[];
 	updateLevelItems: (items: LevelItem[]) => void;
 };
 
-export const LevelContext = createContext<LevelData | null>(null);
+const LevelContext = createContext<LevelData | null>(null);
 
 type LevelContextProviderProps = {
 	children: JSX.Element;
@@ -18,14 +18,10 @@ type LevelContextProviderProps = {
 
 const LevelContextProvider = ({ children }: LevelContextProviderProps) => {
 	const [selectedTiles, setSelectedTiles] = useState<TilePair>([null, null]);
-	const [currentLevelItems, setCurrentLevelItems] = useState<LevelItem[]>([]);
-	const previousLevelItemsRef = useRef<LevelItem[]>([]);
+	const [levelItems, setLevelItems] = useState<LevelItem[]>([]);
 
 	const updateSelectedTiles = (tilePair: TilePair): void => setSelectedTiles(tilePair);
-	const updateLevelItems = (items: LevelItem[]): void => {
-		previousLevelItemsRef.current = currentLevelItems;
-		setCurrentLevelItems(items);
-	};
+	const updateLevelItems = (items: LevelItem[]): void => setLevelItems(items);
 
 	useEffect(() => {
 		LevelManager.subscribeItemsRerender(onItemsRerender);
@@ -34,14 +30,12 @@ const LevelContextProvider = ({ children }: LevelContextProviderProps) => {
 		};
 	}, []);
 
-	useEffect(() => {}, [currentLevelItems]);
-
-	const onItemsRerender = (items: LevelItem[]): void => setCurrentLevelItems(items);
+	const onItemsRerender = (items: LevelItem[]): void => setLevelItems(items);
 
 	const providerValue: LevelData = {
 		selectedTiles,
 		updateSelectedTiles,
-		currentLevelItems,
+		levelItems,
 		updateLevelItems,
 	};
 

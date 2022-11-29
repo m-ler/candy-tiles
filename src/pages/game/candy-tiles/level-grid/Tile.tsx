@@ -1,6 +1,4 @@
-import { LegacyRef, MutableRefObject, useEffect, useMemo, useRef, useState } from 'react';
-import { getTileTargetPosition } from '../../../../utils/tile-matching';
-import Candy, { CandyColors } from './Candy';
+import { useRef, useState } from 'react';
 
 type TileProps = {
 	selectedTiles: HTMLElement[];
@@ -10,7 +8,6 @@ type TileProps = {
 const Tile = ({ selectedTiles, index }: TileProps) => {
 	const [selected, setSelected] = useState<boolean>(false);
 	const tileElementRef = useRef<HTMLDivElement | null>(null);
-	const itemElementRef = useRef<HTMLDivElement | null>(null);
 
 	return (
 		<div

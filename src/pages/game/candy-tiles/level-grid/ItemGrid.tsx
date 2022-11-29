@@ -1,6 +1,6 @@
 import uuid from 'react-uuid';
 import { useLevelContext } from '../../../../context/LevelContext';
-import Candy from './Candy';
+import LevelItem from './LevelItem';
 
 type ItemGridProps = {
 	tiles: LevelTile[];
@@ -11,12 +11,12 @@ const ItemGrid = ({ tiles }: ItemGridProps) => {
 
 	return (
 		<div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-			{levelContext?.currentLevelItems.map((item, index) => {
+			{levelContext?.levelItems.map((item, index) => {
 				const id = uuid();
 				return tiles[index] === null ? (
 					<div key={index}></div>
 				) : (item as Candy)?.type === 'Candy' ? (
-					<Candy key={(item as Candy).key} color={(item as Candy).color} index={index} id={item?.key || ''}></Candy>
+					<LevelItem key={(item as Candy).key} item={item} index={index} id={item?.key || ''}></LevelItem>
 				) : (
 					<div key={id}></div>
 				);

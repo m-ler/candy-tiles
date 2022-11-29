@@ -15,6 +15,11 @@ declare global {
 
   type LevelItem = Candy | null;
   type LevelTile = Tile | null;
+  type LevelFX = {
+    type: "Poof",
+    duration: number,
+    index: numbe
+  };
 
   type MatchData = { index: number; matched: boolean }
 
@@ -25,6 +30,7 @@ declare global {
     prevItems: LevelItem[],
     matchList: MatchData[],
     matched: boolean,
-    actionsLocked: boolean
+    actionsLocked: boolean,
+    combo: number
   };
 }  

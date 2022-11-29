@@ -1,40 +1,34 @@
-import red from './../../../../assets/candies/red.png';
-import orange from './../../../../assets/candies/orange.png';
-import yellow from './../../../../assets/candies/yellow.png';
-import green from './../../../../assets/candies/green.png';
-import blue from './../../../../assets/candies/blue.png';
-import purple from './../../../../assets/candies/purple.png';
 import { useEffect, useRef } from 'react';
+import { useLevelFXContext } from '../../../../context/LevelFXContext';
+import Candy from './level-items/Candy';
 import LevelManager from './level-manager';
-import useFirstRender from '../../../../hooks/useFirstRender';
 
-export const CandyColors = ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple'];
-
-const candyImages: { [key: string]: string } = {
-	'Red': red,
-	'Orange': orange,
-	'Yellow': yellow,
-	'Green': green,
-	'Blue': blue,
-	'Purple': purple,
-};
-
-type CandyProps = {
-	color: CandyColor;
+type LevelItemProps = {
+	item: LevelItem;
 	index: number;
 	id: string;
 };
 
-const Candy = ({ color, index, id }: CandyProps) => {
+const getItemComponent = (item: LevelItem): JSX.Element => {
+	switch (item?.type) {
+		case 'Candy':
+			return <Candy color={item.color}></Candy>;
+		default:
+			return <div></div>;
+	}
+};
+
+const LevelItem = ({ id, item }: LevelItemProps) => {
 	const elementRef = useRef<HTMLDivElement | null>(null);
 	const rowIndexRef = useRef<number>(0);
 	const columnIndexRef = useRef<number>(0);
 	const positionXRef = useRef<number>(0);
 	const positionYRef = useRef<number>(-500);
-
-	const firstRender = useFirstRender();
+	const levelFXContext = useLevelFXContext();
 
 	useEffect(() => {
+    console.log(levelFXContext);
+    
 		updatePosition();
 		LevelManager.subscribeItemsChange(onLevelItemsChanged);
 
@@ -44,9 +38,13 @@ const Candy = ({ color, index, id }: CandyProps) => {
 	}, []);
 
 	const onLevelItemsChanged = (items: LevelItem[], matched: boolean): void => {
-		const candyMatched = !items.some(x => x?.key === id);
-		candyMatched && updateOpacity('0');
-		!candyMatched && updatePosition();
+		const itemMatched = !items.some(x => x?.key === id);
+		itemMatched && updateOpacity('0');
+		!itemMatched && updatePosition();
+		levelFXContext?.updateLevelFXList([
+			...levelFXContext.levelFXList,
+			{ type: 'Poof', duration: 2000, index: LevelManager.levelData.items.findIndex(x => x?.key === id) },
+		]);
 	};
 
 	const updateGridPosition = (updateX: boolean = true, updateY: boolean = true): void => {
@@ -76,14 +74,11 @@ const Candy = ({ color, index, id }: CandyProps) => {
 			style={{
 				transform: `translate(${positionXRef.current}%, ${positionYRef.current}%)`,
 			}}
-			data-candy
 			ref={elementRef}
-			data-index={index}
-			data-color={color}
 		>
-			<img src={candyImages[color]} className="block w-full h-full m-0 select-none pointer-events-none"></img>
+			{getItemComponent(item)}
 		</div>
 	);
 };
 
-export default Candy;
+export default LevelItem;
