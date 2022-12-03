@@ -1,5 +1,5 @@
 import { delay } from "../../../../utils/delay";
-import { checkForMatchings, generateNewCandies, NewItemPosition, repositionItems } from "../../../../utils/tile-matching";
+import { checkForMatchings, generateNewCandies, tryGetLevelItemByFusion, NewItemPosition, repositionItems } from "../../../../utils/tile-matching";
 import matchSFX from './../../../../assets/audio/match.mp3';
 
 class LevelManager {
@@ -13,10 +13,10 @@ class LevelManager {
     items: [],
     tiles: [],
     prevItems: [],
-    matchList: [],
-    matched: false,
+    matchResult: { matchingList: [], thereWereMatches: false },
     actionsLocked: false,
-    combo: 1
+    comboCount: 1,
+    swappedItems: [null, null]
   };
 
   private matchSound = new Audio(matchSFX);
@@ -35,7 +35,7 @@ class LevelManager {
 
   subscribeItemsChange = (callback: (items: LevelItem[], matched: boolean) => void) => this.itemsChangeSubscribers.push(callback);
   unsubscribeItemsChange = (callback: (items: LevelItem[], matched: boolean) => void) => this.itemsChangeSubscribers = this.itemsChangeSubscribers.filter(x => x !== callback);
-  notifyItemsChange = () => this.itemsChangeSubscribers.forEach(callback => callback(this._levelData.items, this._levelData.matched));
+  notifyItemsChange = () => this.itemsChangeSubscribers.forEach(callback => callback(this._levelData.items, this._levelData.matchResult.thereWereMatches));
 
   subscribeItemsRerender = (callback: (items: LevelItem[]) => void) => this.itemsRerenderSubscribers.push(callback);
   unsubscribeItemsRerender = (callback: (items: LevelItem[]) => void) => this.itemsRerenderSubscribers = this.itemsRerenderSubscribers.filter(x => x !== callback);
@@ -61,19 +61,20 @@ class LevelManager {
   };
 
   swapItems = async (items: [number, number]) => {
+    this._levelData.swappedItems = items;
     this.notifyComboStart();
     this._levelData.actionsLocked = true;
     const firstItem = structuredClone(this._levelData.items[items[0]]);
     this._levelData.items[items[0]] = this._levelData.items[items[1]];
     this._levelData.items[items[1]] = firstItem;
 
-    this._levelData.matchList = [];
+    this._levelData.matchResult.matchingList = [];
     this.notifyItemsChange();
 
     await delay(300);
 
     await this.checkMatchings();
-    if (!this._levelData.matched) {
+    if (!this._levelData.matchResult.thereWereMatches) {
       this._levelData.items[items[1]] = structuredClone(this._levelData.items[items[0]]);
       this._levelData.items[items[0]] = firstItem;
       this.notifyItemsChange();
@@ -82,12 +83,16 @@ class LevelManager {
   };
 
   checkMatchings = async () => {
-    const matchResult = checkForMatchings(this._levelData.items);
-    this._levelData.matched = matchResult.thereWereMatches;
-    matchResult.matchingList.filter(x => x.matched).forEach(match => this._levelData.items[match.index] = null);
+    this._levelData.matchResult = checkForMatchings(this._levelData.items);
+    this._levelData.matchResult.matchingList.filter(x => x.matched).forEach(match => {
+      const itemWasSwapped = this._levelData.swappedItems.includes(match.index);
+      this._levelData.items[match.index] = itemWasSwapped ? tryGetLevelItemByFusion(match, this._levelData.items[match.index]) : null;
+    });
 
-    if (matchResult.thereWereMatches) {
-      this._levelData.combo += 1;
+    this._levelData.swappedItems = [null, null];
+
+    if (this._levelData.matchResult.thereWereMatches) {
+      this._levelData.comboCount += 1;
       this.playMatchSFX();
       this.notifyItemsChange();
       await delay(300);
@@ -119,12 +124,12 @@ class LevelManager {
     this.matchSound.playbackRate < 2 && (this.matchSound.playbackRate *= 1.1);
   };
 
-  private onComboStart = () => {    
+  private onComboStart = () => {
   };
 
   private onComboEnd = () => {
-    this.matchSound.playbackRate = 1;    
-    this._levelData.combo = 1;
+    this.matchSound.playbackRate = 1;
+    this._levelData.comboCount = 1;
   };
 
 };

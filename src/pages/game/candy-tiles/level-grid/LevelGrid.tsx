@@ -5,8 +5,6 @@ import LevelManager from './level-manager';
 import uuid from 'react-uuid';
 import TileGrid from './TileGrid';
 import ItemGrid from './ItemGrid';
-import FXGrid from './FXGrid';
-import LevelFXContextProvider from '../../../../context/LevelFXContext';
 
 const LevelGrid = () => {
 	const selectedLevelLayout = levelList[0];
@@ -41,13 +39,7 @@ const LevelGrid = () => {
 	return (
 		<section className="grow aspect-square rounded-lg overflow-hidden relative select-none" ref={levelGridElement}>
 			<TileGrid tiles={selectedLevelLayout.tiles}></TileGrid>
-
 			<ItemGrid tiles={selectedLevelLayout.tiles}></ItemGrid>
-			<LevelFXContextProvider>
-				<>
-					<FXGrid></FXGrid>
-				</>
-			</LevelFXContextProvider>
 		</section>
 	);
 };

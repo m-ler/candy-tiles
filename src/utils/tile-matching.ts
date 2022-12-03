@@ -1,4 +1,6 @@
 import uuid from "react-uuid";
+import LevelManager from "../pages/game/candy-tiles/level-grid/level-manager";
+import LevelItem from "../pages/game/candy-tiles/level-grid/LevelItem";
 
 const COLUMN_NUMBER = 9;
 const ROW_NUMBER = 9;
@@ -21,11 +23,7 @@ export const getTileTargetPosition = (index: number, tileTargetIndex: number): T
 
 type CandyInLevel = { index: number } & Candy;
 
-type CandyMatchings = {
-  up: number, right: number, down: number, left: number, matched: boolean
-};
-
-const getCandyMatchings = (candy: CandyInLevel, items: readonly LevelItem[]): CandyMatchings => {
+const getCandyMatchings = (candy: CandyInLevel, items: readonly LevelItem[]): MatchDetail => {
   //console.log(candy.index);
   const rowIndex = Math.ceil((candy.index + 1) / ROW_NUMBER);
   const columnIndex = (candy.index + 1) - ((rowIndex - 1) * ROW_NUMBER);
@@ -60,23 +58,19 @@ const getCandyMatchings = (candy: CandyInLevel, items: readonly LevelItem[]): Ca
     up, right, down, left, matched
   }); */
 
-  return { up, right, down, left, matched };
+  return { up, right, down, left, matched, index: candy.index };
 };
 
-type MatchResult = {
-  thereWereMatches: boolean,
-  matchingList: MatchData[]
-};
-
+const candyTypesArray = ["Candy", "SuperCandy"];
 export const checkForMatchings = (items: readonly LevelItem[]): MatchResult => {
-  const candies = [...items].map((x, index) => ({ ...x, index })).filter(x => (x as Candy)?.type === "Candy") as CandyInLevel[];
+  const candies = [...items].map((x, index) => ({ ...x, index })).filter(x => candyTypesArray.includes((x as LevelItem)?.type || "")) as CandyInLevel[];
 
-  const candyMatchings: ({ index: number } & CandyMatchings)[] = [];
-  candies.forEach(candy => candyMatchings.push({ index: candy.index, ...getCandyMatchings(candy, items) }));
+  const candyMatchings: ({ index: number } & MatchDetail)[] = [];
+  candies.forEach(candy => candyMatchings.push(getCandyMatchings(candy, items)));
 
   return {
     thereWereMatches: candyMatchings.some(x => x.matched),
-    matchingList: candyMatchings.map(x => ({ index: x.index, matched: x.matched }) as MatchData)
+    matchingList: candyMatchings
   };
 };
 
@@ -142,19 +136,34 @@ export const repositionItems = (items: readonly LevelItem[], tiles: readonly Lev
 };
 
 const candyColorArray: string[] = ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple'];
+export const tryGetLevelItemByFusion = (matchDetail: MatchDetail, previousItem: LevelItem): LevelItem => {
+  let item: LevelItem = null;
+  const superCandyFusion = (matchDetail.left + matchDetail.right) > 2 || (matchDetail.down + matchDetail.up) > 2;
+  if (superCandyFusion) {
+    item = {
+      color: previousItem?.color,
+      type: "SuperCandy",
+      key: uuid()
+    } as SuperCandy;
+  }
+
+  return item;
+}
+
+const getRandomColorCandy = (): LevelItem => {
+  return {
+    color: candyColorArray[Math.floor(Math.random() * candyColorArray.length)],
+    type: "Candy",
+    key: uuid()
+  } as Candy;
+};
+
 export const generateNewCandies = (items: readonly LevelItem[], tiles: readonly LevelTile[]): LevelItem[] => {
   const newCandies = structuredClone(items) as LevelItem[];
   newCandies.forEach((item, index) => {
     const tileAvaliable = tiles[index] !== null;
-    if (item === null && tileAvaliable) {
-      newCandies[index] = {
-        color: candyColorArray[Math.floor(Math.random() * candyColorArray.length)],
-        type: "Candy",
-        key: uuid()
-      } as Candy
-    }
+    if (item === null && tileAvaliable) newCandies[index] = getRandomColorCandy()
   });
-
 
   return newCandies;
 };

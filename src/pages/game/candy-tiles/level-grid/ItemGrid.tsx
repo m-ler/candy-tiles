@@ -15,10 +15,8 @@ const ItemGrid = ({ tiles }: ItemGridProps) => {
 				const id = uuid();
 				return tiles[index] === null ? (
 					<div key={index}></div>
-				) : (item as Candy)?.type === 'Candy' ? (
-					<LevelItem key={(item as Candy).key} item={item} index={index} id={item?.key || ''}></LevelItem>
 				) : (
-					<div key={id}></div>
+					<LevelItem key={(item as Candy).key} item={item} index={index} id={item?.key || ''}></LevelItem>
 				);
 			})}
 		</div>

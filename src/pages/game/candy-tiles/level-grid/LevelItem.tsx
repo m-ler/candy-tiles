@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
-import { useLevelFXContext } from '../../../../context/LevelFXContext';
 import Candy from './level-items/Candy';
+import SuperCandy from './level-items/SuperCandy';
 import LevelManager from './level-manager';
 
 type LevelItemProps = {
@@ -13,6 +13,9 @@ const getItemComponent = (item: LevelItem): JSX.Element => {
 	switch (item?.type) {
 		case 'Candy':
 			return <Candy color={item.color}></Candy>;
+
+		case 'SuperCandy':
+			return <SuperCandy color={item.color}></SuperCandy>;
 		default:
 			return <div></div>;
 	}
@@ -24,11 +27,9 @@ const LevelItem = ({ id, item }: LevelItemProps) => {
 	const columnIndexRef = useRef<number>(0);
 	const positionXRef = useRef<number>(0);
 	const positionYRef = useRef<number>(-500);
-	const levelFXContext = useLevelFXContext();
+	const itemActiveRef = useRef<boolean>(true);
 
 	useEffect(() => {
-    console.log(levelFXContext);
-    
 		updatePosition();
 		LevelManager.subscribeItemsChange(onLevelItemsChanged);
 
@@ -39,12 +40,12 @@ const LevelItem = ({ id, item }: LevelItemProps) => {
 
 	const onLevelItemsChanged = (items: LevelItem[], matched: boolean): void => {
 		const itemMatched = !items.some(x => x?.key === id);
-		itemMatched && updateOpacity('0');
-		!itemMatched && updatePosition();
-		levelFXContext?.updateLevelFXList([
-			...levelFXContext.levelFXList,
-			{ type: 'Poof', duration: 2000, index: LevelManager.levelData.items.findIndex(x => x?.key === id) },
-		]);
+		if (itemMatched && itemActiveRef.current) {
+			itemActiveRef.current = false;
+			updateOpacity('0');
+			return;
+		}
+		updatePosition();
 	};
 
 	const updateGridPosition = (updateX: boolean = true, updateY: boolean = true): void => {

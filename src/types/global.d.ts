@@ -9,28 +9,35 @@ declare global {
     key?: string
   };
 
+  type SuperCandy = {
+    color: CandyColor,
+    type: "SuperCandy",
+    key?: string
+  };
+
   type Tile = {
     type: "Normal" | "Frozen" | "Thick",
   };
 
-  type LevelItem = Candy | null;
+  type LevelItem = Candy | SuperCandy | null;
   type LevelTile = Tile | null;
-  type LevelFX = {
-    type: "Poof",
-    duration: number,
-    index: numbe
+
+  type MatchDetail = {
+    up: number, right: number, down: number, left: number, index: number, matched: boolean
   };
 
-  type MatchData = { index: number; matched: boolean }
-
+  type MatchResult = {
+    thereWereMatches: boolean,
+    matchingList: MatchDetail[]
+  };
 
   type LevelRuntimeData = {
     items: LevelItem[],
     tiles: LevelTile[],
     prevItems: LevelItem[],
-    matchList: MatchData[],
-    matched: boolean,
+    matchResult: MatchResult
     actionsLocked: boolean,
-    combo: number
+    comboCount: number,
+    swappedItems: [number | null, number | null]
   };
 }  
