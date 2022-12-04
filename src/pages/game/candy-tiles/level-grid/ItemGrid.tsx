@@ -12,11 +12,10 @@ const ItemGrid = ({ tiles }: ItemGridProps) => {
 	return (
 		<div className="absolute top-0 left-0 w-full h-full pointer-events-none">
 			{levelContext?.levelItems.map((item, index) => {
-				const id = uuid();
 				return tiles[index] === null ? (
 					<div key={index}></div>
 				) : (
-					<LevelItem key={(item as Candy).key} item={item} index={index} id={item?.key || ''}></LevelItem>
+					<LevelItem key={(item as LevelItem)?.key || uuid()} item={item} index={index} id={item?.key || ''}></LevelItem>
 				);
 			})}
 		</div>

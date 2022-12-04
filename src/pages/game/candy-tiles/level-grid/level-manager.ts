@@ -89,13 +89,16 @@ class LevelManager {
       this._levelData.items[match.index] = itemWasSwapped ? tryGetLevelItemByFusion(match, this._levelData.items[match.index]) : null;
     });
 
+    
     this._levelData.swappedItems = [null, null];
-
+    
     if (this._levelData.matchResult.thereWereMatches) {
       this._levelData.comboCount += 1;
       this.playMatchSFX();
       this.notifyItemsChange();
       await delay(300);
+      this.notifyItemsRerender();
+      await delay(300)
       this.updateItemsPositions();
       await delay(300);
       this.fillEmptyTiles();

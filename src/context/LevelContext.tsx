@@ -30,7 +30,7 @@ const LevelContextProvider = ({ children }: LevelContextProviderProps) => {
 		};
 	}, []);
 
-	const onItemsRerender = (items: LevelItem[]): void => setLevelItems(items);
+	const onItemsRerender = (items: LevelItem[]): void => setLevelItems(structuredClone(items));
 
 	const providerValue: LevelData = {
 		selectedTiles,

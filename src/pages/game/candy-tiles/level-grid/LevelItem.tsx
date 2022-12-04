@@ -9,13 +9,13 @@ type LevelItemProps = {
 	id: string;
 };
 
-const getItemComponent = (item: LevelItem): JSX.Element => {
+const getItemComponent = (item: LevelItem, itemID: string): JSX.Element => {
 	switch (item?.type) {
 		case 'Candy':
-			return <Candy color={item.color}></Candy>;
+			return <Candy color={item.color} id={itemID}></Candy>;
 
 		case 'SuperCandy':
-			return <SuperCandy color={item.color}></SuperCandy>;
+			return <SuperCandy color={item.color} id={itemID}></SuperCandy>;
 		default:
 			return <div></div>;
 	}
@@ -26,7 +26,7 @@ const LevelItem = ({ id, item }: LevelItemProps) => {
 	const rowIndexRef = useRef<number>(0);
 	const columnIndexRef = useRef<number>(0);
 	const positionXRef = useRef<number>(0);
-	const positionYRef = useRef<number>(-500);
+	const positionYRef = useRef<number>(0);
 	const itemActiveRef = useRef<boolean>(true);
 
 	useEffect(() => {
@@ -67,7 +67,7 @@ const LevelItem = ({ id, item }: LevelItemProps) => {
 		if (elementRef.current) elementRef.current.style.opacity = value;
 	};
 
-	updateGridPosition(true, false);
+	updateGridPosition();
 
 	return (
 		<div
@@ -77,7 +77,7 @@ const LevelItem = ({ id, item }: LevelItemProps) => {
 			}}
 			ref={elementRef}
 		>
-			{getItemComponent(item)}
+			{getItemComponent(item, id)}
 		</div>
 	);
 };
