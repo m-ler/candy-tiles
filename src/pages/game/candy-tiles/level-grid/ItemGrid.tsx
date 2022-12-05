@@ -15,7 +15,7 @@ const ItemGrid = ({ tiles }: ItemGridProps) => {
 				return tiles[index] === null ? (
 					<div key={index}></div>
 				) : (
-					<LevelItem key={(item as LevelItem)?.key || uuid()} item={item} index={index} id={item?.key || ''}></LevelItem>
+					<LevelItem key={(item as LevelItem)?.key || uuid()} item={item} initialIndex={index} id={item?.key || ''}></LevelItem>
 				);
 			})}
 		</div>

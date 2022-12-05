@@ -1,27 +1,28 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Candy from './level-items/Candy';
 import SuperCandy from './level-items/SuperCandy';
 import LevelManager from './level-manager';
 
 type LevelItemProps = {
 	item: LevelItem;
-	index: number;
+	initialIndex: number;
 	id: string;
 };
 
-const getItemComponent = (item: LevelItem, itemID: string): JSX.Element => {
+const getItemComponent = (item: LevelItem, itemID: string, itemIndex: number): JSX.Element => {
 	switch (item?.type) {
 		case 'Candy':
 			return <Candy color={item.color} id={itemID}></Candy>;
 
 		case 'SuperCandy':
-			return <SuperCandy color={item.color} id={itemID}></SuperCandy>;
+			return <SuperCandy color={item.color} id={itemID} index={itemIndex}></SuperCandy>;
 		default:
 			return <div></div>;
 	}
 };
 
-const LevelItem = ({ id, item }: LevelItemProps) => {
+const LevelItem = ({ item, initialIndex, id }: LevelItemProps) => {
+	const [itemIndex, setItemIndex] = useState(initialIndex);
 	const elementRef = useRef<HTMLDivElement | null>(null);
 	const rowIndexRef = useRef<number>(0);
 	const columnIndexRef = useRef<number>(0);
@@ -45,11 +46,13 @@ const LevelItem = ({ id, item }: LevelItemProps) => {
 			updateOpacity('0');
 			return;
 		}
+
+		setItemIndex(getItemIndex());
 		updatePosition();
 	};
 
 	const updateGridPosition = (updateX: boolean = true, updateY: boolean = true): void => {
-		const gridIndex = LevelManager.levelData.items.findIndex(x => x?.key === id);
+		const gridIndex = getItemIndex();
 		rowIndexRef.current = Math.ceil((gridIndex + 1) / 9);
 		columnIndexRef.current = gridIndex + 1 - (rowIndexRef.current - 1) * 9;
 		updateX && (positionXRef.current = 100 * (columnIndexRef.current - 1));
@@ -67,6 +70,8 @@ const LevelItem = ({ id, item }: LevelItemProps) => {
 		if (elementRef.current) elementRef.current.style.opacity = value;
 	};
 
+	const getItemIndex = (): number => LevelManager.levelData.items.findIndex(x => x?.key === id);
+
 	updateGridPosition();
 
 	return (
@@ -77,7 +82,7 @@ const LevelItem = ({ id, item }: LevelItemProps) => {
 			}}
 			ref={elementRef}
 		>
-			{getItemComponent(item, id)}
+			{getItemComponent(item, id, itemIndex)}
 		</div>
 	);
 };

@@ -1,6 +1,7 @@
 import uuid from "react-uuid";
 import LevelManager from "../pages/game/candy-tiles/level-grid/level-manager";
 import LevelItem from "../pages/game/candy-tiles/level-grid/LevelItem";
+import { getNumberRangeArray, getNumberSequenceArray } from "./array";
 
 const COLUMN_NUMBER = 9;
 const ROW_NUMBER = 9;
@@ -166,5 +167,18 @@ export const generateNewCandies = (items: readonly LevelItem[], tiles: readonly 
   });
 
   return newCandies;
+};
+
+export const getHorizontalAndVerticalItems = (startIndex: number): (number | null)[] => {
+  const rowIndex = Math.ceil((startIndex + 1) / ROW_NUMBER);
+  const columnIndex = (startIndex + 1) - ((rowIndex - 1) * ROW_NUMBER);
+
+  const horizontalRangeStart = ((rowIndex - 1) * COLUMN_NUMBER);
+  const horizontalRangeEnd = horizontalRangeStart + (COLUMN_NUMBER - 1);
+
+  const horizontalItems = getNumberRangeArray(horizontalRangeStart, horizontalRangeEnd);
+  const verticalItems = getNumberSequenceArray(columnIndex - 1, ROW_NUMBER - 1, COLUMN_NUMBER);
+
+  return [...horizontalItems, ...verticalItems];
 };
 
