@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import Candy from './level-items/Candy';
+import Chocolate from './level-items/Chocolate';
 import SuperCandy from './level-items/SuperCandy';
 import LevelManager from './level-manager';
 
@@ -16,6 +17,9 @@ const getItemComponent = (item: LevelItem, itemID: string, itemIndex: number): J
 
 		case 'SuperCandy':
 			return <SuperCandy color={item.color} id={itemID} index={itemIndex}></SuperCandy>;
+
+		case 'Chocolate':
+			return <Chocolate id={itemID} index={itemIndex}></Chocolate>;
 		default:
 			return <div></div>;
 	}
@@ -28,7 +32,7 @@ const LevelItem = ({ item, initialIndex, id }: LevelItemProps) => {
 	const columnIndexRef = useRef<number>(0);
 	const positionXRef = useRef<number>(0);
 	const positionYRef = useRef<number>(0);
-	const itemActiveRef = useRef<boolean>(true);
+	const isActiveRef = useRef<boolean>(true);
 
 	useEffect(() => {
 		updatePosition();
@@ -41,8 +45,9 @@ const LevelItem = ({ item, initialIndex, id }: LevelItemProps) => {
 
 	const onLevelItemsChanged = (items: LevelItem[], matched: boolean): void => {
 		const itemMatched = !items.some(x => x?.key === id);
-		if (itemMatched && itemActiveRef.current) {
-			itemActiveRef.current = false;
+		if (!isActiveRef.current) return;
+		if (itemMatched) {
+			isActiveRef.current = false;
 			updateOpacity('0');
 			return;
 		}

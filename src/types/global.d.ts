@@ -15,11 +15,16 @@ declare global {
     key?: string
   };
 
+  type Chocolate = {
+    type: "Chocolate",
+    key?: string
+  };
+
   type Tile = {
     type: "Normal" | "Frozen" | "Thick",
   };
 
-  type LevelItem = Candy | SuperCandy | null;
+  type LevelItem = Candy | SuperCandy | Chocolate | null;
   type LevelTile = Tile | null;
 
   type MatchDetail = {

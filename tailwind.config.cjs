@@ -53,6 +53,10 @@ module.exports = {
 					'from': { transform: 'translateY(-500px)' },
 					'to': { transform: 'translateY(0px)' },
 				},
+				scaleOscillate: {
+					'from': { transform: 'scale(0.95)' },
+					'to': { transform: 'scale(1.05)' },
+				},
 			},
 			transitionTimingFunction: {
 				inSine: 'cubic-bezier(0.12, 0, 0.39, 0)',

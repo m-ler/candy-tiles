@@ -4,6 +4,7 @@ import superYellow from './../../../../../assets/candies/super-yellow.png';
 import superGreen from './../../../../../assets/candies/super-green.png';
 import superBlue from './../../../../../assets/candies/super-blue.png';
 import superPurple from './../../../../../assets/candies/super-purple.png';
+import superCandyMatchSFX from './../../../../../assets/audio/superCandyMatch.mp3';
 import { useEffect, useRef, useState } from 'react';
 import useFirstRender from '../../../../../hooks/useFirstRender';
 import LevelManager from '../level-manager';
@@ -18,6 +19,8 @@ const candyImages: { [key: string]: string } = {
 	'Purple': superPurple,
 };
 
+const superCandyMatchSound = new Audio(superCandyMatchSFX);
+
 export const CandyColors = ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple'];
 
 type SuperCandyProps = {
@@ -30,6 +33,7 @@ const SuperCandy = ({ color, id, index }: SuperCandyProps) => {
 	const [scale, setScale] = useState(0);
 	const firstRender = useFirstRender();
 	const indexRef = useRef(index);
+	const isActiveRef = useRef(false);
 
 	useEffect(() => {
 		firstRender && setScale(1);
@@ -45,16 +49,14 @@ const SuperCandy = ({ color, id, index }: SuperCandyProps) => {
 
 	const onItemsChange = (items: LevelItem[], matched: boolean) => {
 		const itemMatched = !items.some(x => x?.key === id);
-		//console.log(`super changed: ${color}`);
-
-		itemMatched && console.log(`super matched: ${color}`);
-		if (itemMatched) {
-			console.log(indexRef.current);
-
+    
+		if (itemMatched && !isActiveRef.current) {
+			isActiveRef.current = true;
 			const intersectingItems = getHorizontalAndVerticalItems(indexRef.current);
+			superCandyMatchSound.play();
 			LevelManager.setItems(
 				LevelManager.levelData.items.map((x, i) => (intersectingItems.includes(i) ? null : x)),
-				false
+				true
 			);
 		}
 	};

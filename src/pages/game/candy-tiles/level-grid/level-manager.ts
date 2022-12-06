@@ -1,6 +1,7 @@
 import { delay } from "../../../../utils/delay";
 import { checkForMatchings, generateNewCandies, tryGetLevelItemByFusion, NewItemPosition, repositionItems } from "../../../../utils/tile-matching";
 import matchSFX from './../../../../assets/audio/match.mp3';
+import fusionMatchSFX from './../../../../assets/audio/fusionMatch.mp3';
 
 class LevelManager {
 
@@ -20,6 +21,7 @@ class LevelManager {
   };
 
   private matchSound = new Audio(matchSFX);
+  private fusionMatchSound = new Audio(fusionMatchSFX);
 
   get levelData(): Readonly<LevelRuntimeData> {
     return this._levelData;
@@ -86,12 +88,13 @@ class LevelManager {
     this._levelData.matchResult = checkForMatchings(this._levelData.items);
     this._levelData.matchResult.matchingList.filter(x => x.matched).forEach(match => {
       const itemWasSwapped = this._levelData.swappedItems.includes(match.index);
-      this._levelData.items[match.index] = itemWasSwapped ? tryGetLevelItemByFusion(match, this._levelData.items[match.index]) : null;
+      const fusionItem = tryGetLevelItemByFusion(match, this._levelData.items[match.index]);
+      this._levelData.items[match.index] = itemWasSwapped ? fusionItem : null;
+      fusionItem && itemWasSwapped && this.fusionMatchSound.play();
     });
 
-    
     this._levelData.swappedItems = [null, null];
-    
+
     if (this._levelData.matchResult.thereWereMatches) {
       this._levelData.comboCount += 1;
       this.playMatchSFX();
