@@ -19,7 +19,8 @@ const getItemComponent = (item: LevelItem, itemID: string, itemIndex: number): J
 			return <SuperCandy color={item.color} id={itemID} index={itemIndex}></SuperCandy>;
 
 		case 'Chocolate':
-			return <Chocolate id={itemID} index={itemIndex}></Chocolate>;
+			return <Chocolate id={itemID} initialIndex={itemIndex}></Chocolate>;
+
 		default:
 			return <div></div>;
 	}
@@ -45,6 +46,8 @@ const LevelItem = ({ item, initialIndex, id }: LevelItemProps) => {
 
 	const onLevelItemsChanged = (items: LevelItem[], matched: boolean): void => {
 		const itemMatched = !items.some(x => x?.key === id);
+    itemMatched && console.log(`${itemIndex}`);
+    
 		if (!isActiveRef.current) return;
 		if (itemMatched) {
 			isActiveRef.current = false;

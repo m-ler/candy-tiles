@@ -6,26 +6,28 @@ import { getHorizontalAndVerticalItems } from '../../../../../utils/tile-matchin
 
 type ChocolateProps = {
 	id: string;
-	index: number;
+	initialIndex: number;
 };
 
-const Chocolate = ({ id, index }: ChocolateProps) => {
+const Chocolate = ({ id, initialIndex }: ChocolateProps) => {
 	const [scale, setScale] = useState(0);
 	const firstRender = useFirstRender();
-	const indexRef = useRef(index);
+	const indexRef = useRef(initialIndex);
 	const isActiveRef = useRef(false);
 
 	useEffect(() => {
 		firstRender && setScale(1);
 		LevelManager.subscribeItemsChange(onItemsChange);
+		LevelManager.subscribeItemsSwap(onItemsSwap);
 		return () => {
 			LevelManager.unsubscribeItemsChange(onItemsChange);
+			LevelManager.unsubscribeItemsSwap(onItemsSwap);
 		};
 	}, []);
 
 	useEffect(() => {
-		indexRef.current = index;
-	}, [index]);
+		indexRef.current = initialIndex;
+	}, [initialIndex]);
 
 	const onItemsChange = (items: LevelItem[], matched: boolean) => {
 		const itemMatched = !items.some(x => x?.key === id);
@@ -38,6 +40,33 @@ const Chocolate = ({ id, index }: ChocolateProps) => {
 				true
 			);
 		} */
+	};
+
+	const onItemsSwap = (swappedItems: [number | null, number | null]) => {
+		const thisItemSwapped = swappedItems.includes(indexRef.current);
+		if (!thisItemSwapped) return;
+
+		const candyTypes = ['Candy', 'Supercandy'];
+		const otherItemIndex = swappedItems.find(x => x !== indexRef.current) ?? 0;
+		const otherItemIsCandy = candyTypes.includes((LevelManager.levelData.items[otherItemIndex] as LevelItem)?.type ?? '');
+
+		if (!otherItemIsCandy) return;
+
+		const otherCandyColor = (LevelManager.levelData.items[otherItemIndex] as Candy).color;
+		console.log(indexRef.current);
+
+		const newItems = structuredClone(LevelManager.levelData.items);
+		newItems[indexRef.current] = null;
+		newItems[otherItemIndex] = null;
+		for (let i = 0; i < newItems.length; i++) {
+			const candyColor = (newItems[i] as Candy)?.color;
+			candyColor === otherCandyColor && console.log(candyColor);
+
+			if (candyColor === otherCandyColor) newItems[i] = null;
+		}
+
+		LevelManager.setItems(newItems, true);
+		LevelManager.refreshGrid();
 	};
 
 	return (

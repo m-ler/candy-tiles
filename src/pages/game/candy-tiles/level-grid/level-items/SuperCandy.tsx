@@ -49,7 +49,7 @@ const SuperCandy = ({ color, id, index }: SuperCandyProps) => {
 
 	const onItemsChange = (items: LevelItem[], matched: boolean) => {
 		const itemMatched = !items.some(x => x?.key === id);
-    
+
 		if (itemMatched && !isActiveRef.current) {
 			isActiveRef.current = true;
 			const intersectingItems = getHorizontalAndVerticalItems(indexRef.current);
