@@ -2,18 +2,34 @@ import chocolateSprite from './../../../../../assets/candies/chocolate.png';
 import { useEffect, useRef, useState } from 'react';
 import useFirstRender from '../../../../../hooks/useFirstRender';
 import LevelManager from '../level-manager';
-import { getHorizontalAndVerticalItems } from '../../../../../utils/tile-matching';
+import chocolateMatchSFX from './../../../../../assets/audio/chocolateMatch.mp3';
 
 type ChocolateProps = {
 	id: string;
 	initialIndex: number;
 };
 
+const chocolateMatchSound = new Audio(chocolateMatchSFX);
+chocolateMatchSound.volume = 0.5;
+
+const matchAllCandiesOfColor = (chocolateIndex: number, otherCandyIndex?: number): void => {
+	const newItems = structuredClone(LevelManager.levelData.items);
+	newItems[chocolateIndex] = null;
+	if (typeof otherCandyIndex === 'number') newItems[otherCandyIndex] = null;
+	for (let i = 0; i < newItems.length; i++) {
+		const candyColor = (newItems[i] as Candy)?.color;
+		if (candyColor === LevelManager.levelData.latestSwappedCandyColor) newItems[i] = null;
+	}
+
+	chocolateMatchSound.play();
+	LevelManager.setItems(newItems, true);
+};
+
 const Chocolate = ({ id, initialIndex }: ChocolateProps) => {
 	const [scale, setScale] = useState(0);
 	const firstRender = useFirstRender();
 	const indexRef = useRef(initialIndex);
-	const isActiveRef = useRef(false);
+	const itemUsedRef = useRef(false);
 
 	useEffect(() => {
 		firstRender && setScale(1);
@@ -32,41 +48,23 @@ const Chocolate = ({ id, initialIndex }: ChocolateProps) => {
 	const onItemsChange = (items: LevelItem[], matched: boolean) => {
 		const itemMatched = !items.some(x => x?.key === id);
 
-		/* if (itemMatched && !isActiveRef.current) {
-			isActiveRef.current = true;
-			const intersectingItems = getHorizontalAndVerticalItems(indexRef.current);
-			LevelManager.setItems(
-				LevelManager.levelData.items.map((x, i) => (intersectingItems.includes(i) ? null : x)),
-				true
-			);
-		} */
+		if (itemMatched && !itemUsedRef.current) {
+			itemUsedRef.current = true;
+			matchAllCandiesOfColor(indexRef.current);
+		}
 	};
 
 	const onItemsSwap = (swappedItems: [number | null, number | null]) => {
 		const thisItemSwapped = swappedItems.includes(indexRef.current);
 		if (!thisItemSwapped) return;
 
-		const candyTypes = ['Candy', 'Supercandy'];
+		const candyTypes = ['Candy', 'SuperCandy'];
 		const otherItemIndex = swappedItems.find(x => x !== indexRef.current) ?? 0;
 		const otherItemIsCandy = candyTypes.includes((LevelManager.levelData.items[otherItemIndex] as LevelItem)?.type ?? '');
 
 		if (!otherItemIsCandy) return;
 
-		const otherCandyColor = (LevelManager.levelData.items[otherItemIndex] as Candy).color;
-		console.log(indexRef.current);
-
-		const newItems = structuredClone(LevelManager.levelData.items);
-		newItems[indexRef.current] = null;
-		newItems[otherItemIndex] = null;
-		for (let i = 0; i < newItems.length; i++) {
-			const candyColor = (newItems[i] as Candy)?.color;
-			candyColor === otherCandyColor && console.log(candyColor);
-
-			if (candyColor === otherCandyColor) newItems[i] = null;
-		}
-
-		LevelManager.setItems(newItems, true);
-		LevelManager.refreshGrid();
+		matchAllCandiesOfColor(indexRef.current, otherItemIndex);
 	};
 
 	return (

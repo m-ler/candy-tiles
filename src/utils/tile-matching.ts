@@ -194,3 +194,7 @@ export const getHorizontalAndVerticalItems = (startIndex: number): (number | nul
   return [...horizontalItems, ...verticalItems];
 };
 
+export const allTilesFilled = (items: readonly LevelItem[], tiles: readonly LevelTile[]): boolean => {
+  return !(structuredClone(items) as LevelItem[]).some((x, index) => tiles[index] !== null && x === null);
+};
+

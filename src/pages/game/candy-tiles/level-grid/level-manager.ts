@@ -1,7 +1,9 @@
 import { delay } from "../../../../utils/delay";
-import { checkForMatchings, generateNewCandies, tryGetLevelItemByFusion, NewItemPosition, repositionItems } from "../../../../utils/tile-matching";
+import { checkForMatchings, generateNewCandies, tryGetLevelItemByFusion, NewItemPosition, repositionItems, allTilesFilled } from "../../../../utils/tile-matching";
 import matchSFX from './../../../../assets/audio/match.mp3';
 import fusionMatchSFX from './../../../../assets/audio/fusionMatch.mp3';
+
+const DEFAULT_SWAPPED_CANDY_COLOR = "Red";
 
 class LevelManager {
 
@@ -12,13 +14,14 @@ class LevelManager {
   private itemsRerenderSubscribers: ((items: LevelItem[]) => void)[] = [];
 
   private _levelData: LevelRuntimeData = {
+    previousItems: '',
     items: [],
     tiles: [],
-    prevItems: [],
     matchResult: { matchingList: [], thereWereMatches: false },
     actionsLocked: false,
     comboCount: 1,
-    swappedItems: [null, null]
+    swappedItems: [null, null],
+    latestSwappedCandyColor: DEFAULT_SWAPPED_CANDY_COLOR
   };
 
   private matchSound = new Audio(matchSFX);
@@ -36,101 +39,127 @@ class LevelManager {
     this.subscribeComboEnd(this.onComboEnd);
   };
 
-  subscribeItemsChange = (callback: (items: LevelItem[], matched: boolean) => void) => this.itemsChangeSubscribers.push(callback);
-  unsubscribeItemsChange = (callback: (items: LevelItem[], matched: boolean) => void) => this.itemsChangeSubscribers = this.itemsChangeSubscribers.filter(x => x !== callback);
-  notifyItemsChange = () => this.itemsChangeSubscribers.forEach(callback => callback(this._levelData.items, this._levelData.matchResult.thereWereMatches));
+  subscribeItemsChange = (callback: (items: LevelItem[], matched: boolean) => void): void => { this.itemsChangeSubscribers.push(callback) };
+  unsubscribeItemsChange = (callback: (items: LevelItem[], matched: boolean) => void): void => {
+    this.itemsChangeSubscribers = this.itemsChangeSubscribers.filter(x => x !== callback)
+  };
 
-  subscribeItemsSwap = (callback: (itemsSwapped: [number | null, number | null]) => void) => this.itemsSwapSubscribers.push(callback);
-  unsubscribeItemsSwap = (callback: (itemsSwapped: [number | null, number | null]) => void) => this.itemsSwapSubscribers = this.itemsSwapSubscribers.filter(x => x !== callback);
-  notifyItemsSwap = () => {
+  notifyItemsChange = (): void => { this.itemsChangeSubscribers.forEach(callback => callback(this._levelData.items, this._levelData.matchResult.thereWereMatches)) };
+
+  subscribeItemsSwap = (callback: (itemsSwapped: [number | null, number | null]) => void): void => { this.itemsSwapSubscribers.push(callback) };
+  unsubscribeItemsSwap = (callback: (itemsSwapped: [number | null, number | null]) => void): void => {
+    this.itemsSwapSubscribers = this.itemsSwapSubscribers.filter(x => x !== callback)
+  };
+
+  notifyItemsSwap = (): void => {
     this.itemsSwapSubscribers.forEach(callback => callback(this._levelData.swappedItems));
   };
 
-  subscribeItemsRerender = (callback: (items: LevelItem[]) => void) => this.itemsRerenderSubscribers.push(callback);
-  unsubscribeItemsRerender = (callback: (items: LevelItem[]) => void) => this.itemsRerenderSubscribers = this.itemsRerenderSubscribers.filter(x => x !== callback);
-  notifyItemsRerender = () => this.itemsRerenderSubscribers.forEach(callback => callback(this._levelData.items));
+  subscribeItemsRerender = (callback: (items: LevelItem[]) => void): void => { this.itemsRerenderSubscribers.push(callback) };
+  unsubscribeItemsRerender = (callback: (items: LevelItem[]) => void): void => { this.itemsRerenderSubscribers = this.itemsRerenderSubscribers.filter(x => x !== callback) };
+  notifyItemsRerender = (): void => { this.itemsRerenderSubscribers.forEach(callback => callback(this._levelData.items)) };
 
-  subscribeComboStart = (callback: () => void) => this.comboStartSubscribers.push(callback);
-  unsubscribeComboStart = (callback: () => void) => this.comboStartSubscribers = this.comboStartSubscribers.filter(x => x !== callback);
-  notifyComboStart = () => this.comboStartSubscribers.forEach(callback => callback());
+  subscribeComboStart = (callback: () => void): void => { this.comboStartSubscribers.push(callback) };
+  unsubscribeComboStart = (callback: () => void): void => { this.comboStartSubscribers = this.comboStartSubscribers.filter(x => x !== callback) };
+  notifyComboStart = (): void => { this.comboStartSubscribers.forEach(callback => callback()) };
 
-  subscribeComboEnd = (callback: () => void) => this.comboEndStartSubscribers.push(callback);
-  unsubscribeComboEnd = (callback: () => void) => this.comboEndStartSubscribers = this.comboEndStartSubscribers.filter(x => x !== callback);
-  notifyComboEnd = () => {
+  subscribeComboEnd = (callback: () => void): void => { this.comboEndStartSubscribers.push(callback) };
+  unsubscribeComboEnd = (callback: () => void): void => { this.comboEndStartSubscribers = this.comboEndStartSubscribers.filter(x => x !== callback) };
+  notifyComboEnd = (): void => {
     this.comboEndStartSubscribers.forEach(callback => callback());
   };
 
-  setItems = (items: LevelItem[], notify: boolean) => {
+  setItems = (items: LevelItem[], notify: boolean): void => {
     this._levelData.items = structuredClone(items);
-    console.log(structuredClone(this._levelData.items));
     notify && this.notifyItemsChange();
   };
 
-  setTiles = (tiles: LevelTile[], notify: boolean) => {
+  setTiles = (tiles: LevelTile[], notify: boolean): void => {
     this._levelData.tiles = tiles;
   };
 
-  swapItems = async (items: [number, number]) => {
+  swapItems = async (items: [number, number]): Promise<void> => {
     this._levelData.swappedItems = items;
     this.notifyComboStart();
-    this._levelData.actionsLocked = true;
-    const firstItem = structuredClone(this._levelData.items[items[0]]);
-    this._levelData.items[items[0]] = this._levelData.items[items[1]];
-    this._levelData.items[items[1]] = firstItem;
+    this._levelData.latestSwappedCandyColor = this.getLatestSwappedItemColor();
+    this.swapSelectedItems()
 
     this._levelData.matchResult.matchingList = [];
     this.notifyItemsChange();
+    this._levelData.previousItems = JSON.stringify(this._levelData.items);
 
     await delay(300);
-    await this.checkMatchings();
-    
     this.notifyItemsSwap();
-    if (!this._levelData.matchResult.thereWereMatches) {
-      this._levelData.items[items[1]] = structuredClone(this._levelData.items[items[0]]);
-      this._levelData.items[items[0]] = firstItem;
-      this.notifyItemsChange();
-      return;
-    }
+    await this.checkMatchings();
+
+    const itemsChangedAfterSwap = this._levelData.previousItems !== JSON.stringify(this._levelData.items);
+    !itemsChangedAfterSwap && this.undoSwap();
   };
 
-  checkMatchings = async () => {
+  private swapSelectedItems = (): void => {
+    const items = this._levelData.swappedItems as [number, number];
+    const firstItem = structuredClone(this._levelData.items[items[0]]);
+
+    this._levelData.items[items[0]] = this._levelData.items[items[1]];
+    this._levelData.items[items[1]] = firstItem;
+  };
+
+  private undoSwap = (): void => {
+    const firstSwap = this._levelData.swappedItems[0];
+    const secondSwap = this._levelData.swappedItems[1];
+
+    if (typeof firstSwap !== "number" || typeof secondSwap !== "number") return;
+
+    const firstItem = structuredClone(this._levelData.items[firstSwap]);
+    this._levelData.items[firstSwap] = structuredClone(this._levelData.items[secondSwap]);
+    this._levelData.items[secondSwap] = firstItem;
+    this.notifyItemsChange();
+  };
+
+  private getLatestSwappedItemColor = (): string => {
+    const firstItemColor = (this._levelData.items[this._levelData.swappedItems[0] || 0] as Candy).color;
+    const secondItemColor = (this._levelData.items[this._levelData.swappedItems[1] || 0] as Candy).color;
+    return firstItemColor || secondItemColor || DEFAULT_SWAPPED_CANDY_COLOR;
+  };
+
+  checkMatchings = async (): Promise<void> => {
     this._levelData.matchResult = checkForMatchings(this._levelData.items);
-    this._levelData.matchResult.matchingList.filter(x => x.matched).forEach(match => {
-      const itemWasSwapped = this._levelData.swappedItems.includes(match.index);
-      const fusionItem = tryGetLevelItemByFusion(match, this._levelData.items[match.index]);
-      this._levelData.items[match.index] = itemWasSwapped ? fusionItem : null;
-      fusionItem && itemWasSwapped && this.fusionMatchSound.play();
-    });
+    this.checkSwapFusions();
 
-    this._levelData.swappedItems = [null, null];
-
-    if (this._levelData.matchResult.thereWereMatches) {
+    if (this._levelData.matchResult.thereWereMatches || !allTilesFilled(this._levelData.items, this._levelData.tiles)) {
       this._levelData.comboCount += 1;
       this.playMatchSFX();
       this.notifyItemsChange();
       await delay(300);
-      await this.refreshGrid()
+      this.notifyItemsRerender();
+      await delay(300)
+      this.updateItemsPositions();
+      await delay(300);
+      this.fillEmptyTiles();
       return;
     }
 
     this.notifyComboEnd();
   };
 
-  refreshGrid = async () => {
-    this.notifyItemsRerender();
-    await delay(300)
-    this.updateItemsPositions();
-    await delay(300);
-    this.fillEmptyTiles();
+  private checkSwapFusions = (): void => {
+    this._levelData.matchResult.matchingList.filter(x => x.matched).forEach(match => {
+      const itemWasSwapped = this._levelData.swappedItems.includes(match.index);
+      const fusionItem = tryGetLevelItemByFusion(match, this._levelData.items[match.index]);
+      const canFuse = itemWasSwapped && this._levelData.comboCount === 1;
+
+      this._levelData.items[match.index] = canFuse ? fusionItem : null;
+      fusionItem && canFuse && this.fusionMatchSound.play();
+    });
   }
 
-  private updateItemsPositions = () => {
+  private updateItemsPositions = (): void => {
     const reposition = repositionItems(this._levelData.items, this._levelData.tiles);
     this._levelData.items = reposition.repositionedItems;
     this.notifyItemsChange();
   };
 
-  private fillEmptyTiles = async () => {
+  private fillEmptyTiles = async (): Promise<void> => {
     this._levelData.items = generateNewCandies(this._levelData.items, this._levelData.tiles);
     this.notifyItemsRerender();
 
@@ -138,15 +167,15 @@ class LevelManager {
     this.checkMatchings();
   };
 
-  private playMatchSFX = () => {
+  private playMatchSFX = (): void => {
     this.matchSound.play();
     this.matchSound.playbackRate < 2 && (this.matchSound.playbackRate *= 1.1);
   };
 
-  private onComboStart = () => {
+  private onComboStart = (): void => {
   };
 
-  private onComboEnd = () => {
+  private onComboEnd = (): void => {
     this.matchSound.playbackRate = 1;
     this._levelData.comboCount = 1;
   };

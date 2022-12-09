@@ -37,12 +37,13 @@ declare global {
   };
 
   type LevelRuntimeData = {
+    previousItems: string,
     items: LevelItem[],
     tiles: LevelTile[],
-    prevItems: LevelItem[],
     matchResult: MatchResult
     actionsLocked: boolean,
     comboCount: number,
     swappedItems: [number | null, number | null]
+    latestSwappedCandyColor: string;
   };
 }  

@@ -33,7 +33,7 @@ const LevelItem = ({ item, initialIndex, id }: LevelItemProps) => {
 	const columnIndexRef = useRef<number>(0);
 	const positionXRef = useRef<number>(0);
 	const positionYRef = useRef<number>(0);
-	const isActiveRef = useRef<boolean>(true);
+	const itemUsedRef = useRef<boolean>(true);
 
 	useEffect(() => {
 		updatePosition();
@@ -45,15 +45,8 @@ const LevelItem = ({ item, initialIndex, id }: LevelItemProps) => {
 	}, []);
 
 	const onLevelItemsChanged = (items: LevelItem[], matched: boolean): void => {
-		const itemMatched = !items.some(x => x?.key === id);
-    itemMatched && console.log(`${itemIndex}`);
-    
-		if (!isActiveRef.current) return;
-		if (itemMatched) {
-			isActiveRef.current = false;
-			updateOpacity('0');
-			return;
-		}
+		const itemMatched = !items.some(x => x?.key === id);    
+		if (!itemUsedRef.current || itemMatched) return;
 
 		setItemIndex(getItemIndex());
 		updatePosition();
@@ -72,10 +65,6 @@ const LevelItem = ({ item, initialIndex, id }: LevelItemProps) => {
 		if (elementRef.current) {
 			elementRef.current.style.transform = `translate(${positionXRef.current}%, ${positionYRef.current}%)`;
 		}
-	};
-
-	const updateOpacity = (value: string): void => {
-		if (elementRef.current) elementRef.current.style.opacity = value;
 	};
 
 	const getItemIndex = (): number => LevelManager.levelData.items.findIndex(x => x?.key === id);

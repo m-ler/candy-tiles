@@ -57,6 +57,20 @@ module.exports = {
 					'from': { transform: 'scale(0.95)' },
 					'to': { transform: 'scale(1.05)' },
 				},
+				candyPopFX: {
+					'0%': {
+						transform: 'scale(0)',
+						opacity: '0',
+					},
+					'30%': {
+						transform: 'scale(1.3)',
+						opacity: '0.5',
+					},
+					'100%': {
+						transform: 'scale(0.5)',
+						opacity: '0',
+					},
+				},
 			},
 			transitionTimingFunction: {
 				inSine: 'cubic-bezier(0.12, 0, 0.39, 0)',

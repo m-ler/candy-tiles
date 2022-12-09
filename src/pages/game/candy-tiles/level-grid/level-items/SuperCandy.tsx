@@ -33,7 +33,7 @@ const SuperCandy = ({ color, id, index }: SuperCandyProps) => {
 	const [scale, setScale] = useState(0);
 	const firstRender = useFirstRender();
 	const indexRef = useRef(index);
-	const isActiveRef = useRef(false);
+	const itemUsedRef = useRef(false);
 
 	useEffect(() => {
 		firstRender && setScale(1);
@@ -50,8 +50,8 @@ const SuperCandy = ({ color, id, index }: SuperCandyProps) => {
 	const onItemsChange = (items: LevelItem[], matched: boolean) => {
 		const itemMatched = !items.some(x => x?.key === id);
 
-		if (itemMatched && !isActiveRef.current) {
-			isActiveRef.current = true;
+		if (itemMatched && !itemUsedRef.current) {
+			itemUsedRef.current = true;
 			const intersectingItems = getHorizontalAndVerticalItems(indexRef.current);
 			superCandyMatchSound.play();
 			LevelManager.setItems(
