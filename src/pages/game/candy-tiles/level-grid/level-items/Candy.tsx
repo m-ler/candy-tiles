@@ -6,7 +6,7 @@ import blue from './../../../../../assets/candies/blue.png';
 import purple from './../../../../../assets/candies/purple.png';
 import { useEffect, useState } from 'react';
 import useFirstRender from '../../../../../hooks/useFirstRender';
-import CandyPopFX from '../items-fx/CandyPopFX';
+import LevelItemFX from '../items-fx/LevelItemFX';
 import LevelManager from '../level-manager';
 
 const candyImages: { [key: string]: string } = {
@@ -40,13 +40,7 @@ const Candy = ({ color, id }: CandyProps) => {
 
 	const onLevelItemsChanged = (items: LevelItem[], matched: boolean): void => {
 		const itemMatched = !items.some(x => x?.key === id);
-		//if (!itemUsedRef.current) return;
-		if (itemMatched) {
-			setShowFX(true);
-			console.log('set show');
-
-			return;
-		}
+		itemMatched && setShowFX(true);
 	};
 
 	const updateOpacity = (value: string): void => {
@@ -56,7 +50,7 @@ const Candy = ({ color, id }: CandyProps) => {
 	return (
 		<span className="relative w-full h-full block">
 			{showFX ? (
-				<CandyPopFX candyColor={color}></CandyPopFX>
+				<LevelItemFX color={color} maskSrc="/img/fx/doughnutShape.png"></LevelItemFX>
 			) : (
 				<img
 					data-candy

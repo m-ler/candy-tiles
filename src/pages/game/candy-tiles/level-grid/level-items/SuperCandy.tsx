@@ -9,6 +9,7 @@ import { useEffect, useRef, useState } from 'react';
 import useFirstRender from '../../../../../hooks/useFirstRender';
 import LevelManager from '../level-manager';
 import { getHorizontalAndVerticalItems } from '../../../../../utils/tile-matching';
+import LevelItemFX from '../items-fx/LevelItemFX';
 
 const candyImages: { [key: string]: string } = {
 	'Red': superRed,
@@ -31,6 +32,7 @@ type SuperCandyProps = {
 
 const SuperCandy = ({ color, id, index }: SuperCandyProps) => {
 	const [scale, setScale] = useState(0);
+	const [showFX, setShowFX] = useState(false);
 	const firstRender = useFirstRender();
 	const indexRef = useRef(index);
 	const itemUsedRef = useRef(false);
@@ -49,8 +51,8 @@ const SuperCandy = ({ color, id, index }: SuperCandyProps) => {
 
 	const onItemsChange = (items: LevelItem[], matched: boolean) => {
 		const itemMatched = !items.some(x => x?.key === id);
-
 		if (itemMatched && !itemUsedRef.current) {
+			setShowFX(true);
 			itemUsedRef.current = true;
 			const intersectingItems = getHorizontalAndVerticalItems(indexRef.current);
 			superCandyMatchSound.play();
@@ -61,7 +63,9 @@ const SuperCandy = ({ color, id, index }: SuperCandyProps) => {
 		}
 	};
 
-	return (
+	return showFX ? (
+		<LevelItemFX color={color} maskSrc="/img/fx/squareShape.png"></LevelItemFX>
+	) : (
 		<img
 			data-candy
 			data-color={color}

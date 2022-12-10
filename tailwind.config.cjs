@@ -59,7 +59,7 @@ module.exports = {
 				},
 				candyPopFX: {
 					'0%': {
-						transform: 'scale(0)',
+						transform: 'scale(0) rotate(0deg)',
 						opacity: '0',
 					},
 					'30%': {
@@ -67,7 +67,7 @@ module.exports = {
 						opacity: '0.5',
 					},
 					'100%': {
-						transform: 'scale(0.5)',
+						transform: 'scale(0.5) rotate(90deg)',
 						opacity: '0',
 					},
 				},

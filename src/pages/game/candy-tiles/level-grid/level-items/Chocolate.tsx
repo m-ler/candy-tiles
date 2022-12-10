@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import useFirstRender from '../../../../../hooks/useFirstRender';
 import LevelManager from '../level-manager';
 import chocolateMatchSFX from './../../../../../assets/audio/chocolateMatch.mp3';
+import LevelItemFX from '../items-fx/LevelItemFX';
 
 type ChocolateProps = {
 	id: string;
@@ -27,6 +28,7 @@ const matchAllCandiesOfColor = (chocolateIndex: number, otherCandyIndex?: number
 
 const Chocolate = ({ id, initialIndex }: ChocolateProps) => {
 	const [scale, setScale] = useState(0);
+	const [showFX, setShowFX] = useState(false);
 	const firstRender = useFirstRender();
 	const indexRef = useRef(initialIndex);
 	const itemUsedRef = useRef(false);
@@ -51,6 +53,7 @@ const Chocolate = ({ id, initialIndex }: ChocolateProps) => {
 		if (itemMatched && !itemUsedRef.current) {
 			itemUsedRef.current = true;
 			matchAllCandiesOfColor(indexRef.current);
+      setShowFX(true);
 		}
 	};
 
@@ -65,9 +68,12 @@ const Chocolate = ({ id, initialIndex }: ChocolateProps) => {
 		if (!otherItemIsCandy) return;
 
 		matchAllCandiesOfColor(indexRef.current, otherItemIndex);
+    setShowFX(true);
 	};
 
-	return (
+	return showFX ? (
+		<LevelItemFX color={LevelManager.levelData.latestSwappedCandyColor as CandyColor} maskSrc="/img/fx/triangleShape.png"></LevelItemFX>
+	) : (
 		<img
 			data-chocolate
 			src={chocolateSprite}
