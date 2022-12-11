@@ -1,5 +1,5 @@
 import { delay } from "../../../../utils/delay";
-import { checkForMatchings, generateNewCandies, tryGetLevelItemByFusion, NewItemPosition, repositionItems, allTilesFilled } from "../../../../utils/tile-matching";
+import { checkForMatchings, generateNewCandies, tryGetLevelItemByFusion, NewItemPosition, repositionItems, allTilesFilled } from "../../../../game-algorithms/tile-matching";
 import matchSFX from './../../../../assets/audio/match.mp3';
 import fusionMatchSFX from './../../../../assets/audio/fusionMatch.mp3';
 
@@ -7,7 +7,7 @@ const DEFAULT_SWAPPED_CANDY_COLOR = "Red";
 
 class LevelManager {
 
-  private itemsChangeSubscribers: ((matchList: LevelItem[], matched: boolean) => void)[] = [];
+  private itemsChangeSubscribers: (() => void)[] = [];
   private itemsSwapSubscribers: ((itemsSwapped: [number | null, number | null]) => void)[] = [];
   private comboStartSubscribers: (() => void)[] = [];
   private comboEndStartSubscribers: (() => void)[] = [];
@@ -39,12 +39,9 @@ class LevelManager {
     this.subscribeComboEnd(this.onComboEnd);
   };
 
-  subscribeItemsChange = (callback: (items: LevelItem[], matched: boolean) => void): void => { this.itemsChangeSubscribers.push(callback) };
-  unsubscribeItemsChange = (callback: (items: LevelItem[], matched: boolean) => void): void => {
-    this.itemsChangeSubscribers = this.itemsChangeSubscribers.filter(x => x !== callback)
-  };
-
-  notifyItemsChange = (): void => { this.itemsChangeSubscribers.forEach(callback => callback(this._levelData.items, this._levelData.matchResult.thereWereMatches)) };
+  subscribeItemsChange = (callback: () => void): void => { this.itemsChangeSubscribers.push(callback) };
+  unsubscribeItemsChange = (callback: () => void): void => { this.itemsChangeSubscribers = this.itemsChangeSubscribers.filter(x => x !== callback) };
+  notifyItemsChange = (): void => { this.itemsChangeSubscribers.forEach(callback => callback()) };
 
   subscribeItemsSwap = (callback: (itemsSwapped: [number | null, number | null]) => void): void => { this.itemsSwapSubscribers.push(callback) };
   unsubscribeItemsSwap = (callback: (itemsSwapped: [number | null, number | null]) => void): void => {
@@ -130,6 +127,8 @@ class LevelManager {
       this._levelData.comboCount += 1;
       this.playMatchSFX();
       this.notifyItemsChange();
+      this._levelData.matchResult.matchingList = [];
+      this._levelData.matchResult.thereWereMatches = false;
       await delay(300);
       this.notifyItemsRerender();
       await delay(300)

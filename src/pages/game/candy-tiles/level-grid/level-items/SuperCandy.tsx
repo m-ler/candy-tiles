@@ -7,8 +7,8 @@ import superPurple from './../../../../../assets/candies/super-purple.png';
 import superCandyMatchSFX from './../../../../../assets/audio/superCandyMatch.mp3';
 import { useEffect, useRef, useState } from 'react';
 import useFirstRender from '../../../../../hooks/useFirstRender';
-import LevelManager from '../level-manager';
-import { getHorizontalAndVerticalItems } from '../../../../../utils/tile-matching';
+import levelManager from '../level-manager';
+import { getHorizontalAndVerticalItems } from '../../../../../game-algorithms/tile-matching';
 import LevelItemFX from '../items-fx/LevelItemFX';
 
 const candyImages: { [key: string]: string } = {
@@ -26,38 +26,38 @@ export const CandyColors = ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple'
 
 type SuperCandyProps = {
 	color: CandyColor;
-	id: string;
-	index: number;
+	initialIndex: number;
+  id: string
 };
 
-const SuperCandy = ({ color, id, index }: SuperCandyProps) => {
+const SuperCandy = ({ color, initialIndex, id }: SuperCandyProps) => {
 	const [scale, setScale] = useState(0);
 	const [showFX, setShowFX] = useState(false);
 	const firstRender = useFirstRender();
-	const indexRef = useRef(index);
+	const indexRef = useRef(initialIndex);
 	const itemUsedRef = useRef(false);
 
 	useEffect(() => {
 		firstRender && setScale(1);
-		LevelManager.subscribeItemsChange(onItemsChange);
+		levelManager.subscribeItemsChange(onItemsChange);
 		return () => {
-			LevelManager.unsubscribeItemsChange(onItemsChange);
+			levelManager.unsubscribeItemsChange(onItemsChange);
 		};
 	}, []);
 
 	useEffect(() => {
-		indexRef.current = index;
-	}, [index]);
+		indexRef.current = initialIndex;
+	}, [initialIndex]);
 
-	const onItemsChange = (items: LevelItem[], matched: boolean) => {
-		const itemMatched = !items.some(x => x?.key === id);
+	const onItemsChange = () => {
+		const itemMatched = !levelManager.levelData.items.some(x => x?.key === id);
 		if (itemMatched && !itemUsedRef.current) {
 			setShowFX(true);
 			itemUsedRef.current = true;
 			const intersectingItems = getHorizontalAndVerticalItems(indexRef.current);
 			superCandyMatchSound.play();
-			LevelManager.setItems(
-				LevelManager.levelData.items.map((x, i) => (intersectingItems.includes(i) ? null : x)),
+			levelManager.setItems(
+				levelManager.levelData.items.map((x, i) => (intersectingItems.includes(i) ? null : x)),
 				true
 			);
 		}

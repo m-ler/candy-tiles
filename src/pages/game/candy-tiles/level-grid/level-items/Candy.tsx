@@ -4,10 +4,10 @@ import yellow from './../../../../../assets/candies/yellow.png';
 import green from './../../../../../assets/candies/green.png';
 import blue from './../../../../../assets/candies/blue.png';
 import purple from './../../../../../assets/candies/purple.png';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import useFirstRender from '../../../../../hooks/useFirstRender';
 import LevelItemFX from '../items-fx/LevelItemFX';
-import LevelManager from '../level-manager';
+import levelManager from '../level-manager';
 
 const candyImages: { [key: string]: string } = {
 	'Red': red,
@@ -22,29 +22,32 @@ export const CandyColors = ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple'
 
 type CandyProps = {
 	color: CandyColor;
+	initialIndex: number;
 	id: string;
 };
 
-const Candy = ({ color, id }: CandyProps) => {
+const Candy = ({ color, initialIndex, id }: CandyProps) => {
 	const [positionY, setPositionY] = useState(-500);
 	const [showFX, setShowFX] = useState(false);
+	const indexRef = useRef(initialIndex);
 	const firstRender = useFirstRender();
+
 	useEffect(() => {
 		firstRender && setPositionY(0);
-		LevelManager.subscribeItemsChange(onLevelItemsChanged);
+		levelManager.subscribeItemsChange(onLevelItemsChanged);
 
 		return () => {
-			LevelManager.unsubscribeItemsChange(onLevelItemsChanged);
+			levelManager.unsubscribeItemsChange(onLevelItemsChanged);
 		};
 	}, []);
 
-	const onLevelItemsChanged = (items: LevelItem[], matched: boolean): void => {
-		const itemMatched = !items.some(x => x?.key === id);
-		itemMatched && setShowFX(true);
-	};
+	useEffect(() => {
+		indexRef.current = initialIndex;
+	}, [initialIndex]);
 
-	const updateOpacity = (value: string): void => {
-		//if (elementRef.current) elementRef.current.style.opacity = value;
+	const onLevelItemsChanged = (): void => {
+		const itemMatched = !levelManager.levelData.items.some(x => x?.key === id);
+		itemMatched && setShowFX(true);
 	};
 
 	return (

@@ -4,10 +4,11 @@ import useFirstRender from '../../../../../hooks/useFirstRender';
 import LevelManager from '../level-manager';
 import chocolateMatchSFX from './../../../../../assets/audio/chocolateMatch.mp3';
 import LevelItemFX from '../items-fx/LevelItemFX';
+import levelManager from '../level-manager';
 
 type ChocolateProps = {
-	id: string;
 	initialIndex: number;
+	id: string;
 };
 
 const chocolateMatchSound = new Audio(chocolateMatchSFX);
@@ -26,7 +27,7 @@ const matchAllCandiesOfColor = (chocolateIndex: number, otherCandyIndex?: number
 	LevelManager.setItems(newItems, true);
 };
 
-const Chocolate = ({ id, initialIndex }: ChocolateProps) => {
+const Chocolate = ({ initialIndex, id }: ChocolateProps) => {
 	const [scale, setScale] = useState(0);
 	const [showFX, setShowFX] = useState(false);
 	const firstRender = useFirstRender();
@@ -47,17 +48,17 @@ const Chocolate = ({ id, initialIndex }: ChocolateProps) => {
 		indexRef.current = initialIndex;
 	}, [initialIndex]);
 
-	const onItemsChange = (items: LevelItem[], matched: boolean) => {
-		const itemMatched = !items.some(x => x?.key === id);
+	const onItemsChange = (): void => {
+		const itemMatched = !levelManager.levelData.items.some(x => x?.key === id);
 
 		if (itemMatched && !itemUsedRef.current) {
 			itemUsedRef.current = true;
 			matchAllCandiesOfColor(indexRef.current);
-      setShowFX(true);
+			setShowFX(true);
 		}
 	};
 
-	const onItemsSwap = (swappedItems: [number | null, number | null]) => {
+	const onItemsSwap = (swappedItems: [number | null, number | null]): void => {
 		const thisItemSwapped = swappedItems.includes(indexRef.current);
 		if (!thisItemSwapped) return;
 
@@ -68,7 +69,7 @@ const Chocolate = ({ id, initialIndex }: ChocolateProps) => {
 		if (!otherItemIsCandy) return;
 
 		matchAllCandiesOfColor(indexRef.current, otherItemIndex);
-    setShowFX(true);
+		setShowFX(true);
 	};
 
 	return showFX ? (

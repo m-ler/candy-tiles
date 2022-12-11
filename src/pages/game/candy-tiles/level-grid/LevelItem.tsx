@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import Candy from './level-items/Candy';
 import Chocolate from './level-items/Chocolate';
 import SuperCandy from './level-items/SuperCandy';
-import LevelManager from './level-manager';
+import levelManager from './level-manager';
 
 type LevelItemProps = {
 	item: LevelItem;
@@ -10,16 +10,16 @@ type LevelItemProps = {
 	id: string;
 };
 
-const getItemComponent = (item: LevelItem, itemID: string, itemIndex: number): JSX.Element => {
+const getItemComponent = (item: LevelItem, id: string, itemIndex: number): JSX.Element => {
 	switch (item?.type) {
 		case 'Candy':
-			return <Candy color={item.color} id={itemID}></Candy>;
+			return <Candy color={item.color} initialIndex={itemIndex} id={id}></Candy>;
 
 		case 'SuperCandy':
-			return <SuperCandy color={item.color} id={itemID} index={itemIndex}></SuperCandy>;
+			return <SuperCandy color={item.color} initialIndex={itemIndex} id={id}></SuperCandy>;
 
 		case 'Chocolate':
-			return <Chocolate id={itemID} initialIndex={itemIndex}></Chocolate>;
+			return <Chocolate initialIndex={itemIndex} id={id}></Chocolate>;
 
 		default:
 			return <div></div>;
@@ -33,20 +33,19 @@ const LevelItem = ({ item, initialIndex, id }: LevelItemProps) => {
 	const columnIndexRef = useRef<number>(0);
 	const positionXRef = useRef<number>(0);
 	const positionYRef = useRef<number>(0);
-	const itemUsedRef = useRef<boolean>(true);
 
 	useEffect(() => {
 		updatePosition();
-		LevelManager.subscribeItemsChange(onLevelItemsChanged);
+		levelManager.subscribeItemsChange(onLevelItemsChanged);
 
 		return () => {
-			LevelManager.unsubscribeItemsChange(onLevelItemsChanged);
+			levelManager.unsubscribeItemsChange(onLevelItemsChanged);
 		};
 	}, []);
 
-	const onLevelItemsChanged = (items: LevelItem[], matched: boolean): void => {
-		const itemMatched = !items.some(x => x?.key === id);    
-		if (!itemUsedRef.current || itemMatched) return;
+	const onLevelItemsChanged = (): void => {
+		const itemMatched = !levelManager.levelData.items.some(x => x?.key === id);
+		if (itemMatched) return;
 
 		setItemIndex(getItemIndex());
 		updatePosition();
@@ -54,6 +53,7 @@ const LevelItem = ({ item, initialIndex, id }: LevelItemProps) => {
 
 	const updateGridPosition = (updateX: boolean = true, updateY: boolean = true): void => {
 		const gridIndex = getItemIndex();
+
 		rowIndexRef.current = Math.ceil((gridIndex + 1) / 9);
 		columnIndexRef.current = gridIndex + 1 - (rowIndexRef.current - 1) * 9;
 		updateX && (positionXRef.current = 100 * (columnIndexRef.current - 1));
@@ -67,7 +67,7 @@ const LevelItem = ({ item, initialIndex, id }: LevelItemProps) => {
 		}
 	};
 
-	const getItemIndex = (): number => LevelManager.levelData.items.findIndex(x => x?.key === id);
+	const getItemIndex = (): number => levelManager.levelData.items.findIndex(x => x?.key === id);
 
 	updateGridPosition();
 

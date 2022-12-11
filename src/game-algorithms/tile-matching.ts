@@ -1,15 +1,12 @@
 import uuid from "react-uuid";
-import LevelManager from "../pages/game/candy-tiles/level-grid/level-manager";
-import LevelItem from "../pages/game/candy-tiles/level-grid/LevelItem";
-import { getNumberRangeArray, getNumberSequenceArray } from "./array";
+import { getNumberRangeArray, getNumberSequenceArray } from "../utils/array";
 
-const COLUMN_NUMBER = 9;
-const ROW_NUMBER = 9;
-
-const ADJACENT_INDEXES = [-COLUMN_NUMBER, 1, COLUMN_NUMBER, -1];
+export const COLUMN_NUMBER = 9;
+export const ROW_NUMBER = 9;
 
 export const tilesAreAdjacent = (firstIndex: number, secondIndex: number): boolean => {
-  const areAdjacent = ADJACENT_INDEXES.some(x => (x + firstIndex) === secondIndex);
+  const adjacentIndexes = [-COLUMN_NUMBER, 1, COLUMN_NUMBER, -1];
+  const areAdjacent = adjacentIndexes.some(x => (x + firstIndex) === secondIndex);
   return areAdjacent;
 };
 

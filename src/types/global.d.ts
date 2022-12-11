@@ -21,7 +21,7 @@ declare global {
   };
 
   type Tile = {
-    type: "Normal" | "Frozen" | "Thick",
+    type: "Normal" | "Frozen" | "Rock",
   };
 
   type LevelItem = Candy | SuperCandy | Chocolate | null;

@@ -1,18 +1,35 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLevelContext } from '../../../../context/LevelContext';
-import { tilesAreAdjacent } from '../../../../utils/tile-matching';
+import { tilesAreAdjacent } from '../../../../game-algorithms/tile-matching';
 import tileClickSFX from './../../../../assets/audio/tileClick.mp3';
 import LevelManager from './level-manager';
-import Tile from './Tile';
+import FrostTile from './tiles/FrostTile';
+import RockTile from './tiles/RockTile';
+import Tile from './tiles/Tile';
 
 const elementIsTile = (element: HTMLElement) => element.hasAttribute('data-tile');
+
+const getTileComponent = (tileType: string, index: number): JSX.Element => {
+	switch (tileType) {
+		case 'Normal':
+			return <Tile key={index} index={index}></Tile>;
+
+		case 'Frozen':
+			return <FrostTile key={index} index={index}></FrostTile>;
+
+		case 'Rock':      
+			return <RockTile key={index} index={index}></RockTile>;
+
+		default:
+			return <Tile key={index} index={index}></Tile>;
+	}
+};
 
 type TileGridProps = {
 	tiles: LevelTile[];
 };
 
 const TileGrid = ({ tiles }: TileGridProps) => {
-	const [selectedTiles, setSelectedTiles] = useState<HTMLElement[]>([]);
 	const dragging = useRef<boolean>(false);
 	const levelContext = useLevelContext();
 	const firstTile = useRef<HTMLElement | null>();
@@ -57,9 +74,7 @@ const TileGrid = ({ tiles }: TileGridProps) => {
 			onMouseUp={handleMouseUp}
 			onMouseOver={handleMouseOver}
 		>
-			{tiles.map((tile, index) =>
-				tile === null ? <div key={index}> </div> : <Tile key={index} selectedTiles={selectedTiles} index={index}></Tile>
-			)}
+			{tiles.map((tile, index) => (tile === null ? <div key={index}> </div> : getTileComponent(tile.type, index)))}
 		</div>
 	);
 };

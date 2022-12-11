@@ -20,7 +20,7 @@ export const levelList: LevelLayout[] = [
       null, { type: "Normal" }, { type: "Normal" }, { type: "Normal" }, { type: "Normal" }, { type: "Normal" }, { type: "Normal" }, { type: "Normal" }, null,
       { type: "Normal" }, { type: "Normal" }, { type: "Normal" }, { type: "Normal" }, { type: "Normal" }, { type: "Normal" }, { type: "Normal" }, { type: "Normal" }, { type: "Normal" },
       { type: "Normal" }, { type: "Normal" }, { type: "Normal" }, { type: "Normal" }, { type: "Normal" }, { type: "Normal" }, { type: "Normal" }, { type: "Normal" }, { type: "Normal" },
-      { type: "Normal" }, { type: "Normal" }, { type: "Normal" }, { type: "Normal" }, null, { type: "Normal" }, { type: "Normal" }, { type: "Normal" }, { type: "Normal" },
+      { type: "Rock" }, { type: "Frozen" }, { type: "Normal" }, { type: "Normal" }, null, { type: "Normal" }, { type: "Normal" }, { type: "Normal" }, { type: "Normal" },
       { type: "Normal" }, { type: "Normal" }, { type: "Normal" }, null, null, null, { type: "Normal" }, { type: "Normal" }, { type: "Normal" },
       { type: "Normal" }, { type: "Normal" }, { type: "Normal" }, { type: "Normal" }, null, { type: "Normal" }, { type: "Normal" }, { type: "Normal" }, { type: "Normal" },
       { type: "Normal" }, { type: "Normal" }, { type: "Normal" }, { type: "Normal" }, { type: "Normal" }, { type: "Normal" }, { type: "Normal" }, { type: "Normal" }, { type: "Normal" },
