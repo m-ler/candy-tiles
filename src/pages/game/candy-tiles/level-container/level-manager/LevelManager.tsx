@@ -4,11 +4,9 @@ import { ANIMATION_TIME_MS } from '../../../../../config';
 import { levelList } from '../../../../../data/level-layouts';
 import {
 	allTilesFilled,
-	CANDY_TYPES_ARRAY,
 	checkForMatchings,
 	generateNewCandies,
 	getMatchGroupCenterIndex,
-	matchAllCandiesOfColor,
 	repositionItems,
 } from '../../../../../game-algorithms/tile-matching';
 import { levelItemsState } from '../../../../../recoil/atoms/levelItems';
@@ -27,8 +25,6 @@ const matchSound = new Audio(matchSFX);
 const fusionMatchSound = new Audio(fusionMatchSFX);
 
 export let comboCount = 0;
-const DEFAULT_SWAPPED_CANDY_COLOR: CandyColor = 'Red';
-export let latestSwappedCandyColor: CandyColor = DEFAULT_SWAPPED_CANDY_COLOR;
 
 const playFusionMatch = () => {
 	fusionMatchSound.currentTime = 0;
@@ -103,7 +99,7 @@ const LevelManager = () => {
 				setSwappedItems([null, null]);
 				itemsWereSwapped.current = false;
 				setLevelItems(newLevelItems);
-			}, ANIMATION_TIME_MS);
+			}, ANIMATION_TIME_MS); 
 			return;
 		}
 
@@ -113,9 +109,7 @@ const LevelManager = () => {
 	};
 
 	const checkForMatches = async (itemList: LevelItem[], checkSwap: boolean): Promise<void> => {
-		//TODO: REFACTOR CHOCOLATE MATCH
-		checkChocolateSwap(itemList);
-		const matchInfo = checkForMatchings(itemList);
+		const matchInfo = checkForMatchings(itemList, itemsWereSwapped.current ? swappedItems : undefined);
 
 		if (matchInfo.thereWereMatches || !allTilesFilled(itemList, levelTiles)) {
 			itemsWereSwapped.current &&
@@ -141,28 +135,6 @@ const LevelManager = () => {
 
 		comboCount = 0;
 		setAllowSwap(true);
-	};
-
-	const checkChocolateSwap = (itemList: LevelItem[]): MatchDetail[] => {
-		const swappedChocolateIndex = itemList.findIndex((x, i) => swappedItems.includes(i) && x?.type === 'Chocolate');
-		const otherItemSwapIndex = swappedItems.find(x => x !== swappedChocolateIndex);
-		const otherItem = itemList.find((x, i) => i === otherItemSwapIndex);
-		let matchList: MatchDetail[] = [];
-
-		const canSwap = swappedChocolateIndex < 0 || !itemsWereSwapped.current || !CANDY_TYPES_ARRAY.includes(otherItem?.type || '');
-		if (canSwap) return [];
-
-		const otherItemIndex = swappedItems.find(x => x !== swappedChocolateIndex);
-		const otherItemColor: CandyColor = (levelItems[swappedChocolateIndex] as Candy).color || DEFAULT_SWAPPED_CANDY_COLOR;
-		latestSwappedCandyColor = otherItemColor;
-
-		matchList = matchAllCandiesOfColor(matchList, itemList, otherItemColor);
-
-		const matchProps = { down: 0, left: 0, right: 0, up: 0 };
-		matchList.push({ index: swappedChocolateIndex, matched: true, ...matchProps });
-		typeof otherItemIndex === 'number' && matchList.push({ index: otherItemIndex, matched: true, ...matchProps });
-
-		return matchList;
 	};
 
 	return <></>;

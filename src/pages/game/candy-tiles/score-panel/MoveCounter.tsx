@@ -7,7 +7,7 @@ const MoveCounter = () => {
 
 	return (
 		<div className='bg-purple rounded-lg p-[12px] w-full'>
-			<h3 className='text-light-blue font-YellowCandy font-medium block w-full text-center text-[20px] italic flex items-center gap-x-[8px] justify-center'>
+			<h3 className='text-light-blue font-YellowCandy font-medium block w-full text-center text-[20px] flex items-center gap-x-[8px] justify-center'>
 				<TbHandMove></TbHandMove>
 				Moves
 			</h3>

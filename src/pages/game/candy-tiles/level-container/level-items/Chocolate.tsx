@@ -27,7 +27,7 @@ const animateChocolateScale = (element: HTMLElement): AnimeInstance => {
 	const animation = anime({
 		targets: element,
 		rotate: [0, 360],
-		duration: 10000,
+		duration: 30000,
 		loop: true,
 		easing: 'linear',
 		direction: 'normal',

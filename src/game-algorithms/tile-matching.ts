@@ -4,6 +4,7 @@ import LevelItem from '../pages/game/candy-tiles/level-container/level-items/Lev
 import { findAllIndeces, getArrayNumberSum, getNumberRangeArray, getNumberSequenceArray } from '../utils/array';
 export const CANDY_COLOR_LIST: string[] = ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple'];
 export const CANDY_TYPES_ARRAY = ['Candy', 'SuperCandy'];
+const DEFAULT_SWAPPED_CANDY_COLOR: CandyColor = 'Red';
 
 export const getItemRowIndex = (index: number): number => Math.ceil((index + 1) / COLUMN_NUMBER);
 export const getItemColumnIndex = (index: number): number => index + 1 - (getItemRowIndex(index) - 1) * ROW_NUMBER;
@@ -65,7 +66,7 @@ const getCandyMatchings = (candy: { index: number } & (Candy | SuperCandy), item
 	return { index: candy.index, matched, up, right, down, left };
 };
 
-const makeSuperCandyMatch = (superCandy: { index: number } & SuperCandy, items: readonly LevelItem[]): MatchDetail[] => {	
+const makeSuperCandyMatch = (superCandy: { index: number } & SuperCandy, items: readonly LevelItem[]): MatchDetail[] => {
 	const matchedIndices: number[] = [];
 	const getAllIntersectingItems = (superCandy: { index: number } & SuperCandy, items: readonly LevelItem[]): MatchDetail[] => {
 		const matchList: MatchDetail[] = [];
@@ -95,6 +96,30 @@ const getIceCreamMatchings = (iceCream: { index: number } & IceCream): MatchDeta
 		index: iceCream.index,
 		matched: getItemRowIndex(iceCream.index) === ROW_NUMBER,
 	};
+};
+
+const checkChocolateMatch = (swappedItems: [number, number], items: readonly LevelItem[]): MatchDetail[] => {
+	const validMatchItemTypes = ['Candy', 'SuperCandy'];
+	const matchList: MatchDetail[] = [];
+
+	const firstItemType = items[swappedItems[0]]?.type || '';
+	const secondItemType = items[swappedItems[1]]?.type || '';
+	const itemTypes = [firstItemType, secondItemType];
+
+	const validChocolateSwap =
+		itemTypes.some(x => x === 'Chocolate') && itemTypes.some(x => validMatchItemTypes.includes(x)) && firstItemType !== secondItemType;
+
+	if (!validChocolateSwap) return [];
+
+	const candyColor = (items[swappedItems[0]] as Candy).color || (items[swappedItems[1]] as Candy).color || DEFAULT_SWAPPED_CANDY_COLOR;
+
+	items.forEach((item, index) => (item as Candy)?.color === candyColor && matchList.push({ ...emptyMatchDetail, index, matched: true }));
+	matchList.push(
+		{ ...emptyMatchDetail, index: swappedItems[0], matched: true },
+		{ ...emptyMatchDetail, index: swappedItems[1], matched: true }
+	);
+
+	return matchList;
 };
 
 const getMatchGroups = (matchList: MatchDetail[], itemsList: readonly LevelItem[]): MatchGroup[] => {
@@ -161,13 +186,16 @@ const getItemsSeparatedByType = (items: readonly LevelItem[]): ItemListByType =>
 	return listByType;
 };
 
-export const checkForMatchings = (items: readonly LevelItem[]): MatchResult => {
+export const checkForMatchings = (items: readonly LevelItem[], swappedItems?: SwappedItems): MatchResult => {
 	const { candies, superCandies, iceCreams } = getItemsSeparatedByType(items);
 	const matchingList: MatchDetail[] = [];
 
+	const chocolateMatchList = swappedItems ? checkChocolateMatch(swappedItems as [number, number], items) : [];
+	matchingList.push(...chocolateMatchList);
+
 	candies.forEach(candy => matchingList.push(getCandyMatchings(candy, items)));
 	superCandies.forEach(superCandy => {
-		const matchDetail = getCandyMatchings(superCandy, items);
+		const matchDetail = matchingList.find(x => x.index === superCandy.index) || getCandyMatchings(superCandy, items);
 		matchingList.push(matchDetail);
 		matchDetail.matched && matchingList.push(...makeSuperCandyMatch(superCandy, items));
 	});
