@@ -10,10 +10,17 @@ module.exports = {
 			'black': colors.black,
 			'white': colors.white,
 
-			'purple': '#472183',
-			'blue': '#4B56D2',
-			'light-blue': '#82C3EC',
-			'bone': '#F1F6F5',
+			'p-light': '#FFF6C3',
+			'p-main': '#BEB161',
+			'p-dark': '#A38946',
+
+			's-light': '#C4ECDC',
+			's-main': '#91D5BB',
+			's-dark': '#398388',
+
+			't-light': '#FFDBD0',
+			't-main': '#FDB7A2',
+			't-dark': '#EA915F',
 
 			'neu-1': '#F5F7FA',
 			'neu-2': '#E4E7EB',

@@ -1,9 +1,9 @@
 import { Button } from '@mui/material';
 import { useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { levelMovesState } from '../../../../recoil/atoms/levelMoves';
+import { levelMovesState } from '../../../../../recoil/atoms/levelMoves';
 
-const GameOverWindow = () => {
+const GameOverDialog = () => {
 	const levelMoves = useRecoilValue(levelMovesState);
 	const [show, setShow] = useState(false);
 	const popupElementRef = useRef<HTMLDivElement>(null);
@@ -24,4 +24,4 @@ const GameOverWindow = () => {
 	);
 };
 
-export default GameOverWindow;
+export default GameOverDialog;

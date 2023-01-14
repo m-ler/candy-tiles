@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { COLUMN_NUMBER, ROW_NUMBER } from '../../../../../config';
-import { useLevelContext } from '../../../../../context/LevelContext';
 import { tilesAreAdjacent } from '../../../../../game-algorithms/tile-matching';
 import { allowSwapState } from '../../../../../recoil/atoms/allowSwap';
 import { levelMovesState } from '../../../../../recoil/atoms/levelMoves';
@@ -35,7 +34,6 @@ const tileClickAudio = new Audio(tileClickSFX);
 const TileGrid = () => {
 	const levelTiles = useRecoilValue(levelTilesState);
 	const dragging = useRef<boolean>(false);
-	const levelContext = useLevelContext();
 	const firstTile = useRef<HTMLElement | null>();
 	const setSwappedItems = useSetRecoilState(swappedItemsState);
 	const allowSwap = useRecoilValue(allowSwapState);
@@ -74,7 +72,6 @@ const TileGrid = () => {
 		const secondTileIndex = parseInt((e.target as HTMLElement).getAttribute('data-index') || '');
 
 		if (!tilesAreAdjacent(firstTileIndex, secondTileIndex)) {
-			levelContext?.updateSelectedTiles([null, null]);
 			setSwappedItems([null, null]);
 			return;
 		}

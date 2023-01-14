@@ -20,6 +20,7 @@ import { allowSwapState } from '../../../../../recoil/atoms/allowSwap';
 import { matchListState } from '../../../../../recoil/atoms/matchList';
 import uuid from 'react-uuid';
 import { levelMovesState } from '../../../../../recoil/atoms/levelMoves';
+import { levelValuesState } from '../../../../../recoil/atoms/levelValues';
 
 const matchSound = new Audio(matchSFX);
 const fusionMatchSound = new Audio(fusionMatchSFX);
@@ -68,12 +69,14 @@ const LevelManager = () => {
 	const [levelMoves, setLevelMoves] = useRecoilState(levelMovesState);
 	const setAllowSwap = useSetRecoilState(allowSwapState);
 	const setMatchList = useSetRecoilState(matchListState);
+	const [levelValues, setLevelValues] = useRecoilState(levelValuesState);
 
 	const itemsWereSwapped = useRef(false);
 
 	useEffect(() => {
 		const initialItems = getInitialItems(0);
 		setLevelTiles(levelList[0].tiles);
+		setLevelValues
 		setLevelItems(initialItems);
 		setLevelMoves({ done: 0, total: 10, spendAllMoves: false });
 	}, []);
@@ -99,7 +102,7 @@ const LevelManager = () => {
 				setSwappedItems([null, null]);
 				itemsWereSwapped.current = false;
 				setLevelItems(newLevelItems);
-			}, ANIMATION_TIME_MS); 
+			}, ANIMATION_TIME_MS);
 			return;
 		}
 

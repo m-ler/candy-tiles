@@ -22,7 +22,7 @@ const animateEnd = (element: HTMLElement, onComplete: () => void) => {
 	});
 };
 
-const StartLevelWindow = () => {
+const StartLevelDialog = () => {
 	const [show, setShow] = useState(true);
 	const popupElementRef = useRef<HTMLDivElement>(null);
 
@@ -52,4 +52,4 @@ const StartLevelWindow = () => {
 	);
 };
 
-export default StartLevelWindow;
+export default StartLevelDialog;

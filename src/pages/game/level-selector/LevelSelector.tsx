@@ -1,24 +1,28 @@
-import { useState } from 'react';
-import { MdKeyboardArrowRight } from 'react-icons/md';
+import { Button } from '@mui/material';
+import { useSetRecoilState } from 'recoil';
+import SelectLevelButton from '../../../mui/components/SelectLevelButton';
+
+const levels: number[] = [1, 2, 3, 4, 5, 6];
 
 const LevelSelector = () => {
-	const [visible, setVisible] = useState<boolean>(false);
+	//const setGamePageActiveComponent = useSetRecoilState(gamePageActiveComponentState);
+	const selectLevel = (): void => {
+		alert('foo');
+		//setGamePageActiveComponent('Game');
+	}; 
 
-	const toggleVisibility = (): void => setVisible(!visible);
-
-	return (
-		<div className={`flex bg-black/25 rounded-lg shadow-lg duration-200 ml-auto overflow-hidden ${visible ? 'w-[300px]' : 'w-[34px]'}`}>
-			<button
-				className='bg-blue hover:bg-purple font-Raleway rounded-tr-lg rounded-br-lg font-bold h-full w-min  duration-200 ml-auto px-[5px]'
-				onClick={toggleVisibility}
-			>
-				<MdKeyboardArrowRight
-					className={`block text-white duration-200 ${visible ? 'rotate-180' : 'rotate-0'}`}
-					size={'24px'}
-				></MdKeyboardArrowRight>
-			</button>
-		</div>
+	return (  
+		<div
+			className='grid bg-s-main rounded-lg overflow-auto max-w-[800px] mx-auto gap-[15px] p-[16px]'
+			style={{ gridTemplateColumns: 'repeat( auto-fit, minmax(50px, 1fr) )' }}
+		> 
+			{levels.map((level, index) => (
+				<SelectLevelButton key={index} onClick={() => console.log('foo')}>
+					{level}
+				</SelectLevelButton> 
+			))}
+		</div>  
 	);
-};
+};  
 
 export default LevelSelector;
