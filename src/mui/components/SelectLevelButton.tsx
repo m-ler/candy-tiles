@@ -1,25 +1,23 @@
-import styled from '@emotion/styled';
-import { Button, ButtonBaseTypeMap, ExtendButtonBaseTypeMap } from '@mui/material';
-import { DefaultComponentProps } from '@mui/material/OverridableComponent';
+import { Button, ButtonProps } from '@mui/material';
 import { muiPalette } from '../theme';
 
-const SelectLevelButtonStyled = styled(Button)(() => ({
-	aspectRatio: '1/1',
-	borderRadius: '5px',
-	backgroundColor: muiPalette.tertiary.main,
-	color: 'white',
-	fontWeight: 'bold',
-	fontFamily: 'YellowCandy',
-	width: 'auto',
-	minWidth: 20,
-	fontSize: 20,
-	'&:hover': {
-		backgroundColor: muiPalette.tertiary.dark,
-	},
-}));
-
-const SelectLevelButton = ({ children }: DefaultComponentProps<ExtendButtonBaseTypeMap<ButtonBaseTypeMap>>) => (
-	<SelectLevelButtonStyled>{children}</SelectLevelButtonStyled>
+const SelectLevelButton = (props: ButtonProps): JSX.Element => (
+	<Button
+		{...props}
+		sx={{
+			width: '100%',
+			minWidth: 20,
+			aspectRatio: '1/1',
+			backgroundColor: muiPalette.tertiary.main,
+			fontSize: 20,
+			color: 'white',
+			fontWeight: 'bold',
+			fontFamily: 'YellowCandy',
+			'&:hover': {
+				backgroundColor: muiPalette.tertiary.dark,
+			},
+		}}
+	></Button>
 );
 
 export default SelectLevelButton;

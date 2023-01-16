@@ -39,10 +39,10 @@ const ScoreBar = () => {
 
 	return (
 		<div className='flex flex-col'>
-			<div className='h-[40px] w-[150px] bg-purple p-[5px] relative rounded-lg '>
-				<span className='bg-blue block w-full h-full scale-x-50 origin-left rounded-lg border-light-blue'></span>
+			<div className='h-[40px] w-[150px] bg-t-dark p-[5px] relative rounded-lg '>
+				<span className='bg-s-dark block w-full h-full scale-x-50 origin-left rounded-lg border-light-blue'></span>
 				<span
-					className='text-bone font-YellowCandy text-[18px] absolute block top-0 left-0 right-0 bottom-0 text-center leading-[40px] font-medium'
+					className='text-white font-YellowCandy text-[18px] absolute block top-0 left-0 right-0 bottom-0 text-center leading-[40px] font-medium'
 					ref={scoreNumberElementRef}
 				></span>
 				<span className={`absolute left-[20%] top-[115%] text-[#ffae17] ${starLine}`}>

@@ -11,7 +11,7 @@ export const muiPalette: PaletteOptions = {
 		light: '#FFF6C3',
 		main: '#BEB161',
 		dark: '#A38946',
-		contrastText: '#91D5BB',
+		contrastText: '#398388',
 	},
 	secondary: {
 		light: '#C4ECDC',

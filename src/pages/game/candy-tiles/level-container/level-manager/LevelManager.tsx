@@ -50,7 +50,7 @@ const applyMatches = (matchInfo: MatchResult, itemList: LevelItem[]): LevelItem[
 const getInitialItems = (selectedLevel: number): LevelItem[] => {
 	levelList[selectedLevel].items.forEach(x => x !== null && x.key === uuid());
 	return levelList[0].items.map(x => {
-		x !== null && (x.key = uuid());
+		x !== null && !x.key && (x.key = uuid());
 		return x;
 	});
 };
@@ -76,7 +76,7 @@ const LevelManager = () => {
 	useEffect(() => {
 		const initialItems = getInitialItems(0);
 		setLevelTiles(levelList[0].tiles);
-		setLevelValues
+		setLevelValues;
 		setLevelItems(initialItems);
 		setLevelMoves({ done: 0, total: 10, spendAllMoves: false });
 	}, []);
