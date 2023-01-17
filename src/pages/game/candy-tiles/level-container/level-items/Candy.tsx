@@ -7,12 +7,12 @@ import purple from './../../../../../assets/img/candies/purple.png';
 import candyBounceSFX from './../../../../../assets/audio/candyBounce.mp3';
 import { useEffect, useRef, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { levelItemsState } from '../../../../../recoil/atoms/levelItems';
+import { levelItemsState } from '../../atoms/levelItems';
 import useEffectAfterFirstRender from '../../../../../hooks/useEffectAfterFirstRender';
 import anime from 'animejs';
-import { userInteractedWithDocumentState } from '../../../../../recoil/atoms/userInteractedWithDocument';
-import { scoreState } from '../../../../../recoil/atoms/score';
-import { scoreFxListState } from '../../../../../recoil/atoms/scoreFxList';
+import { userInteractedWithDocumentState } from '../../../../../store/userInteractedWithDocument';
+import { scoreState } from '../../atoms/score';
+import { scoreFxListState } from '../../atoms/scoreFxList';
 import uuid from 'react-uuid';
 import { getItemColumnIndex, getItemRowIndex } from '../../../../../game-algorithms/tile-matching';
 

@@ -9,18 +9,18 @@ import {
 	getMatchGroupCenterIndex,
 	repositionItems,
 } from '../../../../../game-algorithms/tile-matching';
-import { levelItemsState } from '../../../../../recoil/atoms/levelItems';
-import { levelTilesState } from '../../../../../recoil/atoms/levelTiles';
-import { swappedItemsState } from '../../../../../recoil/atoms/swappedItems';
+import { levelItemsState } from '../../atoms/levelItems';
+import { levelTilesState } from '../../atoms/levelTiles';
+import { swappedItemsState } from '../../atoms/swappedItems';
 import matchSFX from './../../../../../assets/audio/match.mp3';
 import fusionMatchSFX from './../../../../../assets/audio/fusionMatch.mp3';
 import { delay } from '../../../../../utils/delay';
 import { getLevelItemByFusion } from '../../../../../game-algorithms/candy-fusions';
-import { allowSwapState } from '../../../../../recoil/atoms/allowSwap';
-import { matchListState } from '../../../../../recoil/atoms/matchList';
+import { allowSwapState } from '../../atoms/allowSwap';
+import { matchListState } from '../../atoms/matchList';
 import uuid from 'react-uuid';
-import { levelMovesState } from '../../../../../recoil/atoms/levelMoves';
-import { levelValuesState } from '../../../../../recoil/atoms/levelValues';
+import { levelMovesState } from '../../atoms/levelMoves';
+import { levelValuesState } from '../../atoms/levelValues';
 
 const matchSound = new Audio(matchSFX);
 const fusionMatchSound = new Audio(fusionMatchSFX);
@@ -78,7 +78,7 @@ const LevelManager = () => {
 		setLevelTiles(levelList[0].tiles);
 		setLevelValues;
 		setLevelItems(initialItems);
-		setLevelMoves({ done: 0, total: 10, spendAllMoves: false });
+		setLevelMoves({ done: 0, total: 30, spendAllMoves: false });
 	}, []);
 
 	useEffect(() => swapItems(false), [swappedItems]);

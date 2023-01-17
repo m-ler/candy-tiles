@@ -3,10 +3,11 @@ import { TileProps } from './Tile';
 import iceCrack1SFX from './../../../../../assets/audio/iceCrack1.mp3';
 import iceCrack2SFX from './../../../../../assets/audio/iceCrack2.mp3';
 import useEffectAfterFirstRender from '../../../../../hooks/useEffectAfterFirstRender';
-import { useRecoilValue, useRecoilState } from 'recoil';
-import { matchListState } from '../../../../../recoil/atoms/matchList';
-import { levelTilesState } from '../../../../../recoil/atoms/levelTiles';
+import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil';
+import { matchListState } from '../../atoms/matchList';
+import { levelTilesState } from '../../atoms/levelTiles';
 import iceTileSprite from './../../../../../assets/img/tiles/ice.png';
+import { levelTasksState } from '../../atoms/levelTasks';
 
 const iceCrack1Sound = new Audio(iceCrack1SFX);
 const iceCrack2Sound = new Audio(iceCrack2SFX);
@@ -15,6 +16,7 @@ const IceTile = ({ index }: TileProps) => {
 	const [damaged, setDamaged] = useState(false);
 	const matchList = useRecoilValue(matchListState);
 	const [levelTiles, setLevelTiles] = useRecoilState(levelTilesState);
+	const setLevelTasks = useSetRecoilState(levelTasksState);
 
 	useEffectAfterFirstRender(() => {
 		checkMatchInTile();
@@ -34,6 +36,10 @@ const IceTile = ({ index }: TileProps) => {
 		const newTiles = structuredClone(levelTiles) as LevelTile[];
 		newTiles[index] = { type: 'Normal' };
 		setLevelTiles(newTiles);
+		setLevelTasks(tasks => ({
+			...tasks,
+			iceTiles: tasks.iceTiles + 1,
+		}));
 	};
 
 	return (

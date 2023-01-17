@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSetRecoilState } from 'recoil';
-import { userInteractedWithDocumentState } from '../recoil/atoms/userInteractedWithDocument';
+import { userInteractedWithDocumentState } from '../store/userInteractedWithDocument';
 
 const UserInteractionDetection = () => {
 	const setUserInteractedWithPage = useSetRecoilState(userInteractedWithDocumentState);

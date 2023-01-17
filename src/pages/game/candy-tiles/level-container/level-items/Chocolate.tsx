@@ -3,10 +3,10 @@ import { useEffect, useRef, useState } from 'react';
 import chocolateMatchSFX from './../../../../../assets/audio/chocolateMatch.mp3';
 import useEffectAfterFirstRender from '../../../../../hooks/useEffectAfterFirstRender';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { levelItemsState } from '../../../../../recoil/atoms/levelItems';
+import { levelItemsState } from '../../atoms/levelItems';
 import anime, { AnimeInstance } from 'animejs';
-import { scoreState } from '../../../../../recoil/atoms/score';
-import { scoreFxListState } from '../../../../../recoil/atoms/scoreFxList';
+import { scoreState } from '../../atoms/score';
+import { scoreFxListState } from '../../atoms/scoreFxList';
 import uuid from 'react-uuid';
 import { getItemColumnIndex, getItemRowIndex } from '../../../../../game-algorithms/tile-matching';
 

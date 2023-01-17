@@ -1,4 +1,4 @@
-import { createTheme, PaletteColor, PaletteOptions } from '@mui/material';
+import { createTheme, PaletteColor } from '@mui/material';
 
 declare module '@mui/material/styles' {
 	interface PaletteOptions {
@@ -6,7 +6,13 @@ declare module '@mui/material/styles' {
 	}
 }
 
-export const muiPalette: PaletteOptions = {
+type CustomMUIPalette = {
+	primary: PaletteColor;
+	secondary: PaletteColor;
+	tertiary: PaletteColor;
+};
+
+export const muiPalette: CustomMUIPalette = {
 	primary: {
 		light: '#FFF6C3',
 		main: '#BEB161',
@@ -28,5 +34,5 @@ export const muiPalette: PaletteOptions = {
 };
 
 export const muiTheme = createTheme({
-	palette: muiPalette,
+	palette: muiPalette
 });

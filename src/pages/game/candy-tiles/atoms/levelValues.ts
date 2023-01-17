@@ -17,7 +17,7 @@ type LevelValues = {
 	swappedItems: SwappedItems;
 };
 
-export const levelValuesState = atom({
+export const levelValuesState = atom<LevelValues>({
 	key: 'levelValues',
 	default: {} as LevelValues,
 });

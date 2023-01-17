@@ -7,11 +7,11 @@ import superPurple from './../../../../../assets/img/candies/super-purple.png';
 import superCandyMatchSFX from './../../../../../assets/audio/superCandyMatch.mp3';
 import { useEffect, useRef, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { levelItemsState } from '../../../../../recoil/atoms/levelItems';
+import { levelItemsState } from '../../atoms/levelItems';
 import useEffectAfterFirstRender from '../../../../../hooks/useEffectAfterFirstRender';
 import anime from 'animejs';
-import { scoreState } from '../../../../../recoil/atoms/score';
-import { scoreFxListState } from '../../../../../recoil/atoms/scoreFxList';
+import { scoreState } from '../../atoms/score';
+import { scoreFxListState } from '../../atoms/scoreFxList';
 import uuid from 'react-uuid';
 import { getItemColumnIndex, getItemRowIndex } from '../../../../../game-algorithms/tile-matching';
 

@@ -1,18 +1,9 @@
 import anime from 'animejs';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import useMountAnimation from '../../hooks/useMountAnimation';
+import useUnmountAnimation from '../../hooks/useUnmountAnimation';
 import SelectLevelButton from '../../mui/components/SelectLevelButton';
-
-const animateMount = () => {
-	anime({
-		targets: '#level-selector-container',
-		opacity: [0, 1],
-		translateY: [500, 0],
-		easing: 'easeOutBack',
-		duration: 300,
-		endDelay: 200,
-	});
-};
 
 const animateButtons = () => {
 	anime({
@@ -24,28 +15,17 @@ const animateButtons = () => {
 	});
 };
 
-const animateUnMount = (onComplete: () => void) => {
-	anime({
-		targets: '#level-selector-container',
-		opacity: [1, 0],
-		translateY: [0, 500],
-		easing: 'easeInBack',
-		duration: 300,
-		endDelay: 200,
-		complete: onComplete,
-	});
-};
-
 const LevelSelectorPage = () => {
 	const navigate = useNavigate();
+	useMountAnimation('#level-selector-container');
+	const unmountAnimation = useUnmountAnimation('#level-selector-container');
 
 	useEffect(() => {
-		animateMount();
 		animateButtons();
 	}, []);
 
 	const selectLevel = (levelID: number): void => {
-		animateUnMount(() => navigate(`/level/${levelID}`));
+		unmountAnimation(() => navigate(`/level/${levelID}`));
 	};
 
 	return (

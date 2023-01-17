@@ -1,9 +1,9 @@
-import { easing } from '@mui/material';
 import anime, { AnimeInstance } from 'animejs';
 import { useEffect, useRef } from 'react';
 import { AiFillStar } from 'react-icons/ai';
 import { useRecoilValue } from 'recoil';
-import { scoreState } from '../../../../recoil/atoms/score';
+import { muiPalette } from '../../../../mui/theme';
+import { scoreState } from '../atoms/score';
 
 const scoreObj = { score: 0 };
 let scoreAnimation: AnimeInstance;
@@ -13,7 +13,7 @@ const animateScoreUpdate = (scoreElement: HTMLElement, newScore: number): void =
 		targets: [scoreObj, scoreElement],
 		score: newScore,
 		color: {
-			value: ['#ffbb00', '#fff'],
+			value: ['#ffb940', muiPalette.primary.light],
 			duration: 1000,
 			easing: 'linear',
 		},

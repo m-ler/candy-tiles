@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { COLUMN_NUMBER, ROW_NUMBER } from '../../../../../config';
 import candyHexColors from '../../../../../data/candy-hex-colors';
-import { scoreFxListState } from '../../../../../recoil/atoms/scoreFxList';
+import { scoreFxListState } from '../../atoms/scoreFxList';
 
 type ScoreFXProps = {
 	score: number;

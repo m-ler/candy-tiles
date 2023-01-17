@@ -4,11 +4,12 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { ROW_NUMBER } from '../../../../../config';
 import { getItemColumnIndex, getItemRowIndex } from '../../../../../game-algorithms/tile-matching';
 import useEffectAfterFirstRender from '../../../../../hooks/useEffectAfterFirstRender';
-import { levelItemsState } from '../../../../../recoil/atoms/levelItems';
-import { scoreState } from '../../../../../recoil/atoms/score';
-import { scoreFxListState } from '../../../../../recoil/atoms/scoreFxList';
+import { levelItemsState } from '../../atoms/levelItems';
+import { scoreState } from '../../atoms/score';
+import { scoreFxListState } from '../../atoms/scoreFxList';
 import iceCreamSprite from './../../../../../assets/img/candies/ice-cream.png';
 import iceCreamMatchSFX from './../../../../../assets/audio/iceCreamMatch.mp3';
+import { levelTasksState } from '../../atoms/levelTasks';
 
 const ICE_CREAM_SCORE = 250;
 type IceCreamProps = {
@@ -28,6 +29,7 @@ const IceCream = ({ id, index }: IceCreamProps) => {
 	const levelItems = useRecoilValue(levelItemsState);
 	const setScore = useSetRecoilState(scoreState);
 	const setScoreFxList = useSetRecoilState(scoreFxListState);
+	const setLevelTasks = useSetRecoilState(levelTasksState);
 
 	useEffectAfterFirstRender(() => {
 		const itemMatched = !levelItems.some(x => x?.key === id);
@@ -48,6 +50,12 @@ const IceCream = ({ id, index }: IceCreamProps) => {
 				score: ICE_CREAM_SCORE,
 			},
 		]);
+		console.log('can you feel the sunshine');
+		
+		setLevelTasks(tasks => ({
+			...tasks,
+			iceCreams: tasks.iceCreams + 1,
+		}));
 	};
 
 	return (

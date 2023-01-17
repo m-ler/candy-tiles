@@ -3,11 +3,12 @@ import { checkForAdjacentMatch } from '../../../../../game-algorithms/tile-match
 import { TileProps } from './Tile';
 import rockCrack1SFX from './../../../../../assets/audio/rockCrack1.mp3';
 import rockCrack2SFX from './../../../../../assets/audio/rockCrack2.mp3';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { matchListState } from '../../../../../recoil/atoms/matchList';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { matchListState } from '../../atoms/matchList';
 import useEffectAfterFirstRender from '../../../../../hooks/useEffectAfterFirstRender';
-import { levelTilesState } from '../../../../../recoil/atoms/levelTiles';
+import { levelTilesState } from '../../atoms/levelTiles';
 import rockTileSprite from './../../../../../assets/img/tiles/rock.png';
+import { levelTasksState } from '../../atoms/levelTasks';
 
 const rockCrack1Sound = new Audio(rockCrack1SFX);
 const rockCrack2Sound = new Audio(rockCrack2SFX);
@@ -16,6 +17,7 @@ const RockTile = ({ index }: TileProps) => {
 	const [damaged, setDamaged] = useState(false);
 	const matchList = useRecoilValue(matchListState);
 	const [levelTiles, setLevelTiles] = useRecoilState(levelTilesState);
+	const setLevelTasks = useSetRecoilState(levelTasksState);
 
 	useEffectAfterFirstRender(() => {
 		checkMatchInAdjacentTiles();
@@ -35,12 +37,16 @@ const RockTile = ({ index }: TileProps) => {
 		const newTiles = structuredClone(levelTiles) as LevelTile[];
 		newTiles[index] = { type: 'Normal' };
 		setLevelTiles(newTiles);
+		setLevelTasks(tasks => ({
+			...tasks,
+			rockTiles: tasks.rockTiles + 1,
+		}));
 	};
 
 	return (
 		<div className='relative bg-black/25 m-[2%] hover:invert duration-200 select-none rounded cursor-not-allowed' data-index={index}>
 			<img
-				src={rockTileSprite }
+				src={rockTileSprite}
 				className='pointer-events-none'
 				style={{
 					opacity: damaged ? 0.6 : 1,

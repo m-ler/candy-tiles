@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import { useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { levelMovesState } from '../../../../../recoil/atoms/levelMoves';
+import { levelMovesState } from '../../atoms/levelMoves';
 
 const GameOverDialog = () => {
 	const levelMoves = useRecoilValue(levelMovesState);

@@ -3,10 +3,10 @@ import { atom } from 'recoil';
 type LevelMoves = {
 	total: number;
 	done: number;
-	spendAllMoves: boolean
+	spendAllMoves: boolean;
 };
 
-export const levelMovesState = atom({
+export const levelMovesState = atom<LevelMoves>({
 	key: 'leftMoves',
 	default: {
 		total: 0,

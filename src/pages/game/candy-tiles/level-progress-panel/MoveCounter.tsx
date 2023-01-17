@@ -1,6 +1,6 @@
 import { TbHandMove } from 'react-icons/tb';
 import { useRecoilValue } from 'recoil';
-import { levelMovesState } from '../../../../recoil/atoms/levelMoves';
+import { levelMovesState } from '../atoms/levelMoves';
 
 const MoveCounter = () => {
 	const levelMoves = useRecoilValue(levelMovesState);
