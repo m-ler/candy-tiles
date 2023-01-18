@@ -23,7 +23,7 @@ export const muiPalette: CustomMUIPalette = {
 		light: '#C4ECDC',
 		main: '#91D5BB',
 		dark: '#398388',
-		contrastText: '#BEB161',
+		contrastText: '#A38946',
 	},
 	tertiary: {
 		light: '#FFDBD0',

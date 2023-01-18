@@ -15,6 +15,7 @@ import { scoreState } from '../../atoms/score';
 import { scoreFxListState } from '../../atoms/scoreFxList';
 import uuid from 'react-uuid';
 import { getItemColumnIndex, getItemRowIndex } from '../../../../../game-algorithms/tile-matching';
+import { randomNumber } from '../../../../../utils/math';
 
 const candyImages: { [key: string]: string } = {
 	'Red': red,
@@ -32,7 +33,9 @@ const activeBounceSoundsLimit = 10;
 const playCandyBounchSound = (userInteractedWithDocument: boolean) => {
 	if (!userInteractedWithDocument || activeBounceSounds > activeBounceSoundsLimit) return;
 	const candyBounceAudio = new Audio(candyBounceSFX);
-	candyBounceAudio.volume = 0.15;
+	candyBounceAudio.volume = 0.2;
+	candyBounceAudio.preservesPitch = false;
+	candyBounceAudio.playbackRate = randomNumber(0.9, 1.5);
 	candyBounceAudio.play();
 	candyBounceAudio.onended = () => (activeBounceSounds = -1);
 	activeBounceSounds += 1;

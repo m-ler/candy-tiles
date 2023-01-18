@@ -2,3 +2,8 @@
 	font-family: 'YellowCandy';
 	src: url('./../fonts/YellowCandy.otf');
 }
+
+@font-face {
+	font-family: 'CandyCrush';
+	src: url('./../fonts/CandyCrush.ttf');
+}

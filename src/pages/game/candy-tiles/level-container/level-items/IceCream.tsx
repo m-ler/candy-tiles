@@ -50,7 +50,6 @@ const IceCream = ({ id, index }: IceCreamProps) => {
 				score: ICE_CREAM_SCORE,
 			},
 		]);
-		console.log('can you feel the sunshine');
 		
 		setLevelTasks(tasks => ({
 			...tasks,

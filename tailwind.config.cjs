@@ -55,6 +55,7 @@ module.exports = {
 				Raleway: ['Raleway'],
 				LilyScriptOne: ['Lily Script One'],
 				YellowCandy: ['YellowCandy'],
+				CandyCrush: ['CandyCrush'],
 				System: [
 					'-apple-system',
 					'BlinkMacSystemFont',
