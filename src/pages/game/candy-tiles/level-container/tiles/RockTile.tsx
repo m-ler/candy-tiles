@@ -55,7 +55,7 @@ const RockTile = ({ index }: TileProps) => {
 					opacity: damaged ? 0.6 : 1,
 				}}
 			></img>
-			<span className="absolute bottom-0 right-0 text-[12px] text-white/50 font-bold">{index}</span>
+			<span className="absolute bottom-0 right-0 text-[12px] text-black/80 font-bold">{index}</span>
 		</div>
 	);
 };

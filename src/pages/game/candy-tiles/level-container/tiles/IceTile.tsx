@@ -23,7 +23,7 @@ const IceTile = ({ index }: TileProps) => {
 	}, [matchList]);
 
 	const checkMatchInTile = () => {
-		const matched = !!matchList.find((x) => x.index === index)?.matched;
+		const matched = !!matchList.some((x) => x.index === index && x.matched);
 		if (!matched) return;
 
 		if (!damaged) {
@@ -53,7 +53,7 @@ const IceTile = ({ index }: TileProps) => {
 					opacity: damaged ? 0.6 : 1,
 				}}
 			></img>
-			<span className="absolute bottom-0 right-0 text-[12px] text-black font-bold">{index}</span>
+			<span className="absolute bottom-0 right-0 text-[12px] text-white/80 font-bold">{index}</span>
 		</div>
 	);
 };
