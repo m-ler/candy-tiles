@@ -1,27 +1,28 @@
 import { Button } from '@mui/material';
 import anime from 'animejs';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import TargetItem from './TargetItem';
 import { FaFlagCheckered } from 'react-icons/fa';
 import iceTileSprite from './../../../../../assets/img/tiles/ice.png';
 import rockTileSprite from './../../../../../assets/img/tiles/rock.png';
 import iceCreamSprite from './../../../../../assets/img/candies/ice-cream.png';
 import TaskItem from './TaskItems';
+import CandyTilesDialog from '../CandyTilesDialog';
 
-const animateStart = (element: HTMLElement) => {
+const animateStart = () => {
 	anime({
-		targets: element,
+		targets: '#start-level-dialog',
 		opacity: [0, 1],
 		translateX: ['100%', '0%'],
 		easing: 'easeOutBack',
-		duration: 1000,
+		duration: 500,
 		delay: 300,
 	});
 };
 
-const animateEnd = (element: HTMLElement, onComplete: () => void) => {
+const animateEnd = (onComplete: () => void) => {
 	anime({
-		targets: element,
+		targets: '#start-level-dialog',
 		translateX: ['0%', '-100%'],
 		opacity: 0,
 		easing: 'easeInBack',
@@ -32,22 +33,18 @@ const animateEnd = (element: HTMLElement, onComplete: () => void) => {
 
 const StartLevelDialog = () => {
 	const [show, setShow] = useState(true);
-	const popupElementRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
-		animateStart(popupElementRef.current as HTMLElement);
+		animateStart();
 	}, []);
 
 	const onStart = () => {
-		animateEnd(popupElementRef.current as HTMLElement, () => setShow(false));
+		animateEnd(() => setShow(false));
 	};
 
 	return show ? (
-		<div className='absolute top-0 left-0 w-full h-full flex overflow-hidden p-[16px]'>
-			<div
-				ref={popupElementRef}
-				className='bg-p-dark w-full h-min m-auto flex flex-col items-center rounded-md p-[16px] gap-y-[12px] shadow-2xl border border-p-main'
-			>
+		<CandyTilesDialog id='start-level-dialog'>
+			<div className='flex flex-col w-full items-center gap-[12px]'>
 				<span className='m-auto font-YellowCandy text-[24px] text-p-light'>Target</span>
 
 				<div className='flex flex-wrap gap-[12px]'>
@@ -75,7 +72,7 @@ const StartLevelDialog = () => {
 					Start
 				</Button>
 			</div>
-		</div>
+		</CandyTilesDialog>
 	) : (
 		<></>
 	);

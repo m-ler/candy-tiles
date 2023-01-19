@@ -1,24 +1,82 @@
-import { Button } from '@mui/material';
-import { useRef, useState } from 'react';
+import { Button, Tooltip } from '@mui/material';
+import anime from 'animejs';
+import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import { levelMovesState } from '../../atoms/levelMoves';
+import CandyTilesDialog from '../CandyTilesDialog';
+import MenuIconButtonSecondary from '../../../../../mui/components/MenuIconButtonSecondary';
+import { FaHome } from 'react-icons/fa';
+import { MdReplay } from 'react-icons/md';
+import { allowSwapState } from '../../atoms/allowSwap';
+import { useNavigate } from 'react-router-dom';
+import useUnmountAnimation from '../../../../../hooks/useUnmountAnimation';
+
+const animateStart = () => {
+	anime({
+		targets: '#game-over-dialog',
+		opacity: [0, 1],
+		translateX: ['100%', '0%'],
+		easing: 'easeOutBack',
+		duration: 500,
+		delay: 500,
+	});
+};
+
+const animateEnd = (onComplete?: () => void) => {
+	anime({
+		targets: '#game-over-dialog',
+		translateX: ['0%', '-100%'],
+		opacity: 0,
+		easing: 'easeInBack',
+		duration: 300,
+		complete: onComplete,
+	});
+};
 
 const GameOverDialog = () => {
 	const levelMoves = useRecoilValue(levelMovesState);
-	const [show, setShow] = useState(false);
-	const popupElementRef = useRef<HTMLDivElement>(null);
+	const allowSwap = useRecoilValue(allowSwapState);
+	const navigate = useNavigate();
+	const gameOver = levelMoves.spendAllMoves && allowSwap;
+	const unmountAnimation = useUnmountAnimation('#game-container');
 
-	return levelMoves.spendAllMoves ? (
-		<div className='absolute top-0 left-0 w-full h-full flex bg-black/20 overflow-hidden'>
-			<div
-				ref={popupElementRef}
-				className='bg-white w-[min(100%,500px)] h-min m-auto flex flex-col items-center rounded-md p-[16px] gap-y-[12px]'
-			>
-				<span className='m-auto font-YellowCandy text-[22px]'>Game Over</span>
+	useEffect(() => {
+		gameOver && animateStart();
+	}, [allowSwap]);
 
-				<Button variant='contained'>Try Again</Button>
+	const goBackOnClick = () => {
+		animateEnd(() => unmountAnimation(() => navigate('/')));
+	};
+
+	const tryAgainOnClick = () => {
+		animateEnd(() => unmountAnimation(() => navigate(0)));
+	};
+
+	return gameOver ? (
+		<CandyTilesDialog id='game-over-dialog'>
+			<div className='flex flex-col w-full items-center gap-[12px]'>
+				<div>
+					<span className='m-auto font-YellowCandy text-[22px] block text-center text-p-light'>Level failed!</span>
+					<span className='m-auto font-YellowCandy text-[18px] block text-center text-s-light'>You did not reach the goal!</span>
+				</div>
+				<div className='flex gap-[12px]'>
+					<Tooltip title='Go back'>
+						<div>
+							<MenuIconButtonSecondary color='secondary' onClick={goBackOnClick}>
+								<FaHome className=''></FaHome>
+							</MenuIconButtonSecondary>
+						</div>
+					</Tooltip>
+					<Tooltip title='Try again'>
+						<div>
+							<MenuIconButtonSecondary color='secondary' onClick={tryAgainOnClick}>
+								<MdReplay></MdReplay>
+							</MenuIconButtonSecondary>
+						</div>
+					</Tooltip>
+				</div>
 			</div>
-		</div>
+		</CandyTilesDialog>
 	) : (
 		<></>
 	);

@@ -5,12 +5,9 @@ import LevelManager from './level-manager/LevelManager';
 import DelayComponent from '../../../../components/DelayComponent';
 import { ANIMATION_TIME_MS } from '../../../../config';
 import ScoreFXGrid from './grids/ScoreFXGrid';
-import { useRecoilValue } from 'recoil';
-import { levelMovesState } from '../atoms/levelMoves';
 
 const LevelContainer = () => {
 	const levelGridElement = useRef<HTMLElement | null>(null);
-	const levelMoves = useRecoilValue(levelMovesState);
 
 	return (
 		<section
