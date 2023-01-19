@@ -33,10 +33,10 @@ const playFusionMatch = () => {
 
 const applyMatches = (matchInfo: MatchResult, itemList: LevelItem[]): LevelItem[] => {
 	const newItemList = structuredClone(itemList) as LevelItem[];
-	const matchGroupsCenters = matchInfo.matchingGroups.map(group => getMatchGroupCenterIndex(group, matchInfo.matchingList));
+	const matchGroupsCenters = matchInfo.matchingGroups.map((group) => getMatchGroupCenterIndex(group, matchInfo.matchingList));
 	matchInfo.matchingList
-		.filter(x => x.matched)
-		.forEach(y => {
+		.filter((x) => x.matched)
+		.forEach((y) => {
 			const itemIsAtMatchGroupCenter = matchGroupsCenters.includes(y.index);
 			newItemList[y.index] = itemIsAtMatchGroupCenter ? getLevelItemByFusion(y, newItemList[y.index]) : null;
 			const itemWasFused = newItemList[y.index] !== null;
@@ -47,8 +47,8 @@ const applyMatches = (matchInfo: MatchResult, itemList: LevelItem[]): LevelItem[
 };
 
 const getInitialItems = (selectedLevel: number): LevelItem[] => {
-	levelList[selectedLevel].items.forEach(x => x !== null && x.key === uuid());
-	return levelList[0].items.map(x => {
+	levelList[selectedLevel].items.forEach((x) => x !== null && x.key === uuid());
+	return levelList[0].items.map((x) => {
 		x !== null && !x.key && (x.key = uuid());
 		return x;
 	});
@@ -65,7 +65,7 @@ const LevelManager = () => {
 	const [swappedItems, setSwappedItems] = useRecoilState(swappedItemsState);
 	const [levelItems, setLevelItems] = useRecoilState(levelItemsState);
 	const [levelTiles, setLevelTiles] = useRecoilState(levelTilesState);
-	const [levelMoves, setLevelMoves] = useRecoilState(levelMovesState);
+	const setLevelMoves = useSetRecoilState(levelMovesState);
 	const setAllowSwap = useSetRecoilState(allowSwapState);
 	const setMatchList = useSetRecoilState(matchListState);
 
@@ -81,7 +81,7 @@ const LevelManager = () => {
 	useEffect(() => swapItems(false), [swappedItems]);
 
 	const swapItems = (undo: boolean) => {
-		if (swappedItems.some(x => x === null)) return;
+		if (swappedItems.some((x) => x === null)) return;
 		itemsWereSwapped.current = true;
 
 		const firstIndex = swappedItems[0] || -1;
@@ -113,14 +113,16 @@ const LevelManager = () => {
 
 		if (matchInfo.thereWereMatches || !allTilesFilled(itemList, levelTiles)) {
 			itemsWereSwapped.current &&
-				setLevelMoves(moves => ({ done: moves.done + 1, total: moves.total, spendAllMoves: moves.done + 1 >= moves.total }));
+				setLevelMoves((moves) => ({ done: moves.done + 1, total: moves.total, spendAllMoves: moves.done + 1 >= moves.total }));
 			setSwappedItems([null, null]);
 			itemsWereSwapped.current = false;
 			playMatchSFX();
 			comboCount += 1;
 			const matchResult = applyMatches(matchInfo, itemList);
 			setLevelItems(matchResult);
+			console.log(structuredClone(matchInfo.matchingList.filter(x => x.matched)));
 			setMatchList(matchInfo.matchingList);
+
 			await delay(ANIMATION_TIME_MS);
 			const repositionResult = repositionItems(matchResult, levelTiles).repositionedItems;
 			const fillResult = generateNewCandies(repositionResult, levelTiles);
@@ -130,7 +132,7 @@ const LevelManager = () => {
 			return;
 		}
 
-		const thereAreSwappedItems = swappedItems.every(x => x !== null);
+		const thereAreSwappedItems = swappedItems.every((x) => x !== null);
 		thereAreSwappedItems && checkSwap && swapItems(true);
 
 		comboCount = 0;

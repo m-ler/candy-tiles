@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import GameDialogs from './game-dialogs/GameDialogs';
 import LevelContainer from './level-container';
 import LevelProgressPanel from './level-progress-panel';
