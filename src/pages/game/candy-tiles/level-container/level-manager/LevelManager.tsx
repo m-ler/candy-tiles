@@ -75,7 +75,7 @@ const LevelManager = () => {
 		const initialItems = getInitialItems(0);
 		setLevelTiles(levelList[0].tiles);
 		setLevelItems(initialItems);
-		setLevelMoves({ done: 0, total: 10, spendAllMoves: false });
+		setLevelMoves({ done: 0, total: 30, spendAllMoves: false });
 	}, []);
 
 	useEffect(() => swapItems(false), [swappedItems]);
@@ -120,7 +120,6 @@ const LevelManager = () => {
 			comboCount += 1;
 			const matchResult = applyMatches(matchInfo, itemList);
 			setLevelItems(matchResult);
-			console.log(structuredClone(matchInfo.matchingList.filter(x => x.matched)));
 			setMatchList(matchInfo.matchingList);
 
 			await delay(ANIMATION_TIME_MS);

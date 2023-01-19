@@ -49,8 +49,10 @@ const TileGrid = () => {
 	}, [allowSwap]);
 
 	const updateGridInteraction = () => {
-		if (tileGridElementRef.current)
-			tileGridElementRef.current.style.pointerEvents = allowSwap && !levelMoves.spendAllMoves ? 'all' : 'none';
+		if (tileGridElementRef.current) {
+			const gameOver = allowSwap && !levelMoves.spendAllMoves;
+			tileGridElementRef.current.style.pointerEvents = gameOver ? 'all' : 'none';
+		}
 	};
 
 	const handleMouseDown = (e: React.MouseEvent): void => {
@@ -82,7 +84,7 @@ const TileGrid = () => {
 
 	return (
 		<div
-			className='grid absolute top-0 left-0 w-full h-full'
+			className="grid absolute top-0 left-0 w-full h-full"
 			style={{
 				gridTemplateColumns: `repeat(${COLUMN_NUMBER}, 1fr)`,
 				gridTemplateRows: `repeat(${ROW_NUMBER}, 1fr)`,

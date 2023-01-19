@@ -414,10 +414,6 @@ export const allTilesFilled = (items: readonly LevelItem[], tiles: readonly Leve
 
 export const checkForAdjacentMatch = (index: number, matchList: readonly MatchDetail[]): boolean => {
 	const adjacentIndexes = getAdjacentIndexes(index);
-	/* console.log(index);
-	console.log(adjacentIndexes);
-	console.log(matchList.filter((x) => adjacentIndexes.includes(x.index) && x.matched)); */
-
 	return matchList.some((x) => adjacentIndexes.includes(x.index) && x.matched);
 };
 
