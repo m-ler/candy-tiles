@@ -1,4 +1,4 @@
-import { Button, Tooltip } from '@mui/material';
+import { Tooltip } from '@mui/material';
 import anime from 'animejs';
 import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
