@@ -4,7 +4,7 @@ import ItemGrid from './grids/ItemGrid';
 import LevelManager from './level-manager/LevelManager';
 import DelayComponent from '../../../../components/DelayComponent';
 import { ANIMATION_TIME_MS } from '../../../../config';
-import ScoreFXGrid from './grids/ScoreFXGrid';
+import FXGrid from './grids/ScoreFXGrid';
 
 const LevelContainer = () => {
 	const levelGridElement = useRef<HTMLElement | null>(null);
@@ -22,7 +22,7 @@ const LevelContainer = () => {
 			<DelayComponent delayMs={ANIMATION_TIME_MS}>
 				<ItemGrid></ItemGrid>
 			</DelayComponent>
-			<ScoreFXGrid></ScoreFXGrid>
+			<FXGrid></FXGrid>
 		</section>
 	);
 };

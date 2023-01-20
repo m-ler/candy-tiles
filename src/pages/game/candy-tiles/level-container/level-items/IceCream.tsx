@@ -1,12 +1,10 @@
 import { useRef, useState } from 'react';
 import uuid from 'react-uuid';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { ROW_NUMBER } from '../../../../../config';
-import { getItemColumnIndex, getItemRowIndex } from '../../../../../game-algorithms/tile-matching';
 import useEffectAfterFirstRender from '../../../../../hooks/useEffectAfterFirstRender';
 import { levelItemsState } from '../../atoms/levelItems';
 import { scoreState } from '../../atoms/score';
-import { scoreFxListState } from '../../atoms/scoreFxList';
+import { levelFxListState } from '../../atoms/levelFxList';
 import iceCreamSprite from './../../../../../assets/img/candies/ice-cream.png';
 import iceCreamMatchSFX from './../../../../../assets/audio/iceCreamMatch.mp3';
 import { levelTasksState } from '../../atoms/levelTasks';
@@ -28,11 +26,11 @@ const IceCream = ({ id, index }: IceCreamProps) => {
 	const itemUsedRef = useRef(false);
 	const levelItems = useRecoilValue(levelItemsState);
 	const setScore = useSetRecoilState(scoreState);
-	const setScoreFxList = useSetRecoilState(scoreFxListState);
+	const setLevelFxList = useSetRecoilState(levelFxListState);
 	const setLevelTasks = useSetRecoilState(levelTasksState);
 
 	useEffectAfterFirstRender(() => {
-		const itemMatched = !levelItems.some(x => x?.key === id);
+		const itemMatched = !levelItems.some((x) => x?.key === id);
 		itemMatched && !itemUsedRef.current && onItemMatch();
 	}, [levelItems]);
 
@@ -40,18 +38,19 @@ const IceCream = ({ id, index }: IceCreamProps) => {
 		itemUsedRef.current = true;
 		playIceCreamMatch();
 		setShow(false);
-		setScore(score => score + ICE_CREAM_SCORE);
-		setScoreFxList(list => [
+		setScore((score) => score + ICE_CREAM_SCORE);
+		setLevelFxList((list) => [
 			...list,
 			{
+				type: 'Score',
 				color: 'White',
 				key: uuid(),
-				position: [(getItemColumnIndex(index) - 1) * 100, (ROW_NUMBER - 1) * 100],
+				index,
 				score: ICE_CREAM_SCORE,
-			},
+			} as ScoreFx,
 		]);
-		
-		setLevelTasks(tasks => ({
+
+		setLevelTasks((tasks) => ({
 			...tasks,
 			iceCreams: tasks.iceCreams + 1,
 		}));
@@ -62,7 +61,7 @@ const IceCream = ({ id, index }: IceCreamProps) => {
 			data-ice-cream
 			ref={elementRef}
 			src={iceCreamSprite}
-			className='w-full h-full m-0 select-none pointer-events-none duration-200'
+			className="w-full h-full m-0 select-none pointer-events-none duration-200"
 			style={{
 				display: show ? 'block' : 'none',
 			}}

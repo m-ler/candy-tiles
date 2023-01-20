@@ -6,9 +6,8 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { levelItemsState } from '../../atoms/levelItems';
 import anime, { AnimeInstance } from 'animejs';
 import { scoreState } from '../../atoms/score';
-import { scoreFxListState } from '../../atoms/scoreFxList';
+import { levelFxListState } from '../../atoms/levelFxList';
 import uuid from 'react-uuid';
-import { getItemColumnIndex, getItemRowIndex } from '../../../../../game-algorithms/tile-matching';
 
 const chocolateMatchSound = new Audio(chocolateMatchSFX);
 chocolateMatchSound.volume = 0.5;
@@ -50,7 +49,7 @@ const Chocolate = ({ id, index }: ChocolateProps) => {
 	const elementRef = useRef<HTMLImageElement | null>(null);
 	const spinAnimationRef = useRef<null | AnimeInstance>(null);
 	const setScore = useSetRecoilState(scoreState);
-	const setScoreFxList = useSetRecoilState(scoreFxListState);
+	const setLevelFxList = useSetRecoilState(levelFxListState);
 
 	useEffect(() => {
 		animateItemSpawn(elementRef.current as HTMLElement, () => {
@@ -63,22 +62,24 @@ const Chocolate = ({ id, index }: ChocolateProps) => {
 	}, []);
 
 	useEffectAfterFirstRender(() => {
-		const itemMatched = !levelItems.some(x => x?.key === id);
+		const itemMatched = !levelItems.some((x) => x?.key === id);
 		if (itemMatched && !itemUsedRef.current) onItemMatch();
 	}, [levelItems]);
 
 	const onItemMatch = () => {
+		itemUsedRef.current = true;
 		setShow(false);
-		setScore(score => score + CHOCHOLATE_SCORE);
+		setScore((score) => score + CHOCHOLATE_SCORE);
 		chocolateMatchSound.play();
-		setScoreFxList(list => [
+		setLevelFxList((list) => [
 			...list,
 			{
+				type: 'Score',
 				color: 'White',
 				key: uuid(),
-				position: [(getItemColumnIndex(index) - 1) * 100, (getItemRowIndex(index) - 1) * 100],
+				index,
 				score: CHOCHOLATE_SCORE,
-			},
+			} as ScoreFx,
 		]);
 	};
 
@@ -87,7 +88,7 @@ const Chocolate = ({ id, index }: ChocolateProps) => {
 			data-chocolate
 			ref={elementRef}
 			src={chocolateSprite}
-			className='w-full h-full m-0 select-none pointer-events-none'
+			className="w-full h-full m-0 select-none pointer-events-none"
 			style={{
 				display: show ? 'block' : 'none',
 			}}

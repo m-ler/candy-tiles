@@ -12,9 +12,8 @@ import useEffectAfterFirstRender from '../../../../../hooks/useEffectAfterFirstR
 import anime from 'animejs';
 import { userInteractedWithDocumentState } from '../../../../../store/userInteractedWithDocument';
 import { scoreState } from '../../atoms/score';
-import { scoreFxListState } from '../../atoms/scoreFxList';
+import { levelFxListState } from '../../atoms/levelFxList';
 import uuid from 'react-uuid';
-import { getItemColumnIndex, getItemRowIndex } from '../../../../../game-algorithms/tile-matching';
 import { randomNumber } from '../../../../../utils/math';
 
 const candyImages: { [key: string]: string } = {
@@ -65,7 +64,7 @@ const Candy = ({ color, id, index }: CandyProps) => {
 	const elementRef = useRef<HTMLElement | null>(null);
 	const userInteractedWithDocument = useRecoilValue(userInteractedWithDocumentState);
 	const setScore = useSetRecoilState(scoreState);
-	const setScoreFxList = useSetRecoilState(scoreFxListState);
+	const setLevelFxList = useSetRecoilState(levelFxListState);
 	const itemUsed = useRef(false);
 
 	useEffect(() => {
@@ -79,33 +78,34 @@ const Candy = ({ color, id, index }: CandyProps) => {
 
 	useEffectAfterFirstRender(() => {
 		if (itemUsed.current) return;
-		const itemMatched = !levelItems.some(x => x?.key === id);
+		const itemMatched = !levelItems.some((x) => x?.key === id);
 		itemMatched && onItemMatch();
 	}, [levelItems]);
 
 	const onItemMatch = () => {
 		itemUsed.current = true;
-		setScore(score => score + CANDY_SCORE);
+		setScore((score) => score + CANDY_SCORE);
 		setShow(false);
-		setScoreFxList(list => [
+		setLevelFxList((list) => [
 			...list,
 			{
+				type: 'Score',
 				color,
 				key: uuid(),
-				position: [(getItemColumnIndex(index) - 1) * 100, (getItemRowIndex(index) - 1) * 100],
+				index,
 				score: CANDY_SCORE,
-			},
+			} as ScoreFx,
 		]);
 	};
 
 	return (
-		<span className='relative w-full h-full block' ref={elementRef}>
+		<span className="relative w-full h-full block" ref={elementRef}>
 			{show ? (
 				<img
 					data-candy
 					data-color={color}
 					src={candyImages[color]}
-					className='block w-full h-full m-0 select-none pointer-events-none relative'
+					className="block w-full h-full m-0 select-none pointer-events-none relative"
 				></img>
 			) : (
 				<></>

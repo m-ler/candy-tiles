@@ -121,7 +121,6 @@ const LevelManager = () => {
 			const matchResult = applyMatches(matchInfo, itemList);
 
 			setLevelItems(matchResult);
-			console.log(structuredClone(matchInfo.matchingList));
 			setMatchList(matchInfo.matchingList);
 
 			await delay(ANIMATION_TIME_MS);

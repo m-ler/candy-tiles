@@ -11,9 +11,8 @@ import { levelItemsState } from '../../atoms/levelItems';
 import useEffectAfterFirstRender from '../../../../../hooks/useEffectAfterFirstRender';
 import anime from 'animejs';
 import { scoreState } from '../../atoms/score';
-import { scoreFxListState } from '../../atoms/scoreFxList';
+import { levelFxListState } from '../../atoms/levelFxList';
 import uuid from 'react-uuid';
-import { getItemColumnIndex, getItemRowIndex } from '../../../../../game-algorithms/tile-matching';
 
 const candyImages: { [key: string]: string } = {
 	'Red': superRed,
@@ -52,29 +51,37 @@ const SuperCandy = ({ color, id, index }: SuperCandyProps) => {
 	const elementRef = useRef<HTMLImageElement | null>(null);
 	const levelItems = useRecoilValue(levelItemsState);
 	const setScore = useSetRecoilState(scoreState);
-	const setScoreFxList = useSetRecoilState(scoreFxListState);
+	const setLevelFxList = useSetRecoilState(levelFxListState);
 
 	useEffect(() => {
 		animateItemSpawn(elementRef.current as HTMLElement);
 	}, []);
 
 	useEffectAfterFirstRender(() => {
-		const itemMatched = !levelItems.some(x => x?.key === id);
+		const itemMatched = !levelItems.some((x) => x?.key === id);
 		itemMatched && !itemUsedRef.current && onItemMatch();
 	}, [levelItems]);
 
 	const onItemMatch = () => {
+		itemUsedRef.current = true;
 		setShow(false);
-		setScore(score => score + SUPER_CANDY_SCORE);
+		setScore((score) => score + SUPER_CANDY_SCORE);
 		superCandyMatchSound.play();
-		setScoreFxList(list => [
+		setLevelFxList((list) => [
 			...list,
 			{
+				type: 'Score',
 				color,
 				key: uuid(),
-				position: [(getItemColumnIndex(index) - 1) * 100, (getItemRowIndex(index) - 1) * 100],
+				index,
 				score: SUPER_CANDY_SCORE,
-			},
+			} as ScoreFx,
+			{
+				type: 'SuperCandy',
+				color,
+				key: uuid(),
+				index,
+			} as SuperCandyFX,
 		]);
 	};
 
@@ -84,7 +91,7 @@ const SuperCandy = ({ color, id, index }: SuperCandyProps) => {
 			data-candy
 			data-color={color}
 			src={candyImages[color]}
-			className='w-full h-full m-0 select-none pointer-events-none'
+			className="w-full h-full m-0 select-none pointer-events-none"
 			style={{
 				display: show ? 'block' : 'none',
 			}}

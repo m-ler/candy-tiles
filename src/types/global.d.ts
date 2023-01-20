@@ -63,9 +63,20 @@ declare global {
 	type SwappedItems = [number | null, number | null];
 
 	type ScoreFx = {
-		position: [number, number];
+		index: number;
 		color: CandyColor;
 		score: number;
-		key: string;
+		type: 'Score';
+		key: 'string';
 	};
+
+	type SuperCandyFX = {
+		position: [number, number];
+		color: CandyColor;
+		index: number;
+		type: 'SuperCandy';
+		key: 'string';
+	};
+
+	type LevelFX = ScoreFx | SuperCandyFX;
 }

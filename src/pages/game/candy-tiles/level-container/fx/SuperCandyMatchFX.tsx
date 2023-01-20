@@ -6,27 +6,30 @@ import candyHexColors from '../../../../../data/candy-hex-colors';
 import { getItemColumnIndex, getItemRowIndex } from '../../../../../game-algorithms/tile-matching';
 import { levelFxListState } from '../../atoms/levelFxList';
 
-type ScoreFXProps = {
-	score: number;
+type Props = {
 	color: CandyColor;
 	index: number;
 	id: string;
 };
 
-const ScoreFX = ({ score, color, index, id }: ScoreFXProps) => {
+const SuperCandyMatchFX = ({ color, index, id }: Props) => {
 	const setLevelFxList = useSetRecoilState(levelFxListState);
-	const scoreElementRef = useRef<HTMLElement | null>(null);
+	const fxElementRef = useRef<HTMLSpanElement | null>(null);
 	const position = [(getItemColumnIndex(index) - 1) * 100, (getItemRowIndex(index) - 1) * 100];
 
 	useEffect(() => {
-		animateScore();
+		animateFx();
 	}, []);
 
-	const animateScore = (): void => {
+	const animateFx = (): void => {
 		anime({
-			targets: scoreElementRef.current,
-			translateY: ['0%', '-100%'],
+			targets: fxElementRef.current,
 			opacity: [1, 0],
+			scale: {
+				value: [0, 1],
+				duration: 300,
+				easing: 'easeOutElastic',
+			},
 			duration: 500,
 			easing: 'linear',
 			complete: () => setLevelFxList((list) => list.filter((x) => x.key !== id)),
@@ -35,7 +38,7 @@ const ScoreFX = ({ score, color, index, id }: ScoreFXProps) => {
 
 	return (
 		<div
-			className="absolute flex"
+			className="absolute flex aspect-square opacity-60"
 			style={{
 				transform: `translate(${position[0]}%, ${position[1]}%)`,
 				width: `calc(100%/${COLUMN_NUMBER})`,
@@ -43,16 +46,27 @@ const ScoreFX = ({ score, color, index, id }: ScoreFXProps) => {
 			}}
 		>
 			<span
-				ref={scoreElementRef}
-				className="text-[200%] font-bold text-center m-auto font-YellowCandy"
+				ref={fxElementRef}
+				className="relative block w-full h-full m-auto"
 				style={{
-					color: candyHexColors[color],
+					backgroundColor: candyHexColors[color],
 				}}
 			>
-				{score}
+				<span
+					className="absolute block w-screen h-full bg-inherit translate-x-[-50%]"
+					style={{
+						backgroundColor: candyHexColors[color],
+					}}
+				></span>
+				<span
+					className="absolute block w-full h-screen bg-inherit translate-y-[-50%]"
+					style={{
+						backgroundColor: candyHexColors[color],
+					}}
+				></span>
 			</span>
 		</div>
 	);
 };
 
-export default ScoreFX;
+export default SuperCandyMatchFX;
