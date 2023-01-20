@@ -53,13 +53,13 @@ const SuperCandyMatchFX = ({ color, index, id }: Props) => {
 				}}
 			>
 				<span
-					className="absolute block w-screen h-full bg-inherit translate-x-[-50%]"
+					className="absolute block w-[1500px] h-full bg-inherit translate-x-[-50%]"
 					style={{
 						backgroundColor: candyHexColors[color],
 					}}
 				></span>
 				<span
-					className="absolute block w-full h-screen bg-inherit translate-y-[-50%]"
+					className="absolute block w-full h-[1500px] bg-inherit translate-y-[-50%]"
 					style={{
 						backgroundColor: candyHexColors[color],
 					}}
