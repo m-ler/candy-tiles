@@ -8,15 +8,19 @@ import { matchListState } from '../../atoms/matchList';
 import { levelTilesState } from '../../atoms/levelTiles';
 import iceTileSprite from './../../../../../assets/img/tiles/ice.png';
 import { levelTasksState } from '../../atoms/levelTasks';
+import useTileInteraction from './hooks/useTileInteraction';
 
 const iceCrack1Sound = new Audio(iceCrack1SFX);
 const iceCrack2Sound = new Audio(iceCrack2SFX);
 
 const IceTile = ({ index }: TileProps) => {
 	const [damaged, setDamaged] = useState(false);
+	const [tileElement, setTileElement] = useState<HTMLDivElement | null>(null);
 	const matchList = useRecoilValue(matchListState);
-	const setLevelTiles = useSetRecoilState(levelTilesState);
 	const setLevelTasks = useSetRecoilState(levelTasksState);
+	const setLevelTiles = useSetRecoilState(levelTilesState);
+
+	useTileInteraction(index, tileElement as HTMLElement);
 
 	useEffectAfterFirstRender(() => {
 		checkMatchInTile();
@@ -45,7 +49,12 @@ const IceTile = ({ index }: TileProps) => {
 	};
 
 	return (
-		<div className="relative bg-black/25 m-[2%] hover:invert duration-200 select-none rounded" data-index={index} data-tile>
+		<div
+			className="relative bg-black/25 m-[2%] hover:invert duration-200 select-none rounded"
+			data-index={index}
+			data-tile
+			ref={setTileElement}
+		>
 			<img
 				src={iceTileSprite}
 				className="pointer-events-none"
