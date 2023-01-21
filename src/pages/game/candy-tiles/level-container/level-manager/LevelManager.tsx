@@ -7,6 +7,7 @@ import {
 	checkForMatchings,
 	generateNewCandies,
 	getMatchGroupCenterIndex,
+	levelHasAvaliableCombinations,
 	repositionItems,
 } from '../../../../../game-algorithms/tile-matching';
 import { levelItemsState } from '../../atoms/levelItems';
@@ -16,10 +17,11 @@ import matchSFX from './../../../../../assets/audio/match.mp3';
 import fusionMatchSFX from './../../../../../assets/audio/fusionMatch.mp3';
 import { delay } from '../../../../../utils/delay';
 import { getLevelItemByFusion } from '../../../../../game-algorithms/candy-fusions';
-import { allowSwapState } from '../../atoms/allowSwap';
+import { finishedMovingState } from '../../atoms/finishedMoving';
 import { matchListState } from '../../atoms/matchList';
 import uuid from 'react-uuid';
 import { levelMovesState } from '../../atoms/levelMoves';
+import { avaliableCombinationsState } from '../../atoms/avaliableCombinations';
 
 const matchSound = new Audio(matchSFX);
 const fusionMatchSound = new Audio(fusionMatchSFX);
@@ -66,8 +68,9 @@ const LevelManager = () => {
 	const [levelItems, setLevelItems] = useRecoilState(levelItemsState);
 	const [levelTiles, setLevelTiles] = useRecoilState(levelTilesState);
 	const setLevelMoves = useSetRecoilState(levelMovesState);
-	const setAllowSwap = useSetRecoilState(allowSwapState);
+	const [finishedMoving, setFinishedMoving] = useRecoilState(finishedMovingState);
 	const setMatchList = useSetRecoilState(matchListState);
+	const [avaliableCombinations, setAvaliableCombinations] = useRecoilState(avaliableCombinationsState);
 
 	const itemsWereSwapped = useRef(false);
 
@@ -75,10 +78,13 @@ const LevelManager = () => {
 		const initialItems = getInitialItems(0);
 		setLevelTiles(levelList[0].tiles);
 		setLevelItems(initialItems);
-		setLevelMoves({ done: 0, total: 30, spendAllMoves: false });
+		setLevelMoves({ done: 0, total: 300, spendAllMoves: false });
 	}, []);
 
 	useEffect(() => swapItems(false), [swappedItems]);
+	useEffect(() => {
+		finishedMoving && checkForAvaliableCombinations();
+	}, [finishedMoving]);
 
 	const swapItems = (undo: boolean) => {
 		if (swappedItems.some((x) => x === null)) return;
@@ -104,7 +110,7 @@ const LevelManager = () => {
 		}
 
 		setLevelItems(newLevelItems);
-		setAllowSwap(false);
+		setFinishedMoving(false);
 		setTimeout(() => checkForMatches(newLevelItems, true), ANIMATION_TIME_MS);
 	};
 
@@ -136,7 +142,12 @@ const LevelManager = () => {
 		thereAreSwappedItems && checkSwap && swapItems(true);
 
 		comboCount = 0;
-		setAllowSwap(true);
+		setFinishedMoving(true);
+	};
+
+	const checkForAvaliableCombinations = () => {
+		levelHasAvaliableCombinations(levelItems, levelTiles);
+		setAvaliableCombinations(true);
 	};
 
 	return <></>;

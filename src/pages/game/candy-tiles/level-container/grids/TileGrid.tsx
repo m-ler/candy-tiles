@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { COLUMN_NUMBER, ROW_NUMBER } from '../../../../../config';
 import { tilesAreAdjacent } from '../../../../../game-algorithms/tile-matching';
-import { allowSwapState } from '../../atoms/allowSwap';
+import { finishedMovingState } from '../../atoms/finishedMoving';
 import { levelMovesState } from '../../atoms/levelMoves';
 import { levelTilesState } from '../../atoms/levelTiles';
 import { swappedItemsState } from '../../atoms/swappedItems';
@@ -36,7 +36,7 @@ const TileGrid = () => {
 	const dragging = useRef<boolean>(false);
 	const firstTile = useRef<HTMLElement | null>();
 	const setSwappedItems = useSetRecoilState(swappedItemsState);
-	const allowSwap = useRecoilValue(allowSwapState);
+	const finishedMoving = useRecoilValue(finishedMovingState);
 	const tileGridElementRef = useRef<HTMLDivElement | null>(null);
 	const levelMoves = useRecoilValue(levelMovesState);
 
@@ -46,11 +46,11 @@ const TileGrid = () => {
 
 	useEffect(() => {
 		updateGridInteraction();
-	}, [allowSwap]);
+	}, [finishedMoving]);
 
 	const updateGridInteraction = () => {
 		if (tileGridElementRef.current) {
-			const gameOver = allowSwap && !levelMoves.spendAllMoves;
+			const gameOver = finishedMoving && !levelMoves.spendAllMoves;
 			tileGridElementRef.current.style.pointerEvents = gameOver ? 'all' : 'none';
 		}
 	};
@@ -68,7 +68,7 @@ const TileGrid = () => {
 	};
 
 	const handleMouseOver = (e: React.MouseEvent): void => {
-		if (!elementIsTile(e.target as HTMLElement) || !firstTile.current || !dragging.current || !allowSwap) return;
+		if (!elementIsTile(e.target as HTMLElement) || !firstTile.current || !dragging.current || !finishedMoving) return;
 
 		const firstTileIndex = parseInt(firstTile.current.getAttribute('data-index') || '');
 		const secondTileIndex = parseInt((e.target as HTMLElement).getAttribute('data-index') || '');

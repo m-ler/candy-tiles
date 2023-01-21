@@ -6,7 +6,7 @@ export const getNumberSequenceArray = (start: number, length: number, distance =
 
 export const getArrayNumberSum = (array: number[]): number => array.reduce((prev, acc) => prev + acc, 0);
 
-export const findAllIndeces = <T>(array: T[], predicate: (item: T, index: number) => boolean): number[] => {
+export const findAllIndeces = <T>(array: readonly T[], predicate: (item: T, index: number) => boolean): number[] => {
 	const indices: number[] = [];
 	array.forEach((value, index) => {
 		predicate(value, index) && indices.push(index);

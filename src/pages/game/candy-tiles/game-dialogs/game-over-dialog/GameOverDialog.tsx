@@ -7,7 +7,7 @@ import CandyTilesDialog from '../CandyTilesDialog';
 import MenuIconButtonSecondary from '../../../../../mui/components/MenuIconButtonSecondary';
 import { FaHome } from 'react-icons/fa';
 import { MdReplay } from 'react-icons/md';
-import { allowSwapState } from '../../atoms/allowSwap';
+import { finishedMovingState } from '../../atoms/finishedMoving';
 import { useNavigate } from 'react-router-dom';
 import useUnmountAnimation from '../../../../../hooks/useUnmountAnimation';
 
@@ -35,14 +35,14 @@ const animateEnd = (onComplete?: () => void) => {
 
 const GameOverDialog = () => {
 	const levelMoves = useRecoilValue(levelMovesState);
-	const allowSwap = useRecoilValue(allowSwapState);
+	const finishedMoving = useRecoilValue(finishedMovingState);
 	const navigate = useNavigate();
-	const gameOver = levelMoves.spendAllMoves && allowSwap;
+	const gameOver = levelMoves.spendAllMoves && finishedMoving;
 	const unmountAnimation = useUnmountAnimation('#game-container');
 
 	useEffect(() => {
 		gameOver && animateStart();
-	}, [allowSwap]);
+	}, [finishedMoving]);
 
 	const goBackOnClick = () => {
 		animateEnd(() => unmountAnimation(() => navigate('/')));

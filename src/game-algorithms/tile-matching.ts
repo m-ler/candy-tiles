@@ -458,3 +458,33 @@ export const matchAllCandiesOfColor = (
 		return matchDetail;
 	});
 };
+
+export const levelHasAvaliableCombinations = (itemList: readonly LevelItem[], tileList: readonly LevelTile[]): boolean => {
+	const interactableTileTypes: string[] = ['Normal', 'Ice'];
+	const interactableTilesIndices = findAllIndeces(tileList, (tile) => interactableTileTypes.includes(tile?.type || ''));
+	const interactableItems = [...itemList].map((x, i) => (interactableTilesIndices.includes(i) ? x : null));
+	//console.log(interactableItems);
+	const foo = interactableItems.some((item, index) => {
+		if (item === null) return false;
+		const adjacents = getAdjacentIndexes(index);
+
+		const faa = adjacents.some((adjacent) => {
+			if (interactableItems[adjacent] === null || adjacent < 0) return false;
+			const itemListCopy = [...itemList];
+			const item = structuredClone(itemListCopy[index]);
+			itemListCopy[index] = itemListCopy[adjacent];
+			itemListCopy[adjacent] = item;
+			index === 10 && console.log(itemListCopy);
+
+			return checkForMatchings(itemListCopy).thereWereMatches;
+		});
+
+		return faa;
+	});
+
+	console.log(foo);
+
+	const chocolate = itemList.some((item) => item?.type === 'Chocolate');
+	!(chocolate || foo) && alert('RAN OUT OF POSSIBLE COMBINATIONS');
+	return chocolate || foo;
+};

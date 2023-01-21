@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useResetRecoilState } from 'recoil';
-import { allowSwapState } from './atoms/allowSwap';
+import { finishedMovingState } from './atoms/finishedMoving';
 import { levelItemsState } from './atoms/levelItems';
 import { levelMovesState } from './atoms/levelMoves';
 import { levelTasksState } from './atoms/levelTasks';
@@ -11,7 +11,7 @@ import { levelFxListState } from './atoms/levelFxList';
 import { swappedItemsState } from './atoms/swappedItems';
 
 const LevelStateManager = () => {
-	const resetAllowSwap = useResetRecoilState(allowSwapState);
+	const resetFinishedMoving = useResetRecoilState(finishedMovingState);
 	const resetLevelItems = useResetRecoilState(levelItemsState);
 	const resetLevelTiles = useResetRecoilState(levelTilesState);
 	const resetLevelMoves = useResetRecoilState(levelMovesState);
@@ -28,7 +28,7 @@ const LevelStateManager = () => {
 	}, []);
 
 	const resetLevelStateToDefault = () => {
-		resetAllowSwap();
+		resetFinishedMoving();
 		resetLevelItems();
 		resetLevelTiles();
 		resetLevelMoves();
