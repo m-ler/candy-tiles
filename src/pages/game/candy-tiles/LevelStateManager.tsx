@@ -9,6 +9,7 @@ import { matchListState } from './atoms/matchList';
 import { scoreState } from './atoms/score';
 import { levelFxListState } from './atoms/levelFxList';
 import { swappedItemsState } from './atoms/swappedItems';
+import { possibleCombinationsState } from './atoms/possibleCombinations';
 
 const LevelStateManager = () => {
 	const resetFinishedMoving = useResetRecoilState(finishedMovingState);
@@ -20,6 +21,7 @@ const LevelStateManager = () => {
 	const resetScore = useResetRecoilState(scoreState);
 	const resetLevelFxList = useResetRecoilState(levelFxListState);
 	const resetSwappedItems = useResetRecoilState(swappedItemsState);
+	const resetPossibleCombinations = useResetRecoilState(possibleCombinationsState);
 
 	useEffect(() => {
 		return () => {
@@ -37,6 +39,7 @@ const LevelStateManager = () => {
 		resetScore();
 		resetLevelFxList();
 		resetSwappedItems();
+		resetPossibleCombinations();
 	};
 	return <></>;
 };
