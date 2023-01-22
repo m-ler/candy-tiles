@@ -5,7 +5,7 @@ import rockCrack1SFX from './../../../../../assets/audio/rockCrack1.mp3';
 import rockCrack2SFX from './../../../../../assets/audio/rockCrack2.mp3';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { matchListState } from '../../atoms/matchList';
-import useEffectAfterFirstRender from '../../../../../hooks/useEffectAfterFirstRender';
+import useEffectAfterMount from '../../../../../hooks/useEffectAfterMount';
 import { levelTilesState } from '../../atoms/levelTiles';
 import rockTileSprite from './../../../../../assets/img/tiles/rock.png';
 import { levelTasksState } from '../../atoms/levelTasks';
@@ -19,7 +19,7 @@ const RockTile = ({ index }: TileProps) => {
 	const setLevelTiles = useSetRecoilState(levelTilesState);
 	const setLevelTasks = useSetRecoilState(levelTasksState);
 
-	useEffectAfterFirstRender(() => {
+	useEffectAfterMount(() => {
 		checkMatchInAdjacentTiles();
 	}, [matchList]);
 

@@ -1,7 +1,7 @@
 import chocolateSprite from './../../../../../assets/img/candies/chocolate.png';
 import { useEffect, useRef, useState } from 'react';
 import chocolateMatchSFX from './../../../../../assets/audio/chocolateMatch.mp3';
-import useEffectAfterFirstRender from '../../../../../hooks/useEffectAfterFirstRender';
+import useEffectAfterMount from '../../../../../hooks/useEffectAfterMount';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { levelItemsState } from '../../atoms/levelItems';
 import anime, { AnimeInstance } from 'animejs';
@@ -61,7 +61,7 @@ const Chocolate = ({ id, index }: ChocolateProps) => {
 		};
 	}, []);
 
-	useEffectAfterFirstRender(() => {
+	useEffectAfterMount(() => {
 		const itemMatched = !levelItems.some((x) => x?.key === id);
 		if (itemMatched && !itemUsedRef.current) onItemMatch();
 	}, [levelItems]);

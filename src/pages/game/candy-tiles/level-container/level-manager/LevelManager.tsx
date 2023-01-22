@@ -22,7 +22,7 @@ import { matchListState } from '../../atoms/matchList';
 import uuid from 'react-uuid';
 import { levelMovesState } from '../../atoms/levelMoves';
 import { avaliableCombinationsState } from '../../atoms/avaliableCombinations';
-import useEffectAfterFirstRender from '../../../../../hooks/useEffectAfterFirstRender';
+import useEffectAfterMount from '../../../../../hooks/useEffectAfterMount';
 
 const matchSound = new Audio(matchSFX);
 const fusionMatchSound = new Audio(fusionMatchSFX);
@@ -87,7 +87,7 @@ const LevelManager = () => {
 
 	useEffect(() => swapItems(false), [swappedItems]);
 	
-	useEffectAfterFirstRender(() => {
+	useEffectAfterMount(() => {
 		finishedMoving && checkForAvaliableCombinations();
 	}, [finishedMoving]);
 

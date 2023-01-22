@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { ANIMATION_TIME_MS, COLUMN_NUMBER } from '../../../../../config';
 import { getItemColumnIndex, getItemRowIndex } from '../../../../../game-algorithms/tile-matching';
-import useEffectAfterFirstRender from '../../../../../hooks/useEffectAfterFirstRender';
+import useEffectAfterMount from '../../../../../hooks/useEffectAfterMount';
 import { levelItemsState } from '../../atoms/levelItems';
 import Candy from './Candy';
 import Chocolate from './Chocolate';
@@ -76,7 +76,7 @@ const LevelItem = ({ initialIndex }: LevelItemProps) => {
 		validItem && liveItemsIds.push(levelItemTarget?.key || '');
 	}, []);
 
-	useEffectAfterFirstRender(() => {
+	useEffectAfterMount(() => {
 		updatePosition();
 		emptyTargetRef.current && spawnItem();
 		currentIndexRef.current = levelItems.findIndex(x => x?.key === levelItemTarget?.key);

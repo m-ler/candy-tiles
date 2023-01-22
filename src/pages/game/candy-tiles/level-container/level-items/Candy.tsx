@@ -8,7 +8,7 @@ import candyBounceSFX from './../../../../../assets/audio/candyBounce.mp3';
 import { useEffect, useRef, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { levelItemsState } from '../../atoms/levelItems';
-import useEffectAfterFirstRender from '../../../../../hooks/useEffectAfterFirstRender';
+import useEffectAfterMount from '../../../../../hooks/useEffectAfterMount';
 import anime from 'animejs';
 import { userInteractedWithDocumentState } from '../../../../../store/userInteractedWithDocument';
 import { scoreState } from '../../atoms/score';
@@ -76,7 +76,7 @@ const Candy = ({ color, id, index }: CandyProps) => {
 		!!id && setShow(true);
 	}, [id]);
 
-	useEffectAfterFirstRender(() => {
+	useEffectAfterMount(() => {
 		if (itemUsed.current) return;
 		const itemMatched = !levelItems.some((x) => x?.key === id);
 		itemMatched && onItemMatch();

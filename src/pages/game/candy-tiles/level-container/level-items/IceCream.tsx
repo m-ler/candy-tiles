@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import uuid from 'react-uuid';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import useEffectAfterFirstRender from '../../../../../hooks/useEffectAfterFirstRender';
+import useEffectAfterMount from '../../../../../hooks/useEffectAfterMount';
 import { levelItemsState } from '../../atoms/levelItems';
 import { scoreState } from '../../atoms/score';
 import { levelFxListState } from '../../atoms/levelFxList';
@@ -29,7 +29,7 @@ const IceCream = ({ id, index }: IceCreamProps) => {
 	const setLevelFxList = useSetRecoilState(levelFxListState);
 	const setLevelTasks = useSetRecoilState(levelTasksState);
 
-	useEffectAfterFirstRender(() => {
+	useEffectAfterMount(() => {
 		const itemMatched = !levelItems.some((x) => x?.key === id);
 		itemMatched && !itemUsedRef.current && onItemMatch();
 	}, [levelItems]);

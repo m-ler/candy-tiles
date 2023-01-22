@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { TileProps } from './Tile';
 import iceCrack1SFX from './../../../../../assets/audio/iceCrack1.mp3';
 import iceCrack2SFX from './../../../../../assets/audio/iceCrack2.mp3';
-import useEffectAfterFirstRender from '../../../../../hooks/useEffectAfterFirstRender';
+import useEffectAfterMount from '../../../../../hooks/useEffectAfterMount';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { matchListState } from '../../atoms/matchList';
 import { levelTilesState } from '../../atoms/levelTiles';
@@ -22,7 +22,7 @@ const IceTile = ({ index }: TileProps) => {
 
 	useTileInteraction(index, tileElement as HTMLElement);
 
-	useEffectAfterFirstRender(() => {
+	useEffectAfterMount(() => {
 		checkMatchInTile();
 	}, [matchList]);
 

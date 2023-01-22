@@ -8,7 +8,7 @@ import superCandyMatchSFX from './../../../../../assets/audio/superCandyMatch.mp
 import { useEffect, useRef, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { levelItemsState } from '../../atoms/levelItems';
-import useEffectAfterFirstRender from '../../../../../hooks/useEffectAfterFirstRender';
+import useEffectAfterMount from '../../../../../hooks/useEffectAfterMount';
 import anime from 'animejs';
 import { scoreState } from '../../atoms/score';
 import { levelFxListState } from '../../atoms/levelFxList';
@@ -57,7 +57,7 @@ const SuperCandy = ({ color, id, index }: SuperCandyProps) => {
 		animateItemSpawn(elementRef.current as HTMLElement);
 	}, []);
 
-	useEffectAfterFirstRender(() => {
+	useEffectAfterMount(() => {
 		const itemMatched = !levelItems.some((x) => x?.key === id);
 		itemMatched && !itemUsedRef.current && onItemMatch();
 	}, [levelItems]);
