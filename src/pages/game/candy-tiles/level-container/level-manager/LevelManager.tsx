@@ -7,7 +7,7 @@ import {
 	checkForMatchings,
 	generateNewCandies,
 	getMatchGroupCenterIndex,
-	levelHasAvaliableCombinations,
+	levelHasPossibleCombinations,
 	repositionItems,
 } from '../../../../../game-algorithms/tile-matching';
 import { levelItemsState } from '../../atoms/levelItems';
@@ -22,6 +22,7 @@ import { matchListState } from '../../atoms/matchList';
 import uuid from 'react-uuid';
 import { levelMovesState } from '../../atoms/levelMoves';
 import { avaliableCombinationsState } from '../../atoms/avaliableCombinations';
+import useEffectAfterFirstRender from '../../../../../hooks/useEffectAfterFirstRender';
 
 const matchSound = new Audio(matchSFX);
 const fusionMatchSound = new Audio(fusionMatchSFX);
@@ -49,11 +50,14 @@ const applyMatches = (matchInfo: MatchResult, itemList: LevelItem[]): LevelItem[
 };
 
 const getInitialItems = (selectedLevel: number): LevelItem[] => {
-	levelList[selectedLevel].items.forEach((x) => x !== null && x.key === uuid());
-	return levelList[0].items.map((x) => {
-		x !== null && !x.key && (x.key = uuid());
-		return x;
+	const initialTiles = levelList[selectedLevel].tiles;
+	const initialItems = levelList[selectedLevel].items.map((item, index) => {
+		if (initialTiles[index] === null || item === null) return null;
+		item.key = uuid();
+		return item;
 	});
+
+	return initialItems;
 };
 
 const playMatchSFX = (): void => {
@@ -82,7 +86,8 @@ const LevelManager = () => {
 	}, []);
 
 	useEffect(() => swapItems(false), [swappedItems]);
-	useEffect(() => {
+	
+	useEffectAfterFirstRender(() => {
 		finishedMoving && checkForAvaliableCombinations();
 	}, [finishedMoving]);
 
@@ -130,7 +135,7 @@ const LevelManager = () => {
 			setMatchList(matchInfo.matchingList);
 
 			await delay(ANIMATION_TIME_MS);
-			const repositionResult = repositionItems(matchResult, levelTiles).repositionedItems;
+			const repositionResult = repositionItems(matchResult, levelTiles);
 			const fillResult = generateNewCandies(repositionResult, levelTiles);
 			setLevelItems(fillResult);
 			await delay(ANIMATION_TIME_MS);
@@ -146,7 +151,7 @@ const LevelManager = () => {
 	};
 
 	const checkForAvaliableCombinations = () => {
-		levelHasAvaliableCombinations(levelItems, levelTiles);
+		levelHasPossibleCombinations(levelItems, levelTiles);
 		setAvaliableCombinations(true);
 	};
 

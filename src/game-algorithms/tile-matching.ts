@@ -315,8 +315,8 @@ type ItemAbove = {
 	tileDistanceCount: number;
 };
 
-const getItemAbove = (itemIdex: number, items: readonly LevelItem[], tiles: readonly LevelTile[]): ItemAbove => {
-	let nextItemIndex = itemIdex - COLUMN_NUMBER;
+const getItemAbove = (itemIndex: number, items: readonly LevelItem[], tiles: readonly LevelTile[]): ItemAbove => {
+	let nextItemIndex = itemIndex - COLUMN_NUMBER;
 	let tileDistanceCount = 1;
 	let aboveItem: number | null = null;
 
@@ -344,12 +344,8 @@ export type NewItemPosition = {
 	index: number;
 	tilesToMove: number;
 };
-type RepositionResult = {
-	repositionedItems: LevelItem[];
-	newPositions: NewItemPosition[];
-};
 
-export const repositionItems = (items: readonly LevelItem[], tiles: readonly LevelTile[]): RepositionResult => {
+export const repositionItems = (items: readonly LevelItem[], tiles: readonly LevelTile[]): LevelItem[] => {
 	const repositionedItems = structuredClone(items) as LevelItem[];
 	const newPositions: NewItemPosition[] = [];
 
@@ -370,11 +366,7 @@ export const repositionItems = (items: readonly LevelItem[], tiles: readonly Lev
 			}
 		}
 	}
-
-	return {
-		repositionedItems,
-		newPositions,
-	};
+	return repositionedItems;
 };
 
 const getRandomColorCandy = (): LevelItem => {
@@ -459,32 +451,37 @@ export const matchAllCandiesOfColor = (
 	});
 };
 
-export const levelHasAvaliableCombinations = (itemList: readonly LevelItem[], tileList: readonly LevelTile[]): boolean => {
+export const levelHasPossibleCombinations = (itemList: readonly LevelItem[], tileList: readonly LevelTile[]): boolean => {
+	const activeChocolateItem = itemList.some((item) => item?.type === 'Chocolate');
+	if (activeChocolateItem) return true;
+
 	const interactableTileTypes: string[] = ['Normal', 'Ice'];
+	const interactableItemTypes: string[] = ['Candy', 'SuperCandy', 'Chocolate'];
 	const interactableTilesIndices = findAllIndeces(tileList, (tile) => interactableTileTypes.includes(tile?.type || ''));
-	const interactableItems = [...itemList].map((x, i) => (interactableTilesIndices.includes(i) ? x : null));
-	//console.log(interactableItems);
-	const foo = interactableItems.some((item, index) => {
+	const interactableItems = [...itemList].map((x, i) =>
+		interactableTilesIndices.includes(i) && interactableItemTypes.includes(x?.type || '') ? x : null,
+	);
+
+	const possibleCombination = interactableItems.some((item, index) => {
 		if (item === null) return false;
 		const adjacents = getAdjacentIndexes(index);
 
-		const faa = adjacents.some((adjacent) => {
-			if (interactableItems[adjacent] === null || adjacent < 0) return false;
+		const adjacentSwapMatched = adjacents.some((adjacentIndex) => {
+			const adjacentItem = structuredClone(interactableItems[adjacentIndex]);
+			const validAdjacentItem = adjacentItem !== null && adjacentIndex > 0 && interactableItemTypes.includes(adjacentItem?.type || '');
+			if (!validAdjacentItem) return false;
+
 			const itemListCopy = [...itemList];
-			const item = structuredClone(itemListCopy[index]);
-			itemListCopy[index] = itemListCopy[adjacent];
-			itemListCopy[adjacent] = item;
-			index === 10 && console.log(itemListCopy);
+			itemListCopy[index] = adjacentItem;
+			itemListCopy[adjacentIndex] = item;
 
 			return checkForMatchings(itemListCopy).thereWereMatches;
 		});
 
-		return faa;
+		return adjacentSwapMatched;
 	});
 
-	console.log(foo);
+	!possibleCombination && alert('RAN OUT OF POSSIBLE COMBINATIONS');
 
-	const chocolate = itemList.some((item) => item?.type === 'Chocolate');
-	!(chocolate || foo) && alert('RAN OUT OF POSSIBLE COMBINATIONS');
-	return chocolate || foo;
+	return possibleCombination;
 };
