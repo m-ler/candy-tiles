@@ -114,8 +114,8 @@ const LevelManager = () => {
 			return;
 		}
 
-		setLevelItems(newLevelItems);
 		setFinishedMoving(false);
+		setLevelItems(newLevelItems);
 		setTimeout(() => checkForMatches(newLevelItems, true), ANIMATION_TIME_MS);
 	};
 
@@ -147,7 +147,9 @@ const LevelManager = () => {
 		thereAreSwappedItems && checkSwap && swapItems(true);
 
 		comboCount = 0;
-		setFinishedMoving(true);
+		setTimeout(() => {
+			setFinishedMoving(true);
+		}, ANIMATION_TIME_MS);
 	};
 
 	const checkForPossibleCombinations = () => {
