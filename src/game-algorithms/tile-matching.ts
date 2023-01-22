@@ -373,7 +373,7 @@ const getRandomColorCandy = (): LevelItem => {
 	return {
 		color: CANDY_COLOR_LIST[Math.floor(Math.random() * CANDY_COLOR_LIST.length)],
 		type: 'Candy',
-		key: uuid(),
+		id: uuid(),
 	} as Candy;
 };
 
@@ -480,8 +480,6 @@ export const levelHasPossibleCombinations = (itemList: readonly LevelItem[], til
 
 		return adjacentSwapMatched;
 	});
-
-	!possibleCombination && alert('RAN OUT OF POSSIBLE COMBINATIONS');
 
 	return possibleCombination;
 };

@@ -30,7 +30,7 @@ const IceCream = ({ id, index }: IceCreamProps) => {
 	const setLevelTasks = useSetRecoilState(levelTasksState);
 
 	useEffectAfterMount(() => {
-		const itemMatched = !levelItems.some((x) => x?.key === id);
+		const itemMatched = !levelItems.some((x) => x?.id === id);
 		itemMatched && !itemUsedRef.current && onItemMatch();
 	}, [levelItems]);
 
@@ -44,7 +44,7 @@ const IceCream = ({ id, index }: IceCreamProps) => {
 			{
 				type: 'Score',
 				color: 'White',
-				key: uuid(),
+				id: uuid(),
 				index,
 				score: ICE_CREAM_SCORE,
 			} as ScoreFx,

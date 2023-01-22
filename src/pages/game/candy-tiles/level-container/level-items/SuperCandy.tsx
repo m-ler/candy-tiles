@@ -58,7 +58,7 @@ const SuperCandy = ({ color, id, index }: SuperCandyProps) => {
 	}, []);
 
 	useEffectAfterMount(() => {
-		const itemMatched = !levelItems.some((x) => x?.key === id);
+		const itemMatched = !levelItems.some((x) => x?.id === id);
 		itemMatched && !itemUsedRef.current && onItemMatch();
 	}, [levelItems]);
 
@@ -72,14 +72,14 @@ const SuperCandy = ({ color, id, index }: SuperCandyProps) => {
 			{
 				type: 'Score',
 				color,
-				key: uuid(),
+				id: uuid(),
 				index,
 				score: SUPER_CANDY_SCORE,
 			} as ScoreFx,
 			{
 				type: 'SuperCandy',
 				color,
-				key: uuid(),
+				id: uuid(),
 				index,
 			} as SuperCandyFX,
 		]);

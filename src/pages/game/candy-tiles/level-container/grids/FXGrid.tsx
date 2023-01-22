@@ -6,9 +6,9 @@ import SuperCandyMatchFX from '../fx/SuperCandyMatchFX';
 const getFXComponent = (fx: LevelFX): JSX.Element => {
 	switch (fx.type) {
 		case 'Score':
-			return <ScoreFX color={fx.color} score={fx.score} index={fx.index} key={fx.key} id={fx.key}></ScoreFX>;
+			return <ScoreFX color={fx.color} score={fx.score} index={fx.index} key={fx.id} id={fx.id}></ScoreFX>;
 		case 'SuperCandy':
-			return <SuperCandyMatchFX color={fx.color} index={fx.index} key={fx.key} id={fx.key}></SuperCandyMatchFX>;
+			return <SuperCandyMatchFX color={fx.color} index={fx.index} key={fx.id} id={fx.id}></SuperCandyMatchFX>;
 	}
 };
 

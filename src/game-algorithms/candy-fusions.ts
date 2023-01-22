@@ -13,14 +13,14 @@ export const getLevelItemByFusion = (matchDetail: MatchDetail, itemToFuse: Level
 		item = {
 			color: itemToFuse?.color,
 			type: 'SuperCandy',
-			key: uuid(),
+			id: uuid(),
 		} as SuperCandy;
 	}
 
 	if (chocolateFusion) {
 		item = {
 			type: 'Chocolate',
-			key: uuid(),
+			id: uuid(),
 		} as Chocolate;
 	}
 

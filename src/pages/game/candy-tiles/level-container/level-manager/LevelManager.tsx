@@ -21,7 +21,7 @@ import { finishedMovingState } from '../../atoms/finishedMoving';
 import { matchListState } from '../../atoms/matchList';
 import uuid from 'react-uuid';
 import { levelMovesState } from '../../atoms/levelMoves';
-import { avaliableCombinationsState } from '../../atoms/avaliableCombinations';
+import { possibleCombinationsState } from '../../atoms/possibleCombinations';
 import useEffectAfterMount from '../../../../../hooks/useEffectAfterMount';
 
 const matchSound = new Audio(matchSFX);
@@ -53,7 +53,7 @@ const getInitialItems = (selectedLevel: number): LevelItem[] => {
 	const initialTiles = levelList[selectedLevel].tiles;
 	const initialItems = levelList[selectedLevel].items.map((item, index) => {
 		if (initialTiles[index] === null || item === null) return null;
-		item.key = uuid();
+		item.id = uuid();
 		return item;
 	});
 
@@ -74,7 +74,7 @@ const LevelManager = () => {
 	const setLevelMoves = useSetRecoilState(levelMovesState);
 	const [finishedMoving, setFinishedMoving] = useRecoilState(finishedMovingState);
 	const setMatchList = useSetRecoilState(matchListState);
-	const [avaliableCombinations, setAvaliableCombinations] = useRecoilState(avaliableCombinationsState);
+	const setPossibleCombinations = useSetRecoilState(possibleCombinationsState);
 
 	const itemsWereSwapped = useRef(false);
 
@@ -86,9 +86,9 @@ const LevelManager = () => {
 	}, []);
 
 	useEffect(() => swapItems(false), [swappedItems]);
-	
+
 	useEffectAfterMount(() => {
-		finishedMoving && checkForAvaliableCombinations();
+		finishedMoving && checkForPossibleCombinations();
 	}, [finishedMoving]);
 
 	const swapItems = (undo: boolean) => {
@@ -150,9 +150,9 @@ const LevelManager = () => {
 		setFinishedMoving(true);
 	};
 
-	const checkForAvaliableCombinations = () => {
-		levelHasPossibleCombinations(levelItems, levelTiles);
-		setAvaliableCombinations(true);
+	const checkForPossibleCombinations = () => {
+		const possibleCombinations = levelHasPossibleCombinations(levelItems, levelTiles);
+		setPossibleCombinations(possibleCombinations);
 	};
 
 	return <></>;

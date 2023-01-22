@@ -29,7 +29,7 @@ const ScoreFX = ({ score, color, index, id }: ScoreFXProps) => {
 			opacity: [1, 0],
 			duration: 500,
 			easing: 'linear',
-			complete: () => setLevelFxList((list) => list.filter((x) => x.key !== id)),
+			complete: () => setLevelFxList((list) => list.filter((x) => x.id !== id)),
 		});
 	};
 

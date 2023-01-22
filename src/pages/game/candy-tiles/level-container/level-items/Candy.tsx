@@ -78,7 +78,7 @@ const Candy = ({ color, id, index }: CandyProps) => {
 
 	useEffectAfterMount(() => {
 		if (itemUsed.current) return;
-		const itemMatched = !levelItems.some((x) => x?.key === id);
+		const itemMatched = !levelItems.some((x) => x?.id === id);
 		itemMatched && onItemMatch();
 	}, [levelItems]);
 
@@ -91,7 +91,7 @@ const Candy = ({ color, id, index }: CandyProps) => {
 			{
 				type: 'Score',
 				color,
-				key: uuid(),
+				id: uuid(),
 				index,
 				score: CANDY_SCORE,
 			} as ScoreFx,

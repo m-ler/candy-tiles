@@ -62,7 +62,7 @@ const Chocolate = ({ id, index }: ChocolateProps) => {
 	}, []);
 
 	useEffectAfterMount(() => {
-		const itemMatched = !levelItems.some((x) => x?.key === id);
+		const itemMatched = !levelItems.some((x) => x?.id === id);
 		if (itemMatched && !itemUsedRef.current) onItemMatch();
 	}, [levelItems]);
 
@@ -76,7 +76,7 @@ const Chocolate = ({ id, index }: ChocolateProps) => {
 			{
 				type: 'Score',
 				color: 'White',
-				key: uuid(),
+				id: uuid(),
 				index,
 				score: CHOCHOLATE_SCORE,
 			} as ScoreFx,

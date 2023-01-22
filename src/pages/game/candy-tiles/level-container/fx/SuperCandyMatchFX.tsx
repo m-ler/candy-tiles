@@ -32,7 +32,7 @@ const SuperCandyMatchFX = ({ color, index, id }: Props) => {
 			},
 			duration: 500,
 			easing: 'linear',
-			complete: () => setLevelFxList((list) => list.filter((x) => x.key !== id)),
+			complete: () => setLevelFxList((list) => list.filter((x) => x.id !== id)),
 		});
 	};
 

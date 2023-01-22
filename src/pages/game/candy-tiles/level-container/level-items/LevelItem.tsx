@@ -21,7 +21,7 @@ type LevelItemProps = {
 };
 
 const getItemComponent = (item: LevelItem | null, index: number): JSX.Element => {
-	const id = item?.key || '';
+	const id = item?.id || '';
 	switch (item?.type) {
 		case 'Candy':
 			return <Candy color={item.color} id={id} key={id} index={index}></Candy>;
@@ -72,14 +72,14 @@ const LevelItem = ({ initialIndex }: LevelItemProps) => {
 	const currentIndexRef = useRef(initialIndex);
 
 	useEffect(() => {
-		const validItem = typeof levelItemTarget?.key === 'string';
-		validItem && liveItemsIds.push(levelItemTarget?.key || '');
+		const validItem = typeof levelItemTarget?.id === 'string';
+		validItem && liveItemsIds.push(levelItemTarget?.id || '');
 	}, []);
 
 	useEffectAfterMount(() => {
 		updatePosition();
 		emptyTargetRef.current && spawnItem();
-		currentIndexRef.current = levelItems.findIndex(x => x?.key === levelItemTarget?.key);
+		currentIndexRef.current = levelItems.findIndex(x => x?.id === levelItemTarget?.id);
 	}, [levelItems]);
 
 	useEffect(() => {
@@ -89,14 +89,14 @@ const LevelItem = ({ initialIndex }: LevelItemProps) => {
 	}, [levelItemTarget]);
 
 	const spawnItem = () => {
-		removeLiveItem(levelItemTarget?.key || '');
-		const newTarget = levelItems.filter(x => typeof x?.key === 'string').find(y => !liveItemsIds.includes(y?.key || ''));
-		const newTargetIsValid = newTarget !== undefined && typeof newTarget?.key === 'string';
+		removeLiveItem(levelItemTarget?.id || '');
+		const newTarget = levelItems.filter(x => typeof x?.id === 'string').find(y => !liveItemsIds.includes(y?.id || ''));
+		const newTargetIsValid = newTarget !== undefined && typeof newTarget?.id === 'string';
 
 		if (!newTargetIsValid) return;
 
-		liveItemsIds.push(newTarget?.key || '');
-		currentIndexRef.current = levelItems.findIndex(x => x?.key === newTarget.key);
+		liveItemsIds.push(newTarget?.id || '');
+		currentIndexRef.current = levelItems.findIndex(x => x?.id === newTarget.id);
 		setLevelItemTarget(newTarget);
 		emptyTargetRef.current = false;
 	};
@@ -117,7 +117,7 @@ const LevelItem = ({ initialIndex }: LevelItemProps) => {
 	};
 
 	const getItemIndex = (): number => {
-		const index = levelItems.findIndex(x => x?.key === levelItemTarget?.key);
+		const index = levelItems.findIndex(x => x?.id === levelItemTarget?.id);
 		emptyTargetRef.current = index < 0;
 		return index;
 	};

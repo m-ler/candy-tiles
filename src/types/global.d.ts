@@ -6,23 +6,23 @@ declare global {
 	type Candy = {
 		color: CandyColor;
 		type: 'Candy';
-		key?: string;
+		id?: string;
 	};
 
 	type SuperCandy = {
 		color: CandyColor;
 		type: 'SuperCandy';
-		key?: string;
+		id?: string;
 	};
 
 	type Chocolate = {
 		type: 'Chocolate';
-		key?: string;
+		id?: string;
 	};
 
 	type IceCream = {
 		type: 'IceCream';
-		key?: string;
+		id?: string;
 	};
 
 	type Tile = {
@@ -67,7 +67,7 @@ declare global {
 		color: CandyColor;
 		score: number;
 		type: 'Score';
-		key: 'string';
+		id: 'string';
 	};
 
 	type SuperCandyFX = {
@@ -75,7 +75,7 @@ declare global {
 		color: CandyColor;
 		index: number;
 		type: 'SuperCandy';
-		key: 'string';
+		id: 'string';
 	};
 
 	type LevelFX = ScoreFx | SuperCandyFX;
