@@ -41,10 +41,6 @@ const TileGrid = () => {
 	const levelMoves = useRecoilValue(levelMovesState);
 
 	useEffect(() => {
-		tileClickAudio.volume = 0.5;
-	}, []);
-
-	useEffect(() => {
 		updateGridInteraction();
 	}, [finishedMoving]);
 

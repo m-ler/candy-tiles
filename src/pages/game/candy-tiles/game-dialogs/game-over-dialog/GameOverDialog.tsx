@@ -1,30 +1,27 @@
-import anime from 'animejs';
 import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import { levelMovesState } from '../../atoms/levelMoves';
 import CandyTilesDialog from '../CandyTilesDialog';
 import { finishedMovingState } from '../../atoms/finishedMoving';
 import GameOverActions from '../GameOverActions';
-
-const animateStart = () => {
-	anime({
-		targets: '#game-over-dialog',
-		opacity: [0, 1],
-		translateX: ['100%', '0%'],
-		easing: 'easeOutBack',
-		duration: 500,
-		delay: 500,
-	});
-};
+import useDialogMountAnimation from '../hooks/useDialogMountAnimation';
+import useGameOverSFX from '../hooks/useGameOverSFX';
 
 const GameOverDialog = () => {
 	const levelMoves = useRecoilValue(levelMovesState);
 	const finishedMoving = useRecoilValue(finishedMovingState);
 	const gameOver = levelMoves.spendAllMoves && finishedMoving;
-	
+	const animateMount = useDialogMountAnimation('#game-over-dialog', { duration: 500, delay: 500 });
+	const playGameOverSFX = useGameOverSFX();
+
 	useEffect(() => {
-		gameOver && animateStart();
+		gameOver && onGameOver();
 	}, [finishedMoving]);
+
+	const onGameOver = () => {
+		animateMount();
+		playGameOverSFX();
+	};
 
 	return gameOver ? (
 		<CandyTilesDialog id="game-over-dialog">

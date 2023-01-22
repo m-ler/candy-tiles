@@ -1,27 +1,24 @@
-import anime from 'animejs';
 import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import { possibleCombinationsState } from '../../atoms/possibleCombinations';
 import CandyTilesDialog from '../CandyTilesDialog';
 import GameOverActions from '../GameOverActions';
-
-const animateStart = () => {
-	anime({
-		targets: '#no-possible-combinations-dialog',
-		opacity: [0, 1],
-		translateX: ['100%', '0%'],
-		easing: 'easeOutBack',
-		duration: 500,
-		delay: 500,
-	});
-};
+import useDialogMountAnimation from '../hooks/useDialogMountAnimation';
+import useGameOverSFX from '../hooks/useGameOverSFX';
 
 const NoPossibleCombinationsDialog = () => {
 	const possibleCombinations = useRecoilValue(possibleCombinationsState);
+	const animateMount = useDialogMountAnimation('#no-possible-combinations-dialog', { duration: 500, delay: 600 });
+	const playGameOverSFX = useGameOverSFX();
 
 	useEffect(() => {
-		!possibleCombinations && animateStart();
+		!possibleCombinations && onRanOutOfPossibleCombinations();
 	}, [possibleCombinations]);
+
+	const onRanOutOfPossibleCombinations = () => {
+		animateMount();
+		playGameOverSFX();
+	};
 
 	return possibleCombinations ? (
 		<></>

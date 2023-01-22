@@ -1,6 +1,7 @@
 import anime from 'animejs';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import useButtonClickSFX from '../../hooks/useButtonClickSFX';
 import useMountAnimation from '../../hooks/useMountAnimation';
 import useUnmountAnimation from '../../hooks/useUnmountAnimation';
 import SelectLevelButton from '../../mui/components/SelectLevelButton';
@@ -17,6 +18,7 @@ const animateButtons = () => {
 
 const LevelSelectorPage = () => {
 	const navigate = useNavigate();
+	const playButtonClickSFX = useButtonClickSFX();
 	useMountAnimation('#level-selector-container');
 	const unmountAnimation = useUnmountAnimation('#level-selector-container');
 
@@ -25,18 +27,19 @@ const LevelSelectorPage = () => {
 	}, []);
 
 	const selectLevel = (levelID: number): void => {
+		playButtonClickSFX();
 		unmountAnimation(() => navigate(`/level/${levelID}`));
 	};
 
 	return (
-		<div className='flex flex-col bg-s-main rounded-lg overflow-auto w-[min(800px,100%)] m-auto p-[16px]' id='level-selector-container'>
-			<h3 className='font-YellowCandy text-center w-full text-[24px] text-white mb-[16px]'>Select level</h3>
+		<div className="flex flex-col bg-s-main rounded-lg overflow-auto w-[min(800px,100%)] m-auto p-[16px]" id="level-selector-container">
+			<h3 className="font-YellowCandy text-center w-full text-[24px] text-white mb-[16px]">Select level</h3>
 			<div
-				className='grid gap-[15px] items-center overflow-hidden'
+				className="grid gap-[15px] items-center overflow-hidden"
 				style={{ gridTemplateColumns: 'repeat( auto-fill, minmax(50px,1fr) )' }}
 			>
 				{new Array(30).fill(0).map((x, index) => (
-					<SelectLevelButton className='translate-x-[-5000px]' data-level-button key={index} onClick={() => selectLevel(index + 1)}>
+					<SelectLevelButton className="translate-x-[-5000px]" data-level-button key={index} onClick={() => selectLevel(index + 1)}>
 						{index + 1}
 					</SelectLevelButton>
 				))}

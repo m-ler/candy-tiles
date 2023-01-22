@@ -53,7 +53,7 @@ const getInitialItems = (selectedLevel: number): LevelItem[] => {
 	const initialTiles = levelList[selectedLevel].tiles;
 	const initialItems = levelList[selectedLevel].items.map((item, index) => {
 		if (initialTiles[index] === null || item === null) return null;
-		item.id = uuid();
+		!item.id && (item.id = uuid());
 		return item;
 	});
 
@@ -82,7 +82,7 @@ const LevelManager = () => {
 		const initialItems = getInitialItems(0);
 		setLevelTiles(levelList[0].tiles);
 		setLevelItems(initialItems);
-		setLevelMoves({ done: 0, total: 300, spendAllMoves: false });
+		setLevelMoves({ done: 0, total: 10, spendAllMoves: false });
 	}, []);
 
 	useEffect(() => swapItems(false), [swappedItems]);
