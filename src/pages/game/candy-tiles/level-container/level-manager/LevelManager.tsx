@@ -67,6 +67,12 @@ const playMatchSFX = (): void => {
 	matchSound.preservesPitch = false;
 };
 
+(async () => {
+	const levelJSON = await (await fetch('/levels/1.json'))?.text();
+	const levelObj = JSON.parse(levelJSON) as LevelData;
+	console.log(levelObj);
+})();
+
 const LevelManager = () => {
 	const [swappedItems, setSwappedItems] = useRecoilState(swappedItemsState);
 	const [levelItems, setLevelItems] = useRecoilState(levelItemsState);

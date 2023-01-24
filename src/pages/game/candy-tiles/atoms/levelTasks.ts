@@ -1,11 +1,5 @@
 import { atom } from 'recoil';
 
-type LevelTasks = {
-	iceCreams: number;
-	iceTiles: number;
-	rockTiles: number;
-};
-
 export const levelTasksState = atom<LevelTasks>({
 	key: 'levelTasks',
 	default: {

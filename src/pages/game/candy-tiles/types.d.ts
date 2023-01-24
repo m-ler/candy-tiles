@@ -79,4 +79,10 @@ declare global {
 	};
 
 	type LevelFX = ScoreFx | SuperCandyFX;
+
+	type LevelTasks = {
+		iceCreams: number;
+		iceTiles: number;
+		rockTiles: number;
+	};
 }
