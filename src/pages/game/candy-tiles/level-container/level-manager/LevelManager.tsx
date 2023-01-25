@@ -1,7 +1,6 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { ANIMATION_TIME_MS } from '../../../../../config';
-import { levelList } from '../../../../../data/level-layouts';
 import {
 	allTilesFilled,
 	checkForMatchings,
@@ -23,6 +22,7 @@ import uuid from 'react-uuid';
 import { levelMovesState } from '../../atoms/levelMoves';
 import { possibleCombinationsState } from '../../atoms/possibleCombinations';
 import useEffectAfterMount from '../../../../../hooks/useEffectAfterMount';
+import useSelectedLevel from '../../../../../hooks/useSelectedLevel';
 
 const matchSound = new Audio(matchSFX);
 const fusionMatchSound = new Audio(fusionMatchSFX);
@@ -49,15 +49,14 @@ const applyMatches = (matchInfo: MatchResult, itemList: LevelItem[]): LevelItem[
 	return newItemList;
 };
 
-const getInitialItems = (selectedLevel: number): LevelItem[] => {
-	const initialTiles = levelList[selectedLevel].tiles;
-	const initialItems = levelList[selectedLevel].items.map((item, index) => {
+const validateInitialItems = (initialItems: readonly LevelItem[], initialTiles: readonly LevelTile[]): LevelItem[] => {
+	const validatedItems = initialItems.map((item, index) => {
 		if (initialTiles[index] === null || item === null) return null;
 		!item.id && (item.id = uuid());
 		return item;
 	});
 
-	return initialItems;
+	return validatedItems;
 };
 
 const playMatchSFX = (): void => {
@@ -67,13 +66,8 @@ const playMatchSFX = (): void => {
 	matchSound.preservesPitch = false;
 };
 
-(async () => {
-	const levelJSON = await (await fetch('/levels/1.json'))?.text();
-	const levelObj = JSON.parse(levelJSON) as LevelData;
-	console.log(levelObj);
-})();
-
 const LevelManager = () => {
+	const selectedLevelQuery = useSelectedLevel();
 	const [swappedItems, setSwappedItems] = useRecoilState(swappedItemsState);
 	const [levelItems, setLevelItems] = useRecoilState(levelItemsState);
 	const [levelTiles, setLevelTiles] = useRecoilState(levelTilesState);
@@ -81,14 +75,12 @@ const LevelManager = () => {
 	const [finishedMoving, setFinishedMoving] = useRecoilState(finishedMovingState);
 	const setMatchList = useSetRecoilState(matchListState);
 	const setPossibleCombinations = useSetRecoilState(possibleCombinationsState);
+	const selectedLevel = useMemo(() => selectedLevelQuery.data, [selectedLevelQuery.data]) as LevelData;
 
 	const itemsWereSwapped = useRef(false);
 
 	useEffect(() => {
-		const initialItems = getInitialItems(0);
-		setLevelTiles(levelList[0].tiles);
-		setLevelItems(initialItems);
-		setLevelMoves({ done: 0, total: 10, spendAllMoves: false });
+		setupLevel();
 	}, []);
 
 	useEffect(() => swapItems(false), [swappedItems]);
@@ -96,6 +88,13 @@ const LevelManager = () => {
 	useEffectAfterMount(() => {
 		finishedMoving && checkForPossibleCombinations();
 	}, [finishedMoving]);
+
+	const setupLevel = () => {
+		const initialItems = validateInitialItems(selectedLevel.initialItems, selectedLevel.initialTiles);
+		setLevelTiles(selectedLevel.initialTiles);
+		setLevelItems(initialItems);
+		setLevelMoves({ done: 0, total: selectedLevel.maximumMoves, spendAllMoves: false });
+	};
 
 	const swapItems = (undo: boolean) => {
 		if (swappedItems.some((x) => x === null)) return;
