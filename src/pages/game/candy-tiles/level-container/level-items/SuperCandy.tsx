@@ -37,7 +37,7 @@ const animateItemSpawn = (element: HTMLElement): void => {
 	});
 };
 
-const SUPER_CANDY_SCORE = 50;
+const SUPER_CANDY_SCORE = 30;
 
 type SuperCandyProps = {
 	color: CandyColor;

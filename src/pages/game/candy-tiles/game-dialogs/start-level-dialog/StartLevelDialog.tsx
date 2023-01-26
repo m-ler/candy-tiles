@@ -1,5 +1,5 @@
 import { Button } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import TargetItem from './TargetItem';
 import { FaFlagCheckered } from 'react-icons/fa';
 import iceTileSprite from './../../../../../assets/img/tiles/ice.png';
@@ -10,8 +10,15 @@ import CandyTilesDialog from '../CandyTilesDialog';
 import useDialogMountAnimation from '../hooks/useDialogMountAnimation';
 import useDialogUnmountAnimation from '../hooks/useDialogUnmountAnimation';
 import useButtonClickSFX from '../../../../../hooks/useButtonClickSFX';
+import useSelectedLevel from '../../../../../hooks/useSelectedLevel';
 
 const StartLevelDialog = () => {
+	const selectedLevel = useSelectedLevel();
+	const targetScore = useMemo(() => selectedLevel.data?.score || 0, [selectedLevel.data]);
+	const targetIceTiles = useMemo(() => selectedLevel.data?.tasks.iceTiles || 0, [selectedLevel.data]);
+	const targetRockTiles = useMemo(() => selectedLevel.data?.tasks.rockTiles || 0, [selectedLevel.data]);
+	const targetIceCreams = useMemo(() => selectedLevel.data?.tasks.iceCreams || 0, [selectedLevel.data]);
+
 	const [show, setShow] = useState(true);
 	const playButtonClickSFX = useButtonClickSFX();
 	const animateMount = useDialogMountAnimation('#start-level-dialog', { duration: 500, delay: 300 });
@@ -38,21 +45,26 @@ const StartLevelDialog = () => {
 					<TargetItem>
 						<div className="flex items-center gap-x-[10px]">
 							<FaFlagCheckered className="text-s-light"></FaFlagCheckered>
-							<span className="text-s-main font-YellowCandy text-[18px]">10000 points</span>
+							<span className="text-s-main font-YellowCandy text-[18px]">{targetScore} points</span>
 						</div>
 					</TargetItem>
 
-					<TargetItem>
-						<TaskItem spriteSrc={iceTileSprite} taskCount={4}></TaskItem>
-					</TargetItem>
+					{targetIceTiles > 0 && (
+						<TargetItem>
+							<TaskItem spriteSrc={iceTileSprite} taskCount={targetIceTiles}></TaskItem>
+						</TargetItem>
+					)}
+					{targetRockTiles > 0 && (
+						<TargetItem>
+							<TaskItem spriteSrc={rockTileSprite} taskCount={targetRockTiles}></TaskItem>
+						</TargetItem>
+					)}
 
-					<TargetItem>
-						<TaskItem spriteSrc={rockTileSprite} taskCount={5}></TaskItem>
-					</TargetItem>
-
-					<TargetItem>
-						<TaskItem spriteSrc={iceCreamSprite} taskCount={2}></TaskItem>
-					</TargetItem>
+					{targetIceCreams > 0 && (
+						<TargetItem>
+							<TaskItem spriteSrc={iceCreamSprite} taskCount={targetIceCreams}></TaskItem>
+						</TargetItem>
+					)}
 				</div>
 
 				<Button variant="contained" color="secondary" sx={{ fontWeight: 'bold' }} onClick={onStartClick}>

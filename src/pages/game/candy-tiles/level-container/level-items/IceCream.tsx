@@ -9,7 +9,7 @@ import iceCreamSprite from './../../../../../assets/img/candies/ice-cream.png';
 import iceCreamMatchSFX from './../../../../../assets/audio/iceCreamMatch.mp3';
 import { levelTasksState } from '../../atoms/levelTasks';
 
-const ICE_CREAM_SCORE = 250;
+const ICE_CREAM_SCORE = 100;
 type IceCreamProps = {
 	id: string;
 	index: number;

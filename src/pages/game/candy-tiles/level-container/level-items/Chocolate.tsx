@@ -35,7 +35,7 @@ const animateChocolateScale = (element: HTMLElement): AnimeInstance => {
 	return animation;
 };
 
-const CHOCHOLATE_SCORE = 100;
+const CHOCHOLATE_SCORE = 50;
 
 type ChocolateProps = {
 	id: string;
