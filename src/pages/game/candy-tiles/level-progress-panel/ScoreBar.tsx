@@ -48,7 +48,7 @@ const ScoreBar = () => {
 				<span
 					className="bg-s-dark block w-full h-full origin-left rounded-lg border-light-blue"
 					style={{
-						transform: `scaleX(${scoreProgressPercentage / 100})`,
+						width: `${scoreProgressPercentage}%`,
 					}}
 				></span>
 				<span
