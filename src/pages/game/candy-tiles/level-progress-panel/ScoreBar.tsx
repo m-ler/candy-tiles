@@ -1,11 +1,11 @@
 import anime, { AnimeInstance } from 'animejs';
 import { useEffect, useMemo, useRef } from 'react';
-import { AiFillStar } from 'react-icons/ai';
 import { useRecoilValue } from 'recoil';
 import useSelectedLevel from '../../../../hooks/useSelectedLevel';
 import { muiPalette } from '../../../../mui/theme';
 import { clampNumber } from '../../../../utils/math';
 import { scoreState } from '../atoms/score';
+import ScoreBarStar from './ScoreBarStar';
 
 const scoreObj = { score: 0 };
 let scoreAnimation: AnimeInstance;
@@ -28,9 +28,6 @@ const animateScoreUpdate = (scoreElement: HTMLElement, newScore: number): void =
 	});
 };
 
-const starLine =
-	'before:content-[""] before:absolute before:block before:h-[10px] before:w-[2px] before:bg-white/30 before:left-[45%] before:bottom-[100%]';
-
 const ScoreBar = () => {
 	const selectedLevel = useSelectedLevel();
 	const targetScore = useMemo(() => selectedLevel.data?.score || 0, [selectedLevel.data]);
@@ -46,7 +43,7 @@ const ScoreBar = () => {
 		<div className="flex flex-col">
 			<div className="h-[40px] w-[150px] bg-t-dark p-[5px] relative rounded-lg ">
 				<span
-					className="bg-s-dark block w-full h-full origin-left rounded-lg border-light-blue"
+					className="bg-s-dark block w-full h-full origin-left rounded-md border-light-blue"
 					style={{
 						width: `${scoreProgressPercentage}%`,
 					}}
@@ -55,15 +52,9 @@ const ScoreBar = () => {
 					className="text-white font-YellowCandy text-[18px] absolute block top-0 left-0 right-0 bottom-0 text-center leading-[40px] font-medium"
 					ref={scoreNumberElementRef}
 				></span>
-				<span className={`absolute left-[60%] top-[115%] text-[#a3a3a3] ${starLine}`}>
-					<AiFillStar className="[&>path]:stroke-1 [&>path]:stroke-white " stroke="white" strokeWidth={2}></AiFillStar>
-				</span>
-				<span className={`absolute left-[75%] top-[115%] text-[#a3a3a3] ${starLine}`}>
-					<AiFillStar></AiFillStar>
-				</span>
-				<span className={`absolute left-[90%] top-[115%] text-[#a3a3a3] ${starLine}`}>
-					<AiFillStar></AiFillStar>
-				</span>
+				<ScoreBarStar elementId="score-bar1" positionX={65} targetPercentage={70} scorePercentage={scoreProgressPercentage}></ScoreBarStar>
+				<ScoreBarStar elementId="score-bar2" positionX={77.5} targetPercentage={85} scorePercentage={scoreProgressPercentage}></ScoreBarStar>
+				<ScoreBarStar elementId="score-bar3" positionX={90} targetPercentage={100} scorePercentage={scoreProgressPercentage}></ScoreBarStar>
 			</div>
 		</div>
 	);
