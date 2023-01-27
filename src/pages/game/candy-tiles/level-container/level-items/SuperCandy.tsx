@@ -4,7 +4,6 @@ import superYellow from './../../../../../assets/img/candies/super-yellow.png';
 import superGreen from './../../../../../assets/img/candies/super-green.png';
 import superBlue from './../../../../../assets/img/candies/super-blue.png';
 import superPurple from './../../../../../assets/img/candies/super-purple.png';
-import superCandyMatchSFX from './../../../../../assets/audio/superCandyMatch.mp3';
 import { useEffect, useRef, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { levelItemsState } from '../../atoms/levelItems';
@@ -13,6 +12,7 @@ import anime from 'animejs';
 import { scoreState } from '../../atoms/score';
 import { levelFxListState } from '../../atoms/levelFxList';
 import uuid from 'react-uuid';
+import useAudio from '../../../../../hooks/useAudio';
 
 const candyImages: { [key: string]: string } = {
 	'Red': superRed,
@@ -22,8 +22,6 @@ const candyImages: { [key: string]: string } = {
 	'Blue': superBlue,
 	'Purple': superPurple,
 };
-
-const superCandyMatchSound = new Audio(superCandyMatchSFX);
 
 export const CandyColors = ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple'];
 
@@ -52,8 +50,10 @@ const SuperCandy = ({ color, id, index }: SuperCandyProps) => {
 	const levelItems = useRecoilValue(levelItemsState);
 	const setScore = useSetRecoilState(scoreState);
 	const setLevelFxList = useSetRecoilState(levelFxListState);
+	const playAudio = useAudio();
 
 	useEffect(() => {
+		playAudio({ audioName: 'fusionMatch' });
 		animateItemSpawn(elementRef.current as HTMLElement);
 	}, []);
 
@@ -66,7 +66,7 @@ const SuperCandy = ({ color, id, index }: SuperCandyProps) => {
 		itemUsedRef.current = true;
 		setShow(false);
 		setScore((score) => score + SUPER_CANDY_SCORE);
-		superCandyMatchSound.play();
+		playAudio({ audioName: 'superCandyMatch' });
 		setLevelFxList((list) => [
 			...list,
 			{

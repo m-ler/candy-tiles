@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import { TileProps } from './Tile';
-import iceCrack1SFX from './../../../../../assets/audio/iceCrack1.mp3';
-import iceCrack2SFX from './../../../../../assets/audio/iceCrack2.mp3';
 import useEffectAfterMount from '../../../../../hooks/useEffectAfterMount';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { matchListState } from '../../atoms/matchList';
@@ -9,9 +7,7 @@ import { levelTilesState } from '../../atoms/levelTiles';
 import iceTileSprite from './../../../../../assets/img/tiles/ice.png';
 import { levelTasksState } from '../../atoms/levelTasks';
 import useTileInteraction from './hooks/useTileInteraction';
-
-const iceCrack1Sound = new Audio(iceCrack1SFX);
-const iceCrack2Sound = new Audio(iceCrack2SFX);
+import useAudio from '../../../../../hooks/useAudio';
 
 const IceTile = ({ index }: TileProps) => {
 	const [damaged, setDamaged] = useState(false);
@@ -19,6 +15,7 @@ const IceTile = ({ index }: TileProps) => {
 	const matchList = useRecoilValue(matchListState);
 	const setLevelTasks = useSetRecoilState(levelTasksState);
 	const setLevelTiles = useSetRecoilState(levelTilesState);
+	const playAudio = useAudio();
 
 	useTileInteraction(index, tileElement as HTMLElement);
 
@@ -31,12 +28,12 @@ const IceTile = ({ index }: TileProps) => {
 		if (!matched) return;
 
 		if (!damaged) {
-			iceCrack1Sound.play();
+			playAudio({ audioName: 'iceCrack1' });
 			setDamaged(true);
 			return;
 		}
 
-		iceCrack2Sound.play();
+		playAudio({ audioName: 'iceCrack2' });
 		setLevelTiles((tiles) => {
 			const newTiles = structuredClone(tiles);
 			newTiles[index] = { type: 'Normal' };

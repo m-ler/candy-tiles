@@ -1,11 +1,11 @@
 import anime from 'animejs';
-import useWooshSFX from './useWooshSFX';
+import useAudio from './useAudio';
 
 type UnmountAnimation = (onComplete?: () => void) => void;
 
 export default (targets: HTMLElement | HTMLElement[] | string | string[]): UnmountAnimation => {
-	const playWooshSFX = useWooshSFX();
-	
+	const playAudio = useAudio();
+
 	const animateUnmount = (onComplete?: () => void) => {
 		anime({
 			targets: targets,
@@ -16,7 +16,7 @@ export default (targets: HTMLElement | HTMLElement[] | string | string[]): Unmou
 			endDelay: 200,
 			complete: onComplete,
 		});
-		setTimeout(playWooshSFX, 250);
+		setTimeout(() => playAudio({ audioName: 'woosh1', volume: 0.25 }), 250);
 	};
 
 	return (onComplete?: () => void) => animateUnmount(onComplete);

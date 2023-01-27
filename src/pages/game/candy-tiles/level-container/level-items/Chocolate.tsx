@@ -1,6 +1,5 @@
 import chocolateSprite from './../../../../../assets/img/candies/chocolate.png';
 import { useEffect, useRef, useState } from 'react';
-import chocolateMatchSFX from './../../../../../assets/audio/chocolateMatch.mp3';
 import useEffectAfterMount from '../../../../../hooks/useEffectAfterMount';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { levelItemsState } from '../../atoms/levelItems';
@@ -8,9 +7,7 @@ import anime, { AnimeInstance } from 'animejs';
 import { scoreState } from '../../atoms/score';
 import { levelFxListState } from '../../atoms/levelFxList';
 import uuid from 'react-uuid';
-
-const chocolateMatchSound = new Audio(chocolateMatchSFX);
-chocolateMatchSound.volume = 0.5;
+import useAudio from '../../../../../hooks/useAudio';
 
 const animateItemSpawn = (element: HTMLElement, onComplete: () => void): void => {
 	anime({
@@ -50,8 +47,10 @@ const Chocolate = ({ id, index }: ChocolateProps) => {
 	const spinAnimationRef = useRef<null | AnimeInstance>(null);
 	const setScore = useSetRecoilState(scoreState);
 	const setLevelFxList = useSetRecoilState(levelFxListState);
+	const playAudio = useAudio();
 
 	useEffect(() => {
+		playAudio({ audioName: 'fusionMatch' });
 		animateItemSpawn(elementRef.current as HTMLElement, () => {
 			spinAnimationRef.current = animateChocolateScale(elementRef.current as HTMLElement);
 		});
@@ -70,7 +69,7 @@ const Chocolate = ({ id, index }: ChocolateProps) => {
 		itemUsedRef.current = true;
 		setShow(false);
 		setScore((score) => score + CHOCHOLATE_SCORE);
-		chocolateMatchSound.play();
+		playAudio({ audioName: 'chocolateMatch', volume: 0.5 });
 		setLevelFxList((list) => [
 			...list,
 			{

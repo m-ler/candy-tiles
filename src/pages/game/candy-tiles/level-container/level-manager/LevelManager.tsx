@@ -12,9 +12,6 @@ import {
 import { levelItemsState } from '../../atoms/levelItems';
 import { levelTilesState } from '../../atoms/levelTiles';
 import { swappedItemsState } from '../../atoms/swappedItems';
-import matchSFX from './../../../../../assets/audio/match.mp3';
-import fusionMatchSFX from './../../../../../assets/audio/fusionMatch.mp3';
-import { delay } from '../../../../../utils/delay';
 import { getLevelItemByFusion } from '../../../../../game-algorithms/candy-fusions';
 import { finishedMovingState } from '../../atoms/finishedMoving';
 import { matchListState } from '../../atoms/matchList';
@@ -23,16 +20,10 @@ import { levelMovesState } from '../../atoms/levelMoves';
 import { possibleCombinationsState } from '../../atoms/possibleCombinations';
 import useEffectAfterMount from '../../../../../hooks/useEffectAfterMount';
 import useSelectedLevel from '../../../../../hooks/useSelectedLevel';
-
-const matchSound = new Audio(matchSFX);
-const fusionMatchSound = new Audio(fusionMatchSFX);
+import useAudio from '../../../../../hooks/useAudio';
+import { delay } from '../../../../../utils/delay';
 
 export let comboCount = 0;
-
-const playFusionMatch = () => {
-	fusionMatchSound.currentTime = 0;
-	fusionMatchSound.play();
-};
 
 const applyMatches = (matchInfo: MatchResult, itemList: LevelItem[]): LevelItem[] => {
 	const newItemList = structuredClone(itemList) as LevelItem[];
@@ -42,8 +33,6 @@ const applyMatches = (matchInfo: MatchResult, itemList: LevelItem[]): LevelItem[
 		.forEach((y) => {
 			const itemIsAtMatchGroupCenter = matchGroupsCenters.includes(y.index);
 			newItemList[y.index] = itemIsAtMatchGroupCenter ? getLevelItemByFusion(y, newItemList[y.index]) : null;
-			const itemWasFused = newItemList[y.index] !== null;
-			itemWasFused && playFusionMatch();
 		});
 
 	return newItemList;
@@ -59,13 +48,6 @@ const validateInitialItems = (initialItems: readonly LevelItem[], initialTiles: 
 	return validatedItems;
 };
 
-const playMatchSFX = (): void => {
-	matchSound.playbackRate = 1 + comboCount / 10;
-	matchSound.currentTime = 0;
-	matchSound.play();
-	matchSound.preservesPitch = false;
-};
-
 const LevelManager = () => {
 	const selectedLevelQuery = useSelectedLevel();
 	const [swappedItems, setSwappedItems] = useRecoilState(swappedItemsState);
@@ -76,6 +58,7 @@ const LevelManager = () => {
 	const setMatchList = useSetRecoilState(matchListState);
 	const setPossibleCombinations = useSetRecoilState(possibleCombinationsState);
 	const selectedLevel = useMemo(() => selectedLevelQuery.data, [selectedLevelQuery.data]) as LevelData;
+	const playAudio = useAudio();
 
 	const itemsWereSwapped = useRef(false);
 
@@ -132,7 +115,7 @@ const LevelManager = () => {
 				setLevelMoves((moves) => ({ done: moves.done + 1, total: moves.total, spendAllMoves: moves.done + 1 >= moves.total }));
 			setSwappedItems([null, null]);
 			itemsWereSwapped.current = false;
-			playMatchSFX();
+			playAudio({ audioName: 'match', speed: 1 + comboCount / 10 });
 			comboCount += 1;
 			const matchResult = applyMatches(matchInfo, itemList);
 

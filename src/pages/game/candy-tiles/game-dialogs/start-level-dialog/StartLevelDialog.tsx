@@ -9,8 +9,8 @@ import TaskItem from './TaskItems';
 import CandyTilesDialog from '../CandyTilesDialog';
 import useDialogMountAnimation from '../hooks/useDialogMountAnimation';
 import useDialogUnmountAnimation from '../hooks/useDialogUnmountAnimation';
-import useButtonClickSFX from '../../../../../hooks/useButtonClickSFX';
 import useSelectedLevel from '../../../../../hooks/useSelectedLevel';
+import useAudio from '../../../../../hooks/useAudio';
 
 const StartLevelDialog = () => {
 	const selectedLevel = useSelectedLevel();
@@ -20,7 +20,7 @@ const StartLevelDialog = () => {
 	const targetIceCreams = useMemo(() => selectedLevel.data?.tasks.iceCreams || 0, [selectedLevel.data]);
 
 	const [show, setShow] = useState(true);
-	const playButtonClickSFX = useButtonClickSFX();
+	const playAudio = useAudio();
 	const animateMount = useDialogMountAnimation('#start-level-dialog', { duration: 500, delay: 300 });
 	const animateUnmount = useDialogUnmountAnimation('#start-level-dialog');
 
@@ -29,7 +29,7 @@ const StartLevelDialog = () => {
 	}, []);
 
 	const onStartClick = () => {
-		playButtonClickSFX();
+		playAudio({ audioName: 'buttonClick1', volume: 0.5 });
 		animateUnmount({
 			duration: 300,
 			complete: () => setShow(false),

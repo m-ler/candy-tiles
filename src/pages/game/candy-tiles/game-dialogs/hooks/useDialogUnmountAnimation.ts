@@ -1,9 +1,9 @@
 import anime from 'animejs';
-import useWooshSFX from '../../../../../hooks/useWooshSFX';
+import useAudio from '../../../../../hooks/useAudio';
 
 export default (targets: HTMLElement | string | (HTMLElement | string)[]): ((options: anime.AnimeParams) => void) => {
-	const playWooshSFX = useWooshSFX();
-	
+	const playAudio = useAudio();
+
 	const animateUnmount = (options: anime.AnimeParams) => {
 		anime({
 			targets,
@@ -12,7 +12,7 @@ export default (targets: HTMLElement | string | (HTMLElement | string)[]): ((opt
 			easing: 'easeInBack',
 			...options,
 		});
-		setTimeout(playWooshSFX, 250);
+		setTimeout(() => playAudio({ audioName: 'woosh1', volume: 0.25 }), 250);
 	};
 
 	return (options: anime.AnimeParams) => animateUnmount(options);

@@ -1,9 +1,9 @@
 import anime from 'animejs';
 import { useEffect } from 'react';
-import useWooshSFX from './useWooshSFX';
+import useAudio from './useAudio';
 
 export default (targets: HTMLElement | HTMLElement[] | string | string[]): void => {
-	const playWooshSFX = useWooshSFX();
+	const playAudio = useAudio();
 
 	const animateComponentMount = () => {
 		anime({
@@ -14,7 +14,7 @@ export default (targets: HTMLElement | HTMLElement[] | string | string[]): void 
 			duration: 300,
 			endDelay: 200,
 		});
-		setTimeout(playWooshSFX, 50);
+		setTimeout(() => playAudio({ audioName: 'woosh1', volume: 0.25 }), 50);
 	};
 
 	useEffect(() => animateComponentMount(), []);

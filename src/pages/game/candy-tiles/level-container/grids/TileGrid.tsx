@@ -6,10 +6,10 @@ import { finishedMovingState } from '../../atoms/finishedMoving';
 import { levelMovesState } from '../../atoms/levelMoves';
 import { levelTilesState } from '../../atoms/levelTiles';
 import { swappedItemsState } from '../../atoms/swappedItems';
-import tileClickSFX from './../../../../../assets/audio/tileClick.mp3';
 import IceTile from '../tiles/IceTile';
 import RockTile from '../tiles/RockTile';
 import Tile from '../tiles/Tile';
+import useAudio from '../../../../../hooks/useAudio';
 
 const elementIsTile = (element: HTMLElement) => element.hasAttribute('data-tile');
 
@@ -29,8 +29,6 @@ const getTileComponent = (tileType: string, index: number): JSX.Element => {
 	}
 };
 
-const tileClickAudio = new Audio(tileClickSFX);
-
 const TileGrid = () => {
 	const levelTiles = useRecoilValue(levelTilesState);
 	const dragging = useRef<boolean>(false);
@@ -39,6 +37,7 @@ const TileGrid = () => {
 	const finishedMoving = useRecoilValue(finishedMovingState);
 	const tileGridElementRef = useRef<HTMLDivElement | null>(null);
 	const levelMoves = useRecoilValue(levelMovesState);
+	const playAudio = useAudio();
 
 	useEffect(() => {
 		updateGridInteraction();
@@ -55,7 +54,7 @@ const TileGrid = () => {
 		if (!elementIsTile(e.target as HTMLElement)) return;
 		dragging.current = true;
 		firstTile.current = e.target as HTMLElement;
-		tileClickAudio.play();
+		playAudio({ audioName: 'tileClick' });
 	};
 
 	const handleMouseUp = (): void => {

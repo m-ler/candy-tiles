@@ -5,14 +5,14 @@ import CandyTilesDialog from '../CandyTilesDialog';
 import { finishedMovingState } from '../../atoms/finishedMoving';
 import GameOverActions from '../GameOverActions';
 import useDialogMountAnimation from '../hooks/useDialogMountAnimation';
-import useGameOverSFX from '../hooks/useGameOverSFX';
+import useAudio from '../../../../../hooks/useAudio';
 
 const GameOverDialog = () => {
 	const levelMoves = useRecoilValue(levelMovesState);
 	const finishedMoving = useRecoilValue(finishedMovingState);
 	const gameOver = levelMoves.spendAllMoves && finishedMoving;
 	const animateMount = useDialogMountAnimation('#game-over-dialog', { duration: 500, delay: 500 });
-	const playGameOverSFX = useGameOverSFX();
+	const playAudio = useAudio();
 
 	useEffect(() => {
 		gameOver && onGameOver();
@@ -20,7 +20,7 @@ const GameOverDialog = () => {
 
 	const onGameOver = () => {
 		animateMount();
-		playGameOverSFX();
+		playAudio({ audioName: 'gameOver', volume: 0.7 });
 	};
 
 	return gameOver ? (

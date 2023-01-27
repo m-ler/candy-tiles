@@ -5,21 +5,21 @@ import MenuIconButton from '../../../../mui/components/MenuIconButton';
 import { FaHome } from 'react-icons/fa';
 import { MdReplay } from 'react-icons/md';
 import useReloadPage from '../../../../hooks/useReloadPage';
-import useButtonClickSFX from '../../../../hooks/useButtonClickSFX';
+import useAudio from '../../../../hooks/useAudio';
 
 const MenuPanel = () => {
 	const navigate = useNavigate();
 	const unmountAnimation = useUnmountAnimation('#game-container');
 	const reloadPage = useReloadPage();
-	const playButtonClickSFX = useButtonClickSFX();
+	const playAudio = useAudio();
 
 	const homeOnClick = () => {
-		playButtonClickSFX();
+		playAudio({ audioName: 'buttonClick1', volume: 0.5 });
 		unmountAnimation(() => navigate('/'));
 	};
 
 	const resetLevelOnClick = () => {
-		playButtonClickSFX();
+		playAudio({ audioName: 'buttonClick1', volume: 0.5 });
 		unmountAnimation(() => reloadPage());
 	};
 

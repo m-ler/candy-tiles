@@ -6,18 +6,13 @@ import { levelItemsState } from '../../atoms/levelItems';
 import { scoreState } from '../../atoms/score';
 import { levelFxListState } from '../../atoms/levelFxList';
 import iceCreamSprite from './../../../../../assets/img/candies/ice-cream.png';
-import iceCreamMatchSFX from './../../../../../assets/audio/iceCreamMatch.mp3';
 import { levelTasksState } from '../../atoms/levelTasks';
+import useAudio from '../../../../../hooks/useAudio';
 
 const ICE_CREAM_SCORE = 100;
 type IceCreamProps = {
 	id: string;
 	index: number;
-};
-
-const playIceCreamMatch = () => {
-	const iceCreamMatchSound = new Audio(iceCreamMatchSFX);
-	iceCreamMatchSound.play();
 };
 
 const IceCream = ({ id, index }: IceCreamProps) => {
@@ -28,6 +23,7 @@ const IceCream = ({ id, index }: IceCreamProps) => {
 	const setScore = useSetRecoilState(scoreState);
 	const setLevelFxList = useSetRecoilState(levelFxListState);
 	const setLevelTasks = useSetRecoilState(levelTasksState);
+	const playAudio = useAudio();
 
 	useEffectAfterMount(() => {
 		const itemMatched = !levelItems.some((x) => x?.id === id);
@@ -36,7 +32,7 @@ const IceCream = ({ id, index }: IceCreamProps) => {
 
 	const onItemMatch = () => {
 		itemUsedRef.current = true;
-		playIceCreamMatch();
+		playAudio({ audioName: 'iceCreamMatch' });
 		setShow(false);
 		setScore((score) => score + ICE_CREAM_SCORE);
 		setLevelFxList((list) => [

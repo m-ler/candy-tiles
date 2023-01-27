@@ -1,7 +1,7 @@
 import anime from 'animejs';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useButtonClickSFX from '../../hooks/useButtonClickSFX';
+import useAudio from '../../hooks/useAudio';
 import useMountAnimation from '../../hooks/useMountAnimation';
 import useUnmountAnimation from '../../hooks/useUnmountAnimation';
 import SelectLevelButton from '../../mui/components/SelectLevelButton';
@@ -18,7 +18,7 @@ const animateButtons = () => {
 
 const LevelSelectorPage = () => {
 	const navigate = useNavigate();
-	const playButtonClickSFX = useButtonClickSFX();
+	const playAudio = useAudio();
 	useMountAnimation('#level-selector-container');
 	const unmountAnimation = useUnmountAnimation('#level-selector-container');
 
@@ -27,7 +27,7 @@ const LevelSelectorPage = () => {
 	}, []);
 
 	const selectLevel = (levelID: number): void => {
-		playButtonClickSFX();
+		playAudio({ audioName: 'buttonClick1', volume: 0.5 });
 		unmountAnimation(() => navigate(`/level/${levelID}`));
 	};
 

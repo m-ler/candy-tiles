@@ -1,15 +1,15 @@
 import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
+import useAudio from '../../../../../hooks/useAudio';
 import { possibleCombinationsState } from '../../atoms/possibleCombinations';
 import CandyTilesDialog from '../CandyTilesDialog';
 import GameOverActions from '../GameOverActions';
 import useDialogMountAnimation from '../hooks/useDialogMountAnimation';
-import useGameOverSFX from '../hooks/useGameOverSFX';
 
 const NoPossibleCombinationsDialog = () => {
 	const possibleCombinations = useRecoilValue(possibleCombinationsState);
 	const animateMount = useDialogMountAnimation('#no-possible-combinations-dialog', { duration: 500, delay: 600 });
-	const playGameOverSFX = useGameOverSFX();
+	const playAudio = useAudio();
 
 	useEffect(() => {
 		!possibleCombinations && onRanOutOfPossibleCombinations();
@@ -17,7 +17,7 @@ const NoPossibleCombinationsDialog = () => {
 
 	const onRanOutOfPossibleCombinations = () => {
 		animateMount();
-		playGameOverSFX();
+		playAudio({ audioName: 'gameOver', volume: 0.7 });
 	};
 
 	return possibleCombinations ? (

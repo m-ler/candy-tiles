@@ -1,23 +1,20 @@
 import { useState } from 'react';
 import { checkForAdjacentMatch } from '../../../../../game-algorithms/tile-matching';
 import { TileProps } from './Tile';
-import rockCrack1SFX from './../../../../../assets/audio/rockCrack1.mp3';
-import rockCrack2SFX from './../../../../../assets/audio/rockCrack2.mp3';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { matchListState } from '../../atoms/matchList';
 import useEffectAfterMount from '../../../../../hooks/useEffectAfterMount';
 import { levelTilesState } from '../../atoms/levelTiles';
 import rockTileSprite from './../../../../../assets/img/tiles/rock.png';
 import { levelTasksState } from '../../atoms/levelTasks';
-
-const rockCrack1Sound = new Audio(rockCrack1SFX);
-const rockCrack2Sound = new Audio(rockCrack2SFX);
+import useAudio from '../../../../../hooks/useAudio';
 
 const RockTile = ({ index }: TileProps) => {
 	const [damaged, setDamaged] = useState(false);
 	const matchList = useRecoilValue(matchListState);
 	const setLevelTiles = useSetRecoilState(levelTilesState);
 	const setLevelTasks = useSetRecoilState(levelTasksState);
+	const playAudio = useAudio();
 
 	useEffectAfterMount(() => {
 		checkMatchInAdjacentTiles();
@@ -28,12 +25,12 @@ const RockTile = ({ index }: TileProps) => {
 		if (!matched) return;
 
 		if (!damaged) {
-			rockCrack1Sound.play();
+			playAudio({ audioName: 'rockCrack1' });
 			setDamaged(true);
 			return;
 		}
 
-		rockCrack2Sound.play();
+		playAudio({ audioName: 'rockCrack2' });
 
 		setLevelTiles((tiles) => {
 			const newTiles = structuredClone(tiles);

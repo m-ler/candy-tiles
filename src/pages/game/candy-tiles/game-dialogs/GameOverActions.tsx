@@ -2,7 +2,7 @@ import { Tooltip } from '@mui/material';
 import { FaHome } from 'react-icons/fa';
 import { MdReplay } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
-import useButtonClickSFX from '../../../../hooks/useButtonClickSFX';
+import useAudio from '../../../../hooks/useAudio';
 import useReloadPage from '../../../../hooks/useReloadPage';
 import useUnmountAnimation from '../../../../hooks/useUnmountAnimation';
 import MenuIconButtonSecondary from '../../../../mui/components/MenuIconButtonSecondary';
@@ -16,10 +16,10 @@ const GameOverActions = ({ dialogID }: Props) => {
 	const reloadPage = useReloadPage();
 	const animateGameUnmount = useUnmountAnimation('#game-container');
 	const animateDialogUnmount = useDialogUnmountAnimation(`#${dialogID}`);
-	const playButtonClickSFX = useButtonClickSFX();
+	const playAudio = useAudio();
 
 	const goBackOnClick = () => {
-		playButtonClickSFX();
+		playAudio({ audioName: 'buttonClick1', volume: 0.5 });
 		animateDialogUnmount({
 			duration: 300,
 			complete: () => animateGameUnmount(() => navigate('/')),
@@ -27,7 +27,7 @@ const GameOverActions = ({ dialogID }: Props) => {
 	};
 
 	const tryAgainOnClick = () => {
-		playButtonClickSFX();
+		playAudio({ audioName: 'buttonClick1', volume: 0.5 });
 		animateDialogUnmount({
 			duration: 300,
 			complete: () => animateGameUnmount(reloadPage),

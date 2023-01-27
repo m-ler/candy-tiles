@@ -1,6 +1,7 @@
 import anime from 'animejs';
 import { useEffect, useState } from 'react';
 import { AiFillStar } from 'react-icons/ai';
+import useAudio from '../../../../hooks/useAudio';
 
 const starLineStyle =
 	'before:content-[""] before:absolute before:block before:h-[10px] before:w-[2px] before:bg-white/30 before:left-[45%] before:bottom-[100%]';
@@ -24,6 +25,7 @@ const animateStar = (elementId: string) => {
 
 const ScoreBarStar = ({ elementId, positionX, targetPercentage, scorePercentage }: Props) => {
 	const [lit, setLit] = useState(false);
+	const playAudio = useAudio();
 
 	useEffect(() => {
 		const percentagePast = scorePercentage >= targetPercentage;
@@ -31,8 +33,13 @@ const ScoreBarStar = ({ elementId, positionX, targetPercentage, scorePercentage 
 	}, [scorePercentage]);
 
 	useEffect(() => {
-		lit && animateStar(elementId);
+		lit && onLight();
 	}, [lit]);
+
+	const onLight = () => {
+		animateStar(elementId);
+		playAudio({ audioName: 'starScore' });
+	};
 
 	return (
 		<span

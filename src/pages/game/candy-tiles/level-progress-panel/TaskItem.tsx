@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { MdCheckCircle } from 'react-icons/md';
-import useTaskCompleteSFX from '../../../../hooks/useTaskCompleteSFX';
+import useAudio from '../../../../hooks/useAudio';
 import { clampNumber } from '../../../../utils/math';
 
 type Props = {
@@ -11,14 +11,14 @@ type Props = {
 
 const TaskItem = ({ spriteSrc, currentNumber, taskNumber }: Props) => {
 	const [taskCompleted, setTaskCompleted] = useState(false);
-	const playTaskCompleteSFX = useTaskCompleteSFX();
+	const playAudio = useAudio();
 
 	useEffect(() => {
 		setTaskCompleted(currentNumber >= taskNumber);
 	}, [currentNumber]);
 
 	useEffect(() => {
-		taskCompleted && playTaskCompleteSFX();
+		taskCompleted && playAudio({ audioName: 'taskComplete' });
 	}, [taskCompleted]);
 
 	return (
