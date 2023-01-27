@@ -1,6 +1,7 @@
 import anime, { AnimeInstance } from 'animejs';
 import { useEffect, useMemo, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
+import { SCORE_RATING } from '../../../../config';
 import useSelectedLevel from '../../../../hooks/useSelectedLevel';
 import { muiPalette } from '../../../../mui/theme';
 import { clampNumber } from '../../../../utils/math';
@@ -52,9 +53,24 @@ const ScoreBar = () => {
 					className="text-white font-YellowCandy text-[18px] absolute block top-0 left-0 right-0 bottom-0 text-center leading-[40px] font-medium"
 					ref={scoreNumberElementRef}
 				></span>
-				<ScoreBarStar elementId="score-bar1" positionX={65} targetPercentage={70} scorePercentage={scoreProgressPercentage}></ScoreBarStar>
-				<ScoreBarStar elementId="score-bar2" positionX={77.5} targetPercentage={85} scorePercentage={scoreProgressPercentage}></ScoreBarStar>
-				<ScoreBarStar elementId="score-bar3" positionX={90} targetPercentage={100} scorePercentage={scoreProgressPercentage}></ScoreBarStar>
+				<ScoreBarStar
+					elementId="score-bar1"
+					positionX={65}
+					targetPercentage={SCORE_RATING.oneStar}
+					scorePercentage={scoreProgressPercentage}
+				></ScoreBarStar>
+				<ScoreBarStar
+					elementId="score-bar2"
+					positionX={77.5}
+					targetPercentage={SCORE_RATING.twoStars}
+					scorePercentage={scoreProgressPercentage}
+				></ScoreBarStar>
+				<ScoreBarStar
+					elementId="score-bar3"
+					positionX={90}
+					targetPercentage={SCORE_RATING.threeStars}
+					scorePercentage={scoreProgressPercentage}
+				></ScoreBarStar>
 			</div>
 		</div>
 	);

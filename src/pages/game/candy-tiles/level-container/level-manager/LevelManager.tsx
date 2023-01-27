@@ -76,7 +76,7 @@ const LevelManager = () => {
 		const initialItems = validateInitialItems(selectedLevel.initialItems, selectedLevel.initialTiles);
 		setLevelTiles(selectedLevel.initialTiles);
 		setLevelItems(initialItems);
-		setLevelMoves({ done: 0, total: selectedLevel.maximumMoves, spendAllMoves: false });
+		setLevelMoves({ done: 0, total: selectedLevel.maximumMoves, spentAllMoves: false });
 	};
 
 	const swapItems = (undo: boolean) => {
@@ -112,7 +112,7 @@ const LevelManager = () => {
 
 		if (matchInfo.thereWereMatches || !allTilesFilled(itemList, levelTiles)) {
 			itemsWereSwapped.current &&
-				setLevelMoves((moves) => ({ done: moves.done + 1, total: moves.total, spendAllMoves: moves.done + 1 >= moves.total }));
+				setLevelMoves((moves) => ({ done: moves.done + 1, total: moves.total, spentAllMoves: moves.done + 1 >= moves.total }));
 			setSwappedItems([null, null]);
 			itemsWereSwapped.current = false;
 			playAudio({ audioName: 'match', speed: 1 + comboCount / 10 });

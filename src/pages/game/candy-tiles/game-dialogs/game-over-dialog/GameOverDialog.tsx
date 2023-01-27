@@ -6,11 +6,13 @@ import { finishedMovingState } from '../../atoms/finishedMoving';
 import GameOverActions from '../GameOverActions';
 import useDialogMountAnimation from '../hooks/useDialogMountAnimation';
 import useAudio from '../../../../../hooks/useAudio';
+import { levelCompleteState } from '../../selectors/levelComplete';
 
 const GameOverDialog = () => {
 	const levelMoves = useRecoilValue(levelMovesState);
 	const finishedMoving = useRecoilValue(finishedMovingState);
-	const gameOver = levelMoves.spendAllMoves && finishedMoving;
+	const levelComplete = useRecoilValue(levelCompleteState);
+	const gameOver = levelMoves.spentAllMoves && finishedMoving && !levelComplete;
 	const animateMount = useDialogMountAnimation('#game-over-dialog', { duration: 500, delay: 500 });
 	const playAudio = useAudio();
 

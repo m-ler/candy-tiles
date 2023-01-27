@@ -2,11 +2,13 @@ import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import useAudio from '../../../../../hooks/useAudio';
 import { possibleCombinationsState } from '../../atoms/possibleCombinations';
+import { levelCompleteState } from '../../selectors/levelComplete';
 import CandyTilesDialog from '../CandyTilesDialog';
 import GameOverActions from '../GameOverActions';
 import useDialogMountAnimation from '../hooks/useDialogMountAnimation';
 
 const NoPossibleCombinationsDialog = () => {
+	const levelComplete = useRecoilValue(levelCompleteState);
 	const possibleCombinations = useRecoilValue(possibleCombinationsState);
 	const animateMount = useDialogMountAnimation('#no-possible-combinations-dialog', { duration: 500, delay: 600 });
 	const playAudio = useAudio();
@@ -20,9 +22,7 @@ const NoPossibleCombinationsDialog = () => {
 		playAudio({ audioName: 'gameOver', volume: 0.7 });
 	};
 
-	return possibleCombinations ? (
-		<></>
-	) : (
+	return !possibleCombinations && !levelComplete ? (
 		<CandyTilesDialog id="no-possible-combinations-dialog">
 			<div className="flex flex-col w-full items-center gap-[12px]">
 				<div>
@@ -32,6 +32,8 @@ const NoPossibleCombinationsDialog = () => {
 				<GameOverActions dialogID="no-possible-combinations-dialog"></GameOverActions>
 			</div>
 		</CandyTilesDialog>
+	) : (
+		<></>
 	);
 };
 

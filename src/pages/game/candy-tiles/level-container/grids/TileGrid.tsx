@@ -45,7 +45,7 @@ const TileGrid = () => {
 
 	const updateGridInteraction = () => {
 		if (tileGridElementRef.current) {
-			const gameOver = finishedMoving && !levelMoves.spendAllMoves;
+			const gameOver = finishedMoving && !levelMoves.spentAllMoves;
 			tileGridElementRef.current.style.pointerEvents = gameOver ? 'all' : 'none';
 		}
 	};

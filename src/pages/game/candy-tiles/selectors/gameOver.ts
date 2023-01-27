@@ -10,6 +10,6 @@ export const gameOverState = selector<boolean>({
 		const levelMoves = get(levelMovesState);
 		const possibleCombinations = get(possibleCombinationsState);
 
-		return finishedMoving && (levelMoves.spendAllMoves || !possibleCombinations);
+		return finishedMoving && (levelMoves.spentAllMoves || !possibleCombinations);
 	},
 });
