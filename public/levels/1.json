@@ -1,12 +1,12 @@
 {
 	"id": 1,
 	"userId": "",
-	"score": 1000,
-	"maximumMoves": 10,
+	"score": 100,
+	"maximumMoves": 1,
 	"tasks": {
-		"iceCreams": 2,
-		"iceTiles": 5,
-		"rockTiles": 5
+		"iceCreams": 0,
+		"iceTiles": 0,
+		"rockTiles": 0
 	},
 	"rating": null,
 	"initialItems": [
