@@ -73,9 +73,11 @@ const Candy = ({ color, id, index }: CandyProps) => {
 
 	const playCandyBounceSound = () => {
 		if (activeBounceSounds > activeBounceSoundsLimit) return;
-		const candyBounceAudio = playAudio({ audioName: 'candyBounce', volume: 0.25, speed: randomNumber(0.9, 1.5) });
-		candyBounceAudio.onplay = () => (activeBounceSounds += 1);
-		candyBounceAudio.onended = () => (activeBounceSounds -= 1);
+		playAudio({ audioName: 'candyBounce', volume: 0.25, speed: randomNumber(0.9, 1.5) });
+		activeBounceSounds += 1;
+		setTimeout(() => {
+			activeBounceSounds -= 1;
+		}, 1000);
 	};
 
 	const onItemMatch = () => {
