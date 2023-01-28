@@ -7,19 +7,33 @@ import FXGrid from './grids/FXGrid';
 import { useRecoilValue } from 'recoil';
 import { gameOverState } from '../selectors/gameOver';
 import anime from 'animejs';
+import { levelCompleteState } from '../selectors/levelComplete';
 
-const animateLevelContainerFilter = () => {
+const animateLevelComplete = () => {
+	anime({
+		targets: '#level-container',
+		filter: ['hue-rotate(0deg)', 'hue-rotate(360deg)'],
+		duration: 5000,
+		easing: 'linear',
+		loop: true,
+	});
+};
+
+const animateGameOver = () => {
 	anime({
 		targets: '#level-container',
 		filter: ['grayscale(0)', 'grayscale(0.8)'],
 		duration: 1000,
-		easing: 'linear'
+		easing: 'linear',
 	});
 };
+
 const LevelContainer = () => {
 	const gameOver = useRecoilValue(gameOverState);
+	const levelComplete = useRecoilValue(levelCompleteState);
 
-	gameOver && animateLevelContainerFilter();
+	levelComplete && animateLevelComplete();
+	gameOver && animateGameOver();
 
 	return (
 		<section id="level-container" className="grow aspect-square rounded-lg overflow-hidden relative select-none">

@@ -1,28 +1,37 @@
 import anime from 'animejs';
 import { useEffect } from 'react';
 import { FaStar } from 'react-icons/fa';
+import useAudio from '../../../../../hooks/useAudio';
 
-const animateStar = (starId: string) => {
+const animateStar = (starId: string, delay: number) => {
 	anime({
 		targets: `#${starId}`,
-		scale: [3, 1],
-		opacity: [0, 1],
+		scale: [8, 1],
+		rotate: [180, 0],
+		opacity: {
+			value: [0, 1],
+			duration: 200,
+		},
 		color: '#ffcd29',
 		easing: 'easeOutBack',
-		duration: 300,
-		delay: 1000,
+		duration: 800,
+		delay,
 	});
 };
 
 type Props = {
 	id: string;
+	animationDelayMs: number;
+	lit: boolean;
 };
-const Star = ({ id }: Props) => {
+const Star = ({ id, animationDelayMs, lit }: Props) => {
+	const playAudio = useAudio();
 	useEffect(() => {
-		animateStar(id);
+		lit && animateStar(id, animationDelayMs);
+		lit && setTimeout(() => playAudio({ audioName: 'starScore' }), animationDelayMs);
 	}, []);
 
-	return <FaStar className="w-[50px] h-full text-black/25" id={id}></FaStar>;
+	return <FaStar className="w-[30px] h-full text-black/25" id={id}></FaStar>;
 };
 
 export default Star;

@@ -67,7 +67,7 @@ const StartLevelDialog = () => {
 					)}
 				</div>
 
-				<Button variant="contained" color="secondary" sx={{ fontWeight: 'bold' }} onClick={onStartClick}>
+				<Button variant="contained" color="secondary" sx={{ fontWeight: 'bold' }} disableElevation onClick={onStartClick}>
 					Start
 				</Button>
 			</div>

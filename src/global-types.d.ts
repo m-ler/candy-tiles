@@ -21,6 +21,7 @@ declare global {
 		'iceCrack1',
 		'iceCrack2',
 		'iceCreamMatch',
+		'levelComplete',
 		'match',
 		'rockCrack1',
 		'rockCrack2',

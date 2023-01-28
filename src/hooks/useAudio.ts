@@ -9,6 +9,7 @@ import gameOver from './../assets/audio/gameOver.mp3';
 import iceCrack1 from './../assets/audio/iceCrack1.mp3';
 import iceCrack2 from './../assets/audio/iceCrack2.mp3';
 import iceCreamMatch from './../assets/audio/iceCreamMatch.mp3';
+import levelComplete from './../assets/audio/levelComplete.mp3';
 import match from './../assets/audio/match.mp3';
 import rockCrack1 from './../assets/audio/rockCrack1.mp3';
 import rockCrack2 from './../assets/audio/rockCrack2.mp3';
@@ -28,6 +29,7 @@ const audioList: AudioList = {
 	iceCrack1,
 	iceCrack2,
 	iceCreamMatch,
+	levelComplete,
 	match,
 	rockCrack1,
 	rockCrack2,
