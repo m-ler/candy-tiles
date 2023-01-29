@@ -21,7 +21,7 @@ const RockTile = ({ index }: TileProps) => {
 	}, [matchList]);
 
 	const checkMatchInAdjacentTiles = () => {
-		const matched = checkForAdjacentMatch(index, matchList);
+		const matched = checkForAdjacentMatch(index, matchList) || matchList.some((x) => x.index === index && x.matched);
 		if (!matched) return;
 
 		if (!damaged) {
