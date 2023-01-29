@@ -6,6 +6,7 @@ import Header from './components/Header';
 import UserInteractionDetection from './components/UserInteractionDetection';
 import { muiTheme } from './mui/theme';
 import GamePage from './pages/game';
+import LevelCreatorPage from './pages/level-creator';
 import LevelSelectorPage from './pages/level-selector';
 
 const queryClient = new QueryClient();
@@ -17,10 +18,11 @@ const App = () => {
 				<UserInteractionDetection></UserInteractionDetection>
 				<ThemeProvider theme={muiTheme}>
 					<Header></Header>
-					<div className="flex flex-col p-[16px] grow">
+					<div className="flex flex-col p-[16px] grow overflow-hidden">
 						<Routes>
 							<Route path="/" element={<LevelSelectorPage></LevelSelectorPage>}></Route>
 							<Route path="/level/:levelId" element={<GamePage></GamePage>}></Route>
+							<Route path="/level-creator" element={<LevelCreatorPage></LevelCreatorPage>}></Route>
 						</Routes>
 					</div>
 				</ThemeProvider>

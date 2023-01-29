@@ -1,3 +1,4 @@
+import { Button } from '@mui/material';
 import anime from 'animejs';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -31,6 +32,10 @@ const LevelSelectorPage = () => {
 		unmountAnimation(() => navigate(`/level/${levelID}`));
 	};
 
+	const onCreateClick = () => {
+		unmountAnimation(() => navigate('/level-creator'));
+	};
+
 	return (
 		<div className="flex flex-col bg-s-main rounded-lg overflow-auto w-[min(800px,100%)] m-auto p-[16px]" id="level-selector-container">
 			<h3 className="font-YellowCandy text-center w-full text-[24px] text-white mb-[16px]">Select level</h3>
@@ -43,6 +48,12 @@ const LevelSelectorPage = () => {
 						{index + 1}
 					</SelectLevelButton>
 				))}
+			</div>
+
+			<div className="mt-[18px] flex">
+				<Button variant="contained" sx={{ fontWeight: 'bolder', marginLeft: 'auto' }} disableElevation onClick={onCreateClick}>
+					Create
+				</Button>
 			</div>
 		</div>
 	);
