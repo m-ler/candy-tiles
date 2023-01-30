@@ -18,9 +18,22 @@ const TileSlot = ({ index }: Props) => {
 		console.log(tileList[index]);
 	};
 
+	const handleMouseOver = (event: React.MouseEvent) => {
+		if (event.buttons !== 1) return;
+		setTileList((list) => {
+			const newList = [...list];
+			newList[index] = tileObj?.type === 'Normal' ? null : { type: 'Normal' };
+			return newList;
+		});
+	};
+
+	const setTileItems = () => {
+		console.log('foo');
+	};
+
 	return (
-		<div onClick={handleClick} className="border border-white/10 hover:bg-white/10">
-			{tileObj?.type === 'Normal' ? <span className="bg-black/20 block h-full rounded"></span> : <></>}
+		<div onMouseDown={handleClick} onMouseOver={handleMouseOver} className="border border-white/10 hover:bg-white/10 select-none">
+			{tileObj?.type === 'Normal' ? <span className="bg-black/20 block h-full rounded pointer-events-none"></span> : <></>}
 		</div>
 	);
 };
