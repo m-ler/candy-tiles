@@ -1,5 +1,4 @@
 import LevelElement from './LevelElement';
-import tileSprite from './../../../assets/img/tiles/empty.png';
 import iceTileSprite from './../../../assets/img/tiles/ice.png';
 import rockTileSprite from './../../../assets/img/tiles/rock.png';
 import blueCandySprite from './../../../assets/img/candies/blue.png';
@@ -19,8 +18,7 @@ import iceCreamSprite from './../../../assets/img/candies/ice-cream.png';
 
 const LevelElementsPanel = () => {
 	return (
-		<div className="flex flex-col grow max-w-[100px] overflow-auto pr-[12px]">
-			<LevelElement imageSrc={tileSprite} name="Tile"></LevelElement>
+		<div className="flex w-full overflow-auto max-w-full bg-s-dark p-[6px] duration-200 rounded gap-x-[10px]">
 			<LevelElement imageSrc={iceTileSprite} name="Ice tile"></LevelElement>
 			<LevelElement imageSrc={rockTileSprite} name="Rock tile"></LevelElement>
 			<LevelElement imageSrc={blueCandySprite} name="Blue candy"></LevelElement>

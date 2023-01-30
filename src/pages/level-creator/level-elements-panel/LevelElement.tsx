@@ -7,11 +7,11 @@ type Props = {
 
 const LevelElement = ({ imageSrc, name }: Props) => {
 	return (
-		<div className="flex gap-x-[16px] items-center border-b border-white/20 p-[12px] cursor-grab hover:bg-s-dark duration-200 rounded select-none">
-			<Tooltip title={name}>
-				<img src={imageSrc} className="w-[40px] aspect-square mx-auto"></img>
-			</Tooltip>
-		</div>
+		<Tooltip title={name}>
+			<div className="flex gap-x-[16px] min-w-[50px] max-w-[50px] items-center p-[8px] cursor-grab bg-black/20 hover:bg-t-dark duration-200 rounded select-none">
+				<img src={imageSrc} className=" aspect-square mx-auto pointer-events-none"></img>
+			</div>
+		</Tooltip>
 	);
 };
 

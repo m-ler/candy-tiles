@@ -1,44 +1,36 @@
 import { Button, IconButton, Tooltip } from '@mui/material';
-import { MdClose } from 'react-icons/md';
-import { COLUMN_NUMBER, ROW_NUMBER } from '../../config';
+import { MdClose, MdSave } from 'react-icons/md';
 import useMountAnimation from '../../hooks/useMountAnimation';
+import GridEditor from './grid-editor';
 import LevelElementsPanel from './level-elements-panel';
+import LevelForm from './LevelForm.';
 
 const LevelCreatorPage = () => {
 	useMountAnimation('#level-creator-container');
 
 	return (
 		<section
-			className="h-[min(800px,100%)] max-h-[1000px] flex flex-col bg-black/25 rounded w-[min(850px,100%)] mx-auto shadow overflow-hidden"
+			className="h-[min(800px,100%)] max-h-[1000px] flex flex-col bg-s-dark rounded w-[min(11s00px,100%)] mx-auto max-w-full overflow-hidden"
 			id="level-creator-container"
 		>
-			<div className="flex bg-s-dark px-[12px] py-[8px]">
+			<div className="flex p-[12px] bg-black/20 border-b border-white/25">
 				<Tooltip title="Cancel">
 					<IconButton>
 						<MdClose className="text-p-main"></MdClose>
 					</IconButton>
 				</Tooltip>
 
-				<Button sx={{ fontWeight: 'bolder', marginLeft: 'auto' }}>Save</Button>
+				<Button startIcon={<MdSave />} sx={{ fontWeight: 'bolder', marginLeft: 'auto' }} variant="contained" size="small" disableElevation>
+					Save
+				</Button>
 			</div>
 
-			<div className="flex grow gap-x-[16px] p-[12px] overflow-hidden">
-				<LevelElementsPanel></LevelElementsPanel>
-				<div className="mx-auto aspect-square ">
-					<div
-						className="grid top-0 left-0 w-full h-full"
-						style={{
-							gridTemplateColumns: `repeat(${COLUMN_NUMBER}, 1fr)`,
-							gridTemplateRows: `repeat(${ROW_NUMBER}, 1fr)`,
-						}}
-					>
-						{Array(81)
-							.fill(null)
-							.map((x, i) => (
-								<span key={i} className="border border-white/10 hover:bg-white/10"></span>
-							))}
-					</div>
+			<div className="flex flex-col grow gap-[16px] p-[12px] overflow-hidden max-w-full bg-black/20">
+				<div className="flex flex-col overflow-hidden gap-[12px]">
+					<LevelForm></LevelForm>
+					<LevelElementsPanel></LevelElementsPanel>
 				</div>
+				<GridEditor></GridEditor>
 			</div>
 		</section>
 	);
