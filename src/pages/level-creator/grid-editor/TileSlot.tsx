@@ -1,4 +1,6 @@
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { elementListEditorState } from '../atoms/elementListEditor';
+import { selectedElementState } from '../atoms/selectedElement';
 import { tileListEditorState } from '../atoms/tileListEditor';
 
 type Props = {
@@ -7,6 +9,8 @@ type Props = {
 
 const TileSlot = ({ index }: Props) => {
 	const [tileList, setTileList] = useRecoilState(tileListEditorState);
+	const setElementList = useSetRecoilState(elementListEditorState);
+	const selectedElement = useRecoilValue(selectedElementState);
 	const tileObj = tileList[index];
 
 	const handleClick = () => {
@@ -15,7 +19,14 @@ const TileSlot = ({ index }: Props) => {
 			newList[index] = tileObj?.type === 'Normal' ? null : { type: 'Normal' };
 			return newList;
 		});
-		console.log(tileList[index]);
+
+		if (!selectedElement) return;
+
+		setElementList((list) => {
+			const newList = [...list];
+			newList[index] = selectedElement;
+			return newList;
+		});
 	};
 
 	const handleMouseOver = (event: React.MouseEvent) => {
@@ -23,6 +34,14 @@ const TileSlot = ({ index }: Props) => {
 		setTileList((list) => {
 			const newList = [...list];
 			newList[index] = tileObj?.type === 'Normal' ? null : { type: 'Normal' };
+			return newList;
+		});
+
+		if (!selectedElement) return;
+
+		setElementList((list) => {
+			const newList = [...list];
+			newList[index] = selectedElement;
 			return newList;
 		});
 	};
@@ -33,7 +52,7 @@ const TileSlot = ({ index }: Props) => {
 
 	return (
 		<div onMouseDown={handleClick} onMouseOver={handleMouseOver} className="border border-white/10 hover:bg-white/10 select-none">
-			{tileObj?.type === 'Normal' ? <span className="bg-black/20 block h-full rounded pointer-events-none"></span> : <></>}
+			{tileObj?.type === 'Normal' ? <span className="bg-black/25 block h-full rounded pointer-events-none"></span> : <></>}
 		</div>
 	);
 };

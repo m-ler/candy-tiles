@@ -23,6 +23,7 @@ declare global {
 		'iceCreamMatch',
 		'levelComplete',
 		'match',
+		'pop1',
 		'rockCrack1',
 		'rockCrack2',
 		'starScore',
