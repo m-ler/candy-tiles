@@ -14,7 +14,7 @@ const animateElementSpawn = (elementId: string) => {
 		targets: `#${elementId}`,
 		scale: [0, 1],
 		easing: 'easeOutElastic',
-		duration: 500,
+		duration: 1000,
 	});
 };
 
