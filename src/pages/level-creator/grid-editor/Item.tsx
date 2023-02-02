@@ -1,3 +1,18 @@
+import anime from 'animejs';
+import { useEffect } from 'react';
+import useAudio from '../../../hooks/useAudio';
+import { randomNumber } from '../../../utils/math';
+
+const animateItemSpawn = (index: number) => {
+	anime({
+		targets: `[data-item][data-index="${index}"]>img`,
+		translateY: ['-50%', 0],
+		scale: [0, 1],
+		duration: 1000,
+		easing: 'easeOutElastic',
+	});
+};
+
 type Props = {
 	index: number;
 	itemObj: LevelEditorElement | null;
@@ -5,6 +20,17 @@ type Props = {
 };
 
 const Item = ({ index, itemObj, slotAvaliable }: Props) => {
+	const playAudio = useAudio();
+
+	useEffect(() => {
+		!!itemObj && onSpawn();
+	}, [itemObj]);
+
+	const onSpawn = () => {
+		animateItemSpawn(index);
+		playAudio({ audioName: 'pop1', speed: randomNumber(0.8, 1) });
+	};
+
 	return (
 		<div
 			data-item

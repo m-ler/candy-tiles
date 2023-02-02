@@ -12,6 +12,7 @@ import iceCreamMatch from './../assets/audio/iceCreamMatch.mp3';
 import levelComplete from './../assets/audio/levelComplete.mp3';
 import match from './../assets/audio/match.mp3';
 import pop1 from './../assets/audio/pop1.mp3';
+import put1 from './../assets/audio/put1.mp3';
 import rockCrack1 from './../assets/audio/rockCrack1.mp3';
 import rockCrack2 from './../assets/audio/rockCrack2.mp3';
 import starScore from './../assets/audio/starScore.mp3';
@@ -33,6 +34,7 @@ const audioList: AudioList = {
 	levelComplete,
 	match,
 	pop1,
+	put1,
 	rockCrack1,
 	rockCrack2,
 	starScore,

@@ -24,6 +24,7 @@ declare global {
 		'levelComplete',
 		'match',
 		'pop1',
+		'put1',
 		'rockCrack1',
 		'rockCrack2',
 		'starScore',

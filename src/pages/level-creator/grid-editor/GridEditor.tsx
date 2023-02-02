@@ -2,32 +2,28 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { itemListEditorState } from '../atoms/itemListEditor';
 import { selectedElementState } from '../atoms/selectedElement';
 import { tileListEditorState } from '../atoms/tileListEditor';
-import { tileSlotListEditorState } from '../atoms/tileSlotListEditor';
+import { slotListEditorState } from '../atoms/slotListEditor';
 import GridEditorLayer from './GridEditorLayer';
 import Item from './Item';
 import Tile from './Tile';
-import TileSlot from './TileSlot';
+import Slot from './Slot';
 
 const GridEditor = () => {
-	const [slotList, setSlotList] = useRecoilState(tileSlotListEditorState);
+	const [slotList, setSlotList] = useRecoilState(slotListEditorState);
 	const [tileList, setTileList] = useRecoilState(tileListEditorState);
 	const [itemList, setItemList] = useRecoilState(itemListEditorState);
 	const selectedElement = useRecoilValue(selectedElementState);
 
+	const updateLists = (index: number, create: boolean) => {
+		const updateFn = itemList[index] !== null ? updateItemList : tileList[index] !== null ? updateTileList : updateTileSlotList;
+		updateFn(index, create);
+	};
 	const updateTileSlotList = (index: number, create: boolean) => {
 		setSlotList((list) => {
 			const newList = [...list];
 			newList[index] = create;
 			return newList;
 		});
-
-		if (!create) {
-			/* setTileList((list) => {
-				const newList = [...list];
-				newList[index] = null;
-				return newList;
-			}); */
-		}
 	};
 
 	const updateTileList = (index: number, create: boolean) => {
@@ -46,7 +42,7 @@ const GridEditor = () => {
 		});
 	};
 
-	const renderSlot = (index: number) => <TileSlot slotAvaliable={slotList[index]} key={index} index={index}></TileSlot>;
+	const renderSlot = (index: number) => <Slot slotAvaliable={slotList[index]} key={index} index={index}></Slot>;
 	const renderTile = (index: number) => <Tile tileObj={tileList[index]} slotAvaliable={!!slotList[index]} key={index} index={index}></Tile>;
 	const renderItem = (index: number) => <Item itemObj={itemList[index]} slotAvaliable={slotList[index]} key={index} index={index}></Item>;
 
@@ -57,7 +53,7 @@ const GridEditor = () => {
 	return (
 		<div className="mx-auto aspect-square grow max-w-full relative">
 			<GridEditorLayer
-				setRenderList={updateTileSlotList}
+				setRenderList={updateLists}
 				renderChild={renderSlot}
 				interactable={slotLayerInteractable}
 				childAttribute="data-tile-slot"
