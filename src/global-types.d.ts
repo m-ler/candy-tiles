@@ -1,6 +1,12 @@
 export {};
 
 declare global {
+	type LevelRules = {
+		targetScore: number;
+		maximumMoves: number;
+		tasks: LevelTasks;
+	};
+
 	type LevelData = {
 		id: number;
 		userId: string;

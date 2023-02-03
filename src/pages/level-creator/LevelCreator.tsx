@@ -1,12 +1,13 @@
-import { Button, IconButton, Tooltip } from '@mui/material';
+import { IconButton, Tooltip } from '@mui/material';
 import { createPortal } from 'react-dom';
-import { MdClose, MdSave } from 'react-icons/md';
+import { MdClose } from 'react-icons/md';
 import useMountAnimation from '../../hooks/useMountAnimation';
 import GridEditor from './grid-editor';
 import LevelElementsPanel from './level-elements-panel';
 import LevelForm from './LevelForm.';
 import LevelEditorCursor from './LevelEditorCursor';
 import MouseButtonsIndicators from './MouseButtonsIndicators';
+import SaveLevelButton from './save-level-button';
 
 const LevelCreatorPage = () => {
 	useMountAnimation('#level-creator-container');
@@ -25,15 +26,7 @@ const LevelCreatorPage = () => {
 						</IconButton>
 					</Tooltip>
 
-					<Button
-						startIcon={<MdSave />}
-						sx={{ fontWeight: 'bolder', marginLeft: 'auto' }}
-						variant="contained"
-						size="small"
-						disableElevation
-					>
-						Save
-					</Button>
+					<SaveLevelButton></SaveLevelButton>
 				</div>
 
 				<div className="flex flex-col grow gap-[16px] p-[12px] overflow-hidden max-w-full bg-black/20">
