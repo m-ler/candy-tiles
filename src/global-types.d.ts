@@ -1,3 +1,5 @@
+import { AlertColor } from '@mui/material';
+
 export {};
 
 declare global {
@@ -41,4 +43,6 @@ declare global {
 	] as const;
 
 	type GameSFX = typeof gameSFXList[number];
+
+	type Toast = { message: string; durationMs: number; severity: AlertColor };
 }

@@ -21,7 +21,7 @@ const SaveLevelButton = () => {
 		//console.log(levelData);
 
 		const validation = validateLevel(levelData, levelRules);
-		validation.messages.forEach((x) => createToast({ message: x }));
+		validation.messages.forEach((x) => createToast({ severity: 'error', message: x, durationMs: 3000 }));
 	};
 
 	return (
