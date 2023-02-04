@@ -1,6 +1,6 @@
 import anime from 'animejs';
-import { useEffect } from 'react';
 import useAudio from '../../../hooks/useAudio';
+import useEffectAfterMount from '../../../hooks/useEffectAfterMount';
 import { randomNumber } from '../../../utils/math';
 
 const animateItemSpawn = (index: number) => {
@@ -22,7 +22,7 @@ type Props = {
 const Item = ({ index, itemObj, slotAvaliable }: Props) => {
 	const playAudio = useAudio();
 
-	useEffect(() => {
+	useEffectAfterMount(() => {
 		!!itemObj && onSpawn();
 	}, [itemObj]);
 

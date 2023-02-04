@@ -1,6 +1,6 @@
 import anime from 'animejs';
-import { useEffect } from 'react';
 import useAudio from '../../../hooks/useAudio';
+import useEffectAfterMount from '../../../hooks/useEffectAfterMount';
 import { randomNumber } from '../../../utils/math';
 
 const animateTileSpawn = (index: number) => {
@@ -22,7 +22,7 @@ type Props = {
 const Tile = ({ index, tileObj, slotAvaliable }: Props) => {
 	const playAudio = useAudio();
 
-	useEffect(() => {
+	useEffectAfterMount(() => {
 		!!tileObj && onSpawn();
 	}, [tileObj]);
 

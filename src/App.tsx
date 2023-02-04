@@ -3,6 +3,7 @@ import { QueryClientProvider, QueryClient } from 'react-query';
 import { Routes, Route } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import Header from './components/Header';
+import ToastManager from './components/ToastManager';
 import UserInteractionDetection from './components/UserInteractionDetection';
 import { muiTheme } from './mui/theme';
 import GamePage from './pages/game';
@@ -25,6 +26,7 @@ const App = () => {
 							<Route path="/level-creator" element={<LevelCreatorPage></LevelCreatorPage>}></Route>
 						</Routes>
 					</div>
+					<ToastManager></ToastManager>
 				</ThemeProvider>
 			</QueryClientProvider>
 		</RecoilRoot>
