@@ -6,7 +6,7 @@ import { MdIcecream } from 'react-icons/md';
 import { GiBrickWall } from 'react-icons/gi';
 import TextFieldMain from '../../mui/components/TextFieldMain';
 import { useSetRecoilState } from 'recoil';
-import { levelRulesState } from './atoms/levelRules';
+import { levelRulesState } from './store/levelRules';
 
 const LevelForm = () => {
 	const setLevelRules = useSetRecoilState(levelRulesState);

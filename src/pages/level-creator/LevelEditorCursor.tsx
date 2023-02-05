@@ -1,5 +1,5 @@
 import { useRecoilValue } from 'recoil';
-import { selectedElementState } from './atoms/selectedElement';
+import { selectedElementState } from './store/selectedElement';
 import { useEffect, useState } from 'react';
 import useFollowCursor from '../../hooks/useFollowCursor';
 import { FaEraser } from 'react-icons/fa';

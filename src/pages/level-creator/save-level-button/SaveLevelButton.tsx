@@ -2,25 +2,19 @@ import { Button } from '@mui/material';
 import { MdSave } from 'react-icons/md';
 import { useRecoilValue } from 'recoil';
 import useToast from '../../../hooks/useToast';
-import { itemListEditorState } from '../atoms/itemListEditor';
-import { levelRulesState } from '../atoms/levelRules';
-import { slotListEditorState } from '../atoms/slotListEditor';
-import { tileListEditorState } from '../atoms/tileListEditor';
-import createLevelData from './createLevelData';
+import createLevelData from '../createLevelData';
 import validateLevel from './validateLevel';
+import { levelDataEditorState } from '../store/levelDataEditor';
 
 const SaveLevelButton = () => {
-	const slotList = useRecoilValue(slotListEditorState);
-	const tileList = useRecoilValue(tileListEditorState);
-	const itemList = useRecoilValue(itemListEditorState);
-	const levelRules = useRecoilValue(levelRulesState);
+	const levelDataEditor = useRecoilValue(levelDataEditorState);
 	const createToast = useToast();
 
 	const handleClick = () => {
-		const levelData = createLevelData({ slotList, tileList, itemList, levelRules });
-		//console.log(levelData);
+		const levelData = createLevelData(levelDataEditor);
+		const validation = validateLevel(levelData, levelDataEditor.levelRules);
+		console.log(validation);
 
-		const validation = validateLevel(levelData, levelRules);
 		validation.messages.forEach((x) => createToast({ severity: 'error', message: x, durationMs: 3000 }));
 	};
 

@@ -8,6 +8,7 @@ import LevelForm from './LevelForm.';
 import LevelEditorCursor from './LevelEditorCursor';
 import MouseButtonsIndicators from './MouseButtonsIndicators';
 import SaveLevelButton from './save-level-button';
+import DownloadLevelButton from './DownloadLevelButton';
 
 const LevelCreatorPage = () => {
 	useMountAnimation('#level-creator-container');
@@ -26,7 +27,10 @@ const LevelCreatorPage = () => {
 						</IconButton>
 					</Tooltip>
 
-					<SaveLevelButton></SaveLevelButton>
+					<div className='ml-auto flex gap-x-[12px] items-center'>
+						<DownloadLevelButton></DownloadLevelButton>
+						<SaveLevelButton></SaveLevelButton>
+					</div>
 				</div>
 
 				<div className="flex flex-col grow gap-[16px] p-[12px] overflow-hidden max-w-full bg-black/20">

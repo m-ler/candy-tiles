@@ -1,8 +1,8 @@
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { itemListEditorState } from '../atoms/itemListEditor';
-import { selectedElementState } from '../atoms/selectedElement';
-import { tileListEditorState } from '../atoms/tileListEditor';
-import { slotListEditorState } from '../atoms/slotListEditor';
+import { itemListEditorState } from '../store/itemListEditor';
+import { selectedElementState } from '../store/selectedElement';
+import { tileListEditorState } from '../store/tileListEditor';
+import { slotListEditorState } from '../store/slotListEditor';
 import GridEditorLayer from './GridEditorLayer';
 import Item from './Item';
 import Tile from './Tile';

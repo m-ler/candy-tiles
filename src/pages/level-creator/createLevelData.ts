@@ -1,10 +1,3 @@
-type LevelDataEditor = {
-	slotList: boolean[];
-	tileList: (LevelEditorElement | null)[];
-	itemList: (LevelEditorElement | null)[];
-	levelRules: LevelRules;
-};
-
 export default ({ levelRules, itemList, slotList, tileList }: LevelDataEditor): LevelData => ({
 	id: 0,
 	userId: '',

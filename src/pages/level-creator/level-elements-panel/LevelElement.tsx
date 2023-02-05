@@ -1,6 +1,6 @@
 import { Tooltip } from '@mui/material';
 import { useRecoilState } from 'recoil';
-import { selectedElementState } from '../atoms/selectedElement';
+import { selectedElementState } from '../store/selectedElement';
 import levelElementList from './level-element-list';
 
 type Props = {
