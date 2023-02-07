@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
 export const possibleCombinationsState = atom<boolean>({
-	key: 'avaliableCombinations',
+	key: 'possibleCombinations',
 	default: true,
 });
