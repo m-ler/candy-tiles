@@ -7,6 +7,7 @@ import useMountAnimation from '../../hooks/useMountAnimation';
 import useUnmountAnimation from '../../hooks/useUnmountAnimation';
 import SelectLevelButton from '../../mui/components/SelectLevelButton';
 import TabPanel from '../../mui/components/TabPanel';
+import { AiFillStar } from 'react-icons/ai';
 
 const animateButtons = () => {
 	anime({
@@ -43,20 +44,35 @@ const LevelSelectorPage = () => {
 	};
 
 	return (
-		<div className="flex flex-col bg-s-dark rounded-lg overflow-auto w-[min(800px,100%)] m-auto" id="level-selector-container">
-			<Tabs value={selectedTab} onChange={onTabChange} centered variant="fullWidth" className="bg-black/20 px-[16px] py-[8px]">
+		<div className="flex flex-col bg-s-dark rounded-lg overflow-hidden w-[min(800px,100%)] m-auto" id="level-selector-container">
+			<Tabs
+				value={selectedTab}
+				onChange={onTabChange}
+				centered
+				variant="fullWidth"
+				sx={{ minHeight: '64px' }}
+				className="bg-black/20 px-[16px] py-[8px] sticky top-0 left-0"
+				textColor="primary"
+				indicatorColor="primary"
+			>
 				<Tab label="Levels"></Tab>
 				<Tab label="Online levels"></Tab>
 			</Tabs>
-			<TabPanel className="bg-black/20 px-[16px] py-[8px]" index={0} value={selectedTab}>
-				<h3 className="font-YellowCandy text-center w-full text-[24px] text-white mb-[16px]">Select level</h3>
-				<div
-					className="grid gap-[15px] items-center overflow-hidden pb-[12px]"
-					style={{ gridTemplateColumns: 'repeat( auto-fill, minmax(50px,1fr) )' }}
-				>
-					{new Array(30).fill(0).map((x, index) => (
-						<SelectLevelButton className="translate-x-[-5000px]" data-level-button key={index} onClick={() => selectLevel(index + 1)}>
+			<TabPanel className="bg-black/20 px-[16px] py-[8px] overflow-auto" index={0} value={selectedTab}>
+				<div className="grid gap-[15px] items-center pb-[12px]" style={{ gridTemplateColumns: 'repeat( auto-fill, minmax(100px,1fr) )' }}>
+					{new Array(50).fill(0).map((x, index) => (
+						<SelectLevelButton
+							className="translate-x-[-5000px] flex flex-col"
+							data-level-button
+							key={index}
+							onClick={() => selectLevel(index + 1)}
+						>
 							{index + 1}
+							<div className="flex">
+								<AiFillStar className="text-black/25" size={'16px'}></AiFillStar>
+								<AiFillStar className="text-black/25" size={'16px'}></AiFillStar>
+								<AiFillStar className="text-black/25" size={'16px'}></AiFillStar>
+							</div>
 						</SelectLevelButton>
 					))}
 				</div>

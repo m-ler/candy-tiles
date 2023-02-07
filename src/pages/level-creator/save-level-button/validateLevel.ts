@@ -7,7 +7,7 @@ let _levelData: LevelData;
 let _levelRules: LevelRules;
 let _validationList: Validation[];
 
-const validateEmtpyTiles = (): boolean => _levelData.initialTiles.every((tile, index) => _levelData.initialItems[index] !== null);
+const validateEmtpyTiles = (): boolean => _levelData.initialTiles.every((tile, index) => !tile || _levelData.initialItems[index] !== null);
 const validateIceTiles = (): boolean => _levelRules.tasks.iceTiles <= _levelData.initialTiles.filter((x) => x?.type === 'Ice').length;
 const validateRockTiles = (): boolean => _levelRules.tasks.rockTiles <= _levelData.initialTiles.filter((x) => x?.type === 'Rock').length;
 const validateIceCreams = (): boolean =>

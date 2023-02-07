@@ -12,7 +12,7 @@ const LevelTasks = () => {
 	const targetIceTiles = useMemo(() => selectedLevel.data?.tasks.iceTiles || 0, [selectedLevel.data]);
 	const targetRockTiles = useMemo(() => selectedLevel.data?.tasks.rockTiles || 0, [selectedLevel.data]);
 	const targetIceCreams = useMemo(() => selectedLevel.data?.tasks.iceCreams || 0, [selectedLevel.data]);
-	const tasksAvaliable = [targetIceCreams, targetRockTiles, targetRockTiles].some((x) => x > 0);
+	const tasksAvaliable = [targetIceTiles, targetRockTiles, targetIceCreams].some((x) => x > 0);
 
 	const levelTasks = useRecoilValue(levelTasksState);
 

@@ -7,14 +7,13 @@ const SelectLevelButton = (props: ButtonProps): JSX.Element => (
 		sx={{
 			width: '100%',
 			minWidth: 20,
-			aspectRatio: '1/1',
-			backgroundColor: muiPalette.tertiary.main,
+			backgroundColor: muiPalette.secondary.main,
 			fontSize: 20,
 			color: 'white',
 			fontWeight: 'bold',
 			fontFamily: 'YellowCandy',
 			'&:hover': {
-				backgroundColor: muiPalette.tertiary.dark,
+				backgroundColor: muiPalette.tertiary.main,
 			},
 		}}
 	></Button>
