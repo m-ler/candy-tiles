@@ -34,9 +34,9 @@ module.exports = {
 			'neu-10': '#1F2933',
 		},
 
-		textFillColor: theme => theme('borderColor'),
-		textStrokeColor: theme => theme('borderColor'),
-		textStrokeWidth: theme => theme('borderWidth'),
+		textFillColor: (theme) => theme('borderColor'),
+		textStrokeColor: (theme) => theme('borderColor'),
+		textStrokeWidth: (theme) => theme('borderWidth'),
 		paintOrder: {
 			'fsm': { paintOrder: 'fill stroke markers' },
 			'fms': { paintOrder: 'fill markers stroke' },
@@ -126,5 +126,4 @@ module.exports = {
 			xl: { max: '1280px' },
 		},
 	},
-	plugins: [require('tailwindcss-text-fill-stroke')],
 };
