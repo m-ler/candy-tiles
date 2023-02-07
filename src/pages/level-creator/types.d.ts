@@ -8,4 +8,11 @@ declare global {
 		elementObj: LevelTile | LevelItem;
 		spriteSrc: string;
 	};
+
+	type LevelDataEditor = {
+		slotList: boolean[];
+		tileList: (LevelEditorElement | null)[];
+		itemList: (LevelEditorElement | null)[];
+		levelRules: LevelRules;
+	};
 }

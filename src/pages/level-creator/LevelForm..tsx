@@ -5,11 +5,21 @@ import { BsSnow } from 'react-icons/bs';
 import { MdIcecream } from 'react-icons/md';
 import { GiBrickWall } from 'react-icons/gi';
 import TextFieldMain from '../../mui/components/TextFieldMain';
+import { useSetRecoilState } from 'recoil';
+import { levelRulesState } from './store/levelRules';
 
 const LevelForm = () => {
+	const setLevelRules = useSetRecoilState(levelRulesState);
+
 	return (
 		<div className="flex flex-wrap gap-[12px] overflow-auto max-w-full justify-center md:[&>*]:grow">
 			<TextFieldMain
+				onChange={(e) =>
+					setLevelRules((state) => ({
+						...state,
+						targetScore: parseInt(e.target.value),
+					}))
+				}
 				id="target-score"
 				label="Target score"
 				variant="filled"
@@ -28,6 +38,12 @@ const LevelForm = () => {
 				}}
 			></TextFieldMain>
 			<TextFieldMain
+				onChange={(e) =>
+					setLevelRules((state) => ({
+						...state,
+						maximumMoves: parseInt(e.target.value),
+					}))
+				}
 				id="moves-number"
 				label="Moves"
 				variant="filled"
@@ -47,6 +63,15 @@ const LevelForm = () => {
 			></TextFieldMain>
 
 			<TextFieldMain
+				onChange={(e) =>
+					setLevelRules((state) => ({
+						...state,
+						tasks: {
+							...state.tasks,
+							iceTiles: parseInt(e.target.value),
+						},
+					}))
+				}
 				id="ice-tiles"
 				label="Ice tiles"
 				variant="filled"
@@ -66,6 +91,15 @@ const LevelForm = () => {
 			></TextFieldMain>
 
 			<TextFieldMain
+				onChange={(e) =>
+					setLevelRules((state) => ({
+						...state,
+						tasks: {
+							...state.tasks,
+							rockTiles: parseInt(e.target.value),
+						},
+					}))
+				}
 				id="rock-tiles"
 				label="Rock tiles"
 				variant="filled"
@@ -84,6 +118,15 @@ const LevelForm = () => {
 				}}
 			></TextFieldMain>
 			<TextFieldMain
+				onChange={(e) =>
+					setLevelRules((state) => ({
+						...state,
+						tasks: {
+							...state.tasks,
+							iceCreams: parseInt(e.target.value),
+						},
+					}))
+				}
 				id="ice-creams"
 				label="Ice creams"
 				variant="filled"

@@ -38,7 +38,7 @@ const applyMatches = (matchInfo: MatchResult, itemList: LevelItem[]): LevelItem[
 	return newItemList;
 };
 
-const validateInitialItems = (initialItems: readonly LevelItem[], initialTiles: readonly LevelTile[]): LevelItem[] => {
+const validateInitialItems = (initialItems: readonly LevelItem[], initialTiles: readonly boolean[]): LevelItem[] => {
 	const validatedItems = initialItems.map((item, index) => {
 		if (initialTiles[index] === null || item === null) return null;
 		!item.id && (item.id = uuid());

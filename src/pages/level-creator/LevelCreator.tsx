@@ -1,11 +1,14 @@
-import { Button, IconButton, Tooltip } from '@mui/material';
+import { IconButton, Tooltip } from '@mui/material';
 import { createPortal } from 'react-dom';
-import { MdClose, MdSave } from 'react-icons/md';
+import { MdClose } from 'react-icons/md';
 import useMountAnimation from '../../hooks/useMountAnimation';
 import GridEditor from './grid-editor';
 import LevelElementsPanel from './level-elements-panel';
 import LevelForm from './LevelForm.';
-import SelectedLevelCursor from './SelectedElementCursor';
+import LevelEditorCursor from './LevelEditorCursor';
+import MouseButtonsIndicators from './MouseButtonsIndicators';
+import SaveLevelButton from './save-level-button';
+import DownloadLevelButton from './DownloadLevelButton';
 
 const LevelCreatorPage = () => {
 	useMountAnimation('#level-creator-container');
@@ -13,8 +16,9 @@ const LevelCreatorPage = () => {
 	return (
 		<>
 			<section
-				className="h-[min(800px,100%)] max-h-[1000px] flex flex-col bg-s-dark rounded w-[min(11s00px,100%)] mx-auto max-w-full overflow-hidden"
+				className="h-[min(800px,100%)] max-h-[1000px] flex flex-col bg-s-dark rounded w-[min(11s00px,100%)] mx-auto max-w-full mb-[24px] overflow-hidden"
 				id="level-creator-container"
+				onContextMenu={(e) => e.preventDefault()}
 			>
 				<div className="flex p-[12px] bg-black/20 border-b border-white/25">
 					<Tooltip title="Cancel">
@@ -23,15 +27,10 @@ const LevelCreatorPage = () => {
 						</IconButton>
 					</Tooltip>
 
-					<Button
-						startIcon={<MdSave />}
-						sx={{ fontWeight: 'bolder', marginLeft: 'auto' }}
-						variant="contained"
-						size="small"
-						disableElevation
-					>
-						Save
-					</Button>
+					<div className='ml-auto flex gap-x-[12px] items-center'>
+						<DownloadLevelButton></DownloadLevelButton>
+						<SaveLevelButton></SaveLevelButton>
+					</div>
 				</div>
 
 				<div className="flex flex-col grow gap-[16px] p-[12px] overflow-hidden max-w-full bg-black/20">
@@ -39,10 +38,12 @@ const LevelCreatorPage = () => {
 						<LevelForm></LevelForm>
 						<LevelElementsPanel></LevelElementsPanel>
 					</div>
+
 					<GridEditor></GridEditor>
 				</div>
 			</section>
-			{createPortal(<SelectedLevelCursor></SelectedLevelCursor>, document.body)}
+			<MouseButtonsIndicators></MouseButtonsIndicators>
+			{createPortal(<LevelEditorCursor></LevelEditorCursor>, document.body)}
 		</>
 	);
 };

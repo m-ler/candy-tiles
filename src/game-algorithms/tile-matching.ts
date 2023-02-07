@@ -315,7 +315,7 @@ type ItemAbove = {
 	tileDistanceCount: number;
 };
 
-const getItemAbove = (itemIndex: number, items: readonly LevelItem[], tiles: readonly LevelTile[]): ItemAbove => {
+const getItemAbove = (itemIndex: number, items: readonly LevelItem[], tiles: readonly boolean[]): ItemAbove => {
 	let nextItemIndex = itemIndex - COLUMN_NUMBER;
 	let tileDistanceCount = 1;
 	let aboveItem: number | null = null;
@@ -345,7 +345,7 @@ export type NewItemPosition = {
 	tilesToMove: number;
 };
 
-export const repositionItems = (items: readonly LevelItem[], tiles: readonly LevelTile[]): LevelItem[] => {
+export const repositionItems = (items: readonly LevelItem[], tiles: readonly boolean[]): LevelItem[] => {
 	const repositionedItems = structuredClone(items) as LevelItem[];
 	const newPositions: NewItemPosition[] = [];
 
@@ -377,7 +377,7 @@ const getRandomColorCandy = (): LevelItem => {
 	} as Candy;
 };
 
-export const generateNewCandies = (items: readonly LevelItem[], tiles: readonly LevelTile[]): LevelItem[] => {
+export const generateNewCandies = (items: readonly LevelItem[], tiles: readonly boolean[]): LevelItem[] => {
 	const newCandies = structuredClone(items) as LevelItem[];
 	newCandies.forEach((item, index) => {
 		const tileAvaliable = tiles[index] !== null;
@@ -400,7 +400,7 @@ export const getHorizontalAndVerticalItems = (originIndex: number): number[] => 
 	return [...horizontalItems, ...verticalItems].filter((x) => x !== originIndex);
 };
 
-export const allTilesFilled = (items: readonly LevelItem[], tiles: readonly LevelTile[]): boolean => {
+export const allTilesFilled = (items: readonly LevelItem[], tiles: readonly boolean[]): boolean => {
 	return !(structuredClone(items) as LevelItem[]).some((x, index) => tiles[index] !== null && x === null);
 };
 
@@ -451,7 +451,7 @@ export const matchAllCandiesOfColor = (
 	});
 };
 
-export const levelHasPossibleCombinations = (itemList: readonly LevelItem[], tileList: readonly LevelTile[]): boolean => {
+export const levelHasPossibleCombinations = (itemList: readonly LevelItem[], tileList: readonly boolean[]): boolean => {
 	const activeChocolateItem = itemList.some((item) => item?.type === 'Chocolate');
 	if (activeChocolateItem) return true;
 

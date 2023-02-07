@@ -1,6 +1,14 @@
+import { AlertColor } from '@mui/material';
+
 export {};
 
 declare global {
+	type LevelRules = {
+		targetScore: number;
+		maximumMoves: number;
+		tasks: LevelTasks;
+	};
+
 	type LevelData = {
 		id: number;
 		userId: string;
@@ -23,6 +31,8 @@ declare global {
 		'iceCreamMatch',
 		'levelComplete',
 		'match',
+		'pop1',
+		'put1',
 		'rockCrack1',
 		'rockCrack2',
 		'starScore',
@@ -33,4 +43,6 @@ declare global {
 	] as const;
 
 	type GameSFX = typeof gameSFXList[number];
+
+	type Toast = { message: string; durationMs: number; severity: AlertColor };
 }

@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
-export const levelTilesState = atom<LevelTile[]>({
+export const levelTilesState = atom<boolean[]>({
 	key: 'levelTiles',
-	default: [] as LevelTile[],
+	default: [] as boolean[],
 });

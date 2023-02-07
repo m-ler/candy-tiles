@@ -19,6 +19,7 @@
 		"isolatedModules": true,
 		"noEmit": true,
 		"checkJs": true,
+
 		"typeRoots": [
 			"src/types",
 			"node_modules/@types"

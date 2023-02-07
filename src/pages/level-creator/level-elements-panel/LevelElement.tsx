@@ -1,13 +1,13 @@
 import { Tooltip } from '@mui/material';
 import { useRecoilState } from 'recoil';
-import { selectedElementState } from '../atoms/selectedElement';
+import { selectedElementState } from '../store/selectedElement';
 import levelElementList from './level-element-list';
 
 type Props = {
 	elementId: number;
 	imageSrc: string;
 	name: string;
-	elementData: LevelTile | LevelItem;
+	elementData: boolean | LevelItem;
 };
 
 const LevelElement = ({ elementId, imageSrc, name }: Props) => {
