@@ -12,6 +12,7 @@ import DownloadLevelButton from './DownloadLevelButton';
 import { useNavigate } from 'react-router-dom';
 import useUnmountAnimation from '../../hooks/useUnmountAnimation';
 import Tooltip from './../../mui/components/Tooltip';
+import LevelCreatorStateManager from './LevelCreatorStateManager';
 
 const LevelCreatorPage = () => {
 	const navigate = useNavigate();
@@ -52,6 +53,7 @@ const LevelCreatorPage = () => {
 				</div>
 			</section>
 			<MouseButtonsIndicators></MouseButtonsIndicators>
+			<LevelCreatorStateManager></LevelCreatorStateManager>
 			{createPortal(<LevelEditorCursor></LevelEditorCursor>, document.body)}
 		</>
 	);
