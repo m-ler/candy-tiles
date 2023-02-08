@@ -1,6 +1,6 @@
-import { IconButton, Tooltip } from '@mui/material';
+import { IconButton } from '@mui/material';
 import { createPortal } from 'react-dom';
-import { MdClose } from 'react-icons/md';
+import { MdArrowBack } from 'react-icons/md';
 import useMountAnimation from '../../hooks/useMountAnimation';
 import GridEditor from './grid-editor';
 import LevelElementsPanel from './level-elements-panel';
@@ -9,9 +9,18 @@ import LevelEditorCursor from './LevelEditorCursor';
 import MouseButtonsIndicators from './MouseButtonsIndicators';
 import SaveLevelButton from './save-level-button';
 import DownloadLevelButton from './DownloadLevelButton';
+import { useNavigate } from 'react-router-dom';
+import useUnmountAnimation from '../../hooks/useUnmountAnimation';
+import Tooltip from './../../mui/components/Tooltip';
 
 const LevelCreatorPage = () => {
+	const navigate = useNavigate();
 	useMountAnimation('#level-creator-container');
+	const playUnmountAnimation = useUnmountAnimation('#level-creator-container');
+
+	const onGoBackClick = () => {
+		playUnmountAnimation(() => navigate('/'));
+	};
 
 	return (
 		<>
@@ -22,12 +31,12 @@ const LevelCreatorPage = () => {
 			>
 				<div className="flex p-[12px] bg-black/20 border-b border-white/25">
 					<Tooltip title="Cancel">
-						<IconButton>
-							<MdClose className="text-p-main"></MdClose>
+						<IconButton onClick={onGoBackClick}>
+							<MdArrowBack className="text-p-main"></MdArrowBack>
 						</IconButton>
 					</Tooltip>
 
-					<div className='ml-auto flex gap-x-[12px] items-center'>
+					<div className="ml-auto flex gap-x-[12px] items-center">
 						<DownloadLevelButton></DownloadLevelButton>
 						<SaveLevelButton></SaveLevelButton>
 					</div>

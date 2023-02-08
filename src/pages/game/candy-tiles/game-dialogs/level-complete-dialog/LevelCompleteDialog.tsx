@@ -1,4 +1,4 @@
-import { Button, Tooltip } from '@mui/material';
+import { Button } from '@mui/material';
 import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import useAudio from '../../../../../hooks/useAudio';
@@ -15,6 +15,7 @@ import useReloadPage from '../../../../../hooks/useReloadPage';
 import { useNavigate } from 'react-router-dom';
 import useUnmountAnimation from '../../../../../hooks/useUnmountAnimation';
 import anime from 'animejs';
+import Tooltip from './../../../../../mui/components/Tooltip';
 
 const animateScore = (score: number) => {
 	anime({

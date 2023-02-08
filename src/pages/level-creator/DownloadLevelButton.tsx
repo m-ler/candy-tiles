@@ -1,9 +1,10 @@
-import { Button, Tooltip } from '@mui/material';
+import { Button } from '@mui/material';
 import { MdDownload } from 'react-icons/md';
 import { useRecoilValue } from 'recoil';
 import { downloadBase64File } from '../../utils/file';
 import createLevelData from './createLevelData';
 import { levelDataEditorState } from './store/levelDataEditor';
+import Tooltip from './../../mui/components/Tooltip';
 
 const DownloadLevelButton = () => {
 	const levelDataEditor = useRecoilValue(levelDataEditorState);

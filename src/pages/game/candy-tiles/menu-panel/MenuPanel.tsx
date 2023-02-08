@@ -1,4 +1,3 @@
-import { Tooltip } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import useUnmountAnimation from '../../../../hooks/useUnmountAnimation';
 import MenuIconButton from '../../../../mui/components/MenuIconButton';
@@ -6,6 +5,7 @@ import { FaHome } from 'react-icons/fa';
 import { MdReplay } from 'react-icons/md';
 import useReloadPage from '../../../../hooks/useReloadPage';
 import useAudio from '../../../../hooks/useAudio';
+import Tooltip from './../../../../mui/components/Tooltip';
 
 const MenuPanel = () => {
 	const navigate = useNavigate();
