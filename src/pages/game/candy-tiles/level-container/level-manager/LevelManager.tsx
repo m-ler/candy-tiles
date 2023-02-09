@@ -38,7 +38,7 @@ const applyMatches = (matchInfo: MatchResult, itemList: LevelItem[]): LevelItem[
 	return newItemList;
 };
 
-const validateInitialItems = (initialItems: readonly LevelItem[], initialTiles: readonly boolean[]): LevelItem[] => {
+const validateInitialItems = (initialItems: readonly LevelItem[], initialTiles: readonly LevelTile[]): LevelItem[] => {
 	const validatedItems = initialItems.map((item, index) => {
 		if (initialTiles[index] === null || item === null) return null;
 		!item.id && (item.id = uuid());
@@ -108,7 +108,7 @@ const LevelManager = () => {
 	};
 
 	const checkForMatches = async (itemList: LevelItem[], checkSwap: boolean): Promise<void> => {
-		const matchInfo = checkForMatchings(itemList, itemsWereSwapped.current ? swappedItems : undefined);
+		const matchInfo = checkForMatchings(itemList, levelTiles, itemsWereSwapped.current ? swappedItems : undefined);
 
 		if (matchInfo.thereWereMatches || !allTilesFilled(itemList, levelTiles)) {
 			itemsWereSwapped.current &&

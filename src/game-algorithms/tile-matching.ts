@@ -1,6 +1,5 @@
 import uuid from 'react-uuid';
 import { COLUMN_NUMBER, ROW_NUMBER } from '../config';
-import LevelItem from '../pages/game/candy-tiles/level-container/level-items/LevelItem';
 import { findAllIndeces, getArrayNumberSum, getNumberRangeArray, getNumberSequenceArray } from '../utils/array';
 export const CANDY_COLOR_LIST: string[] = ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple'];
 export const CANDY_TYPES_ARRAY = ['Candy', 'SuperCandy'];
@@ -151,15 +150,29 @@ const makeSuperCandyMatch = (
 	return matchList;
 };
 
+const getColumnBaseTile = (tileList: readonly LevelTile[], columnIndex: number): number => {
+	const columnsIndices = Array(ROW_NUMBER)
+		.fill(null)
+		.map((x, i) => columnIndex - 1 + i * ROW_NUMBER);
+
+	const avaliableTiles = tileList.filter((x, i) => columnsIndices.includes(i));
+
+	console.log(columnIndex);
+	console.log(avaliableTiles);
+
+	return avaliableTiles.findLastIndex((x) => x !== null) + 1;
+};
+
 const getIceCreamMatchings = (
 	iceCream: {
 		index: number;
 	} & IceCream,
+	tileList: readonly LevelTile[],
 ): MatchDetail => {
 	return {
 		...emptyMatchDetail,
 		index: iceCream.index,
-		matched: getItemRowIndex(iceCream.index) === ROW_NUMBER,
+		matched: getItemRowIndex(iceCream.index) === getColumnBaseTile(tileList, getItemColumnIndex(iceCream.index)),
 	};
 };
 
@@ -287,7 +300,7 @@ const getItemsSeparatedByType = (items: readonly LevelItem[]): ItemListByType =>
 	return listByType;
 };
 
-export const checkForMatchings = (items: readonly LevelItem[], swappedItems?: SwappedItems): MatchResult => {
+export const checkForMatchings = (items: readonly LevelItem[], tiles: readonly LevelTile[], swappedItems?: SwappedItems): MatchResult => {
 	const { candies, superCandies, iceCreams } = getItemsSeparatedByType(items);
 	const matchingList: MatchDetail[] = [];
 
@@ -300,7 +313,7 @@ export const checkForMatchings = (items: readonly LevelItem[], swappedItems?: Sw
 		matchingList.push(matchDetail);
 		matchDetail.matched && matchingList.push(...makeSuperCandyMatch(superCandy, items));
 	});
-	iceCreams.forEach((iceCream) => matchingList.push(getIceCreamMatchings(iceCream)));
+	iceCreams.forEach((iceCream) => matchingList.push(getIceCreamMatchings(iceCream, tiles)));
 	const matchingGroups = getMatchGroups(matchingList, items);
 
 	return {
@@ -315,7 +328,7 @@ type ItemAbove = {
 	tileDistanceCount: number;
 };
 
-const getItemAbove = (itemIndex: number, items: readonly LevelItem[], tiles: readonly boolean[]): ItemAbove => {
+const getItemAbove = (itemIndex: number, items: readonly LevelItem[], tiles: readonly LevelTile[]): ItemAbove => {
 	let nextItemIndex = itemIndex - COLUMN_NUMBER;
 	let tileDistanceCount = 1;
 	let aboveItem: number | null = null;
@@ -345,7 +358,7 @@ export type NewItemPosition = {
 	tilesToMove: number;
 };
 
-export const repositionItems = (items: readonly LevelItem[], tiles: readonly boolean[]): LevelItem[] => {
+export const repositionItems = (items: readonly LevelItem[], tiles: readonly LevelTile[]): LevelItem[] => {
 	const repositionedItems = structuredClone(items) as LevelItem[];
 	const newPositions: NewItemPosition[] = [];
 
@@ -377,7 +390,7 @@ const getRandomColorCandy = (): LevelItem => {
 	} as Candy;
 };
 
-export const generateNewCandies = (items: readonly LevelItem[], tiles: readonly boolean[]): LevelItem[] => {
+export const generateNewCandies = (items: readonly LevelItem[], tiles: readonly LevelTile[]): LevelItem[] => {
 	const newCandies = structuredClone(items) as LevelItem[];
 	newCandies.forEach((item, index) => {
 		const tileAvaliable = tiles[index] !== null;
@@ -400,7 +413,7 @@ export const getHorizontalAndVerticalItems = (originIndex: number): number[] => 
 	return [...horizontalItems, ...verticalItems].filter((x) => x !== originIndex);
 };
 
-export const allTilesFilled = (items: readonly LevelItem[], tiles: readonly boolean[]): boolean => {
+export const allTilesFilled = (items: readonly LevelItem[], tiles: readonly LevelTile[]): boolean => {
 	return !(structuredClone(items) as LevelItem[]).some((x, index) => tiles[index] !== null && x === null);
 };
 
@@ -451,7 +464,7 @@ export const matchAllCandiesOfColor = (
 	});
 };
 
-export const levelHasPossibleCombinations = (itemList: readonly LevelItem[], tileList: readonly boolean[]): boolean => {
+export const levelHasPossibleCombinations = (itemList: readonly LevelItem[], tileList: readonly LevelTile[]): boolean => {
 	const activeChocolateItem = itemList.some((item) => item?.type === 'Chocolate');
 	if (activeChocolateItem) return true;
 
@@ -475,7 +488,7 @@ export const levelHasPossibleCombinations = (itemList: readonly LevelItem[], til
 			itemListCopy[index] = adjacentItem;
 			itemListCopy[adjacentIndex] = item;
 
-			return checkForMatchings(itemListCopy).thereWereMatches;
+			return checkForMatchings(itemListCopy, tileList).thereWereMatches;
 		});
 
 		return adjacentSwapMatched;

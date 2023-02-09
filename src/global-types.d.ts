@@ -45,4 +45,8 @@ declare global {
 	type GameSFX = typeof gameSFXList[number];
 
 	type Toast = { message: string; durationMs: number; severity: AlertColor };
+
+	interface Array<T> {
+		findLastIndex(predicate: (value: T, index: number, obj: T[]) => unknown, thisArg?: any): number;
+	}
 }
