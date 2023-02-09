@@ -156,10 +156,6 @@ const getColumnBaseTile = (tileList: readonly LevelTile[], columnIndex: number):
 		.map((x, i) => columnIndex - 1 + i * ROW_NUMBER);
 
 	const avaliableTiles = tileList.filter((x, i) => columnsIndices.includes(i));
-
-	console.log(columnIndex);
-	console.log(avaliableTiles);
-
 	return avaliableTiles.findLastIndex((x) => x !== null) + 1;
 };
 
