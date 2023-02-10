@@ -36,14 +36,16 @@ const LevelContainer = () => {
 	gameOver && animateGameOver();
 
 	return (
-		<section id="level-container" className="grow aspect-square rounded-lg overflow-hidden relative select-none">
-			<LevelManager></LevelManager>
-			<TileGrid></TileGrid>
-			<DelayComponent delayMs={ANIMATION_TIME_MS}>
-				<ItemGrid></ItemGrid>
-			</DelayComponent>
-			<FXGrid></FXGrid>
-		</section>
+		<div className='w-full grow overflow-hidden'>
+			<section id="level-container" className="max-w-full max-h-full mx-auto md:my-auto aspect-square rounded-lg overflow-hidden relative select-none">
+				<LevelManager></LevelManager>
+				<TileGrid></TileGrid>
+				<DelayComponent delayMs={ANIMATION_TIME_MS}>
+					<ItemGrid></ItemGrid>
+				</DelayComponent>
+				<FXGrid></FXGrid>
+			</section>
+		</div>
 	);
 };
 

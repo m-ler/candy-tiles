@@ -19,7 +19,7 @@ const App = () => {
 				<UserInteractionDetection></UserInteractionDetection>
 				<ThemeProvider theme={muiTheme}>
 					<Header></Header>
-					<div className="flex flex-col p-[16px] grow overflow-hidden">
+					<div className="flex flex-col p-[16px] md:p-[12px] grow overflow-hidden">
 						<Routes>
 							<Route path="/" element={<LevelSelectorPage></LevelSelectorPage>}></Route>
 							<Route path="/level/:levelId" element={<GamePage></GamePage>}></Route>

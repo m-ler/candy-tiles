@@ -1,11 +1,11 @@
 import anime, { AnimeInstance } from 'animejs';
 import { useEffect, useMemo, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
-import { SCORE_RATING } from '../../../../config';
-import useSelectedLevel from '../../../../hooks/useSelectedLevel';
-import { muiPalette } from '../../../../mui/theme';
-import { clampNumber } from '../../../../utils/math';
-import { scoreState } from '../atoms/score';
+import { SCORE_RATING } from '../../../../../config';
+import useSelectedLevel from '../../../../../hooks/useSelectedLevel';
+import { muiPalette } from '../../../../../mui/theme';
+import { clampNumber } from '../../../../../utils/math';
+import { scoreState } from '../../atoms/score';
 import ScoreBarStar from './ScoreBarStar';
 
 const scoreObj = { score: 0 };
@@ -42,7 +42,7 @@ const ScoreBar = () => {
 
 	return (
 		<div className="flex flex-col">
-			<div className="h-[40px] w-[150px] bg-t-dark p-[5px] relative rounded-lg ">
+			<div className="h-[40px] w-[150px] md:w-[100px] bg-t-dark p-[5px] relative rounded-lg ">
 				<span
 					className="bg-s-dark block w-full h-full origin-left rounded-md border-light-blue"
 					style={{
@@ -50,7 +50,7 @@ const ScoreBar = () => {
 					}}
 				></span>
 				<span
-					className="text-white font-YellowCandy text-[18px] absolute block top-0 left-0 right-0 bottom-0 text-center leading-[40px] font-medium"
+					className="text-white font-YellowCandy text-[18px] md:text-[14px] absolute block top-0 left-0 right-0 bottom-0 text-center leading-[40px] font-medium"
 					ref={scoreNumberElementRef}
 				></span>
 				<ScoreBarStar

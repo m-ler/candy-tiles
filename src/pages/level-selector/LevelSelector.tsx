@@ -13,9 +13,10 @@ const animateButtons = () => {
 	anime({
 		targets: '[data-level-button]',
 		opacity: [0, 1],
-		translateY: [100, 0],
-		delay: anime.stagger(25),
-		duration: 600,
+		scale: [0, 1],
+		delay: anime.stagger(4),
+		duration: 500,
+		easing: 'easeOutCirc',
 	});
 };
 

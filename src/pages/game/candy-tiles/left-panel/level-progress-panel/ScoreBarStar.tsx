@@ -1,7 +1,7 @@
 import anime from 'animejs';
 import { useEffect, useState } from 'react';
 import { AiFillStar } from 'react-icons/ai';
-import useAudio from '../../../../hooks/useAudio';
+import useAudio from '../../../../../hooks/useAudio';
 
 const starLineStyle =
 	'before:content-[""] before:absolute before:block before:h-[10px] before:w-[2px] before:bg-white/30 before:left-[45%] before:bottom-[100%]';
@@ -49,7 +49,7 @@ const ScoreBarStar = ({ elementId, positionX, targetPercentage, scorePercentage 
 				left: `${positionX}%`,
 			}}
 		>
-			<AiFillStar></AiFillStar>
+			<AiFillStar className='md:max-w-[12px] '></AiFillStar>
 		</span>
 	);
 };

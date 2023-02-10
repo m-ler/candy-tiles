@@ -29,6 +29,8 @@ const getTileComponent = (tileType: string, index: number): JSX.Element => {
 	}
 };
 
+const getEmptyTile = (index: number): JSX.Element => <div key={index} className="bg-black/5 rounded m-[2%]"></div>;
+
 const TileGrid = () => {
 	const levelTiles = useRecoilValue(levelTilesState);
 	const dragging = useRef<boolean>(false);
@@ -89,7 +91,7 @@ const TileGrid = () => {
 			onMouseOver={handleMouseOver}
 			ref={tileGridElementRef}
 		>
-			{levelTiles.map((tile, index) => (tile === null ? <div key={index}> </div> : getTileComponent(tile.type, index)))}
+			{levelTiles.map((tile, index) => (tile === null ? getEmptyTile(index) : getTileComponent(tile.type, index)))}
 		</div>
 	);
 };
