@@ -120,10 +120,10 @@ module.exports = {
 			},
 		},
 		screens: {
-			sm: { max: '640px' },
-			md: { max: '768px' },
-			lg: { max: '1024px' },
-			xl: { max: '1280px' },
+			sm: { max: '600px' },
+			md: { max: '900px' },
+			lg: { max: '1200px' },
+			xl: { max: '1536px' },
 		},
 	},
 };
