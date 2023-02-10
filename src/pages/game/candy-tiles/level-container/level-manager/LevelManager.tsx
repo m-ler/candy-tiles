@@ -83,8 +83,8 @@ const LevelManager = () => {
 		if (swappedItems.some((x) => x === null)) return;
 		itemsWereSwapped.current = true;
 
-		const firstIndex = swappedItems[0] || -1;
-		const secondIndex = swappedItems[1] || -1;
+		const firstIndex = swappedItems[0] ?? -1;
+		const secondIndex = swappedItems[1] ?? -1;
 
 		const firstItem = structuredClone(levelItems[firstIndex]) as LevelItem;
 		const secondItem = structuredClone(levelItems[secondIndex]) as LevelItem;
