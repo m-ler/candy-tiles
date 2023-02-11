@@ -1,6 +1,6 @@
 import { selector } from 'recoil';
 import { selectedLevelState } from '../../../../store/selectedLevel';
-import { scoreState } from '../atoms/score';
+import { scoreState } from '../store/score';
 
 export const levelScorePercentageState = selector<number>({
 	key: 'levelScorePercentage',

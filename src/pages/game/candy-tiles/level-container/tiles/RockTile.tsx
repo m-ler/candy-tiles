@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { checkForAdjacentMatch } from '../../../../../game-algorithms/tile-matching';
 import { TileProps } from './Tile';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { matchListState } from '../../atoms/matchList';
+import { matchListState } from '../../store/matchList';
 import useEffectAfterMount from '../../../../../hooks/useEffectAfterMount';
-import { levelTilesState } from '../../atoms/levelTiles';
+import { levelTilesState } from '../../store/levelTiles';
 import rockTileSprite from './../../../../../assets/img/tiles/rock.png';
-import { levelTasksState } from '../../atoms/levelTasks';
+import { levelTasksState } from '../../store/levelTasks';
 import useAudio from '../../../../../hooks/useAudio';
 
 const RockTile = ({ index }: TileProps) => {

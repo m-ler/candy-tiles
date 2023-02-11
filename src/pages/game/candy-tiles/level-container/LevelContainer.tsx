@@ -5,9 +5,9 @@ import DelayComponent from '../../../../components/DelayComponent';
 import { ANIMATION_TIME_MS } from '../../../../config';
 import FXGrid from './grids/FXGrid';
 import { useRecoilValue } from 'recoil';
-import { gameOverState } from '../selectors/gameOver';
+import { gameOverState } from '../store/gameOver';
 import anime from 'animejs';
-import { levelCompleteState } from '../selectors/levelComplete';
+import { levelCompleteState } from '../store/levelComplete';
 
 const animateLevelComplete = () => {
 	anime({

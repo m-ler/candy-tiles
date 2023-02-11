@@ -5,7 +5,7 @@ import { SCORE_RATING } from '../../../../../config';
 import useSelectedLevel from '../../../../../hooks/useSelectedLevel';
 import { muiPalette } from '../../../../../mui/theme';
 import { clampNumber } from '../../../../../utils/math';
-import { scoreState } from '../../atoms/score';
+import { scoreState } from '../../store/score';
 import ScoreBarStar from './ScoreBarStar';
 
 const scoreObj = { score: 0 };

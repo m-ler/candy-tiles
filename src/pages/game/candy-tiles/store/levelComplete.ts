@@ -1,11 +1,11 @@
 import { selector } from 'recoil';
 import { SCORE_RATING } from '../../../../config';
 import { selectedLevelState } from '../../../../store/selectedLevel';
-import { finishedMovingState } from '../atoms/finishedMoving';
-import { levelMovesState } from '../atoms/levelMoves';
-import { levelTasksState } from '../atoms/levelTasks';
+import { finishedMovingState } from '../store/finishedMoving';
+import { levelMovesState } from '../store/levelMoves';
+import { levelTasksState } from '../store/levelTasks';
 import { levelScorePercentageState } from './levelScorePercentage';
-import { possibleCombinationsState } from '../atoms/possibleCombinations';
+import { possibleCombinationsState } from '../store/possibleCombinations';
 
 export const levelCompleteState = selector<boolean>({
 	key: 'levelComplete',

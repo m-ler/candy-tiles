@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
-import { levelItemsState } from '../../../atoms/levelItems';
+import { levelItemsState } from '../../../store/levelItems';
 
 const ALLOWED_ITEM_TYPES = ['Candy', 'SuperCandy', 'Chocolate'];
 export default (index: number, tileElementState: HTMLElement) => {

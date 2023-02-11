@@ -2,11 +2,11 @@ import { useRef, useState } from 'react';
 import uuid from 'react-uuid';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import useEffectAfterMount from '../../../../../hooks/useEffectAfterMount';
-import { levelItemsState } from '../../atoms/levelItems';
-import { scoreState } from '../../atoms/score';
-import { levelFxListState } from '../../atoms/levelFxList';
+import { levelItemsState } from '../../store/levelItems';
+import { scoreState } from '../../store/score';
+import { levelFxListState } from '../../store/levelFxList';
 import iceCreamSprite from './../../../../../assets/img/candies/ice-cream.png';
-import { levelTasksState } from '../../atoms/levelTasks';
+import { levelTasksState } from '../../store/levelTasks';
 import useAudio from '../../../../../hooks/useAudio';
 
 const ICE_CREAM_SCORE = 100;

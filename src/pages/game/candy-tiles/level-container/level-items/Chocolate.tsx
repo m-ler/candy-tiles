@@ -2,10 +2,10 @@ import chocolateSprite from './../../../../../assets/img/candies/chocolate.png';
 import { useEffect, useRef, useState } from 'react';
 import useEffectAfterMount from '../../../../../hooks/useEffectAfterMount';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { levelItemsState } from '../../atoms/levelItems';
+import { levelItemsState } from '../../store/levelItems';
 import anime, { AnimeInstance } from 'animejs';
-import { scoreState } from '../../atoms/score';
-import { levelFxListState } from '../../atoms/levelFxList';
+import { scoreState } from '../../store/score';
+import { levelFxListState } from '../../store/levelFxList';
 import uuid from 'react-uuid';
 import useAudio from '../../../../../hooks/useAudio';
 

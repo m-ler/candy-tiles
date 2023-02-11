@@ -1,5 +1,5 @@
 import { useRecoilValue } from 'recoil';
-import { levelFxListState } from '../../atoms/levelFxList';
+import { levelFxListState } from '../../store/levelFxList';
 import ScoreFX from '../fx/ScoreFX';
 import SuperCandyMatchFX from '../fx/SuperCandyMatchFX';
 

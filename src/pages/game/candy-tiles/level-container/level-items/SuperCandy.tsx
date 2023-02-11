@@ -6,11 +6,11 @@ import superBlue from './../../../../../assets/img/candies/super-blue.png';
 import superPurple from './../../../../../assets/img/candies/super-purple.png';
 import { useEffect, useRef, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { levelItemsState } from '../../atoms/levelItems';
+import { levelItemsState } from '../../store/levelItems';
 import useEffectAfterMount from '../../../../../hooks/useEffectAfterMount';
 import anime from 'animejs';
-import { scoreState } from '../../atoms/score';
-import { levelFxListState } from '../../atoms/levelFxList';
+import { scoreState } from '../../store/score';
+import { levelFxListState } from '../../store/levelFxList';
 import uuid from 'react-uuid';
 import useAudio from '../../../../../hooks/useAudio';
 

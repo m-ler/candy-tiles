@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { TileProps } from './Tile';
 import useEffectAfterMount from '../../../../../hooks/useEffectAfterMount';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { matchListState } from '../../atoms/matchList';
-import { levelTilesState } from '../../atoms/levelTiles';
+import { matchListState } from '../../store/matchList';
+import { levelTilesState } from '../../store/levelTiles';
 import iceTileSprite from './../../../../../assets/img/tiles/ice.png';
-import { levelTasksState } from '../../atoms/levelTasks';
+import { levelTasksState } from '../../store/levelTasks';
 import useTileInteraction from './hooks/useTileInteraction';
 import useAudio from '../../../../../hooks/useAudio';
 

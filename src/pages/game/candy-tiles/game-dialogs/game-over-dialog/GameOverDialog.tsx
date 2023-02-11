@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
-import { levelMovesState } from '../../atoms/levelMoves';
+import { levelMovesState } from '../../store/levelMoves';
 import CandyTilesDialog from '../CandyTilesDialog';
-import { finishedMovingState } from '../../atoms/finishedMoving';
+import { finishedMovingState } from '../../store/finishedMoving';
 import GameOverActions from '../GameOverActions';
 import useDialogMountAnimation from '../hooks/useDialogMountAnimation';
 import useAudio from '../../../../../hooks/useAudio';
-import { levelCompleteState } from '../../selectors/levelComplete';
+import { levelCompleteState } from '../../store/levelComplete';
 
 const GameOverDialog = () => {
 	const levelMoves = useRecoilValue(levelMovesState);

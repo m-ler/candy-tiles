@@ -1,7 +1,7 @@
 import { selector } from 'recoil';
-import { finishedMovingState } from '../atoms/finishedMoving';
-import { levelMovesState } from '../atoms/levelMoves';
-import { possibleCombinationsState } from '../atoms/possibleCombinations';
+import { finishedMovingState } from './finishedMoving';
+import { levelMovesState } from './levelMoves';
+import { possibleCombinationsState } from './possibleCombinations';
 import { levelCompleteState } from './levelComplete';
 
 export const gameOverState = selector<boolean>({

@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import useAudio from '../../../../../hooks/useAudio';
-import { possibleCombinationsState } from '../../atoms/possibleCombinations';
-import { levelCompleteState } from '../../selectors/levelComplete';
+import { possibleCombinationsState } from '../../store/possibleCombinations';
+import { levelCompleteState } from '../../store/levelComplete';
 import CandyTilesDialog from '../CandyTilesDialog';
 import GameOverActions from '../GameOverActions';
 import useDialogMountAnimation from '../hooks/useDialogMountAnimation';

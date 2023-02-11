@@ -3,7 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { ANIMATION_TIME_MS, COLUMN_NUMBER } from '../../../../../config';
 import { getItemColumnIndex, getItemRowIndex } from '../../../../../game-algorithms/tile-matching';
 import useEffectAfterMount from '../../../../../hooks/useEffectAfterMount';
-import { levelItemsState } from '../../atoms/levelItems';
+import { levelItemsState } from '../../store/levelItems';
 import Candy from './Candy';
 import Chocolate from './Chocolate';
 import SuperCandy from './SuperCandy';

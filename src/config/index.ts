@@ -9,3 +9,11 @@ export const SCORE_RATING = {
 	twoStars: 85,
 	threeStars: 100,
 };
+export const LEVEL_ELEMENTS_SCORES = {
+	candy: 100,
+	superCandy: 250,
+	chocolate: 500,
+	iceCream: 1000,
+	iceTile: 1000,
+	rockTile: 1000,
+};

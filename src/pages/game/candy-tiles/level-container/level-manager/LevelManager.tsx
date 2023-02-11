@@ -9,15 +9,15 @@ import {
 	levelHasPossibleCombinations,
 	repositionItems,
 } from '../../../../../game-algorithms/tile-matching';
-import { levelItemsState } from '../../atoms/levelItems';
-import { levelTilesState } from '../../atoms/levelTiles';
-import { swappedItemsState } from '../../atoms/swappedItems';
+import { levelItemsState } from '../../store/levelItems';
+import { levelTilesState } from '../../store/levelTiles';
+import { swappedItemsState } from '../../store/swappedItems';
 import { getLevelItemByFusion } from '../../../../../game-algorithms/candy-fusions';
-import { finishedMovingState } from '../../atoms/finishedMoving';
-import { matchListState } from '../../atoms/matchList';
+import { finishedMovingState } from '../../store/finishedMoving';
+import { matchListState } from '../../store/matchList';
 import uuid from 'react-uuid';
-import { levelMovesState } from '../../atoms/levelMoves';
-import { possibleCombinationsState } from '../../atoms/possibleCombinations';
+import { levelMovesState } from '../../store/levelMoves';
+import { possibleCombinationsState } from '../../store/possibleCombinations';
 import useEffectAfterMount from '../../../../../hooks/useEffectAfterMount';
 import useSelectedLevel from '../../../../../hooks/useSelectedLevel';
 import useAudio from '../../../../../hooks/useAudio';

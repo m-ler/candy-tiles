@@ -4,7 +4,7 @@ import { useSetRecoilState } from 'recoil';
 import { COLUMN_NUMBER, ROW_NUMBER } from '../../../../../config';
 import candyHexColors from '../../../../../data/candy-hex-colors';
 import { getItemColumnIndex, getItemRowIndex } from '../../../../../game-algorithms/tile-matching';
-import { levelFxListState } from '../../atoms/levelFxList';
+import { levelFxListState } from '../../store/levelFxList';
 
 type Props = {
 	color: CandyColor;

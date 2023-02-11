@@ -1,15 +1,15 @@
 import { useEffect } from 'react';
 import { useResetRecoilState } from 'recoil';
-import { finishedMovingState } from './atoms/finishedMoving';
-import { levelItemsState } from './atoms/levelItems';
-import { levelMovesState } from './atoms/levelMoves';
-import { levelTasksState } from './atoms/levelTasks';
-import { levelTilesState } from './atoms/levelTiles';
-import { matchListState } from './atoms/matchList';
-import { scoreState } from './atoms/score';
-import { levelFxListState } from './atoms/levelFxList';
-import { swappedItemsState } from './atoms/swappedItems';
-import { possibleCombinationsState } from './atoms/possibleCombinations';
+import { finishedMovingState } from './store/finishedMoving';
+import { levelItemsState } from './store/levelItems';
+import { levelMovesState } from './store/levelMoves';
+import { levelTasksState } from './store/levelTasks';
+import { levelTilesState } from './store/levelTiles';
+import { matchListState } from './store/matchList';
+import { scoreState } from './store/score';
+import { levelFxListState } from './store/levelFxList';
+import { swappedItemsState } from './store/swappedItems';
+import { possibleCombinationsState } from './store/possibleCombinations';
 
 const LevelStateManager = () => {
 	const resetFinishedMoving = useResetRecoilState(finishedMovingState);

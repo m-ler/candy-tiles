@@ -3,7 +3,7 @@ import rockTileSprite from './../../../../../assets/img/tiles/rock.png';
 import iceCreamSprite from './../../../../../assets/img/candies/ice-cream.png';
 import TaskItem from './TaskItem';
 import { useRecoilValue } from 'recoil';
-import { levelTasksState } from '../../atoms/levelTasks';
+import { levelTasksState } from '../../store/levelTasks';
 import useSelectedLevel from '../../../../../hooks/useSelectedLevel';
 import { useMemo } from 'react';
 
