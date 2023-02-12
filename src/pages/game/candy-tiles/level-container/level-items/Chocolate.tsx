@@ -1,13 +1,11 @@
 import chocolateSprite from './../../../../../assets/img/candies/chocolate.png';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
 import useEffectAfterMount from '../../../../../hooks/useEffectAfterMount';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { levelItemsState } from '../../store/levelItems';
 import anime, { AnimeInstance } from 'animejs';
-import { scoreState } from '../../store/score';
-import { levelFxListState } from '../../store/levelFxList';
-import uuid from 'react-uuid';
 import useAudio from '../../../../../hooks/useAudio';
+import useScore from '../../hooks/useScore';
 
 const animateItemSpawn = (element: HTMLElement, onComplete: () => void): void => {
 	anime({
@@ -32,8 +30,6 @@ const animateChocolateScale = (element: HTMLElement): AnimeInstance => {
 	return animation;
 };
 
-const CHOCHOLATE_SCORE = 50;
-
 type ChocolateProps = {
 	id: string;
 	index: number;
@@ -45,9 +41,9 @@ const Chocolate = ({ id, index }: ChocolateProps) => {
 	const levelItems = useRecoilValue(levelItemsState);
 	const elementRef = useRef<HTMLImageElement | null>(null);
 	const spinAnimationRef = useRef<null | AnimeInstance>(null);
-	const setScore = useSetRecoilState(scoreState);
-	const setLevelFxList = useSetRecoilState(levelFxListState);
 	const playAudio = useAudio();
+	const matched = useMemo(() => !levelItems.some((x) => x?.id === id), [levelItems]);
+	useScore(matched && !itemUsedRef.current, index, 'Chocolate');
 
 	useEffect(() => {
 		playAudio({ audioName: 'fusionMatch' });
@@ -61,25 +57,13 @@ const Chocolate = ({ id, index }: ChocolateProps) => {
 	}, []);
 
 	useEffectAfterMount(() => {
-		const itemMatched = !levelItems.some((x) => x?.id === id);
-		if (itemMatched && !itemUsedRef.current) onItemMatch();
+		matched && !itemUsedRef.current && onItemMatch();
 	}, [levelItems]);
 
 	const onItemMatch = () => {
 		itemUsedRef.current = true;
 		setShow(false);
-		setScore((score) => score + CHOCHOLATE_SCORE);
 		playAudio({ audioName: 'chocolateMatch', volume: 0.5 });
-		setLevelFxList((list) => [
-			...list,
-			{
-				type: 'Score',
-				color: 'White',
-				id: uuid(),
-				index,
-				score: CHOCHOLATE_SCORE,
-			} as ScoreFx,
-		]);
 	};
 
 	return (

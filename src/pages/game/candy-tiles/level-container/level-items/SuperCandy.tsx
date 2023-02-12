@@ -4,15 +4,15 @@ import superYellow from './../../../../../assets/img/candies/super-yellow.png';
 import superGreen from './../../../../../assets/img/candies/super-green.png';
 import superBlue from './../../../../../assets/img/candies/super-blue.png';
 import superPurple from './../../../../../assets/img/candies/super-purple.png';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { levelItemsState } from '../../store/levelItems';
 import useEffectAfterMount from '../../../../../hooks/useEffectAfterMount';
 import anime from 'animejs';
-import { scoreState } from '../../store/score';
 import { levelFxListState } from '../../store/levelFxList';
 import uuid from 'react-uuid';
 import useAudio from '../../../../../hooks/useAudio';
+import useScore from '../../hooks/useScore';
 
 const candyImages: { [key: string]: string } = {
 	'Red': superRed,
@@ -35,8 +35,6 @@ const animateItemSpawn = (element: HTMLElement): void => {
 	});
 };
 
-const SUPER_CANDY_SCORE = 30;
-
 type SuperCandyProps = {
 	color: CandyColor;
 	id: string;
@@ -48,9 +46,10 @@ const SuperCandy = ({ color, id, index }: SuperCandyProps) => {
 	const itemUsedRef = useRef(false);
 	const elementRef = useRef<HTMLImageElement | null>(null);
 	const levelItems = useRecoilValue(levelItemsState);
-	const setScore = useSetRecoilState(scoreState);
 	const setLevelFxList = useSetRecoilState(levelFxListState);
 	const playAudio = useAudio();
+	const matched = useMemo(() => !levelItems.some((x) => x?.id === id), [levelItems]);
+	useScore(matched && !itemUsedRef.current, index, 'SuperCandy', color);
 
 	useEffect(() => {
 		playAudio({ audioName: 'fusionMatch' });
@@ -65,17 +64,9 @@ const SuperCandy = ({ color, id, index }: SuperCandyProps) => {
 	const onItemMatch = () => {
 		itemUsedRef.current = true;
 		setShow(false);
-		setScore((score) => score + SUPER_CANDY_SCORE);
 		playAudio({ audioName: 'superCandyMatch' });
 		setLevelFxList((list) => [
 			...list,
-			{
-				type: 'Score',
-				color,
-				id: uuid(),
-				index,
-				score: SUPER_CANDY_SCORE,
-			} as ScoreFx,
 			{
 				type: 'SuperCandy',
 				color,

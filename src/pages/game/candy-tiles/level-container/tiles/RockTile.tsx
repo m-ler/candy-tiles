@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo, useRef } from 'react';
 import { checkForAdjacentMatch } from '../../../../../game-algorithms/tile-matching';
 import { TileProps } from './Tile';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
@@ -8,25 +8,29 @@ import { levelTilesState } from '../../store/levelTiles';
 import rockTileSprite from './../../../../../assets/img/tiles/rock.png';
 import { levelTasksState } from '../../store/levelTasks';
 import useAudio from '../../../../../hooks/useAudio';
+import useScore from '../../hooks/useScore';
 
 const RockTile = ({ index }: TileProps) => {
-	const [damaged, setDamaged] = useState(false);
+	const damagedRef = useRef(false);
 	const matchList = useRecoilValue(matchListState);
 	const setLevelTiles = useSetRecoilState(levelTilesState);
 	const setLevelTasks = useSetRecoilState(levelTasksState);
 	const playAudio = useAudio();
+
+	const matched = checkForAdjacentMatch(index, matchList) || matchList.some((x) => x.index === index && x.matched);
+
+	useScore(matched && damagedRef.current, index, 'RockTile');
 
 	useEffectAfterMount(() => {
 		checkMatchInAdjacentTiles();
 	}, [matchList]);
 
 	const checkMatchInAdjacentTiles = () => {
-		const matched = checkForAdjacentMatch(index, matchList) || matchList.some((x) => x.index === index && x.matched);
 		if (!matched) return;
 
-		if (!damaged) {
+		if (!damagedRef.current) {
 			playAudio({ audioName: 'rockCrack1' });
-			setDamaged(true);
+			damagedRef.current = true;
 			return;
 		}
 
@@ -49,7 +53,7 @@ const RockTile = ({ index }: TileProps) => {
 				src={rockTileSprite}
 				className="pointer-events-none"
 				style={{
-					opacity: damaged ? 0.6 : 1,
+					opacity: damagedRef.current ? 0.6 : 1,
 				}}
 			></img>
 			<span className="absolute bottom-0 right-0 text-[12px] text-black/80 font-bold">{index}</span>

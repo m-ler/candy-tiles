@@ -1,15 +1,11 @@
-import { useRef, useState } from 'react';
-import uuid from 'react-uuid';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRef, useState, useMemo } from 'react';
+import { useRecoilValue } from 'recoil';
 import useEffectAfterMount from '../../../../../hooks/useEffectAfterMount';
 import { levelItemsState } from '../../store/levelItems';
-import { scoreState } from '../../store/score';
-import { levelFxListState } from '../../store/levelFxList';
 import iceCreamSprite from './../../../../../assets/img/candies/ice-cream.png';
-import { levelTasksState } from '../../store/levelTasks';
 import useAudio from '../../../../../hooks/useAudio';
+import useScore from '../../hooks/useScore';
 
-const ICE_CREAM_SCORE = 100;
 type IceCreamProps = {
 	id: string;
 	index: number;
@@ -20,36 +16,18 @@ const IceCream = ({ id, index }: IceCreamProps) => {
 	const elementRef = useRef<HTMLImageElement | null>(null);
 	const itemUsedRef = useRef(false);
 	const levelItems = useRecoilValue(levelItemsState);
-	const setScore = useSetRecoilState(scoreState);
-	const setLevelFxList = useSetRecoilState(levelFxListState);
-	const setLevelTasks = useSetRecoilState(levelTasksState);
 	const playAudio = useAudio();
+	const matched = useMemo(() => !levelItems.some((x) => x?.id === id), [levelItems]);
+	useScore(matched && itemUsedRef.current, index, 'IceCream');
 
 	useEffectAfterMount(() => {
-		const itemMatched = !levelItems.some((x) => x?.id === id);
-		itemMatched && !itemUsedRef.current && onItemMatch();
+		matched && !itemUsedRef.current && onItemMatch();
 	}, [levelItems]);
 
 	const onItemMatch = () => {
 		itemUsedRef.current = true;
 		playAudio({ audioName: 'iceCreamMatch' });
 		setShow(false);
-		setScore((score) => score + ICE_CREAM_SCORE);
-		setLevelFxList((list) => [
-			...list,
-			{
-				type: 'Score',
-				color: 'White',
-				id: uuid(),
-				index,
-				score: ICE_CREAM_SCORE,
-			} as ScoreFx,
-		]);
-
-		setLevelTasks((tasks) => ({
-			...tasks,
-			iceCreams: tasks.iceCreams + 1,
-		}));
 	};
 
 	return (

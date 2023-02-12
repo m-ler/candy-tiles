@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { TileProps } from './Tile';
 import useEffectAfterMount from '../../../../../hooks/useEffectAfterMount';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
@@ -8,6 +8,7 @@ import iceTileSprite from './../../../../../assets/img/tiles/ice.png';
 import { levelTasksState } from '../../store/levelTasks';
 import useTileInteraction from './hooks/useTileInteraction';
 import useAudio from '../../../../../hooks/useAudio';
+import useScore from '../../hooks/useScore';
 
 const IceTile = ({ index }: TileProps) => {
 	const [damaged, setDamaged] = useState(false);
@@ -17,6 +18,9 @@ const IceTile = ({ index }: TileProps) => {
 	const setLevelTiles = useSetRecoilState(levelTilesState);
 	const playAudio = useAudio();
 
+	const matched = useMemo(() => !!matchList.some((x) => x.index === index && x.matched), [matchList]);
+	useScore(matched && damaged, index, 'IceTile');
+
 	useTileInteraction(index, tileElement as HTMLElement);
 
 	useEffectAfterMount(() => {
@@ -24,7 +28,6 @@ const IceTile = ({ index }: TileProps) => {
 	}, [matchList]);
 
 	const checkMatchInTile = () => {
-		const matched = !!matchList.some((x) => x.index === index && x.matched);
 		if (!matched) return;
 
 		if (!damaged) {
