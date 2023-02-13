@@ -1,34 +1,37 @@
-import { useSetRecoilState } from 'recoil';
+import { useSetRecoilState, useRecoilValue } from 'recoil';
 import { scoreState } from './../store/score';
 import { useEffect } from 'react';
 import { LEVEL_ELEMENTS_SCORES } from '../../../../config';
 import { levelFxListState } from './../store/levelFxList';
 import uuid from 'react-uuid';
+import { comboCountState } from './../store/comboCount';
 
 export default (matched: boolean, index: number, type: string, color?: CandyColor): void => {
 	const setScore = useSetRecoilState(scoreState);
+	const comboCount = useRecoilValue(comboCountState);
 	const setLevelFxList = useSetRecoilState(levelFxListState);
 
 	useEffect(() => {
-		matched && updateScore();
-		matched && updateFXList();
+		matched && onMatch();
 	}, [matched]);
 
-	const updateScore = () => {
-		const scoreAmount = LEVEL_ELEMENTS_SCORES[type] || 0;		
+	const onMatch = () => {
+		const scoreAmount = (LEVEL_ELEMENTS_SCORES[type] || 0) * comboCount;
 		setScore((score) => score + scoreAmount);
+		updateFXList(scoreAmount);
 	};
 
-	const updateFXList = () => {
+	const updateFXList = (score: number) => {
+		const isTile = ['IceTile', 'RockTile'].includes(type);
 		setLevelFxList((list) => [
 			...list,
 			{
-				type: 'Score',
+				type: isTile ? 'TileScore' : 'CandyScore',
 				color: color || 'White',
 				id: uuid(),
 				index,
-				score: LEVEL_ELEMENTS_SCORES[type] || 0,
-			} as ScoreFx,
+				score,
+			} as LevelFX,
 		]);
 	};
 };

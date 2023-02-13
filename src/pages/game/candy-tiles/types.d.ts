@@ -64,10 +64,13 @@ declare global {
 
 	type ScoreFx = {
 		index: number;
-		color: CandyColor;
 		score: number;
-		type: 'Score';
 		id: 'string';
+	};
+
+	type CandyScoreFx = ScoreFx & {
+		type: 'CandyScore';
+		color: CandyColor;
 	};
 
 	type SuperCandyFX = {
@@ -78,7 +81,11 @@ declare global {
 		id: 'string';
 	};
 
-	type LevelFX = ScoreFx | SuperCandyFX;
+	type TileScoreFx = ScoreFx & {
+		type: 'TileScore';
+	};
+
+	type LevelFX = CandyScoreFx | TileScoreFx | SuperCandyFX;
 
 	type LevelTasks = {
 		iceCreams: number;

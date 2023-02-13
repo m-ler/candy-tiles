@@ -17,3 +17,4 @@ export const LEVEL_ELEMENTS_SCORES: { [key: string]: number } = {
 	IceTile: 500,
 	RockTile: 500,
 };
+export const COMBO_LIMIT = 3;

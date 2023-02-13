@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { ANIMATION_TIME_MS } from '../../../../../config';
+import { ANIMATION_TIME_MS, COMBO_LIMIT } from '../../../../../config';
 import {
 	allTilesFilled,
 	checkForMatchings,
@@ -22,8 +22,7 @@ import useEffectAfterMount from '../../../../../hooks/useEffectAfterMount';
 import useSelectedLevel from '../../../../../hooks/useSelectedLevel';
 import useAudio from '../../../../../hooks/useAudio';
 import { delay } from '../../../../../utils/delay';
-
-export let comboCount = 0;
+import { comboCountState } from './../../store/comboCount';
 
 const applyMatches = (matchInfo: MatchResult, itemList: LevelItem[]): LevelItem[] => {
 	const newItemList = structuredClone(itemList) as LevelItem[];
@@ -57,6 +56,7 @@ const LevelManager = () => {
 	const [finishedMoving, setFinishedMoving] = useRecoilState(finishedMovingState);
 	const setMatchList = useSetRecoilState(matchListState);
 	const setPossibleCombinations = useSetRecoilState(possibleCombinationsState);
+	const [comboCount, setComboCount] = useRecoilState(comboCountState);
 	const selectedLevel = useMemo(() => selectedLevelQuery.data, [selectedLevelQuery.data]) as LevelData;
 	const playAudio = useAudio();
 
@@ -115,8 +115,8 @@ const LevelManager = () => {
 				setLevelMoves((moves) => ({ done: moves.done + 1, total: moves.total, spentAllMoves: moves.done + 1 >= moves.total }));
 			setSwappedItems([null, null]);
 			itemsWereSwapped.current = false;
-			playAudio({ audioName: 'match', speed: 1 + comboCount / 10 });
-			comboCount += 1;
+			playAudio({ audioName: 'match', speed: 1 + (comboCount + 1) / 10 });
+			setComboCount((combo) => (combo < COMBO_LIMIT ? combo + 1 : combo));
 			const matchResult = applyMatches(matchInfo, itemList);
 
 			setLevelItems(matchResult);
@@ -134,7 +134,7 @@ const LevelManager = () => {
 		const thereAreSwappedItems = swappedItems.every((x) => x !== null);
 		thereAreSwappedItems && checkSwap && swapItems(true);
 
-		comboCount = 0;
+		setComboCount(1);
 		setTimeout(() => {
 			setFinishedMoving(true);
 		}, ANIMATION_TIME_MS);

@@ -1,22 +1,20 @@
 import anime from 'animejs';
 import { useEffect, useRef } from 'react';
-import { useSetRecoilState } from 'recoil';
 import { COLUMN_NUMBER, ROW_NUMBER } from '../../../../../config';
-import candyHexColors from '../../../../../data/candy-hex-colors';
 import { getItemColumnIndex, getItemRowIndex } from '../../../../../game-algorithms/tile-matching';
-import { levelFxListState } from '../../store/levelFxList';
+import { useSetRecoilState } from 'recoil';
+import { levelFxListState } from './../../store/levelFxList';
 
-type ScoreFXProps = {
+type Props = {
 	score: number;
-	color: CandyColor;
 	index: number;
 	id: string;
 };
 
-const ScoreFX = ({ score, color, index, id }: ScoreFXProps) => {
+const TileScoreFX = ({ score, index, id }: Props) => {
 	const setLevelFxList = useSetRecoilState(levelFxListState);
-	const scoreElementRef = useRef<HTMLElement | null>(null);
 	const position = [(getItemColumnIndex(index) - 1) * 100, (getItemRowIndex(index) - 1) * 100];
+	const elementRef = useRef<HTMLElement | null>(null);
 
 	useEffect(() => {
 		animateScore();
@@ -24,11 +22,12 @@ const ScoreFX = ({ score, color, index, id }: ScoreFXProps) => {
 
 	const animateScore = (): void => {
 		anime({
-			targets: scoreElementRef.current,
-			translateY: ['0%', '-100%'],
-			opacity: [1, 0],
-			duration: 500,
+			targets: elementRef.current,
+			translateY: ['0%', '-50%'],
+			opacity: [0.7, 0],
+			duration: 700,
 			easing: 'linear',
+			delay: 200,
 			complete: () => setLevelFxList((list) => list.filter((x) => x.id !== id)),
 		});
 	};
@@ -42,17 +41,11 @@ const ScoreFX = ({ score, color, index, id }: ScoreFXProps) => {
 				height: `calc(100%/${ROW_NUMBER})`,
 			}}
 		>
-			<span
-				ref={scoreElementRef}
-				className="text-[200%] font-bold text-center m-auto font-YellowCandy"
-				style={{
-					color: candyHexColors[color],
-				}}
-			>
+			<span ref={elementRef} className="text-[170%] font-bold text-center m-auto font-YellowCandy text-p-light">
 				{score}
 			</span>
 		</div>
 	);
 };
 
-export default ScoreFX;
+export default TileScoreFX;

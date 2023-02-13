@@ -1,4 +1,4 @@
-import { forwardRef, useState } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import useEffectAfterMount from '../../../../../hooks/useEffectAfterMount';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { matchListState } from '../../store/matchList';
@@ -19,15 +19,20 @@ type Props = {
 
 const DestructibleTile = forwardRef<HTMLDivElement, Props>((props: Props, ref) => {
 	const [damaged, setDamaged] = useState(false);
+	const [destroyed, setDestroyed] = useState(false);
 	const matchList = useRecoilValue(matchListState);
 	const setLevelTiles = useSetRecoilState(levelTilesState);
 	const playAudio = useAudio();
 
-	useScore(props.matched && damaged, props.index, props.tileType);
+	useScore(props.matched && destroyed, props.index, props.tileType);
 
 	useEffectAfterMount(() => {
 		checkMatchInTile();
 	}, [matchList]);
+
+	useEffect(() => {
+		destroyed && updateTileList();
+	}, [destroyed]);
 
 	const checkMatchInTile = () => {
 		if (!props.matched) return;
@@ -39,18 +44,24 @@ const DestructibleTile = forwardRef<HTMLDivElement, Props>((props: Props, ref) =
 		}
 
 		playAudio({ audioName: props.damagedCrackSoundName });
+		props.onDestructed?.();
+		setDestroyed(true);
+	};
 
+	const updateTileList = () => {
 		setLevelTiles((tiles) => {
 			const newTiles = structuredClone(tiles);
 			newTiles[props.index] = { type: 'Normal' };
 			return newTiles;
 		});
-
-		props.onDestructed?.();
 	};
 
 	return (
-		<div className={`relative bg-black/25 m-[2%] hover:invert duration-200 select-none rounded ${props.className}`} data-index={props.index} ref={ref}>
+		<div
+			className={`relative bg-black/25 m-[2%] hover:invert duration-200 select-none rounded ${props.className}`}
+			data-index={props.index}
+			ref={ref}
+		>
 			<img
 				src={props.spriteSrc}
 				className="pointer-events-none"

@@ -6,6 +6,7 @@ import useSelectedLevel from '../../../../../hooks/useSelectedLevel';
 import { muiPalette } from '../../../../../mui/theme';
 import { clampNumber } from '../../../../../utils/math';
 import { scoreState } from '../../store/score';
+import ComboCounter from './ComboCounter';
 import ScoreBarStar from './ScoreBarStar';
 
 const scoreObj = { score: 0 };
@@ -71,6 +72,7 @@ const ScoreBar = () => {
 					targetPercentage={SCORE_RATING.threeStars}
 					scorePercentage={scoreProgressPercentage}
 				></ScoreBarStar>
+				<ComboCounter></ComboCounter>
 			</div>
 		</div>
 	);
