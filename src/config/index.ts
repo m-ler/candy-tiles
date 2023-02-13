@@ -11,9 +11,9 @@ export const SCORE_RATING = {
 };
 export const LEVEL_ELEMENTS_SCORES: { [key: string]: number } = {
 	Candy: 50,
-	SuperCandy: 150,
-	Chocolate: 500,
-	IceCream: 1000,
-	IceTile: 1000,
-	RockTile: 1000,
+	SuperCandy: 100,
+	Chocolate: 150,
+	IceCream: 500,
+	IceTile: 500,
+	RockTile: 500,
 };

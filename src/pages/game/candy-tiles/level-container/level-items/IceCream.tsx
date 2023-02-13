@@ -18,7 +18,7 @@ const IceCream = ({ id, index }: IceCreamProps) => {
 	const levelItems = useRecoilValue(levelItemsState);
 	const playAudio = useAudio();
 	const matched = useMemo(() => !levelItems.some((x) => x?.id === id), [levelItems]);
-	useScore(matched && itemUsedRef.current, index, 'IceCream');
+	useScore(matched, index, 'IceCream');
 
 	useEffectAfterMount(() => {
 		matched && !itemUsedRef.current && onItemMatch();

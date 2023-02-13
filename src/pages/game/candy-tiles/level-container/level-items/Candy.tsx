@@ -51,7 +51,7 @@ const Candy = ({ color, id, index }: CandyProps) => {
 	const playAudio = useAudio();
 	const matched = useMemo(() => !levelItems.some((x) => x?.id === id), [levelItems]);
 
-	useScore(matched && !itemUsed, index, 'Candy', color);
+	useScore(matched, index, 'Candy', color);
 
 	useEffect(() => {
 		animateItemSpawn(elementRef.current as HTMLElement);

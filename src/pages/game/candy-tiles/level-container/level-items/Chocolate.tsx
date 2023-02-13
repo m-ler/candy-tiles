@@ -43,7 +43,7 @@ const Chocolate = ({ id, index }: ChocolateProps) => {
 	const spinAnimationRef = useRef<null | AnimeInstance>(null);
 	const playAudio = useAudio();
 	const matched = useMemo(() => !levelItems.some((x) => x?.id === id), [levelItems]);
-	useScore(matched && !itemUsedRef.current, index, 'Chocolate');
+	useScore(matched, index, 'Chocolate');
 
 	useEffect(() => {
 		playAudio({ audioName: 'fusionMatch' });

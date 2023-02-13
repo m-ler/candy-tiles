@@ -49,7 +49,7 @@ const SuperCandy = ({ color, id, index }: SuperCandyProps) => {
 	const setLevelFxList = useSetRecoilState(levelFxListState);
 	const playAudio = useAudio();
 	const matched = useMemo(() => !levelItems.some((x) => x?.id === id), [levelItems]);
-	useScore(matched && !itemUsedRef.current, index, 'SuperCandy', color);
+	useScore(matched, index, 'SuperCandy', color);
 
 	useEffect(() => {
 		playAudio({ audioName: 'fusionMatch' });

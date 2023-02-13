@@ -15,8 +15,7 @@ export default (matched: boolean, index: number, type: string, color?: CandyColo
 	}, [matched]);
 
 	const updateScore = () => {
-		const scoreAmount = LEVEL_ELEMENTS_SCORES[type] || 0;
-
+		const scoreAmount = LEVEL_ELEMENTS_SCORES[type] || 0;		
 		setScore((score) => score + scoreAmount);
 	};
 
