@@ -5,6 +5,7 @@ import useSelectedLevel from '../../hooks/useSelectedLevel';
 import CandyTiles from './candy-tiles';
 import LevelError from './LevelError';
 import LevelSkeleton from './LevelSkeleton';
+import VolumeDialog from './VolumeDialog';
 
 const GamePage = () => {
 	const queryClient = useQueryClient();
@@ -23,6 +24,7 @@ const GamePage = () => {
 	return (
 		<section id="game-container" className="w-[min(1600px,100%)] m-auto flex gap-x-[15px] md:h-full">
 			<CandyTiles></CandyTiles>
+			<VolumeDialog></VolumeDialog>
 		</section>
 	);
 };

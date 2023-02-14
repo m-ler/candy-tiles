@@ -7,6 +7,8 @@ import useReloadPage from '../../../../hooks/useReloadPage';
 import useAudio from '../../../../hooks/useAudio';
 import Tooltip from '../../../../mui/components/Tooltip';
 import useSelectedLevel from '../../../../hooks/useSelectedLevel';
+import { useSetRecoilState } from 'recoil';
+import { showVolumeDialogState } from './../../store/showVolumeDialog';
 
 const Menu = () => {
 	const selectedLevel = useSelectedLevel().data;
@@ -14,6 +16,7 @@ const Menu = () => {
 	const unmountAnimation = useUnmountAnimation('#game-container');
 	const reloadPage = useReloadPage();
 	const playAudio = useAudio();
+	const setShowVolumeDialog = useSetRecoilState(showVolumeDialogState);
 
 	const homeOnClick = () => {
 		playAudio({ audioName: 'buttonClick1', volume: 0.5 });
@@ -24,6 +27,8 @@ const Menu = () => {
 		playAudio({ audioName: 'buttonClick1', volume: 0.5 });
 		unmountAnimation(() => reloadPage());
 	};
+
+	const volumeOnClick = () => setShowVolumeDialog(true);
 
 	return (
 		<div className="bg-black/25 p-[16px] md:p-[12px] rounded-[5px] flex flex-col gap-y-[10px] md:w-min md:mx-auto">
@@ -49,7 +54,7 @@ const Menu = () => {
 
 				<Tooltip title="Adjust volume">
 					<div>
-						<MenuIconButton >
+						<MenuIconButton onClick={volumeOnClick}>
 							<MdVolumeUp></MdVolumeUp>
 						</MenuIconButton>
 					</div>
