@@ -104,10 +104,10 @@ const LevelManager = () => {
 
 		setFinishedMoving(false);
 		setLevelItems(newLevelItems);
-		setTimeout(() => checkForMatches(newLevelItems, true), ANIMATION_TIME_MS);
+		setTimeout(() => checkForMatches(newLevelItems, true, comboCount), ANIMATION_TIME_MS);
 	};
 
-	const checkForMatches = async (itemList: LevelItem[], checkSwap: boolean): Promise<void> => {
+	const checkForMatches = async (itemList: LevelItem[], checkSwap: boolean, combo: number): Promise<void> => {
 		const matchInfo = checkForMatchings(itemList, levelTiles, itemsWereSwapped.current ? swappedItems : undefined);
 
 		if (matchInfo.thereWereMatches || !allTilesFilled(itemList, levelTiles)) {
@@ -115,7 +115,8 @@ const LevelManager = () => {
 				setLevelMoves((moves) => ({ done: moves.done + 1, total: moves.total, spentAllMoves: moves.done + 1 >= moves.total }));
 			setSwappedItems([null, null]);
 			itemsWereSwapped.current = false;
-			playAudio({ audioName: 'match', speed: 1 + (comboCount + 1) / 10 });
+
+			playAudio({ audioName: 'match', speed: 1 + (combo + 1) / 10 });
 			setComboCount((combo) => (combo < COMBO_LIMIT ? combo + 1 : combo));
 			const matchResult = applyMatches(matchInfo, itemList);
 
@@ -127,14 +128,14 @@ const LevelManager = () => {
 			const fillResult = generateNewCandies(repositionResult, levelTiles);
 			setLevelItems(fillResult);
 			await delay(ANIMATION_TIME_MS);
-			checkForMatches(fillResult, false);
+			checkForMatches(fillResult, false, combo + 1);
 			return;
 		}
 
 		const thereAreSwappedItems = swappedItems.every((x) => x !== null);
 		thereAreSwappedItems && checkSwap && swapItems(true);
 
-		setComboCount(1);
+		setComboCount(0);
 		setTimeout(() => {
 			setFinishedMoving(true);
 		}, ANIMATION_TIME_MS);

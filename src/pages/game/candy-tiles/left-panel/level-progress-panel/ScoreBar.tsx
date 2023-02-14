@@ -35,7 +35,7 @@ const ScoreBar = () => {
 	const targetScore = useMemo(() => selectedLevel.data?.score || 0, [selectedLevel.data]);
 	const score = useRecoilValue(scoreState);
 	const scoreNumberElementRef = useRef<HTMLElement | null>(null);
-	const scoreProgressPercentage = clampNumber(Math.round((score * 100) / targetScore), 0, 100);
+	const scoreProgressPercentage = clampNumber(Math.floor((score * 100) / targetScore), 0, 100);
 
 	useEffect(() => {
 		animateScoreUpdate(scoreNumberElementRef.current as HTMLElement, score);
