@@ -28,7 +28,10 @@ const Menu = () => {
 		unmountAnimation(() => reloadPage());
 	};
 
-	const volumeOnClick = () => setShowVolumeDialog(true);
+	const volumeOnClick = () => {
+		playAudio({ audioName: 'buttonClick1', volume: 0.5 });
+		setShowVolumeDialog(true);
+	};
 
 	return (
 		<div className="bg-black/25 p-[16px] md:p-[12px] rounded-[5px] flex flex-col gap-y-[10px] md:w-min md:mx-auto">

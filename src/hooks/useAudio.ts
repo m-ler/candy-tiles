@@ -20,7 +20,6 @@ import superCandyMatch from './../assets/audio/superCandyMatch.mp3';
 import taskComplete from './../assets/audio/taskComplete.mp3';
 import tileClick from './../assets/audio/tileClick.mp3';
 import woosh1 from './../assets/audio/woosh1.mp3';
-import { gameVolumeState } from './../store/gameVolume';
 
 type AudioList = { [key in GameSFX]: string };
 const audioList: AudioList = {
@@ -54,11 +53,10 @@ type AudioOptions = {
 
 export default (): ((options: AudioOptions) => HTMLAudioElement) => {
 	const userInteractedWithDocument = useRecoilValue(userInteractedWithDocumentState);
-	const gameVolume = useRecoilValue(gameVolumeState);
 
 	return (options: AudioOptions) => {
 		const audio = new Audio(audioList[options.audioName]);
-		audio.volume = (options.volume || 1) * gameVolume;
+		audio.volume = (options.volume || 1) * window.gameVolume;
 		audio.playbackRate = options.speed || 1;
 		audio.preservesPitch = options.preservePitch || false;
 		audio.onended;

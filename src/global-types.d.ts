@@ -3,6 +3,10 @@ import { AlertColor } from '@mui/material';
 export {};
 
 declare global {
+	interface Window {
+		gameVolume: number;
+	}
+
 	type LevelRules = {
 		targetScore: number;
 		maximumMoves: number;

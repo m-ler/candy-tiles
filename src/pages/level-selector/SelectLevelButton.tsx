@@ -7,7 +7,7 @@ import useUnmountAnimation from '../../hooks/useUnmountAnimation';
 import { MdLock } from 'react-icons/md';
 
 const getStarIcon = (lit: boolean): JSX.Element => (
-	<AiFillStar className="drop-shadow" size={'16px'} style={{ color: lit ? '#ffd14f' : 'rgba(0,0,0,0.25)' }}></AiFillStar>
+	<AiFillStar size={'16px'} style={{ color: lit ? '#ffd14f' : 'rgba(0,0,0,0.25)' }}></AiFillStar>
 );
 
 type Props = ButtonProps & {
