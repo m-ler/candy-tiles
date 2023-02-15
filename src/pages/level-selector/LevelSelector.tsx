@@ -5,14 +5,15 @@ import { useNavigate } from 'react-router-dom';
 import useAudio from '../../hooks/useAudio';
 import useMountAnimation from '../../hooks/useMountAnimation';
 import useUnmountAnimation from '../../hooks/useUnmountAnimation';
-import SelectLevelButton from '../../mui/components/SelectLevelButton';
+import SelectLevelButton from './SelectLevelButton';
 import TabPanel from '../../mui/components/TabPanel';
 import { AiFillStar } from 'react-icons/ai';
+import { useRecoilValue } from 'recoil';
+import { completedLevelsState } from '../../store/completedLevels';
 
 const animateButtons = () => {
 	anime({
 		targets: '[data-level-button]',
-		opacity: [0, 1],
 		scale: [0, 1],
 		delay: anime.stagger(4),
 		duration: 500,
@@ -23,18 +24,13 @@ const animateButtons = () => {
 const LevelSelectorPage = () => {
 	const [selectedTab, setSelectedTab] = useState(0);
 	const navigate = useNavigate();
-	const playAudio = useAudio();
 	useMountAnimation('#level-selector-container');
 	const unmountAnimation = useUnmountAnimation('#level-selector-container');
+	const completedLevels = useRecoilValue(completedLevelsState);
 
 	useEffect(() => {
 		selectedTab === 0 && animateButtons();
 	}, [selectedTab]);
-
-	const selectLevel = (levelID: number): void => {
-		playAudio({ audioName: 'buttonClick1', volume: 0.5 });
-		unmountAnimation(() => navigate(`/level/${levelID}`));
-	};
 
 	const onCreateClick = () => {
 		unmountAnimation(() => navigate('/level-creator'));
@@ -61,21 +57,11 @@ const LevelSelectorPage = () => {
 			</Tabs>
 			<TabPanel className="bg-black/20 px-[16px] py-[8px] overflow-auto" index={0} value={selectedTab}>
 				<div className="grid gap-[15px] items-center pb-[12px]" style={{ gridTemplateColumns: 'repeat( auto-fill, minmax(100px,1fr) )' }}>
-					{new Array(50).fill(0).map((x, index) => (
-						<SelectLevelButton
-							className="translate-x-[-5000px] flex flex-col"
-							data-level-button
-							key={index}
-							onClick={() => selectLevel(index + 1)}
-						>
-							{index + 1}
-							<div className="flex">
-								<AiFillStar className="text-black/25" size={'16px'}></AiFillStar>
-								<AiFillStar className="text-black/25" size={'16px'}></AiFillStar>
-								<AiFillStar className="text-black/25" size={'16px'}></AiFillStar>
-							</div>
-						</SelectLevelButton>
-					))}
+					{new Array(50).fill(0).map((x, index) => {
+						const levelAvaliable = index === 0 || completedLevels.main.some((x) => x.id === index);
+						const stars = completedLevels.main.find((x) => x.id === index + 1)?.stars || 0;
+						return <SelectLevelButton key={index} locked={!levelAvaliable} stars={stars} levelId={index + 1} />;
+					})}
 				</div>
 			</TabPanel>
 

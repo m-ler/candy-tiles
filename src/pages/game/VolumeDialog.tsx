@@ -1,10 +1,12 @@
-import { DialogContent, DialogTitle, Slider } from '@mui/material';
+import { DialogContent, DialogTitle, Slide, Slider } from '@mui/material';
 import { showVolumeDialogState } from './store/showVolumeDialog';
 import { useRecoilState } from 'recoil';
 import { MdVolumeDown, MdVolumeUp } from 'react-icons/md';
 import { gameVolumeState } from './../../store/gameVolume';
-import { useMemo } from 'react';
+import { useMemo, forwardRef } from 'react';
 import Dialog from '../../components/Dialog';
+import { TransitionProps } from '@mui/material/transitions';
+import React from 'react';
 
 const VolumeDialog = () => {
 	const [showVolumeDialog, setShowVolumeDialog] = useRecoilState(showVolumeDialogState);
@@ -13,7 +15,7 @@ const VolumeDialog = () => {
 	const initialValue = useMemo(() => Math.floor(gameVolume * 100), [showVolumeDialog]);
 
 	const handleSliderChange = (e: Event, newValue: number | number[]) => setGameVolume((newValue as number) / 100);
-
+	
 	return (
 		<Dialog open={showVolumeDialog} onClose={handleClose} fullWidth={true} maxWidth={'xs'}>
 			<DialogTitle>Volume</DialogTitle>
