@@ -1,6 +1,6 @@
 import { Button } from '@mui/material';
-import { useEffect } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useEffect, useMemo } from 'react';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import useAudio from '../../../../../hooks/useAudio';
 import MenuIconButtonSecondary from '../../../../../mui/components/MenuIconButtonSecondary';
 import { scoreState } from '../../store/score';
@@ -16,6 +16,8 @@ import { useNavigate } from 'react-router-dom';
 import useUnmountAnimation from '../../../../../hooks/useUnmountAnimation';
 import anime from 'animejs';
 import Tooltip from './../../../../../mui/components/Tooltip';
+import { completedLevelsState } from '../../../../../store/completedLevels';
+import useSelectedLevel from '../../../../../hooks/useSelectedLevel';
 
 const animateScore = (score: number) => {
 	anime({
@@ -30,6 +32,7 @@ const animateScore = (score: number) => {
 
 const LevelCompleteDialog = () => {
 	const levelComplete = useRecoilValue(levelCompleteState);
+	const selectedLevel = useSelectedLevel();
 	const animateMount = useDialogMountAnimation('#level-complete-dialog', { duration: 500, delay: 500 });
 	const score = useRecoilValue(scoreState);
 	const levelScoreStars = useRecoilValue(levelScoreStarsState);
@@ -37,6 +40,8 @@ const LevelCompleteDialog = () => {
 	const reloadPage = useReloadPage();
 	const navigate = useNavigate();
 	const animateUnmount = useUnmountAnimation('#game-container');
+	const [completedLevels, setCompletedLevels] = useRecoilState(completedLevelsState);
+	const levelId = useMemo(() => selectedLevel.data?.id, [selectedLevel.data]);
 
 	useEffect(() => {
 		levelComplete && onLevelComplete();
@@ -46,6 +51,20 @@ const LevelCompleteDialog = () => {
 		animateMount();
 		setTimeout(() => playAudio({ audioName: 'levelComplete', volume: 0.6 }), 500);
 		animateScore(score);
+		updateCompletedLevels();
+	};
+
+	const updateCompletedLevels = () => {
+		if (selectedLevel.data?.type === 'Online') return;
+
+		setCompletedLevels((state) => {
+			const newState = structuredClone(state);
+			const previousStars = completedLevels.main.find((x) => x.id === levelId)?.stars || 0;
+			const stars = Object.values(levelScoreStars).filter((x) => x).length;
+			newState.main = newState.main.filter((x) => x.id !== levelId);
+			newState.main.push({ id: levelId!, stars: previousStars > stars ? previousStars : stars });
+			return newState;
+		});
 	};
 
 	const onPlayAgainClick = () => {

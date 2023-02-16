@@ -1,8 +1,10 @@
 import anime, { AnimeInstance } from 'animejs';
 import { useEffect, useMemo, useRef } from 'react';
+import { FaFlagCheckered } from 'react-icons/fa';
 import { useRecoilValue } from 'recoil';
 import { SCORE_RATING } from '../../../../../config';
 import useSelectedLevel from '../../../../../hooks/useSelectedLevel';
+import Tooltip from '../../../../../mui/components/Tooltip';
 import { muiPalette } from '../../../../../mui/theme';
 import { clampNumber } from '../../../../../utils/math';
 import { scoreState } from '../../store/score';
@@ -54,6 +56,12 @@ const ScoreBar = () => {
 					className="text-white font-YellowCandy text-[18px] md:text-[14px] absolute block top-0 left-0 right-0 bottom-0 text-center leading-[40px] font-medium"
 					ref={scoreNumberElementRef}
 				></span>
+				<Tooltip title="Target score">
+					<div className="absolute top-[100%] pt-[4px] flex gap-x-[8px] items-center">
+						<FaFlagCheckered className="text-p-main" size={12}></FaFlagCheckered>
+						<span className="text-[12px] text-p-main font-YellowCandy">{selectedLevel.data?.score}</span>
+					</div>
+				</Tooltip>
 				<ScoreBarStar
 					elementId="score-bar1"
 					positionX={65}

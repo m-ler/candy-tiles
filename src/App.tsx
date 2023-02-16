@@ -1,6 +1,6 @@
 import { ThemeProvider } from '@emotion/react';
 import { QueryClientProvider, QueryClient } from 'react-query';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import Header from './components/Header';
 import Toast from './components/Toast';
@@ -14,22 +14,26 @@ const queryClient = new QueryClient();
 
 const App = () => {
 	return (
-		<RecoilRoot>
-			<QueryClientProvider client={queryClient}>
-				<UserInteractionDetection></UserInteractionDetection>
+		<>
+			<RecoilRoot>
 				<ThemeProvider theme={muiTheme}>
-					<Header></Header>
-					<div className="flex flex-col p-[16px] md:p-[12px] grow overflow-hidden">
-						<Routes>
-							<Route path="/" element={<LevelSelectorPage></LevelSelectorPage>}></Route>
-							<Route path="/level/:levelId" element={<GamePage></GamePage>}></Route>
-							<Route path="/level-creator" element={<LevelCreatorPage></LevelCreatorPage>}></Route>
-						</Routes>
-					</div>
+					<BrowserRouter>
+						<QueryClientProvider client={queryClient}>
+							<UserInteractionDetection></UserInteractionDetection>
+							<Header></Header>
+							<div className="flex flex-col p-[16px] md:p-[12px] grow overflow-hidden">
+								<Routes>
+									<Route path="/" element={<LevelSelectorPage></LevelSelectorPage>}></Route>
+									<Route path="/level/:levelId" element={<GamePage></GamePage>}></Route>
+									<Route path="/level-creator" element={<LevelCreatorPage></LevelCreatorPage>}></Route>
+								</Routes>
+							</div>
+						</QueryClientProvider>
+					</BrowserRouter>
 					<Toast></Toast>
 				</ThemeProvider>
-			</QueryClientProvider>
-		</RecoilRoot>
+			</RecoilRoot>
+		</>
 	);
 };
 

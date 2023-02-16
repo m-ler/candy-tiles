@@ -15,6 +15,7 @@ declare global {
 
 	type LevelData = {
 		id: number;
+		type: 'Main' | 'Online';
 		userId: string;
 		initialItems: LevelItem[];
 		initialTiles: LevelTile[];
