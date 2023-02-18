@@ -4,6 +4,7 @@ import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import Header from './components/Header';
 import Toast from './components/Toast';
+import UserAuthDialog from './components/UserAuthDialog';
 import UserInteractionDetection from './components/UserInteractionDetection';
 import { muiTheme } from './mui/theme';
 import GamePage from './pages/game';
@@ -20,7 +21,8 @@ const App = () => {
 					<BrowserRouter>
 						<QueryClientProvider client={queryClient}>
 							<UserInteractionDetection></UserInteractionDetection>
-							<Header></Header>
+							<Header />
+							<UserAuthDialog />
 							<div className="flex flex-col p-[16px] md:p-[12px] grow overflow-hidden">
 								<Routes>
 									<Route path="/" element={<LevelSelectorPage></LevelSelectorPage>}></Route>

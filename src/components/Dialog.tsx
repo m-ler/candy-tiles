@@ -2,7 +2,7 @@ import { Dialog as MUIDialog, styled } from '@mui/material';
 
 const Dialog = styled(MUIDialog)(({ theme }) => ({
 	'& .MuiPaper-root': {
-		backgroundColor: '#143f42',
+		backgroundColor: '#153B3E',
 	},
 }));
 

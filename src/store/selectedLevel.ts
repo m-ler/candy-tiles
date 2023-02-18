@@ -2,6 +2,7 @@ import { atom } from 'recoil';
 
 const defaultValue: LevelData = {
 	id: 0,
+	type: 'Main',
 	userId: '',
 	initialItems: [],
 	initialTiles: [],

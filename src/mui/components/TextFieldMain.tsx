@@ -5,6 +5,7 @@ const TextFieldMain = (props: TextFieldProps): JSX.Element => (
 	<TextField
 		{...props}
 		sx={{
+			width: '100%',
 			'& .MuiInputBase-input, & .MuiFormLabel-root, & .MuiInputBase-root .MuiInputAdornment-root': {
 				color: muiPalette.primary.main,
 				fontFamily: 'YellowCandy',

@@ -1,6 +1,7 @@
 export default ({ levelRules, itemList, slotList, tileList }: LevelDataEditor): LevelData => ({
 	id: 0,
 	userId: '',
+	type: 'Main',
 	maximumMoves: levelRules.maximumMoves,
 	rating: null,
 	score: levelRules.targetScore,

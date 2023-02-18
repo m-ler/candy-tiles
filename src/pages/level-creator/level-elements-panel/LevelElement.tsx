@@ -7,7 +7,7 @@ type Props = {
 	elementId: number;
 	imageSrc: string;
 	name: string;
-	elementData: boolean | LevelItem;
+	elementData: LevelTile | LevelItem;
 };
 
 const LevelElement = ({ elementId, imageSrc, name }: Props) => {
