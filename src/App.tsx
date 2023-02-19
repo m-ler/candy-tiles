@@ -2,7 +2,8 @@ import { ThemeProvider } from '@emotion/react';
 import { QueryClientProvider, QueryClient } from 'react-query';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
-import Header from './components/Header';
+import FirebaseManager from './components/FirebaseManager';
+import Header from './components/header';
 import Toast from './components/Toast';
 import UserAuthDialog from './components/UserAuthDialog';
 import UserInteractionDetection from './components/UserInteractionDetection';
@@ -20,6 +21,7 @@ const App = () => {
 				<ThemeProvider theme={muiTheme}>
 					<BrowserRouter>
 						<QueryClientProvider client={queryClient}>
+							<FirebaseManager />
 							<UserInteractionDetection></UserInteractionDetection>
 							<Header />
 							<UserAuthDialog />

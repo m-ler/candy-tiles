@@ -20,9 +20,14 @@ declare global {
 		password: string;
 	};
 
-	type FormFieldValidation = {
+	type FieldValidationResult = {
 		valid: boolean;
-		messages: string[];
+		validationMessage: string;
+	};
+
+	type FieldValidation<T> = {
+		validate: (fieldValue: T) => boolean | Promise<boolean>;
+		failReason: string;
 	};
 
 	type LevelRules = {

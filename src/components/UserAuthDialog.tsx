@@ -35,7 +35,7 @@ const UserAuthDialog = () => {
 						<SignInForm onRedirect={dialogOnClose} />
 					</TabPanel>
 					<TabPanel value={selectedTab} index={1}>
-						<SignUpForm onRedirect={dialogOnClose} />
+						<SignUpForm onClose={dialogOnClose} />
 					</TabPanel>
 				</SwipeableViews>
 			</DialogContent>
