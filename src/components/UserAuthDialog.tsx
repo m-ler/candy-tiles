@@ -6,7 +6,7 @@ import SignInForm from './SignInForm';
 import { useState } from 'react';
 import TabPanel from '../mui/components/TabPanel';
 import SwipeableViews from 'react-swipeable-views';
-import SignUpForm from './SignUpForm';
+import SignUpForm from './sign-up-form';
 
 const UserAuthDialog = () => {
 	const [showUserAuthDialog, setShowUserAuthDialog] = useRecoilState(showUserAuthDialogState);

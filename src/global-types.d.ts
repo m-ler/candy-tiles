@@ -7,6 +7,24 @@ declare global {
 		gameVolume: number;
 	}
 
+	type UserData = {
+		email: string;
+		nickname: string;
+		password: string;
+	};
+
+	type UserDocData = {
+		uid: string;
+		email: string;
+		nickname: string;
+		password: string;
+	};
+
+	type FormFieldValidation = {
+		valid: boolean;
+		messages: string[];
+	};
+
 	type LevelRules = {
 		targetScore: number;
 		maximumMoves: number;
@@ -47,7 +65,7 @@ declare global {
 		'woosh1',
 	] as const;
 
-	type GameSFX = typeof gameSFXList[number];
+	type GameSFX = (typeof gameSFXList)[number];
 
 	type Toast = { message: string; durationMs: number; severity: AlertColor };
 

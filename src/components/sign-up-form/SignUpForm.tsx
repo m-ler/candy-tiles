@@ -1,12 +1,20 @@
-import { Button, InputAdornment, Stack } from '@mui/material';
+import { Button, CircularProgress, InputAdornment, Stack } from '@mui/material';
+import { useState } from 'react';
 import { MdEmail, MdLock, MdBorderColor } from 'react-icons/md';
-import TextFieldMain from '../mui/components/TextFieldMain';
+import TextFieldMain from '../../mui/components/TextFieldMain';
+import InputAdornmentLoader from '../InputAdornmentLoader';
+import useFormValidation from './hooks/useFormValidation';
 
 type Props = {
 	onRedirect?: () => void;
 };
 
 const SignUpForm = ({ onRedirect }: Props) => {
+	const { emailValidation } = useFormValidation();
+	const [emailValue, setEmailValue] = useState('');
+
+	const emailOnBlur = () => emailValidation.mutate(emailValue);
+
 	return (
 		<Stack spacing={2}>
 			<TextFieldMain
@@ -15,10 +23,14 @@ const SignUpForm = ({ onRedirect }: Props) => {
 				InputProps={{
 					startAdornment: (
 						<InputAdornment position="start">
-							<MdEmail className="max-w-[16px]"></MdEmail>
+							{emailValidation.isLoading ? <InputAdornmentLoader /> : <MdEmail className="max-w-[16px]"></MdEmail>}
 						</InputAdornment>
 					),
 				}}
+				helperText={emailValidation.data?.messages[0] || ''}
+				error={!emailValidation.data?.valid && emailValidation.isSuccess}
+				onChange={(e) => setEmailValue(e.target.value)}
+				onBlur={emailOnBlur}
 			></TextFieldMain>
 			<TextFieldMain
 				label="Username"
@@ -35,6 +47,7 @@ const SignUpForm = ({ onRedirect }: Props) => {
 				label="Password"
 				variant="filled"
 				type="password"
+				helperText=""
 				InputProps={{
 					startAdornment: (
 						<InputAdornment position="start">

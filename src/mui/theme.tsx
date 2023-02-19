@@ -37,6 +37,12 @@ export const muiTheme = createTheme({
 	palette: {
 		...muiPalette,
 		mode: 'dark',
+		error: {
+			light: '#e5738a',
+			main: '#f4365c',
+			dark: '#d32f55',
+			contrastText: '#fff',
+		},
 	},
 	typography: {
 		fontFamily: [
