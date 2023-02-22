@@ -1,4 +1,4 @@
-import { InputAdornment, Stack } from '@mui/material';
+import { FormHelperText, InputAdornment, Stack } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { MdEmail, MdLock, MdBorderColor } from 'react-icons/md';
 import TextFieldMain from '../../mui/components/TextFieldMain';
@@ -6,8 +6,6 @@ import InputAdornmentLoader from '../InputAdornmentLoader';
 import useFormValidation from './hooks/useFormValidation';
 import LoadingButton from '@mui/lab/LoadingButton';
 import useCreateUser from '../../hooks/useCreateUser';
-import { useSetRecoilState } from 'recoil';
-import { loggedUserState } from './../../store/loggedUser';
 
 type Props = {
 	onClose?: () => void;
@@ -18,23 +16,21 @@ const SignUpForm = ({ onClose }: Props) => {
 	const [emailValue, setEmailValue] = useState('');
 	const [usernameValue, setUsernameValue] = useState('');
 	const [passwordValue, setPasswordValue] = useState('');
-	const createUser = useCreateUser();
-	//const setLoggedUser = useSetRecoilState(loggedUserState);
+	const { createUserMutation, errorMessage } = useCreateUser();
 
 	useEffect(() => {
-		if (createUser.data) {
-			//setLoggedUser(createUser.data);
+		if (createUserMutation.data) {
 			onClose?.();
 			return;
 		}
-	}, [createUser.isSuccess]);
+	}, [createUserMutation.isSuccess]);
 
 	const emailOnBlur = () => emailValidation.mutate(emailValue);
 	const usernameOnBlur = () => usernameValidation.mutate(usernameValue);
 	const passwordOnBlur = () => passwordValidation.mutate(passwordValue);
 
 	const createOnClick = () => {
-		createUser.mutate({
+		createUserMutation.mutate({
 			email: emailValue,
 			nickname: usernameValue,
 			password: passwordValue,
@@ -91,8 +87,11 @@ const SignUpForm = ({ onClose }: Props) => {
 					),
 				}}
 			></TextFieldMain>
+			<FormHelperText error hidden={!createUserMutation.isError}>
+				{errorMessage}
+			</FormHelperText>
 			<Stack direction="row" justifyContent="center" alignItems="center">
-				<LoadingButton variant="contained" onClick={createOnClick} disabled={!validForm} loading={createUser.isLoading}>
+				<LoadingButton variant="contained" onClick={createOnClick} disabled={!validForm} loading={createUserMutation.isLoading}>
 					<span>SIGN UP</span>
 				</LoadingButton>
 			</Stack>

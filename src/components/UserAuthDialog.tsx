@@ -1,8 +1,8 @@
 import Dialog from './Dialog';
 import { useRecoilState } from 'recoil';
 import { showUserAuthDialogState } from '../store/showUserAuthenticationDialog';
-import { AppBar, DialogContent, DialogTitle, Tab, Tabs } from '@mui/material';
-import SignInForm from './SignInForm';
+import { DialogContent, Tab, Tabs } from '@mui/material';
+import SignInForm from './sign-in-form';
 import { useState } from 'react';
 import TabPanel from '../mui/components/TabPanel';
 import SwipeableViews from 'react-swipeable-views';
@@ -32,7 +32,7 @@ const UserAuthDialog = () => {
 					}}
 				>
 					<TabPanel value={selectedTab} index={0}>
-						<SignInForm onRedirect={dialogOnClose} />
+						<SignInForm onClose={dialogOnClose} />
 					</TabPanel>
 					<TabPanel value={selectedTab} index={1}>
 						<SignUpForm onClose={dialogOnClose} />
