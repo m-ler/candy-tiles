@@ -1,4 +1,4 @@
-import { onAuthStateChanged } from 'firebase/auth';
+import { onAuthStateChanged, User } from 'firebase/auth';
 import { useEffect } from 'react';
 import { auth } from '../config/firebase-config';
 import { useSetRecoilState } from 'recoil';
@@ -9,7 +9,8 @@ const FirebaseManager = () => {
 
 	useEffect(() => {
 		onAuthStateChanged(auth, (user) => {
-			setLoggedUser(user);
+			const userCopy = JSON.parse(JSON.stringify(user));
+			setLoggedUser(userCopy);
 			/* auth.onIdTokenChanged((user) => {
 				setLoggedUser(user);
 			}); */

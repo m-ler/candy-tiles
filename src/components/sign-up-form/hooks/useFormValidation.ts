@@ -1,13 +1,24 @@
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import { useMutation } from 'react-query';
+import { db } from '../../../config/firebase-config';
 import regularExpressions from '../../../utils/regularExpressions';
 import { validateField } from './../../../utils/form';
 
 const validateEmail = (value: string) => regularExpressions.validEmail.test(value);
-const validateDuplicatedEmail = (value: string): Promise<boolean> => new Promise((resolve) => setTimeout(() => resolve(true), 1000));
+const validateDuplicatedEmail = async (value: string): Promise<boolean> => {
+	const q = query(collection(db, 'users'), where('email', '==', value));
+	const response = await getDocs(q);
+	return response.empty;
+};
 
 const validatePasswordLength = (value: string) => value.length > 5;
 
 const validateUsernameLength = (value: string) => value.length < 50;
+const validateDuplicatedUsername = async (value: string) => {
+	const q = query(collection(db, 'users'), where('nickname', '==', value));
+	const response = await getDocs(q);
+	return response.empty;
+};
 
 const emailValidations: FieldValidation<string>[] = [
 	{
@@ -16,7 +27,7 @@ const emailValidations: FieldValidation<string>[] = [
 	},
 	{
 		validate: validateDuplicatedEmail,
-		failReason: 'Email is taken',
+		failReason: 'That email is taken. Please try another.',
 	},
 ];
 
@@ -31,6 +42,10 @@ const usernameValidations: FieldValidation<string>[] = [
 	{
 		validate: validateUsernameLength,
 		failReason: 'User name must contain 50 characters at much.',
+	},
+	{
+		validate: validateDuplicatedUsername,
+		failReason: 'That username is taken. Please try another.',
 	},
 ];
 
