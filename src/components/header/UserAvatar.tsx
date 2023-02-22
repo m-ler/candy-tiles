@@ -1,11 +1,10 @@
 import { Avatar, Divider, IconButton, ListItemIcon, Menu, MenuItem, Stack, Typography } from '@mui/material';
-import { User } from 'firebase/auth';
 import { useState } from 'react';
 import { MdLogout } from 'react-icons/md';
 import useSignOut from '../../hooks/useSignOut';
 
 type Props = {
-	user: User;
+	user: LoggedUserData;
 };
 
 const UserAvatar = ({ user }: Props) => {
@@ -20,19 +19,21 @@ const UserAvatar = ({ user }: Props) => {
 		setAnchorEl(null);
 	};
 
+	const userInitialLetter = (user.nickname || ' ')[0].toUpperCase();
+
 	return (
 		<>
 			<IconButton onClick={handleClick}>
-				<Avatar sx={{ bgcolor: 'tertiary.dark', fontWeight: 'bolder', color: 'white' }}>{(user.displayName || '')[0]}</Avatar>
+				<Avatar sx={{ bgcolor: 'tertiary.dark', fontWeight: 'bolder', color: 'white' }}>{userInitialLetter}</Avatar>
 			</IconButton>
 			<Menu open={open} anchorEl={anchorEl} onClose={handleClose}>
 				<MenuItem>
 					<Stack direction="row" spacing={2}>
 						<Avatar sx={{ width: 56, height: 56, bgcolor: 'tertiary.dark', fontWeight: 'bolder', color: 'white' }}>
-							{(user.displayName || '')[0]}
+							{userInitialLetter}
 						</Avatar>
 						<Stack justifyContent="center">
-							<Typography variant="subtitle1">{user.displayName}</Typography>
+							<Typography variant="subtitle1">{user.nickname}</Typography>
 							<Typography variant="caption">{user.email}</Typography>
 						</Stack>
 					</Stack>

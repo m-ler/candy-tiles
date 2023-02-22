@@ -13,6 +13,18 @@ declare global {
 		password: string;
 	};
 
+	type LoggedUserData = {
+		uid: string;
+		email: string;
+		nickname: string;
+		latestUpdateTime: number;
+	};
+
+	type SignInData = {
+		email: string;
+		password: string;
+	};
+
 	type UserDocData = {
 		uid: string;
 		email: string;
