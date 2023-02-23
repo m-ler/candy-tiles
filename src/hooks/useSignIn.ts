@@ -1,6 +1,7 @@
 import { FirebaseError } from 'firebase/app';
 import { useMutation } from 'react-query';
 import { signIn } from '../api/auth';
+import { useNavigate } from 'react-router-dom';
 
 const errorMessages = {
 	'auth/user-not-found': "The email you entered doesn't belong to an account.",
@@ -10,7 +11,10 @@ const errorMessages = {
 } as { [key: string]: string };
 
 export default () => {
-	const signInMutation = useMutation<unknown, FirebaseError, SignInData>('signIn', (signInData: SignInData) => signIn(signInData));
+	const navigate = useNavigate();
+	const signInMutation = useMutation<unknown, FirebaseError, SignInData>('signIn', (signInData: SignInData) => signIn(signInData), {
+		onSuccess: () => navigate(0),
+	});
 	const errorMessage = errorMessages[signInMutation.error?.code || ''] || errorMessages['default'];
 	return { signInMutation, errorMessage };
 };

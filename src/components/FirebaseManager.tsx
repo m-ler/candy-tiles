@@ -10,7 +10,8 @@ const getLoggedUserObj = (user: User | null): LoggedUserData | null =>
 				uid: user.uid,
 				email: user.email,
 				nickname: user.displayName,
-				//photoURL: user.photoURL || null,
+				firstLetter: (user.displayName || ' ')[0].toUpperCase(),
+				avatarURL: user.photoURL || null,
 				latestUpdateTime: Date.now(),
 		  } as LoggedUserData)
 		: null;

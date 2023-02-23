@@ -17,6 +17,8 @@ declare global {
 		uid: string;
 		email: string;
 		nickname: string;
+		firstLetter: string;
+		avatarURL: string;
 		latestUpdateTime: number;
 	};
 
