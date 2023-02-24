@@ -1,20 +1,26 @@
 import { Avatar, Box, CircularProgress, IconButton, ListItemIcon, Menu, MenuItem } from '@mui/material';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { MdModeEditOutline, MdOutlineCameraAlt, MdOutlineRemoveCircleOutline } from 'react-icons/md';
 import useRemoveAvatar from '../../hooks/useRemoveAvatar';
 import useToast from '../../hooks/useToast';
 import useUploadAvatar from '../../hooks/useUploadAvatar';
+import UserAvatar from '../UserAvatar';
 
 type Props = {
 	user: LoggedUserData;
+	setUploadingAvatar: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const AvatarButton = ({ user }: Props) => {
+const AvatarButton = ({ user, setUploadingAvatar }: Props) => {
 	const avatarImgInputRef = useRef<HTMLInputElement | null>(null);
 	const toast = useToast();
 	const uploadAvatar = useUploadAvatar();
 	const removeAvatar = useRemoveAvatar();
 	const [menuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>(null);
+
+	useEffect(() => {
+		setUploadingAvatar(uploadAvatar.isLoading);
+	}, [uploadAvatar.isLoading]);
 
 	const avatarButtonOnClick = (event: React.MouseEvent<HTMLElement>) => setMenuAnchorEl(event.currentTarget);
 	const uploadAvatarOnClick = () => !!avatarImgInputRef.current && avatarImgInputRef.current.click();
@@ -53,15 +59,7 @@ const AvatarButton = ({ user }: Props) => {
 					},
 				}}
 			>
-				<IconButton onClick={avatarButtonOnClick}>
-					<Avatar
-						src={user.avatarURL}
-						sx={{ width: 72, height: 72, bgcolor: 'tertiary.dark', fontWeight: 'bolder', color: 'white', fontSize: 36 }}
-					>
-						{user.firstLetter}
-					</Avatar>
-				</IconButton>
-
+				<UserAvatar size={72} fontSize={36} onClick={avatarButtonOnClick} />
 				<Box
 					borderRadius="50%"
 					position="absolute"

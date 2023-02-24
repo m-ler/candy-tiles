@@ -3,6 +3,7 @@ import { MdLogout } from 'react-icons/md';
 import { useSetRecoilState } from 'recoil';
 import useSignOut from '../../hooks/useSignOut';
 import { showManageUserDialogState } from '../../store/showManageUserDialog';
+import UserAvatar from '../UserAvatar';
 
 type Props = {
 	anchorEl: HTMLElement | null;
@@ -24,13 +25,7 @@ const UserMenu = ({ anchorEl, user, onMenuClose }: Props) => {
 				}}
 			>
 				<Stack direction="row" spacing={2}>
-					<Avatar
-						
-						src={user.avatarURL}
-						sx={{ width: 56, height: 56, bgcolor: 'tertiary.dark', fontWeight: 'bolder', color: 'white', fontSize: 28 }}
-					>
-						{user.firstLetter}
-					</Avatar>
+					<UserAvatar size={56} fontSize={28} />
 					<Stack justifyContent="center">
 						<Typography variant="subtitle1" sx={{ fontWeight: 'bolder' }}>
 							{user.nickname}

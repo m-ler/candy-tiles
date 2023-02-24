@@ -3,7 +3,7 @@ import { ReactComponent as Logo } from './../../assets/img/app/text-logo.svg';
 import { useRecoilValue } from 'recoil';
 import { loggedUserState } from '../../store/loggedUser';
 import SignInButton from './SignInButton';
-import UserAvatar from './UserAvatar';
+import AvatarButton from './AvatarButton';
 
 const Header = () => {
 	const loggedUser = useRecoilValue(loggedUserState);
@@ -13,7 +13,7 @@ const Header = () => {
 			<Link to={'/'}>
 				<Logo className="min-w-[94px] w-[94px] h-[40px] text-p-light"></Logo>
 			</Link>
-			{!!loggedUser ? <UserAvatar user={loggedUser} /> : <SignInButton />}
+			{!!loggedUser ? <AvatarButton user={loggedUser} /> : <SignInButton />}
 		</header>
 	);
 };

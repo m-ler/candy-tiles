@@ -1,12 +1,13 @@
 import { Avatar, IconButton } from '@mui/material';
 import { useState } from 'react';
+import UserAvatar from '../UserAvatar';
 import UserMenu from './UserMenu';
 
 type Props = {
 	user: LoggedUserData;
 };
 
-const UserAvatar = ({ user }: Props) => {
+const AvatarButton = ({ user }: Props) => {
 	const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
 	const handleClick = (event: React.MouseEvent<HTMLElement>) => {
 		setMenuAnchorEl(event.currentTarget);
@@ -14,14 +15,10 @@ const UserAvatar = ({ user }: Props) => {
 
 	return (
 		<>
-			<IconButton onClick={handleClick}>
-				<Avatar src={user.avatarURL} sx={{ bgcolor: 'tertiary.dark', fontWeight: 'bolder', color: 'white' }}>
-					{user.firstLetter}
-				</Avatar>
-			</IconButton>
+			<UserAvatar size={40} fontSize={18} onClick={handleClick} />
 			<UserMenu anchorEl={menuAnchorEl} user={user} onMenuClose={() => setMenuAnchorEl(null)} />
 		</>
 	);
 };
 
-export default UserAvatar;
+export default AvatarButton;
