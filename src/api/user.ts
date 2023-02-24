@@ -1,6 +1,7 @@
 import { updateCurrentUser, updateProfile, User } from 'firebase/auth';
-import { ref, uploadBytes } from 'firebase/storage';
-import { storage } from '../config/firebase-config';
+import { deleteDoc, doc } from 'firebase/firestore';
+import { deleteObject, listAll, ref, uploadBytes } from 'firebase/storage';
+import { db, storage } from '../config/firebase-config';
 import { auth } from './../config/firebase-config';
 
 export const updateUserProfile = async (data: User): Promise<void> => {
@@ -19,4 +20,13 @@ export const uploadAvatar = async (file: File): Promise<void> => {
 	)}?alt=media&uptated=${Date.now()}`;
 
 	return updateUserProfile({ photoURL: fileStorageURL } as User);
+};
+
+export const deleteUserDocument = async (userId: string) => deleteDoc(doc(db, 'users', userId));
+
+export const deleteUserMedia = async (userNickname: string): Promise<void> => {
+	const listRef = ref(storage, `users/avatars/${userNickname}`);
+	const listResults = await listAll(listRef);
+	const deletePromises = listResults.items.map((item) => deleteObject(item));
+	Promise.all(deletePromises);
 };
