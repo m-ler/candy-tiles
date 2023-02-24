@@ -1,5 +1,5 @@
 import { updateCurrentUser, updateProfile, User } from 'firebase/auth';
-import { ref, uploadBytes, UploadResult } from 'firebase/storage';
+import { ref, uploadBytes } from 'firebase/storage';
 import { storage } from '../config/firebase-config';
 import { auth } from './../config/firebase-config';
 
