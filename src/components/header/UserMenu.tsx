@@ -17,7 +17,7 @@ const UserMenu = ({ anchorEl, user, onMenuClose }: Props) => {
 	const open = !!anchorEl;
 
 	return (
-		<Menu open={open} anchorEl={anchorEl} onClose={() => onMenuClose?.()}>
+		<Menu open={open} anchorEl={anchorEl} onClose={() => onMenuClose?.()} elevation={4}>
 			<MenuItem
 				onClick={() => {
 					setShowManageUserDialog(true);

@@ -1,5 +1,7 @@
-import { Button } from '@mui/material';
+import { Button, IconButton } from '@mui/material';
+import { MdAccountCircle } from 'react-icons/md';
 import { useSetRecoilState } from 'recoil';
+import Tooltip from '../../mui/components/Tooltip';
 import { showUserAuthDialogState } from '../../store/showUserAuthenticationDialog';
 
 const SignInButton = () => {
@@ -7,9 +9,11 @@ const SignInButton = () => {
 	const signInButtonOnClick = () => setShowUserAuthDialog(true);
 
 	return (
-		<Button onClick={signInButtonOnClick} variant="contained" sx={{ fontWeight: 'bold' }} disableElevation>
-			Sign in
-		</Button>
+		<Tooltip title="Sign in">
+			<IconButton onClick={signInButtonOnClick}>
+				<MdAccountCircle size={32}/>
+			</IconButton>
+		</Tooltip>
 	);
 };
 

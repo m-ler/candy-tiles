@@ -43,6 +43,10 @@ export const muiTheme = createTheme({
 			dark: '#d32f55',
 			contrastText: '#fff',
 		},
+		background: {
+			paper: '#153B3E',
+			default: '#153B3E',
+		},
 	},
 	typography: {
 		fontFamily: [

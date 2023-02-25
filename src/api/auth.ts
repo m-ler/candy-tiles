@@ -4,6 +4,7 @@ import {
 	deleteUser,
 	EmailAuthProvider,
 	reauthenticateWithCredential,
+	sendPasswordResetEmail,
 	signInWithEmailAndPassword,
 	signOut,
 	updateProfile,
@@ -51,3 +52,5 @@ export const deleteUserAccount = async (password: string): Promise<void> => {
 	await deleteUserMedia(userNickname || '');
 	return await deleteUserDocument(userId);
 };
+
+export const sendPaswordRecovery = async (email: string) => sendPasswordResetEmail(auth, email);

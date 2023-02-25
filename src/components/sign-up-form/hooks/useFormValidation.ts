@@ -1,13 +1,7 @@
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { useMutation } from 'react-query';
 import { db } from '../../../config/firebase-config';
-import { validateEmail, validateField } from './../../../utils/form';
-
-const validateDuplicatedEmail = async (value: string): Promise<boolean> => {
-	const q = query(collection(db, 'users'), where('email', '==', value));
-	const response = await getDocs(q);
-	return response.empty;
-};
+import { validateDuplicatedEmail, validateEmail, validateField } from './../../../utils/form';
 
 const validatePasswordLength = (value: string) => value.length > 5;
 
