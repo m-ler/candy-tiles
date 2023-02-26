@@ -6,6 +6,7 @@ import { RecoilRoot } from 'recoil';
 import Dialogs from './components/Dialogs';
 import FirebaseManager from './components/FirebaseManager';
 import Header from './components/header';
+import PrivateRoute from './components/PrivateRoute';
 import Toast from './components/Toast';
 import UserInteractionDetection from './components/UserInteractionDetection';
 import { muiTheme } from './mui/theme';
@@ -34,9 +35,30 @@ const App = () => {
 								<Routes>
 									<Route path="/" element={<LevelSelectorPage />}></Route>
 									<Route path="/level/:levelId" element={<GamePage />}></Route>
-									<Route path="/level-creator" element={<LevelCreatorPage />}></Route>
-									<Route path="/recover-password" element={<PasswordRecovery />}></Route>
-									<Route path="/reset-password" element={<ResetPassword />}></Route>
+									<Route
+										path="/level-creator"
+										element={
+											<PrivateRoute allowAnonymousUsers={false} allowLoggedUsers={true}>
+												<LevelCreatorPage />{' '}
+											</PrivateRoute>
+										}
+									></Route>
+									<Route
+										path="/recover-password"
+										element={
+											<PrivateRoute allowAnonymousUsers={true} allowLoggedUsers={false}>
+												<PasswordRecovery />
+											</PrivateRoute>
+										}
+									></Route>
+									<Route
+										path="/reset-password"
+										element={
+											<PrivateRoute allowAnonymousUsers={true} allowLoggedUsers={false}>
+												<ResetPassword />
+											</PrivateRoute>
+										}
+									></Route>
 								</Routes>
 							</div>
 						</QueryClientProvider>
