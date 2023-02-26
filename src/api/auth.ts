@@ -1,5 +1,7 @@
 import {
+	ActionCodeInfo,
 	AuthCredential,
+	confirmPasswordReset,
 	createUserWithEmailAndPassword,
 	deleteUser,
 	EmailAuthProvider,
@@ -10,10 +12,11 @@ import {
 	updateProfile,
 	User,
 	UserCredential,
+	verifyPasswordResetCode,
 } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { auth, db } from '../config/firebase-config';
-import { deleteUserDocument, deleteUserMedia } from './user';
+import { deleteUserDocument, deleteUserMedia, updateUserDocument } from './user';
 
 export const createUser = async (email: string, nickname: string, password: string): Promise<User> => {
 	const createdUserCrendential = await createUserWithEmailAndPassword(auth, email, password);
@@ -54,3 +57,9 @@ export const deleteUserAccount = async (password: string): Promise<void> => {
 };
 
 export const sendPaswordRecovery = async (email: string) => sendPasswordResetEmail(auth, email);
+
+export const resetPassword = async (actionCode: string, newPassword: string): Promise<void> => {
+	const userEmail = await verifyPasswordResetCode(auth, actionCode);
+	await confirmPasswordReset(auth, actionCode, newPassword);
+	return updateUserDocument(userEmail, { password: newPassword });
+};

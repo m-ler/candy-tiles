@@ -13,6 +13,7 @@ import GamePage from './pages/game';
 import LevelCreatorPage from './pages/level-creator';
 import LevelSelectorPage from './pages/level-selector';
 import PasswordRecovery from './pages/password-recovery/index';
+import ResetPassword from './pages/reset-password';
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ const App = () => {
 									<Route path="/level/:levelId" element={<GamePage />}></Route>
 									<Route path="/level-creator" element={<LevelCreatorPage />}></Route>
 									<Route path="/recover-password" element={<PasswordRecovery />}></Route>
+									<Route path="/reset-password" element={<ResetPassword />}></Route>
 								</Routes>
 							</div>
 						</QueryClientProvider>

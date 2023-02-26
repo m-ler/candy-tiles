@@ -17,7 +17,7 @@ const errorMessages = {
 const PasswordRecovery = () => {
 	const [emailValue, setEmailValue] = useState('');
 	const { emailValidation } = useFormValidations();
-	const sendRecovery = useMutation<unknown, FirebaseError>('send-recovery', () => sendPaswordRecovery('fafjsdsjkf'));
+	const sendRecovery = useMutation<unknown, FirebaseError>('send-recovery', () => sendPaswordRecovery(emailValue));
 
 	const emailOnBlur = () => emailValidation.mutate(emailValue);
 	const sendOnClick = () => sendRecovery.mutate();
@@ -48,6 +48,9 @@ const PasswordRecovery = () => {
 					></TextFieldMain>
 					<FormHelperText error hidden={!sendRecovery.isError}>
 						{errorMessage}
+					</FormHelperText>
+					<FormHelperText sx={{ color: 'success.light' }} hidden={!sendRecovery.isSuccess}>
+						We sent an email with a password-reset link.
 					</FormHelperText>
 					<LoadingButton
 						variant="contained"

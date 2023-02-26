@@ -1,5 +1,5 @@
 import { updateCurrentUser, updateProfile, User } from 'firebase/auth';
-import { deleteDoc, doc } from 'firebase/firestore';
+import { collection, deleteDoc, doc, DocumentData, getDocs, query, setDoc, where, WithFieldValue } from 'firebase/firestore';
 import { deleteObject, listAll, ref, uploadBytes } from 'firebase/storage';
 import { db, storage } from '../config/firebase-config';
 import { auth } from './../config/firebase-config';
@@ -7,6 +7,18 @@ import { auth } from './../config/firebase-config';
 export const updateUserProfile = async (data: User): Promise<void> => {
 	await updateProfile(auth.currentUser as User, data);
 	return updateCurrentUser(auth, auth.currentUser);
+};
+
+export const getUserDocumentByEmail = async (email: string) => {
+	const q = query(collection(db, 'users'), where('email', '==', email));
+	const response = await getDocs(q);
+	return (response?.docs || [])[0] || null;
+};
+
+export const updateUserDocument = async (email: string, data: WithFieldValue<DocumentData>) => {
+	const uid = (await getUserDocumentByEmail(email))?.id;
+	const userRef = doc(db, 'users', uid);
+	await setDoc(userRef, data, { merge: true });
 };
 
 export const uploadAvatar = async (file: File): Promise<void> => {

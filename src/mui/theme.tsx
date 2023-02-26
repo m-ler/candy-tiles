@@ -62,4 +62,14 @@ export const muiTheme = createTheme({
 			'"Segoe UI Symbol"',
 		].join(','),
 	},
+
+	components: {
+		MuiFormHelperText: {
+			styleOverrides: {
+				root: {
+					fontWeight: 'bold',
+				},
+			},
+		},
+	},
 });
