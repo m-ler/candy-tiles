@@ -29,7 +29,7 @@ export const createUser = async (email: string, nickname: string, password: stri
 		email,
 		nickname,
 		password,
-		levels: [],
+		passedLevels: [],
 	});
 
 	return createdUserCrendential.user;

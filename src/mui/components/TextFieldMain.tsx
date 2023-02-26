@@ -1,4 +1,4 @@
-import { styled, TextField, TextFieldProps } from '@mui/material';
+import { styled, TextField } from '@mui/material';
 import { muiPalette } from '../theme';
 
 const TextFieldMain = styled(TextField)(({ theme }) => ({
