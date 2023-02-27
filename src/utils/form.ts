@@ -1,14 +1,12 @@
-import { collection, getDocs, query, where } from 'firebase/firestore';
-import { db } from '../config/firebase-config';
+import { supabase } from '../config/supabase-config';
 import { findAsync } from './array';
 import regularExpressions from './regularExpressions';
 
 export const validateEmail = (value: string) => regularExpressions.validEmail.test(value.trim());
 
 export const validateDuplicatedEmail = async (value: string): Promise<boolean> => {
-	const q = query(collection(db, 'users'), where('email', '==', value.trim()));
-	const response = await getDocs(q);
-	return response.empty;
+	const { data } = await supabase.from('users').select('email').eq('email', value);
+	return (data || []).length === 0;
 };
 
 export const validateField = async <T>(fieldValue: T, validations: FieldValidation<T>[]): Promise<FieldValidationResult> => {

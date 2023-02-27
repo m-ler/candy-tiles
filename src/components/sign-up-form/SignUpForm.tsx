@@ -16,24 +16,17 @@ const SignUpForm = ({ onClose }: Props) => {
 	const [emailValue, setEmailValue] = useState('');
 	const [usernameValue, setUsernameValue] = useState('');
 	const [passwordValue, setPasswordValue] = useState('');
-	const { createUserMutation, errorMessage } = useCreateUser();
+	const { createUserMutation, errorMessage } = useCreateUser(() => onClose?.());
 
-	useEffect(() => {
-		if (createUserMutation.data) {
-			onClose?.();
-			return;
-		}
-	}, [createUserMutation.isSuccess]);
-
-	const emailOnBlur = () => emailValidation.mutate(emailValue);
-	const usernameOnBlur = () => usernameValidation.mutate(usernameValue);
-	const passwordOnBlur = () => passwordValidation.mutate(passwordValue);
+	const emailOnBlur = () => emailValidation.mutate(emailValue.trim());
+	const usernameOnBlur = () => usernameValidation.mutate(usernameValue.trim());
+	const passwordOnBlur = () => passwordValidation.mutate(passwordValue.trim());
 
 	const createOnClick = () => {
 		createUserMutation.mutate({
-			email: emailValue,
-			nickname: usernameValue,
-			password: passwordValue,
+			email: emailValue.trim(),
+			nickname: usernameValue.trim(),
+			password: passwordValue.trim(),
 		});
 	};
 
@@ -87,7 +80,7 @@ const SignUpForm = ({ onClose }: Props) => {
 					),
 				}}
 			></TextFieldMain>
-			<FormHelperText error hidden={!createUserMutation.isError}>
+			<FormHelperText error hidden={!createUserMutation.data?.error}>
 				{errorMessage}
 			</FormHelperText>
 			<Stack direction="row" justifyContent="center" alignItems="center">

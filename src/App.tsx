@@ -4,9 +4,9 @@ import { QueryClientProvider, QueryClient } from 'react-query';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import Dialogs from './components/Dialogs';
-import FirebaseManager from './components/FirebaseManager';
 import Header from './components/header';
 import PrivateRoute from './components/PrivateRoute';
+import SupabaseManager from './components/SupabaseManager';
 import Toast from './components/Toast';
 import UserInteractionDetection from './components/UserInteractionDetection';
 import { muiTheme } from './mui/theme';
@@ -26,7 +26,7 @@ const App = () => {
 					<CssBaseline />
 					<BrowserRouter>
 						<QueryClientProvider client={queryClient}>
-							<FirebaseManager />
+							<SupabaseManager />
 							<Dialogs />
 							<UserInteractionDetection></UserInteractionDetection>
 							<Header />

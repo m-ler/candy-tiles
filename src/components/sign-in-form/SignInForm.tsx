@@ -58,7 +58,7 @@ const SignInForm = ({ onClose }: Props) => {
 				}}
 				onChange={(e) => setPasswordValue(e.target.value)}
 			></TextFieldMain>
-			<FormHelperText error hidden={!signInMutation.isError}>
+			<FormHelperText error hidden={!signInMutation.data?.error}>
 				{errorMessage}
 			</FormHelperText>
 			<Stack direction="row" justifyContent="space-between" alignItems="center">

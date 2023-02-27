@@ -1,6 +1,7 @@
 import useToast from './useToast';
 import { uploadAvatar } from '../api/user';
 import { useMutation } from 'react-query';
+import { auth } from './../config/firebase-config';
 
 export default () => {
 	const toast = useToast();
@@ -24,6 +25,7 @@ export default () => {
 					severity: 'success',
 					durationMs: 3000,
 				});
+				auth.currentUser?.reload();
 			},
 		},
 	);

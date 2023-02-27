@@ -1,8 +1,27 @@
 import { updateCurrentUser, updateProfile, User } from 'firebase/auth';
-import { collection, deleteDoc, doc, DocumentData, getDocs, query, setDoc, where, WithFieldValue } from 'firebase/firestore';
+import {
+	collection,
+	deleteDoc,
+	doc,
+	DocumentData,
+	DocumentSnapshot,
+	getDoc,
+	getDocs,
+	query,
+	setDoc,
+	where,
+	WithFieldValue,
+	writeBatch,
+} from 'firebase/firestore';
 import { deleteObject, listAll, ref, uploadBytes } from 'firebase/storage';
 import { db, storage } from '../config/firebase-config';
 import { auth } from './../config/firebase-config';
+
+export const getUserDocumentById = async (userId: string): Promise<UserDocument | null> => {
+	const docRef = doc(db, 'users', userId);
+	const docSnap = await getDoc(docRef);
+	return docSnap.exists() ? (docSnap.data() as UserDocument) : null;
+};
 
 export const updateUserProfile = async (data: User): Promise<void> => {
 	await updateProfile(auth.currentUser as User, data);
@@ -15,10 +34,9 @@ export const getUserDocumentByEmail = async (email: string) => {
 	return (response?.docs || [])[0] || null;
 };
 
-export const updateUserDocument = async (email: string, data: WithFieldValue<DocumentData>) => {
-	const uid = (await getUserDocumentByEmail(email))?.id;
-	const userRef = doc(db, 'users', uid);
-	await setDoc(userRef, data, { merge: true });
+export const updateUserDocument = async (userId: string, data: WithFieldValue<DocumentData>, mergeData: boolean) => {
+	const userRef = doc(db, 'users', userId);
+	await setDoc(userRef, data, { merge: mergeData });
 };
 
 export const uploadAvatar = async (file: File): Promise<void> => {
@@ -31,7 +49,8 @@ export const uploadAvatar = async (file: File): Promise<void> => {
 		uploadResult.metadata.fullPath,
 	)}?alt=media&uptated=${Date.now()}`;
 
-	return updateUserProfile({ photoURL: fileStorageURL } as User);
+	return updateUserDocument(auth.currentUser?.uid || '', { photoURL: fileStorageURL }, true);
+	//return updateUserProfile({ photoURL: fileStorageURL } as User);
 };
 
 export const deleteUserDocument = async (userId: string) => deleteDoc(doc(db, 'users', userId));

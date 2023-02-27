@@ -3,14 +3,15 @@ import { useEffect } from 'react';
 import { auth } from '../config/firebase-config';
 import { useSetRecoilState } from 'recoil';
 import { loggedUserState } from './../store/loggedUser';
+import { useMutation } from 'react-query';
+import { getUserDocumentById } from '../api/user';
 
-const getLoggedUserObj = (user: User | null): LoggedUserData | null =>
+const getLoggedUserObj = (user: UserDocument | null): LoggedUserData | null =>
 	!!user
 		? ({
-				uid: user.uid,
 				email: user.email,
-				nickname: user.displayName,
-				firstLetter: (user.displayName || ' ')[0].toUpperCase(),
+				nickname: user.nickname,
+				firstLetter: (user.nickname || ' ')[0].toUpperCase(),
 				avatarURL: user.photoURL || null,
 				latestUpdateTime: Date.now(),
 		  } as LoggedUserData)
@@ -18,13 +19,16 @@ const getLoggedUserObj = (user: User | null): LoggedUserData | null =>
 
 const FirebaseManager = () => {
 	const setLoggedUser = useSetRecoilState(loggedUserState);
+	const userMutation = useMutation('user-mutation', () => getUserDocumentById(auth.currentUser?.uid || ''), {
+		onSuccess: (data) => {
+			setLoggedUser(getLoggedUserObj(data));
+		},
+	});
 
 	useEffect(() => {
 		onAuthStateChanged(auth, (user) => {
-			setLoggedUser(getLoggedUserObj(user));
-			auth.onIdTokenChanged((user) => {
-				setLoggedUser(getLoggedUserObj(user));
-			});
+			userMutation.mutate();
+			auth.onIdTokenChanged((user) => userMutation.mutate());
 		});
 	}, []);
 

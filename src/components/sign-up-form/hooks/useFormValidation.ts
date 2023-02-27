@@ -1,15 +1,13 @@
-import { collection, getDocs, query, where } from 'firebase/firestore';
 import { useMutation } from 'react-query';
-import { db } from '../../../config/firebase-config';
+import { supabase } from '../../../config/supabase-config';
 import { validateDuplicatedEmail, validateEmail, validateField } from './../../../utils/form';
 
 const validatePasswordLength = (value: string) => value.length > 5;
 
 const validateUsernameLength = (value: string) => value.length < 50;
 const validateDuplicatedUsername = async (value: string) => {
-	const q = query(collection(db, 'users'), where('nickname', '==', value));
-	const response = await getDocs(q);
-	return response.empty;
+	const { data } = await supabase.from('users').select('nickname').eq('nickname', value);
+	return (data || []).length === 0;
 };
 
 const emailValidations: FieldValidation<string>[] = [

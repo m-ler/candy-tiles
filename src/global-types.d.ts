@@ -22,6 +22,14 @@ declare global {
 		latestUpdateTime: number;
 	};
 
+	type UserDocument = {
+		email: string;
+		nickname: string;
+		passedLevels: number[];
+		password: string;
+		photoURL: string;
+	};
+
 	type SignInData = {
 		email: string;
 		password: string;

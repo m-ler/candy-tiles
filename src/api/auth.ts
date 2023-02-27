@@ -1,42 +1,50 @@
+import { AuthResponse, PostgrestSingleResponse } from '@supabase/supabase-js';
 import {
-	ActionCodeInfo,
-	AuthCredential,
 	confirmPasswordReset,
-	createUserWithEmailAndPassword,
 	deleteUser,
 	EmailAuthProvider,
 	reauthenticateWithCredential,
 	sendPasswordResetEmail,
-	signInWithEmailAndPassword,
-	signOut,
-	updateProfile,
-	User,
 	UserCredential,
 	verifyPasswordResetCode,
 } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
 import { auth, db } from '../config/firebase-config';
-import { deleteUserDocument, deleteUserMedia, updateUserDocument } from './user';
+import { supabase } from '../config/supabase-config';
+import { deleteUserDocument, deleteUserMedia, getUserDocumentByEmail, updateUserDocument } from './user';
 
-export const createUser = async (email: string, nickname: string, password: string): Promise<User> => {
-	const createdUserCrendential = await createUserWithEmailAndPassword(auth, email, password);
-	await updateProfile(createdUserCrendential.user, {
-		displayName: nickname,
-	});
-
-	const userRef = doc(db, 'users', createdUserCrendential.user.uid);
-	await setDoc(userRef, {
+export const createUser = async (email: string, nickname: string, password: string): Promise<PostgrestSingleResponse<null>> => {
+	const { data, error } = await supabase.auth.signUp({
 		email,
-		nickname,
 		password,
-		passedLevels: [],
+		options: {
+			data: {
+				nickname,
+			},
+		},
 	});
 
-	return createdUserCrendential.user;
+	if (error) throw new Error('Something went wrong. Please try again');
+
+	return supabase
+		.from('users')
+		.insert({
+			userId: data.user?.id,
+			email,
+			createdAt: data.user?.created_at,
+			nickname,
+			avatarURL: null,
+			passedLevels: null,
+			ratedLevels: null,
+		});
 };
 
-export const signIn = async ({ email, password }: SignInData): Promise<UserCredential> => signInWithEmailAndPassword(auth, email, password);
-export const logOut = async (): Promise<void> => signOut(auth);
+export const signIn = async ({ email, password }: SignInData): Promise<AuthResponse> =>
+	supabase.auth.signInWithPassword({
+		email,
+		password,
+	});
+
+export const logOut = async () => supabase.auth.signOut();
 
 export const reauthenticateUser = async (password: string): Promise<UserCredential | undefined> => {
 	if (auth.currentUser === null) return;
@@ -61,5 +69,6 @@ export const sendPaswordRecovery = async (email: string) => sendPasswordResetEma
 export const resetPassword = async (actionCode: string, newPassword: string): Promise<void> => {
 	const userEmail = await verifyPasswordResetCode(auth, actionCode);
 	await confirmPasswordReset(auth, actionCode, newPassword);
-	return updateUserDocument(userEmail, { password: newPassword });
+	const userId = (await getUserDocumentByEmail(userEmail)).id;
+	return updateUserDocument(userId, { password: newPassword }, true);
 };

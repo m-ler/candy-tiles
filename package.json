@@ -20,6 +20,7 @@
     "@fontsource/roboto": "^4.5.8",
     "@mui/lab": "^5.0.0-alpha.120",
     "@mui/material": "^5.11.9",
+    "@supabase/supabase-js": "^2.8.0",
     "@types/mime-types": "^2.1.1",
     "@types/react-swipeable-views": "^0.13.1",
     "animejs": "^3.2.1",

@@ -2,6 +2,8 @@ import { useMutation } from 'react-query';
 import { createUser } from '../api/auth';
 import { FirebaseError } from 'firebase/app';
 import { useNavigate } from 'react-router-dom';
+import { AuthResponse, PostgrestSingleResponse } from '@supabase/supabase-js';
+import { useState } from 'react';
 
 const errorMessages = {
 	'auth/email-already-in-use': 'That email is already in use.',
@@ -10,16 +12,25 @@ const errorMessages = {
 	'default': 'There was an error on the server. Please try again later.',
 } as { [key: string]: string };
 
-export default () => {
+export default (onUserCreated?: () => void) => {
 	const navigate = useNavigate();
-	const createUserMutation = useMutation<unknown, FirebaseError, UserData>(
+	const [errorMessage, setErrorMessage] = useState('');
+	const createUserMutation = useMutation<PostgrestSingleResponse<null>, unknown, UserData>(
 		'createUser',
 		({ email, nickname, password }: UserData) => createUser(email, nickname, password),
 		{
-			onSuccess: () => navigate(0),
+			onSuccess: (data) => {
+				if (data.error) {
+					console.log(data);
+					setErrorMessage(data.error.message);
+					return;
+				}
+
+				onUserCreated?.();
+				navigate(0);
+			},
 		},
 	);
 
-	const errorMessage = errorMessages[createUserMutation.error?.code || ''] || errorMessages['default'];
 	return { createUserMutation, errorMessage };
 };
