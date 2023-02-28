@@ -17,13 +17,10 @@ export default () => {
 	const navigate = useNavigate();
 	const signInMutation = useMutation<AuthResponse, unknown, SignInData>('signIn', (signInData: SignInData) => signIn(signInData), {
 		onSuccess: (data) => {
-			console.log(data);
 			if (data.error) {
 				setErrorMessage(data.error.message);
 				return;
 			}
-
-			navigate(0);
 		},
 	});
 	return { signInMutation, errorMessage };

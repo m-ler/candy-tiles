@@ -1,4 +1,5 @@
 import { AlertColor } from '@mui/material';
+import { User } from '@supabase/supabase-js';
 
 export {};
 
@@ -13,6 +14,15 @@ declare global {
 		password: string;
 	};
 
+	type UserProfileData = {
+		uid: string;
+		email: string;
+		nickname: string;
+		firstLetter: string;
+		avatarURL: string;
+		latestUpdateTime: number;
+	};
+
 	type LoggedUserData = {
 		uid: string;
 		email: string;
@@ -20,6 +30,9 @@ declare global {
 		firstLetter: string;
 		avatarURL: string;
 		latestUpdateTime: number;
+
+		profile: UserProfileData;
+		auth: User;
 	};
 
 	type UserDocument = {

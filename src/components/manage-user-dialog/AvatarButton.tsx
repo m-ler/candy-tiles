@@ -31,11 +31,11 @@ const AvatarButton = ({ user, setUploadingAvatar }: Props) => {
 	const onAvatarImgInputChange = () => {
 		const file = avatarImgInputRef.current?.files?.[0];
 		if (!file) return;
-		const validSize = file.size <= 1024 * 1024 * 1;
+		const validSize = file.size <= 512 * 512;
 
 		if (!validSize) {
 			toast({
-				message: 'Image size has to be 1MB or less.',
+				message: 'Image size has to be 512KB or less.',
 				severity: 'error',
 				durationMs: 5000,
 			});

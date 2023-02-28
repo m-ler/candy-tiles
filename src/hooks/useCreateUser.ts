@@ -21,7 +21,6 @@ export default (onUserCreated?: () => void) => {
 		{
 			onSuccess: (data) => {
 				if (data.error) {
-					console.log(data);
 					setErrorMessage(data.error.message);
 					return;
 				}

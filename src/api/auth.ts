@@ -25,17 +25,15 @@ export const createUser = async (email: string, nickname: string, password: stri
 
 	if (error) throw new Error('Something went wrong. Please try again');
 
-	return supabase
-		.from('users')
-		.insert({
-			userId: data.user?.id,
-			email,
-			createdAt: data.user?.created_at,
-			nickname,
-			avatarURL: null,
-			passedLevels: null,
-			ratedLevels: null,
-		});
+	return supabase.from('users').insert({
+		userId: data.user?.id || '',
+		email,
+		createdAt: data.user?.created_at,
+		nickname,
+		avatarURL: null,
+		passedLevels: null,
+		ratedLevels: null,
+	});
 };
 
 export const signIn = async ({ email, password }: SignInData): Promise<AuthResponse> =>
@@ -72,3 +70,5 @@ export const resetPassword = async (actionCode: string, newPassword: string): Pr
 	const userId = (await getUserDocumentByEmail(userEmail)).id;
 	return updateUserDocument(userId, { password: newPassword }, true);
 };
+
+export const refreshSession = async () => supabase.auth.refreshSession();

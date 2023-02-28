@@ -80,7 +80,7 @@ const SignUpForm = ({ onClose }: Props) => {
 					),
 				}}
 			></TextFieldMain>
-			<FormHelperText error hidden={!createUserMutation.data?.error}>
+			<FormHelperText error hidden={!createUserMutation.data?.error || !createUserMutation.error}>
 				{errorMessage}
 			</FormHelperText>
 			<Stack direction="row" justifyContent="center" alignItems="center">
