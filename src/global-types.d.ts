@@ -24,13 +24,6 @@ declare global {
 	};
 
 	type LoggedUserData = {
-		uid: string;
-		email: string;
-		nickname: string;
-		firstLetter: string;
-		avatarURL: string;
-		latestUpdateTime: number;
-
 		profile: UserProfileData;
 		auth: User;
 	};

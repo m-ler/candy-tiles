@@ -14,10 +14,10 @@ const UserAvatar = ({ size, fontSize, onClick }: Props) => {
 	return (
 		<IconButton onClick={onClick}>
 			<Avatar
-				src={user.avatarURL}
+				src={user.profile.avatarURL}
 				sx={{ width: size, height: size, bgcolor: 'tertiary.dark', fontWeight: 'bolder', color: 'white', fontSize }}
 			>
-				{user.firstLetter}
+				{user.profile.firstLetter}
 			</Avatar>
 		</IconButton>
 	);

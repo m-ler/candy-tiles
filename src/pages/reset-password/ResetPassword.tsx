@@ -3,33 +3,28 @@ import { Container, FormHelperText, InputAdornment, Slide, Stack, Typography } f
 import { useState, useEffect } from 'react';
 import { MdLock } from 'react-icons/md';
 import { useMutation } from 'react-query';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { resetPassword } from '../../api/auth';
 import InputAdornmentLoader from '../../components/InputAdornmentLoader';
 import TextFieldMain from '../../mui/components/TextFieldMain';
 import useFormValidations from './hooks/useFormValidations';
-import { FirebaseError } from 'firebase/app';
 import useToast from '../../hooks/useToast';
+import { UserResponse } from '@supabase/supabase-js';
 
 const errorMessages = {
-	'auth/expired-action-code': 'Link is expired. Please try resetting the password with a new link.',
-	'auth/invalid-action-code': 'Link is invalid. Please try resetting the password with a new link.',
-	'auth/user-disabled': 'Cannot reset your password at this time because your account has been disabled.',
-	'auth/weak-password': 'Your new password is too weak. Please choose a password that is at least 6 characters long.',
+	'AuthSessionMissingError': 'User not authenticated.',
 	'default': 'An error occurred. Please try resetting the password with a new link.',
 } as { [key: string]: string };
 
 const ResetPassword = () => {
-	const [searchParams] = useSearchParams();
 	const [newPasswordValue, setNewPasswordValue] = useState('');
 	const { newPasswordValidation } = useFormValidations();
 	const navigate = useNavigate();
 	const toast = useToast();
-	const actionCode = searchParams.get('oobCode') || '';
-	const resetPasswordMutation = useMutation<unknown, FirebaseError>('reset-password', () => resetPassword(actionCode, newPasswordValue));
+	const resetPasswordMutation = useMutation<UserResponse>('reset-password', () => resetPassword(newPasswordValue));
 
 	useEffect(() => {
-		resetPasswordMutation.isSuccess && onPasswordReset();
+		resetPasswordMutation.isSuccess && !resetPasswordMutation.data.error && onPasswordReset();
 	}, [resetPasswordMutation.isSuccess]);
 
 	const onPasswordReset = () => {
@@ -40,7 +35,7 @@ const ResetPassword = () => {
 	const newPasswordOnBlue = () => newPasswordValidation.mutate(newPasswordValue);
 	const resetOnClick = () => resetPasswordMutation.mutate();
 
-	const errorMessage = errorMessages[resetPasswordMutation.error?.code || ''] || errorMessages['default'];
+	const errorMessage = errorMessages[resetPasswordMutation.data?.error?.name || ''] || errorMessages['default'];
 
 	return (
 		<Slide direction="down" in={true} mountOnEnter unmountOnExit>
@@ -63,7 +58,7 @@ const ResetPassword = () => {
 						helperText={newPasswordValidation.data?.validationMessage}
 						error={!newPasswordValidation.data?.valid && newPasswordValidation.isSuccess}
 					></TextFieldMain>
-					<FormHelperText error hidden={!resetPasswordMutation.isError}>
+					<FormHelperText error hidden={!resetPasswordMutation.data?.error && !resetPasswordMutation.isError}>
 						{errorMessage}
 					</FormHelperText>
 					<LoadingButton

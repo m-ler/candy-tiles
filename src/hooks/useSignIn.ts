@@ -21,6 +21,7 @@ export default () => {
 				setErrorMessage(data.error.message);
 				return;
 			}
+			navigate(0);
 		},
 	});
 	return { signInMutation, errorMessage };

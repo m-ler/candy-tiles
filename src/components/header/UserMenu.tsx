@@ -28,9 +28,9 @@ const UserMenu = ({ anchorEl, user, onMenuClose }: Props) => {
 					<UserAvatar size={56} fontSize={28} />
 					<Stack justifyContent="center">
 						<Typography variant="subtitle1" sx={{ fontWeight: 'bolder' }}>
-							{user.nickname}
+							{user.profile.nickname}
 						</Typography>
-						<Typography variant="caption">{user.email}</Typography>
+						<Typography variant="caption">{user.profile.email}</Typography>
 					</Stack>
 				</Stack>
 			</MenuItem>

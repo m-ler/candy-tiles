@@ -31,7 +31,8 @@ const SaveLevelButton = () => {
 		const levelData = createLevelData(levelDataEditor);
 		const validation = validateLevel(levelData, levelDataEditor.levelRules);
 		validation.messages.forEach((x) => toast({ severity: 'error', message: x, durationMs: 3000 }));
-		validation.valid && saveLevelMutation.mutate({ userId: loggedUser?.uid || '', file: JSON.stringify(createLevelData(levelDataEditor)) });
+		validation.valid &&
+			saveLevelMutation.mutate({ userId: loggedUser?.auth.id || '', file: JSON.stringify(createLevelData(levelDataEditor)) });
 	};
 
 	return (

@@ -10,7 +10,7 @@ type Props = {
 
 const PrivateRoute = ({ allowAnonymousUsers, allowLoggedUsers, children }: Props) => {
 	const currentUser = useRecoilValue(loggedUserState);
-	const allow = allowLoggedUsers ? !!currentUser : allowAnonymousUsers ? !currentUser : false;
+	const allow = (allowLoggedUsers && !!currentUser) || allowAnonymousUsers;
 	return <>{allow ? children : <Navigate to="/"></Navigate>}</>;
 };
 

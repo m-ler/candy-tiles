@@ -30,9 +30,9 @@ const ManageUserDialog = () => {
 
 						<Stack justifyContent="center" width="150px" minWidth="50px">
 							<Typography variant="h6" sx={{ fontWeight: 'bolder' }}>
-								{user.nickname}
+								{user.profile.nickname}
 							</Typography>
-							<Typography variant="caption">{user.email}</Typography>
+							<Typography variant="caption">{user.profile.email}</Typography>
 						</Stack>
 					</Stack>
 					<Divider />

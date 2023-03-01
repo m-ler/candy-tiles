@@ -7,17 +7,19 @@ import { useState } from 'react';
 import TabPanel from '../mui/components/TabPanel';
 import SwipeableViews from 'react-swipeable-views';
 import SignUpForm from './sign-up-form';
+import { loggedUserState } from '../store/loggedUser';
 
 const UserAuthDialog = () => {
 	const [showUserAuthDialog, setShowUserAuthDialog] = useRecoilState(showUserAuthDialogState);
 	const dialogOnClose = () => setShowUserAuthDialog(false);
 	const [selectedTab, setSelectedTab] = useState(0);
+	const loggedUser = useRecoilState(loggedUserState);
 
 	const onTabChange = (event: React.SyntheticEvent, newValue: number) => setSelectedTab(newValue);
 	const onSwipeableChange = (index: number) => setSelectedTab(index);
 
 	return (
-		<Dialog open={showUserAuthDialog} onClose={dialogOnClose} fullWidth={true} maxWidth={'xs'}>
+		<Dialog open={showUserAuthDialog && loggedUser !== null} onClose={dialogOnClose} fullWidth={true} maxWidth={'xs'}>
 			<DialogContent sx={{ overflow: 'visible' }}>
 				<Tabs value={selectedTab} onChange={onTabChange} variant="fullWidth" sx={{ marginBottom: '14px' }}>
 					<Tab label="Sign in"></Tab>

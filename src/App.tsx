@@ -51,14 +51,7 @@ const App = () => {
 											</PrivateRoute>
 										}
 									></Route>
-									<Route
-										path="/reset-password"
-										element={
-											<PrivateRoute allowAnonymousUsers={true} allowLoggedUsers={false}>
-												<ResetPassword />
-											</PrivateRoute>
-										}
-									></Route>
+									<Route path="/reset-password" element={<ResetPassword />}></Route>
 								</Routes>
 							</div>
 						</QueryClientProvider>

@@ -1,16 +1,8 @@
-import { AuthResponse, PostgrestSingleResponse } from '@supabase/supabase-js';
-import {
-	confirmPasswordReset,
-	deleteUser,
-	EmailAuthProvider,
-	reauthenticateWithCredential,
-	sendPasswordResetEmail,
-	UserCredential,
-	verifyPasswordResetCode,
-} from 'firebase/auth';
-import { auth, db } from '../config/firebase-config';
+import { AuthResponse, PostgrestSingleResponse, UserResponse } from '@supabase/supabase-js';
+import { EmailAuthProvider, reauthenticateWithCredential, UserCredential } from 'firebase/auth';
+import { auth } from '../config/firebase-config';
 import { supabase } from '../config/supabase-config';
-import { deleteUserDocument, deleteUserMedia, getUserDocumentByEmail, updateUserDocument } from './user';
+import { deleteDirectory } from './storage';
 
 export const createUser = async (email: string, nickname: string, password: string): Promise<PostgrestSingleResponse<null>> => {
 	const { data, error } = await supabase.auth.signUp({
@@ -51,24 +43,23 @@ export const reauthenticateUser = async (password: string): Promise<UserCredenti
 	return reauthenticateWithCredential(auth.currentUser, authCredential);
 };
 
-export const deleteUserAccount = async (password: string): Promise<void> => {
-	if (auth.currentUser === null) return;
-	const userId = auth.currentUser.uid;
-	const userNickname = auth.currentUser.displayName;
+export const deleteUserAccount = async (userAuthId: string, email: string, password: string): Promise<UserResponse> => {
+	const authResponse = await signIn({ email, password });
+	if (authResponse.error) return authResponse;
 
-	await reauthenticateUser(password);
-	await deleteUser(auth.currentUser);
-	await deleteUserMedia(userNickname || '');
-	return await deleteUserDocument(userId);
+	const deleteResponse = await supabase.auth.admin.deleteUser(userAuthId);
+	if (deleteResponse.error) return deleteResponse;
+
+	await supabase.from('users').delete().eq('userId', userAuthId);
+	await deleteDirectory('media', userAuthId);
+	return deleteResponse;
 };
 
-export const sendPaswordRecovery = async (email: string) => sendPasswordResetEmail(auth, email);
+export const sendPaswordRecovery = async (email: string) =>
+	supabase.auth.resetPasswordForEmail(email, {
+		redirectTo: `${location.origin}/reset-password`,
+	});
 
-export const resetPassword = async (actionCode: string, newPassword: string): Promise<void> => {
-	const userEmail = await verifyPasswordResetCode(auth, actionCode);
-	await confirmPasswordReset(auth, actionCode, newPassword);
-	const userId = (await getUserDocumentByEmail(userEmail)).id;
-	return updateUserDocument(userId, { password: newPassword }, true);
-};
+export const resetPassword = async (newPassword: string): Promise<UserResponse> => supabase.auth.updateUser({ password: newPassword });
 
 export const refreshSession = async () => supabase.auth.refreshSession();

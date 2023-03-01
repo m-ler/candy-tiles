@@ -10,7 +10,7 @@ export default () => {
 	const toast = useToast();
 	const loggedUser = useRecoilValue(loggedUserState);
 
-	const uploadAvatarMutation = useMutation('remove-user-avatar', () => updateUser(loggedUser?.uid || '', { avatarURL: null }), {
+	const uploadAvatarMutation = useMutation('remove-user-avatar', () => updateUser(loggedUser?.auth.id || '', { avatarURL: null }), {
 		onError: () => {
 			toast({
 				message: 'There was an error removing the image. Please try again.',
@@ -25,7 +25,7 @@ export default () => {
 				durationMs: 3000,
 			});
 			refreshSession();
-			deleteDirectory('media', loggedUser?.uid || '');
+			deleteDirectory('media', loggedUser?.auth.id || '');
 		},
 	});
 

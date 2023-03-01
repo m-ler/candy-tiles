@@ -12,7 +12,7 @@ export default () => {
 	const uploadAvatarMutation = useMutation(
 		'uploat-user-avatar',
 		(file: File) => {
-			return uploadAvatar(file, loggedUser?.uid || '');
+			return uploadAvatar(file, loggedUser?.auth.id || '');
 		},
 		{
 			onError: () => {
