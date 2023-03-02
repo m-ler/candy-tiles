@@ -1,4 +1,4 @@
-import { Avatar, Divider, ListItemIcon, Menu, MenuItem, Stack, Typography } from '@mui/material';
+import { Divider, ListItemIcon, Menu, MenuItem, Stack, Typography } from '@mui/material';
 import { MdLogout } from 'react-icons/md';
 import { useSetRecoilState } from 'recoil';
 import useSignOut from '../../hooks/useSignOut';

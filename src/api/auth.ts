@@ -1,6 +1,4 @@
 import { AuthResponse, PostgrestSingleResponse, UserResponse } from '@supabase/supabase-js';
-import { EmailAuthProvider, reauthenticateWithCredential, UserCredential } from 'firebase/auth';
-import { auth } from '../config/firebase-config';
 import { supabase } from '../config/supabase-config';
 import { deleteDirectory } from './storage';
 
@@ -36,22 +34,16 @@ export const signIn = async ({ email, password }: SignInData): Promise<AuthRespo
 
 export const logOut = async () => supabase.auth.signOut();
 
-export const reauthenticateUser = async (password: string): Promise<UserCredential | undefined> => {
-	if (auth.currentUser === null) return;
-
-	const authCredential = EmailAuthProvider.credential(auth.currentUser.email || '', password);
-	return reauthenticateWithCredential(auth.currentUser, authCredential);
-};
-
 export const deleteUserAccount = async (userAuthId: string, email: string, password: string): Promise<UserResponse> => {
 	const authResponse = await signIn({ email, password });
 	if (authResponse.error) return authResponse;
 
+	await supabase.from('users').delete().eq('userId', userAuthId);
+	await deleteDirectory('media', userAuthId);
+
 	const deleteResponse = await supabase.auth.admin.deleteUser(userAuthId);
 	if (deleteResponse.error) return deleteResponse;
 
-	await supabase.from('users').delete().eq('userId', userAuthId);
-	await deleteDirectory('media', userAuthId);
 	return deleteResponse;
 };
 

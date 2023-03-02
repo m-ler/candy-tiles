@@ -1,6 +1,5 @@
 import { useMutation } from 'react-query';
-import { deleteUserAccount } from '../api/auth';
-import { useNavigate } from 'react-router-dom';
+import { deleteUserAccount, logOut } from '../api/auth';
 
 const errorMessages = {
 	'AuthApiError': 'Your password was incorrect. Please double-check your password.',
@@ -8,8 +7,6 @@ const errorMessages = {
 } as { [key: string]: string };
 
 export default () => {
-	const navigate = useNavigate();
-
 	type UserDeleteData = {
 		id: string;
 		email: string;
@@ -17,7 +14,7 @@ export default () => {
 	};
 	const deleteAccountMutation = useMutation('logOut', (data: UserDeleteData) => deleteUserAccount(data.id, data.email, data.password), {
 		onSuccess: (data) => {
-			!data.error && navigate(0);
+			!data.error && logOut();
 		},
 	});
 
