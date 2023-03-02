@@ -1,4 +1,3 @@
-import { FirebaseError } from 'firebase/app';
 import { useMutation } from 'react-query';
 import { signIn } from '../api/auth';
 import { useNavigate } from 'react-router-dom';

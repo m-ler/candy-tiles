@@ -25,8 +25,6 @@
 		"@types/mime-types": "^2.1.1",
 		"@types/react-swipeable-views": "^0.13.1",
 		"animejs": "^3.2.1",
-		"firebase": "^9.17.1",
-		"http-server": "^14.1.1",
 		"mime": "^3.0.0",
 		"mime-types": "^2.1.35",
 		"react": "^18.2.0",

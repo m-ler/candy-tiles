@@ -1,8 +1,7 @@
 import { useMutation } from 'react-query';
 import { createUser } from '../api/auth';
-import { FirebaseError } from 'firebase/app';
 import { useNavigate } from 'react-router-dom';
-import { AuthResponse, PostgrestSingleResponse } from '@supabase/supabase-js';
+import { PostgrestSingleResponse } from '@supabase/supabase-js';
 import { useState } from 'react';
 
 const errorMessages = {
