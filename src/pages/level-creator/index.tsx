@@ -1,3 +1,3 @@
-import LevelCreatorPage from './LevelCreator';
+import LevelCreatorPage from './LevelCreatorPage';
 
 export default LevelCreatorPage;

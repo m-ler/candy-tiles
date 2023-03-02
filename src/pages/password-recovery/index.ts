@@ -1,2 +1,2 @@
-import PasswordRecovery from './PasswordRecovery';
-export default PasswordRecovery;
+import PasswordRecoveryPage from './PasswordRecoveryPage';
+export default PasswordRecoveryPage;

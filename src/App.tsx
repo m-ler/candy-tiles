@@ -11,10 +11,11 @@ import Toast from './components/Toast';
 import UserInteractionDetection from './components/UserInteractionDetection';
 import { muiTheme } from './mui/theme';
 import GamePage from './pages/game';
+import HomePage from './pages/home';
 import LevelCreatorPage from './pages/level-creator';
 import LevelSelectorPage from './pages/level-selector';
-import PasswordRecovery from './pages/password-recovery/index';
-import ResetPassword from './pages/reset-password';
+import PasswordRecoveryPage from './pages/password-recovery/index';
+import ResetPasswordPage from './pages/reset-password';
 
 const queryClient = new QueryClient();
 
@@ -33,7 +34,9 @@ const App = () => {
 
 							<div className="flex flex-col p-[16px] md:p-[12px] grow overflow-hidden">
 								<Routes>
-									<Route path="/" element={<LevelSelectorPage />}></Route>
+									<Route path="/" element={<HomePage />}></Route>
+									<Route path="/home" element={<HomePage />}></Route>
+									<Route path="/levels" element={<LevelSelectorPage />}></Route>
 									<Route path="/level/:levelId" element={<GamePage />}></Route>
 									<Route
 										path="/level-creator"
@@ -47,11 +50,11 @@ const App = () => {
 										path="/recover-password"
 										element={
 											<PrivateRoute allowAnonymousUsers={true} allowLoggedUsers={false}>
-												<PasswordRecovery />
+												<PasswordRecoveryPage />
 											</PrivateRoute>
 										}
 									></Route>
-									<Route path="/reset-password" element={<ResetPassword />}></Route>
+									<Route path="/reset-password" element={<ResetPasswordPage />}></Route>
 								</Routes>
 							</div>
 						</QueryClientProvider>

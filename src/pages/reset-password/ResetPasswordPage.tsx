@@ -16,7 +16,7 @@ const errorMessages = {
 	'default': 'An error occurred. Please try resetting the password with a new link.',
 } as { [key: string]: string };
 
-const ResetPassword = () => {
+const ResetPasswordPage = () => {
 	const [newPasswordValue, setNewPasswordValue] = useState('');
 	const { newPasswordValidation } = useFormValidations();
 	const navigate = useNavigate();
@@ -77,4 +77,4 @@ const ResetPassword = () => {
 	);
 };
 
-export default ResetPassword;
+export default ResetPasswordPage;

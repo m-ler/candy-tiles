@@ -1,2 +1,2 @@
-import ResetPassword from './ResetPassword';
-export default ResetPassword;
+import ResetPasswordPage from './ResetPasswordPage';
+export default ResetPasswordPage;

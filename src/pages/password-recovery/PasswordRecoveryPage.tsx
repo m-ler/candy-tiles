@@ -13,7 +13,7 @@ const errorMessages = {
 	'default': "We couldn't send a verification email. Please try again later.",
 } as { [key: string]: string };
 
-const PasswordRecovery = () => {
+const PasswordRecoveryPage = () => {
 	const [emailValue, setEmailValue] = useState('');
 	const { emailValidation } = useFormValidations();
 	const sendRecovery = useMutation('send-recovery', () => sendPaswordRecovery(emailValue));
@@ -70,4 +70,4 @@ const PasswordRecovery = () => {
 	);
 };
 
-export default PasswordRecovery;
+export default PasswordRecoveryPage;
