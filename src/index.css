@@ -11,12 +11,3 @@ body {
 	padding: 0;
 	min-width: 320px;
 }
-
-body {
-	background-size: cover;
-	background-position: center;
-	background-attachment: fixed;
-	background-repeat: no-repeat;
-	background-color: #398388;
-	background-image: url('./assets/svg/page-background.svg');
-}

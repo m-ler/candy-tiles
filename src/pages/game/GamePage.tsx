@@ -9,6 +9,7 @@ import VolumeDialog from './VolumeDialog';
 import { useRecoilValue } from 'recoil';
 import { completedLevelsState } from '../../store/completedLevels';
 import useToast from '../../hooks/useToast';
+import Header from '../../components/header';
 
 const GamePage = () => {
 	const createToast = useToast();
@@ -44,10 +45,13 @@ const GamePage = () => {
 	if (selectedLevelQuery.error) return <LevelError></LevelError>;
 
 	return (
-		<section id="game-container" className="w-[min(1600px,100%)] m-auto flex gap-x-[15px] md:h-full">
-			<CandyTiles></CandyTiles>
-			<VolumeDialog></VolumeDialog>
-		</section>
+		<>
+			<Header />
+			<section id="game-container" className="w-[min(1600px,100%)] m-auto flex gap-x-[15px] md:h-full">
+				<CandyTiles></CandyTiles>
+				<VolumeDialog></VolumeDialog>
+			</section>
+		</>
 	);
 };
 

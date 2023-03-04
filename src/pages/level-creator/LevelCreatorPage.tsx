@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import useUnmountAnimation from '../../hooks/useUnmountAnimation';
 import Tooltip from '../../mui/components/Tooltip';
 import LevelCreatorStateManager from './LevelCreatorStateManager';
+import Header from '../../components/header';
 
 const LevelCreatorPage = () => {
 	const navigate = useNavigate();
@@ -25,6 +26,7 @@ const LevelCreatorPage = () => {
 
 	return (
 		<>
+			<Header />
 			<section
 				className="h-[min(800px,100%)] max-h-[1000px] flex flex-col bg-s-dark rounded w-[min(11s00px,100%)] mx-auto max-w-full mb-[24px] overflow-hidden"
 				id="level-creator-container"

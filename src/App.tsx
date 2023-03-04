@@ -12,6 +12,7 @@ import UserInteractionDetection from './components/UserInteractionDetection';
 import { muiTheme } from './mui/theme';
 import GamePage from './pages/game';
 import HomePage from './pages/home';
+import Background from './pages/home/Background';
 import LevelCreatorPage from './pages/level-creator';
 import LevelSelectorPage from './pages/level-selector';
 import PasswordRecoveryPage from './pages/password-recovery/index';
@@ -27,12 +28,11 @@ const App = () => {
 					<CssBaseline />
 					<BrowserRouter>
 						<QueryClientProvider client={queryClient}>
+							<Background/>
 							<SupabaseManager />
 							<Dialogs />
 							<UserInteractionDetection></UserInteractionDetection>
-							<Header />
-
-							<div className="flex flex-col p-[16px] md:p-[12px] grow overflow-hidden">
+							<div className="flex flex-col p-[16px] pt-[0px] md:p-[12px] grow overflow-hidden">
 								<Routes>
 									<Route path="/" element={<HomePage />}></Route>
 									<Route path="/home" element={<HomePage />}></Route>

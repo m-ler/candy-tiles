@@ -1,4 +1,4 @@
-import { Avatar, Box, CircularProgress, IconButton, ListItemIcon, Menu, MenuItem } from '@mui/material';
+import { Box, CircularProgress, ListItemIcon, Menu, MenuItem } from '@mui/material';
 import { useRef, useState, useEffect } from 'react';
 import { MdModeEditOutline, MdOutlineCameraAlt, MdOutlineRemoveCircleOutline } from 'react-icons/md';
 import useRemoveAvatar from '../../hooks/useRemoveAvatar';
@@ -88,7 +88,7 @@ const AvatarButton = ({ user, setUploadingAvatar }: Props) => {
 					</ListItemIcon>
 					Upload avatar
 				</MenuItem>
-				{!!user.avatarURL && (
+				{!!user.profile.avatarURL && (
 					<MenuItem onClick={removeAvatarOnClick}>
 						<ListItemIcon>
 							{removeAvatar.isLoading ? (

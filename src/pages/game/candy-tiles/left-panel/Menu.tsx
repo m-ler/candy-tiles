@@ -20,7 +20,7 @@ const Menu = () => {
 
 	const homeOnClick = () => {
 		playAudio({ audioName: 'buttonClick1', volume: 0.5 });
-		unmountAnimation(() => navigate('/'));
+		unmountAnimation(() => navigate('/levels'));
 	};
 
 	const resetLevelOnClick = () => {
