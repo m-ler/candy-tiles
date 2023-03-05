@@ -7,7 +7,7 @@ type CompletedLevel = {
 	stars: number;
 };
 
-type CompletedLevels = {
+export type CompletedLevels = {
 	main: CompletedLevel[];
 	online: CompletedLevel[];
 };

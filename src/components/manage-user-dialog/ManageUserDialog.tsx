@@ -28,7 +28,7 @@ const ManageUserDialog = () => {
 					<Stack direction="row" spacing={2}>
 						<AvatarButton user={user} setUploadingAvatar={setUploadingAvatar} />
 
-						<Stack justifyContent="center" width="150px" minWidth="50px">
+						<Stack justifyContent="center">
 							<Typography variant="h6" lineHeight="1.35rem" sx={{ fontWeight: 'bolder' }}>
 								{user.profile.nickname}
 							</Typography>

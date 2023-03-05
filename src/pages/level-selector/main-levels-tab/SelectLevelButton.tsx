@@ -1,9 +1,8 @@
 import { Button, ButtonProps } from '@mui/material';
-import { muiPalette } from '../../mui/theme';
+import { muiPalette } from '../../../mui/theme';
 import { useNavigate } from 'react-router-dom';
-import useAudio from '../../hooks/useAudio';
+import useAudio from '../../../hooks/useAudio';
 import { AiFillStar } from 'react-icons/ai';
-import useUnmountAnimation from '../../hooks/useUnmountAnimation';
 import { MdLock } from 'react-icons/md';
 
 const getStarIcon = (lit: boolean): JSX.Element => (
@@ -19,11 +18,10 @@ type Props = ButtonProps & {
 const SelectLevelButton = (props: Props): JSX.Element => {
 	const navigate = useNavigate();
 	const playAudio = useAudio();
-	const unmountAnimation = useUnmountAnimation('#level-selector-container');
 
 	const handleClick = (): void => {
 		playAudio({ audioName: 'buttonClick1', volume: 0.5 });
-		unmountAnimation(() => navigate(`/level/${props.levelId}`));
+		navigate(`/level/${props.levelId}`);
 	};
 
 	return (

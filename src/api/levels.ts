@@ -29,3 +29,9 @@ export const uploadLevel = async (levelData: UploadLevelData) => {
 	const levelId = data[0]?.id;
 	return supabase.from('level_files').insert({ levelId, file: levelData.levelJson });
 };
+
+export const getOnlineLevels = async () =>
+	supabase.from('levels').select(`
+    *,
+    user:userId ( * )
+  `);

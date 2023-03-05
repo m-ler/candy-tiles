@@ -39,7 +39,7 @@ export default async (levelData: LevelData, levelRules: LevelRules): Promise<Lev
 
 	createValidationList();
 	const failedValidations = _validationList.filter((x) => !x.validate()).map((y) => y.failReason);
-	const duplicatedLevelTitle = ((await supabase.from('levels').select('title').eq('title', levelData.title)).data?.length || 0) > 0;
+	const duplicatedLevelTitle = ((await supabase.from('levels').select('title').eq('title', levelData.title?.trim())).data?.length || 0) > 0;
 	duplicatedLevelTitle && failedValidations.push('One of your levels already has that title.');
 
 	return {

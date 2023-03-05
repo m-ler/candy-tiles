@@ -63,12 +63,14 @@ export const muiTheme = createTheme({
 	},
 
 	components: {
-		/* MuiFormHelperText: {
+		MuiAvatar: {
 			styleOverrides: {
 				root: {
-					fontWeight: 'bold',
+					background: 'linear-gradient(45deg, #28c9d4, #EA915F)',
+					fontWeight: 'bolder',
+					color: 'white',
 				},
 			},
-		}, */
+		},
 	},
 });

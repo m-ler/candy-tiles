@@ -21,6 +21,9 @@ const LevelForm = () => {
 					label="Title"
 					variant="filled"
 					value={levelEditorTitle}
+					inputProps={{
+						maxLength: 25,
+					}}
 					InputProps={{
 						startAdornment: (
 							<InputAdornment position="start">
@@ -35,7 +38,7 @@ const LevelForm = () => {
 					onChange={(e) =>
 						setLevelRules((state) => ({
 							...state,
-							targetScore: parseInt(e.target.value || '0'),
+							targetScore: parseInt(e.target.value),
 						}))
 					}
 					id="target-score"
@@ -61,7 +64,7 @@ const LevelForm = () => {
 					onChange={(e) =>
 						setLevelRules((state) => ({
 							...state,
-							maximumMoves: parseInt(e.target.value || '0'),
+							maximumMoves: parseInt(e.target.value),
 						}))
 					}
 					id="moves-number"
@@ -89,7 +92,7 @@ const LevelForm = () => {
 							...state,
 							tasks: {
 								...state.tasks,
-								iceTiles: parseInt(e.target.value || '0'),
+								iceTiles: parseInt(e.target.value),
 							},
 						}))
 					}
@@ -118,7 +121,7 @@ const LevelForm = () => {
 							...state,
 							tasks: {
 								...state.tasks,
-								rockTiles: parseInt(e.target.value || '0'),
+								rockTiles: parseInt(e.target.value),
 							},
 						}))
 					}
@@ -147,7 +150,7 @@ const LevelForm = () => {
 							...state,
 							tasks: {
 								...state.tasks,
-								iceCreams: parseInt(e.target.value || '0'),
+								iceCreams: parseInt(e.target.value),
 							},
 						}))
 					}

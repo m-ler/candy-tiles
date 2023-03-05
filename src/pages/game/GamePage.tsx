@@ -38,7 +38,7 @@ const GamePage = () => {
 
 		if (levelAvaliable) return;
 		createToast({ message: 'Level locked', severity: 'error', durationMs: 3000 });
-		navigate('/');
+		navigate('/levels');
 	};
 
 	if (selectedLevelQuery.isLoading || selectedLevelQuery.isIdle) return <LevelSkeleton></LevelSkeleton>;

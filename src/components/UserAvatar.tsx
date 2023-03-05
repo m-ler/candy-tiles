@@ -18,9 +18,6 @@ const UserAvatar = ({ size, fontSize, onClick }: Props) => {
 				sx={{
 					width: size,
 					height: size,
-					background: 'linear-gradient(45deg, #28c9d4, #EA915F)',
-					fontWeight: 'bolder',
-					color: 'white',
 					fontSize,
 				}}
 			>
