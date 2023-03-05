@@ -1,5 +1,6 @@
 import { useResetRecoilState } from 'recoil';
 import { itemListEditorState } from '../store/itemListEditor';
+import { levelEditorTitleState } from '../store/levelEditorTitle';
 import { levelRulesState } from '../store/levelRules';
 import { selectedElementState } from '../store/selectedElement';
 import { slotListEditorState } from '../store/slotListEditor';
@@ -11,6 +12,7 @@ export default () => {
 	const resetItemList = useResetRecoilState(itemListEditorState);
 	const resetLevelDataEditor = useResetRecoilState(levelRulesState);
 	const resetSelectedElement = useResetRecoilState(selectedElementState);
+	const resetLevelEditorTitle = useResetRecoilState(levelEditorTitleState);
 
 	const resetLevelStateToDefault = () => {
 		resetSlotList();
@@ -18,6 +20,7 @@ export default () => {
 		resetItemList();
 		resetLevelDataEditor();
 		resetSelectedElement();
+		resetLevelEditorTitle();
 	};
 
 	return resetLevelStateToDefault;

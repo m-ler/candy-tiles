@@ -32,7 +32,7 @@ const LevelSelectorPage = () => {
 	return (
 		<>
 			<Header />
-			<Container maxWidth="lg">
+			<Container maxWidth="lg" sx={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
 				<Stack component={Paper} overflow="hidden">
 					<Tabs
 						value={selectedTab}

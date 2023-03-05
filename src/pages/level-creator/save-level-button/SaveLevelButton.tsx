@@ -6,28 +6,51 @@ import validateLevel from './validateLevel';
 import { levelDataEditorState } from '../store/levelDataEditor';
 import { LoadingButton } from '@mui/lab';
 import { useMutation } from 'react-query';
-import { saveLevel } from '../../../api/levels';
+import { uploadLevel, UploadLevelData } from '../../../api/levels';
 import { loggedUserState } from './../../../store/loggedUser';
 import { showUserAuthDialogState } from '../../../store/showUserAuthenticationDialog';
-
-type LevelPayload = {
-	userId: string;
-	file: string;
-};
 
 const SaveLevelButton = () => {
 	const levelDataEditor = useRecoilValue(levelDataEditorState);
 	const loggedUser = useRecoilValue(loggedUserState);
 	const setShowUserAuthDialog = useSetRecoilState(showUserAuthDialogState);
 	const toast = useToast();
-	const saveLevelMutation = useMutation((data: LevelPayload) => {}, {
-		onSuccess: () => {
+	const validateLevelMutation = useMutation(
+		(data: { levelData: LevelData; levelRules: LevelRules }) => validateLevel(data.levelData, data.levelRules),
+		{
+			onSuccess: (data) => {
+				if (data.valid) {
+					onLevelValidationSuccess();
+					return;
+				}
+				onLevelValidationFailed(data.messages);
+			},
+		},
+	);
+
+	const uploadLevelMutation = useMutation((data: UploadLevelData) => uploadLevel(data), {
+		onSuccess: (data) => {
+			if (data?.error) {
+				onUploadLevelError();
+				return;
+			}
 			toast({ message: 'Level saved!', severity: 'success', durationMs: 5000 });
 		},
-		onError: () => {
-			toast({ message: 'Something went wrong. Please try again.', severity: 'error', durationMs: 5000 });
-		},
+		onError: () => onUploadLevelError(),
 	});
+
+	const onUploadLevelError = () => toast({ message: 'Something went wrong. Please try again.', severity: 'error', durationMs: 5000 });
+	const onLevelValidationFailed = (failMessages: string[]) => {
+		failMessages.forEach((x) => toast({ severity: 'error', message: x, durationMs: 3000 }));
+	};
+
+	const onLevelValidationSuccess = () => {
+		uploadLevelMutation.mutate({
+			userId: loggedUser?.auth.id || '',
+			levelTitle: levelDataEditor.levelTitle.trim(),
+			levelJson: JSON.stringify(createLevelData(levelDataEditor)),
+		});
+	};
 
 	const handleClick = () => {
 		loggedUser ? saveLevel() : setShowUserAuthDialog(true);
@@ -35,10 +58,7 @@ const SaveLevelButton = () => {
 
 	const saveLevel = () => {
 		const levelData = createLevelData(levelDataEditor);
-		const validation = validateLevel(levelData, levelDataEditor.levelRules);
-		validation.messages.forEach((x) => toast({ severity: 'error', message: x, durationMs: 3000 }));
-		validation.valid &&
-			saveLevelMutation.mutate({ userId: loggedUser?.auth.id || '', file: JSON.stringify(createLevelData(levelDataEditor)) });
+		validateLevelMutation.mutate({ levelData, levelRules: levelDataEditor.levelRules });
 	};
 
 	return (
@@ -46,7 +66,7 @@ const SaveLevelButton = () => {
 			onClick={handleClick}
 			startIcon={<MdSave />}
 			loadingPosition="start"
-			loading={saveLevelMutation.isLoading}
+			loading={uploadLevelMutation.isLoading || validateLevelMutation.isLoading}
 			sx={{ fontWeight: 'bolder', marginLeft: 'auto' }}
 			variant="contained"
 			size="small"

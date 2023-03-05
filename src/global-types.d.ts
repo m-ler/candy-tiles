@@ -66,8 +66,7 @@ declare global {
 
 	type LevelData = {
 		id: number;
-		type: 'Main' | 'Online';
-		userId: string;
+		title: string | null;
 		initialItems: LevelItem[];
 		initialTiles: LevelTile[];
 		score: number;

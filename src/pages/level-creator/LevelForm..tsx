@@ -2,28 +2,46 @@ import { Grid, InputAdornment } from '@mui/material';
 import { FaFlagCheckered } from 'react-icons/fa';
 import { TbHandMove } from 'react-icons/tb';
 import { BsSnow } from 'react-icons/bs';
-import { MdIcecream } from 'react-icons/md';
+import { MdDriveFileRenameOutline, MdIcecream } from 'react-icons/md';
 import { GiBrickWall } from 'react-icons/gi';
 import TextFieldMain from '../../mui/components/TextFieldMain';
 import { useRecoilState } from 'recoil';
 import { levelRulesState } from './store/levelRules';
+import { levelEditorTitleState } from './store/levelEditorTitle';
 
 const LevelForm = () => {
 	const [levelRules, setLevelRules] = useRecoilState(levelRulesState);
+	const [levelEditorTitle, setLevelEditorTitle] = useRecoilState(levelEditorTitleState);
 
 	return (
-		<Grid container spacing={2} columns={{ xs: 2, sm: 3, md: 5 }}>
+		<Grid container spacing={2} columns={{ xs: 2, sm: 3, md: 6 }}>
+			<Grid item xs={1}>
+				<TextFieldMain
+					onChange={(e) => setLevelEditorTitle(e.target.value)}
+					label="Title"
+					variant="filled"
+					value={levelEditorTitle}
+					InputProps={{
+						startAdornment: (
+							<InputAdornment position="start">
+								<MdDriveFileRenameOutline className="max-w-[14px]"></MdDriveFileRenameOutline>
+							</InputAdornment>
+						),
+					}}
+				></TextFieldMain>
+			</Grid>
 			<Grid item xs={1}>
 				<TextFieldMain
 					onChange={(e) =>
 						setLevelRules((state) => ({
 							...state,
-							targetScore: parseInt(e.target.value),
+							targetScore: parseInt(e.target.value || '0'),
 						}))
 					}
 					id="target-score"
 					label="Target score"
 					variant="filled"
+					type="number"
 					value={levelRules.targetScore}
 					inputProps={{
 						inputMode: 'numeric',
@@ -43,7 +61,7 @@ const LevelForm = () => {
 					onChange={(e) =>
 						setLevelRules((state) => ({
 							...state,
-							maximumMoves: parseInt(e.target.value),
+							maximumMoves: parseInt(e.target.value || '0'),
 						}))
 					}
 					id="moves-number"
@@ -71,7 +89,7 @@ const LevelForm = () => {
 							...state,
 							tasks: {
 								...state.tasks,
-								iceTiles: parseInt(e.target.value),
+								iceTiles: parseInt(e.target.value || '0'),
 							},
 						}))
 					}
@@ -100,7 +118,7 @@ const LevelForm = () => {
 							...state,
 							tasks: {
 								...state.tasks,
-								rockTiles: parseInt(e.target.value),
+								rockTiles: parseInt(e.target.value || '0'),
 							},
 						}))
 					}
@@ -129,7 +147,7 @@ const LevelForm = () => {
 							...state,
 							tasks: {
 								...state.tasks,
-								iceCreams: parseInt(e.target.value),
+								iceCreams: parseInt(e.target.value || '0'),
 							},
 						}))
 					}

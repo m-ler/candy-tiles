@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { itemListEditorState } from './store/itemListEditor';
 import { levelDataEditorState } from './store/levelDataEditor';
+import { levelEditorTitleState } from './store/levelEditorTitle';
 import { levelRulesState } from './store/levelRules';
 import { slotListEditorState } from './store/slotListEditor';
 import { tileListEditorState } from './store/tileListEditor';
@@ -13,6 +14,7 @@ const LevelCreatorStateManager = () => {
 	const setSlotListEditor = useSetRecoilState(slotListEditorState);
 	const setTileListEditor = useSetRecoilState(tileListEditorState);
 	const setItemListEditor = useSetRecoilState(itemListEditorState);
+	const setLevelEditorTitle = useSetRecoilState(levelEditorTitleState);
 	const levelDataEditor = useRecoilValue(levelDataEditorState);
 
 	const loadFromLocalStorage = () => {
@@ -26,6 +28,7 @@ const LevelCreatorStateManager = () => {
 		setSlotListEditor((state) => savedLevelEditorState?.slotList || state);
 		setTileListEditor((state) => savedLevelEditorState?.tileList || state);
 		setItemListEditor((state) => savedLevelEditorState?.itemList || state);
+		setLevelEditorTitle((state) => savedLevelEditorState.levelTitle || state);
 	};
 
 	const saveLevelDataToLocalStorage = () => localStorage.setItem(LOCAL_STORAGE_LEVEL_EDITOR, JSON.stringify(levelDataEditor));

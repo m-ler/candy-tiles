@@ -9,6 +9,49 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      level_files: {
+        Row: {
+          file: Json | null
+          id: number
+          levelId: number | null
+        }
+        Insert: {
+          file?: Json | null
+          id?: number
+          levelId?: number | null
+        }
+        Update: {
+          file?: Json | null
+          id?: number
+          levelId?: number | null
+        }
+      }
+      levels: {
+        Row: {
+          created_at: string | null
+          dislikes: number | null
+          id: number
+          likes: number | null
+          title: string | null
+          userId: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          dislikes?: number | null
+          id?: number
+          likes?: number | null
+          title?: string | null
+          userId?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          dislikes?: number | null
+          id?: number
+          likes?: number | null
+          title?: string | null
+          userId?: string | null
+        }
+      }
       users: {
         Row: {
           avatarURL: string | null

@@ -1,7 +1,5 @@
-export default ({ levelRules, itemList, slotList, tileList }: LevelDataEditor): LevelData => ({
+export default ({ levelRules, itemList, slotList, tileList, levelTitle }: LevelDataEditor): LevelData => ({
 	id: 0,
-	userId: '',
-	type: 'Main',
 	maximumMoves: levelRules.maximumMoves,
 	rating: null,
 	score: levelRules.targetScore,
@@ -12,4 +10,5 @@ export default ({ levelRules, itemList, slotList, tileList }: LevelDataEditor): 
 		return slotAvaliable ? tile : null;
 	}),
 	tasks: levelRules.tasks,
+	title: levelTitle,
 });

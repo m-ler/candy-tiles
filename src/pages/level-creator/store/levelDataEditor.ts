@@ -1,3 +1,4 @@
+import { levelEditorTitleState } from './levelEditorTitle';
 import { selector } from 'recoil';
 import { itemListEditorState } from './itemListEditor';
 import { levelRulesState } from './levelRules';
@@ -11,12 +12,14 @@ export const levelDataEditorState = selector<LevelDataEditor>({
 		const tileList = get(tileListEditorState);
 		const itemList = get(itemListEditorState);
 		const levelRules = get(levelRulesState);
+		const levelTitle = get(levelEditorTitleState);
 
 		return {
 			slotList,
 			tileList,
 			itemList,
 			levelRules,
+			levelTitle
 		};
 	},
 });

@@ -14,5 +14,6 @@ declare global {
 		tileList: (LevelEditorElement | null)[];
 		itemList: (LevelEditorElement | null)[];
 		levelRules: LevelRules;
+		levelTitle: string;
 	};
 }

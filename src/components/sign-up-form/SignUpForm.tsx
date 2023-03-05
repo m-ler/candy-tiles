@@ -1,5 +1,5 @@
 import { FormHelperText, InputAdornment, Stack } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { MdEmail, MdLock, MdBorderColor } from 'react-icons/md';
 import TextFieldMain from '../../mui/components/TextFieldMain';
 import InputAdornmentLoader from '../InputAdornmentLoader';

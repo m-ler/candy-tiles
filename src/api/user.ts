@@ -14,7 +14,7 @@ export const uploadAvatar = async (file: File, userId: string) => {
 		? await supabase.storage.from('media').update(filePath, file)
 		: await supabase.storage.from('media').upload(filePath, file);
 
-	if (!!error) throw new Error('Could not upload file. Please try again.');
+	if (error) throw new Error('Could not upload file. Please try again.');
 
 	const avatarURL = `${supabase.storage.from('media').getPublicUrl(data.path).data.publicUrl}?updated=${Date.now()}`;
 	return supabase.from('users').update({ avatarURL }).eq('userId', userId);
