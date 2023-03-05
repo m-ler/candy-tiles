@@ -29,7 +29,7 @@ const ResetPasswordPage = () => {
 
 	const onPasswordReset = () => {
 		toast({ message: 'Password updated successfully.', severity: 'success', durationMs: 5000 });
-		navigate('/');
+		navigate('/levels');
 	};
 
 	const newPasswordOnBlue = () => newPasswordValidation.mutate(newPasswordValue);
@@ -50,7 +50,9 @@ const ResetPasswordPage = () => {
 						variant="filled"
 						InputProps={{
 							startAdornment: (
-								<InputAdornment position="start">{false ? <InputAdornmentLoader /> : <MdLock className="max-w-[16px]" />}</InputAdornment>
+								<InputAdornment position="start">
+									{resetPasswordMutation.isLoading ? <InputAdornmentLoader /> : <MdLock className="max-w-[16px]" />}
+								</InputAdornment>
 							),
 						}}
 						onChange={(e) => setNewPasswordValue(e.target.value)}

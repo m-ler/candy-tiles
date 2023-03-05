@@ -3,7 +3,6 @@ import { MdDesignServices, MdOutlinePlayCircleFilled } from 'react-icons/md';
 import MainButton from './MainButton';
 import { ReactComponent as Logo } from './../../assets/img/app/text-logo.svg';
 import { useNavigate } from 'react-router-dom';
-import Background from './Background';
 
 const HomePage = () => {
 	const navigate = useNavigate();

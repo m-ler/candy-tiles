@@ -72,7 +72,7 @@ const LevelCompleteDialog = () => {
 	};
 
 	const onNextClick = () => {
-		animateUnmount(() => navigate('/'));
+		animateUnmount(() => navigate('/levels'));
 	};
 
 	return levelComplete ? (

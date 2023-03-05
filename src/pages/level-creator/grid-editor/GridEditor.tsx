@@ -14,16 +14,15 @@ const GridEditor = () => {
 	const [itemList, setItemList] = useRecoilState(itemListEditorState);
 	const selectedElement = useRecoilValue(selectedElementState);
 
-	const updateLists = (index: number, create: boolean) => {
-		const updateFn = itemList[index] !== null ? updateItemList : tileList[index] !== null ? updateTileList : updateTileSlotList;
-		updateFn(index, create);
-	};
 	const updateTileSlotList = (index: number, create: boolean) => {
 		setSlotList((list) => {
 			const newList = [...list];
 			newList[index] = create;
 			return newList;
 		});
+
+		!create && updateTileList(index, create);
+		!create && updateItemList(index, create);
 	};
 
 	const updateTileList = (index: number, create: boolean) => {
@@ -53,7 +52,7 @@ const GridEditor = () => {
 	return (
 		<div className="mx-auto aspect-square grow max-w-full relative">
 			<GridEditorLayer
-				setRenderList={updateLists}
+				setRenderList={updateTileSlotList}
 				renderChild={renderSlot}
 				interactable={slotLayerInteractable}
 				childAttribute="data-tile-slot"

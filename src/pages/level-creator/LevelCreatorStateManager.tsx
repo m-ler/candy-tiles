@@ -1,31 +1,42 @@
-import { useResetRecoilState } from 'recoil';
+import { useEffect } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { itemListEditorState } from './store/itemListEditor';
+import { levelDataEditorState } from './store/levelDataEditor';
+import { levelRulesState } from './store/levelRules';
 import { slotListEditorState } from './store/slotListEditor';
 import { tileListEditorState } from './store/tileListEditor';
-import { levelRulesState } from './store/levelRules';
-import { useEffect } from 'react';
-import { selectedElementState } from './store/selectedElement';
+
+const LOCAL_STORAGE_LEVEL_EDITOR = 'level-editor-data';
 
 const LevelCreatorStateManager = () => {
-	const resetSlotList = useResetRecoilState(slotListEditorState);
-	const resetTileList = useResetRecoilState(tileListEditorState);
-	const resetItemList = useResetRecoilState(itemListEditorState);
-	const resetLevelDataEditor = useResetRecoilState(levelRulesState);
-	const resetSelectedElement = useResetRecoilState(selectedElementState);
+	const setLevelRules = useSetRecoilState(levelRulesState);
+	const setSlotListEditor = useSetRecoilState(slotListEditorState);
+	const setTileListEditor = useSetRecoilState(tileListEditorState);
+	const setItemListEditor = useSetRecoilState(itemListEditorState);
+	const levelDataEditor = useRecoilValue(levelDataEditorState);
+
+	const loadFromLocalStorage = () => {
+		const savedLevelEditorState = JSON.parse(localStorage.getItem(LOCAL_STORAGE_LEVEL_EDITOR) || '{}') as LevelDataEditor;
+		setLevelRules((state) => ({
+			maximumMoves: savedLevelEditorState.levelRules?.maximumMoves || state.maximumMoves,
+			targetScore: savedLevelEditorState.levelRules?.targetScore || state.targetScore,
+			tasks: savedLevelEditorState.levelRules?.tasks || state.tasks,
+		}));
+
+		setSlotListEditor((state) => savedLevelEditorState?.slotList || state);
+		setTileListEditor((state) => savedLevelEditorState?.tileList || state);
+		setItemListEditor((state) => savedLevelEditorState?.itemList || state);
+	};
+
+	const saveLevelDataToLocalStorage = () => localStorage.setItem(LOCAL_STORAGE_LEVEL_EDITOR, JSON.stringify(levelDataEditor));
 
 	useEffect(() => {
-		return () => {
-			resetLevelStateToDefault();
-		};
+		loadFromLocalStorage();
 	}, []);
 
-	const resetLevelStateToDefault = () => {
-		resetSlotList();
-		resetTileList();
-		resetItemList();
-		resetLevelDataEditor();
-		resetSelectedElement();
-	};
+	useEffect(() => {
+		saveLevelDataToLocalStorage();
+	}, [levelDataEditor]);
 
 	return <></>;
 };

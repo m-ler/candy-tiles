@@ -22,7 +22,7 @@ const GameOverActions = ({ dialogID }: Props) => {
 		playAudio({ audioName: 'buttonClick1', volume: 0.5 });
 		animateDialogUnmount({
 			duration: 300,
-			complete: () => animateGameUnmount(() => navigate('/')),
+			complete: () => animateGameUnmount(() => navigate('/levels')),
 		});
 	};
 

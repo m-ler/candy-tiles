@@ -1,4 +1,5 @@
 import { createTheme, PaletteColor } from '@mui/material';
+import { blueGrey } from '@mui/material/colors';
 
 declare module '@mui/material/styles' {
 	interface PaletteOptions {
@@ -36,16 +37,14 @@ export const muiPalette: CustomMUIPalette = {
 export const muiTheme = createTheme({
 	palette: {
 		...muiPalette,
-		mode: 'dark',
 		error: {
 			light: '#e5738a',
 			main: '#f4365c',
 			dark: '#d32f55',
 			contrastText: '#fff',
 		},
-		background: {
-			paper: '#153B3E',
-			default: '#153B3E',
+		action: {
+			active: blueGrey[700],
 		},
 	},
 	typography: {
@@ -64,12 +63,12 @@ export const muiTheme = createTheme({
 	},
 
 	components: {
-		MuiFormHelperText: {
+		/* MuiFormHelperText: {
 			styleOverrides: {
 				root: {
 					fontWeight: 'bold',
 				},
 			},
-		},
+		}, */
 	},
 });

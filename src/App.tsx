@@ -4,7 +4,6 @@ import { QueryClientProvider, QueryClient } from 'react-query';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import Dialogs from './components/Dialogs';
-import Header from './components/header';
 import PrivateRoute from './components/PrivateRoute';
 import SupabaseManager from './components/SupabaseManager';
 import Toast from './components/Toast';
@@ -28,7 +27,7 @@ const App = () => {
 					<CssBaseline />
 					<BrowserRouter>
 						<QueryClientProvider client={queryClient}>
-							<Background/>
+							<Background />
 							<SupabaseManager />
 							<Dialogs />
 							<UserInteractionDetection></UserInteractionDetection>
@@ -38,14 +37,7 @@ const App = () => {
 									<Route path="/home" element={<HomePage />}></Route>
 									<Route path="/levels" element={<LevelSelectorPage />}></Route>
 									<Route path="/level/:levelId" element={<GamePage />}></Route>
-									<Route
-										path="/level-creator"
-										element={
-											<PrivateRoute allowAnonymousUsers={false} allowLoggedUsers={true}>
-												<LevelCreatorPage />{' '}
-											</PrivateRoute>
-										}
-									></Route>
+									<Route path="/level-creator" element={<LevelCreatorPage />}></Route>
 									<Route
 										path="/recover-password"
 										element={

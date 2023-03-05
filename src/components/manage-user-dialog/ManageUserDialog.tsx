@@ -1,4 +1,4 @@
-import { Button, DialogContent, Divider, IconButton, LinearProgress, Typography } from '@mui/material';
+import { Button, DialogContent, Divider, LinearProgress, Typography } from '@mui/material';
 import Dialog from '../Dialog';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { showManageUserDialogState } from './../../store/showManageUserDialog';
@@ -29,10 +29,10 @@ const ManageUserDialog = () => {
 						<AvatarButton user={user} setUploadingAvatar={setUploadingAvatar} />
 
 						<Stack justifyContent="center" width="150px" minWidth="50px">
-							<Typography variant="h6" sx={{ fontWeight: 'bolder' }}>
+							<Typography variant="h6" lineHeight="1.35rem" sx={{ fontWeight: 'bolder' }}>
 								{user.profile.nickname}
 							</Typography>
-							<Typography variant="caption">{user.profile.email}</Typography>
+							<Typography variant="caption" marginTop="0.5rem">{user.profile.email}</Typography>
 						</Stack>
 					</Stack>
 					<Divider />

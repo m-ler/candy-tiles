@@ -1,5 +1,5 @@
-import { Avatar, IconButton } from '@mui/material';
 import { useState } from 'react';
+import Tooltip from '../../mui/components/Tooltip';
 import UserAvatar from '../UserAvatar';
 import UserMenu from './UserMenu';
 
@@ -15,7 +15,11 @@ const AvatarButton = ({ user }: Props) => {
 
 	return (
 		<>
-			<UserAvatar size={40} fontSize={18} onClick={handleClick} />
+			<Tooltip title={user.profile.nickname}>
+				<div>
+					<UserAvatar size={40} fontSize={18} onClick={handleClick} />
+				</div>
+			</Tooltip>
 			<UserMenu anchorEl={menuAnchorEl} user={user} onMenuClose={() => setMenuAnchorEl(null)} />
 		</>
 	);

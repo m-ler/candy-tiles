@@ -20,13 +20,13 @@ const DownloadLevelButton = () => {
 			<Button
 				onClick={handleClick}
 				startIcon={<MdDownload />}
-				sx={{ fontWeight: 'bolder', marginLeft: 'auto' }}
+				sx={{ fontWeight: 'bolder', marginLeft: 'auto', whiteSpace: 'nowrap', minWidth: 'auto', textOverflow: 'ellipsis' }}
 				variant="contained"
 				size="small"
 				color="secondary"
 				disableElevation
 			>
-				Download level
+				Download
 			</Button>
 		</Tooltip>
 	);

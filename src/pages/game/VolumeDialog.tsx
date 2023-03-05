@@ -1,12 +1,11 @@
-import { DialogContent, DialogTitle, Slide, Slider } from '@mui/material';
+import { DialogContent, DialogTitle, Slider } from '@mui/material';
 import { showVolumeDialogState } from './store/showVolumeDialog';
 import { useRecoilState } from 'recoil';
 import { MdVolumeDown, MdVolumeUp } from 'react-icons/md';
 import { gameVolumeState } from './../../store/gameVolume';
-import { useMemo, forwardRef } from 'react';
+import { useMemo } from 'react';
 import Dialog from '../../components/Dialog';
-import { TransitionProps } from '@mui/material/transitions';
-import React from 'react';
+import { blueGrey } from '@mui/material/colors';
 
 const VolumeDialog = () => {
 	const [showVolumeDialog, setShowVolumeDialog] = useRecoilState(showVolumeDialogState);
@@ -15,12 +14,12 @@ const VolumeDialog = () => {
 	const initialValue = useMemo(() => Math.floor(gameVolume * 100), [showVolumeDialog]);
 
 	const handleSliderChange = (e: Event, newValue: number | number[]) => setGameVolume((newValue as number) / 100);
-	
+
 	return (
 		<Dialog open={showVolumeDialog} onClose={handleClose} fullWidth={true} maxWidth={'xs'}>
 			<DialogTitle>Volume</DialogTitle>
 			<DialogContent sx={{ overflow: 'visible' }}>
-				<div className="flex gap-x-[16px] items-center mt-[12px]">
+				<div className="flex gap-x-[16px] items-center mt-[12px]" style={{ color: blueGrey[600] }}>
 					<MdVolumeDown size={24} className="min-w-[24px]"></MdVolumeDown>
 					<Slider
 						key={showVolumeDialog.toString()}

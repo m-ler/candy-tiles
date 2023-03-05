@@ -4,7 +4,7 @@ import TextFieldMain from '../../mui/components/TextFieldMain';
 import { MdEmail, MdLock } from 'react-icons/md';
 import useFormValidation from './hooks/useFormValidation';
 import InputAdornmentLoader from '../InputAdornmentLoader';
-import { FormEvent, useState } from 'react';
+import { useState } from 'react';
 import { LoadingButton } from '@mui/lab';
 import useSignIn from '../../hooks/useSignIn';
 
@@ -63,7 +63,7 @@ const SignInForm = ({ onClose }: Props) => {
 					{errorMessage}
 				</FormHelperText>
 				<Stack direction="row" justifyContent="space-between" alignItems="center">
-					<Link to="/recover-password" component={RouterLink} fontSize="14px" color="secondary" onClick={() => onClose?.()}>
+					<Link to="/recover-password" component={RouterLink} fontSize="14px"  onClick={() => onClose?.()}>
 						Forgot your password?
 					</Link>
 					<LoadingButton variant="contained" onClick={singInOnClick} disabled={!validForm} loading={signInMutation.isLoading} type='submit'>

@@ -13,7 +13,7 @@ const Header = () => {
 			<Link to={'/'}>
 				<Logo className="min-w-[94px] w-[94px] h-[40px] text-p-light"></Logo>
 			</Link>
-			{!!loggedUser ? <AvatarButton user={loggedUser} /> : <SignInButton />}
+			{loggedUser ? <AvatarButton user={loggedUser} /> : <SignInButton />}
 		</header>
 	);
 };

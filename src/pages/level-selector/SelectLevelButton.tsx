@@ -35,11 +35,12 @@ const SelectLevelButton = (props: Props): JSX.Element => {
 			sx={{
 				width: '100%',
 				minWidth: 20,
-				backgroundColor: muiPalette.secondary.main,
+				backgroundColor: muiPalette.primary.dark,
 				fontSize: 20,
 				color: 'white',
 				fontWeight: 'bold',
 				fontFamily: 'YellowCandy',
+				padding: '0.75rem',
 				'&:hover': {
 					backgroundColor: muiPalette.tertiary.dark,
 				},
@@ -60,6 +61,3 @@ const SelectLevelButton = (props: Props): JSX.Element => {
 };
 
 export default SelectLevelButton;
-function unmountAnimation(arg0: () => any) {
-	throw new Error('Function not implemented.');
-}

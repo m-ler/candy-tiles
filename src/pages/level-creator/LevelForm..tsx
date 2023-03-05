@@ -5,15 +5,15 @@ import { BsSnow } from 'react-icons/bs';
 import { MdIcecream } from 'react-icons/md';
 import { GiBrickWall } from 'react-icons/gi';
 import TextFieldMain from '../../mui/components/TextFieldMain';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { levelRulesState } from './store/levelRules';
 
 const LevelForm = () => {
-	const setLevelRules = useSetRecoilState(levelRulesState);
+	const [levelRules, setLevelRules] = useRecoilState(levelRulesState);
 
 	return (
-		<Grid container spacing={2}>
-			<Grid item xs={12} sm={6} md={2.4}>
+		<Grid container spacing={2} columns={{ xs: 2, sm: 3, md: 5 }}>
+			<Grid item xs={1}>
 				<TextFieldMain
 					onChange={(e) =>
 						setLevelRules((state) => ({
@@ -24,8 +24,7 @@ const LevelForm = () => {
 					id="target-score"
 					label="Target score"
 					variant="filled"
-					type="number"
-					defaultValue={100}
+					value={levelRules.targetScore}
 					inputProps={{
 						inputMode: 'numeric',
 						min: 100,
@@ -39,7 +38,7 @@ const LevelForm = () => {
 					}}
 				></TextFieldMain>
 			</Grid>
-			<Grid item xs={12} sm={6} md={2.4}>
+			<Grid item xs={1}>
 				<TextFieldMain
 					onChange={(e) =>
 						setLevelRules((state) => ({
@@ -51,7 +50,7 @@ const LevelForm = () => {
 					label="Moves"
 					variant="filled"
 					type="number"
-					defaultValue={10}
+					value={levelRules.maximumMoves}
 					inputProps={{
 						inputMode: 'numeric',
 						min: 1,
@@ -65,7 +64,7 @@ const LevelForm = () => {
 					}}
 				></TextFieldMain>
 			</Grid>
-			<Grid item xs={12} sm={6} md={2.4}>
+			<Grid item xs={1}>
 				<TextFieldMain
 					onChange={(e) =>
 						setLevelRules((state) => ({
@@ -80,7 +79,7 @@ const LevelForm = () => {
 					label="Ice tiles"
 					variant="filled"
 					type="number"
-					defaultValue={0}
+					value={levelRules.tasks.iceTiles}
 					inputProps={{
 						inputMode: 'numeric',
 						min: 0,
@@ -94,7 +93,7 @@ const LevelForm = () => {
 					}}
 				></TextFieldMain>
 			</Grid>
-			<Grid item xs={12} sm={6} md={2.4}>
+			<Grid item xs={1}>
 				<TextFieldMain
 					onChange={(e) =>
 						setLevelRules((state) => ({
@@ -109,7 +108,7 @@ const LevelForm = () => {
 					label="Rock tiles"
 					variant="filled"
 					type="number"
-					defaultValue={0}
+					value={levelRules.tasks.rockTiles}
 					inputProps={{
 						inputMode: 'numeric',
 						min: 0,
@@ -123,7 +122,7 @@ const LevelForm = () => {
 					}}
 				></TextFieldMain>
 			</Grid>
-			<Grid item xs={12} sm={6} md={2.4}>
+			<Grid item xs={1}>
 				<TextFieldMain
 					onChange={(e) =>
 						setLevelRules((state) => ({
@@ -138,7 +137,7 @@ const LevelForm = () => {
 					label="Ice creams"
 					variant="filled"
 					type="number"
-					defaultValue={0}
+					value={levelRules.tasks.iceCreams}
 					inputProps={{
 						inputMode: 'numeric',
 						min: 0,

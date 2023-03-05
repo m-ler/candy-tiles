@@ -1,9 +1,6 @@
-import { Button, Tab, Tabs } from '@mui/material';
+import { Container, Grid, Paper, Stack, Tab, Tabs } from '@mui/material';
 import anime from 'animejs';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import useMountAnimation from '../../hooks/useMountAnimation';
-import useUnmountAnimation from '../../hooks/useUnmountAnimation';
 import SelectLevelButton from './SelectLevelButton';
 import TabPanel from '../../mui/components/TabPanel';
 import { useRecoilValue } from 'recoil';
@@ -22,18 +19,11 @@ const animateButtons = () => {
 
 const LevelSelectorPage = () => {
 	const [selectedTab, setSelectedTab] = useState(0);
-	const navigate = useNavigate();
-	useMountAnimation('#level-selector-container');
-	const unmountAnimation = useUnmountAnimation('#level-selector-container');
 	const completedLevels = useRecoilValue(completedLevelsState);
 
 	useEffect(() => {
 		selectedTab === 0 && animateButtons();
 	}, [selectedTab]);
-
-	const onCreateClick = () => {
-		unmountAnimation(() => navigate('/level-creator'));
-	};
 
 	const onTabChange = (event: React.SyntheticEvent, newValue: number) => {
 		setSelectedTab(newValue);
@@ -42,36 +32,39 @@ const LevelSelectorPage = () => {
 	return (
 		<>
 			<Header />
-			<div className="flex flex-col bg-s-dark rounded-lg overflow-hidden w-[min(800px,100%)] m-auto" id="level-selector-container">
-				<Tabs
-					value={selectedTab}
-					onChange={onTabChange}
-					centered
-					variant="fullWidth"
-					sx={{ minHeight: '64px' }}
-					className="bg-black/20 px-[16px] py-[8px] sticky top-0 left-0"
-					textColor="primary"
-					indicatorColor="primary"
-				>
-					<Tab label="Levels"></Tab>
-					<Tab label="Online levels"></Tab>
-				</Tabs>
-				<TabPanel className="bg-black/20 px-[16px] py-[8px] overflow-auto" index={0} value={selectedTab}>
-					<div className="grid gap-[15px] items-center pb-[12px]" style={{ gridTemplateColumns: 'repeat( auto-fill, minmax(100px,1fr) )' }}>
-						{new Array(50).fill(0).map((x, index) => {
-							const levelAvaliable = index === 0 || completedLevels.main.some((x) => x.id === index);
-							const stars = completedLevels.main.find((x) => x.id === index + 1)?.stars || 0;
-							return <SelectLevelButton key={index} locked={!levelAvaliable} stars={stars} levelId={index + 1} />;
-						})}
-					</div>
-				</TabPanel>
+			<Container maxWidth="lg">
+				<Stack component={Paper} overflow="hidden">
+					<Tabs
+						value={selectedTab}
+						onChange={onTabChange}
+						centered
+						variant="fullWidth"
+						sx={{ minHeight: '64px' }}
+						className="px-[16px] py-[8px] sticky top-0 left-0"
+						textColor="primary"
+						indicatorColor="primary"
+					>
+						<Tab label="Main Levels"></Tab>
+						<Tab label="Online levels"></Tab>
+						<Tab label="My levels"></Tab>
+					</Tabs>
+					<TabPanel className="overflow-auto" index={0} value={selectedTab}>
+						<Grid container columns={{ xs: 2, sm: 4, md: 8 }} spacing={2} padding={2}>
+							{new Array(50).fill(0).map((x, index) => {
+								const levelAvaliable = index === 0 || completedLevels.main.some((x) => x.id === index);
+								const stars = completedLevels.main.find((x) => x.id === index + 1)?.stars || 0;
+								return (
+									<Grid item xs={1} key={index}>
+										<SelectLevelButton locked={!levelAvaliable} stars={stars} levelId={index + 1} />{' '}
+									</Grid>
+								);
+							})}
+						</Grid>
+					</TabPanel>
 
-				<TabPanel className="bg-black/20 px-[16px] py-[8px]" index={1} value={selectedTab}>
-					<Button variant="contained" sx={{ fontWeight: 'bolder', marginLeft: 'auto' }} disableElevation onClick={onCreateClick}>
-						Create
-					</Button>
-				</TabPanel>
-			</div>
+					<TabPanel className="bg-black/20 px-[16px] py-[8px]" index={1} value={selectedTab}></TabPanel>
+				</Stack>
+			</Container>
 		</>
 	);
 };

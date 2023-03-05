@@ -72,7 +72,7 @@ const AvatarButton = ({ user, setUploadingAvatar }: Props) => {
 					justifyContent="center"
 					sx={{ backgroundColor: 'rgba(0,0,0,0.45)', pointerEvents: 'none' }}
 				>
-					<MdModeEditOutline size={38} />
+					<MdModeEditOutline size={38} color="white" />
 				</Box>
 				<input type="file" className="hidden" onChange={onAvatarImgInputChange} ref={avatarImgInputRef} accept=".png, .jpg, .jpeg"></input>
 			</Box>

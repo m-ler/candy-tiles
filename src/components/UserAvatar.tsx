@@ -1,4 +1,4 @@
-import { Avatar, IconButton, IconButtonProps } from '@mui/material';
+import { Avatar, IconButton } from '@mui/material';
 import { useRecoilValue } from 'recoil';
 import { loggedUserState } from '../store/loggedUser';
 
@@ -15,7 +15,14 @@ const UserAvatar = ({ size, fontSize, onClick }: Props) => {
 		<IconButton onClick={onClick}>
 			<Avatar
 				src={user.profile.avatarURL}
-				sx={{ width: size, height: size, bgcolor: 'tertiary.dark', fontWeight: 'bolder', color: 'white', fontSize }}
+				sx={{
+					width: size,
+					height: size,
+					background: 'linear-gradient(45deg, #28c9d4, #EA915F)',
+					fontWeight: 'bolder',
+					color: 'white',
+					fontSize,
+				}}
 			>
 				{user.profile.firstLetter}
 			</Avatar>

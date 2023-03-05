@@ -1,4 +1,4 @@
-import { Button, IconButton } from '@mui/material';
+import { IconButton } from '@mui/material';
 import { MdAccountCircle } from 'react-icons/md';
 import { useSetRecoilState } from 'recoil';
 import Tooltip from '../../mui/components/Tooltip';
@@ -10,8 +10,8 @@ const SignInButton = () => {
 
 	return (
 		<Tooltip title="Sign in">
-			<IconButton onClick={signInButtonOnClick}>
-				<MdAccountCircle size={32}/>
+			<IconButton onClick={signInButtonOnClick} sx={{ color: 'primary.light' }}>
+				<MdAccountCircle size={32} />
 			</IconButton>
 		</Tooltip>
 	);
