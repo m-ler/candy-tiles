@@ -21,7 +21,7 @@ const SelectLevelButton = (props: Props): JSX.Element => {
 
 	const handleClick = (): void => {
 		playAudio({ audioName: 'buttonClick1', volume: 0.5 });
-		navigate(`/level/${props.levelId}`);
+		navigate(`/level/main/${props.levelId}`);
 	};
 
 	return (

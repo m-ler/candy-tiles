@@ -32,6 +32,7 @@ export interface Database {
           dislikes: number | null
           id: number
           likes: number | null
+          timesPlayed: number
           title: string | null
           userId: string | null
         }
@@ -40,6 +41,7 @@ export interface Database {
           dislikes?: number | null
           id?: number
           likes?: number | null
+          timesPlayed?: number
           title?: string | null
           userId?: string | null
         }
@@ -48,6 +50,7 @@ export interface Database {
           dislikes?: number | null
           id?: number
           likes?: number | null
+          timesPlayed?: number
           title?: string | null
           userId?: string | null
         }

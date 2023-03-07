@@ -37,6 +37,7 @@ const App = () => {
 									<Route path="/home" element={<HomePage />}></Route>
 									<Route path="/levels" element={<LevelSelectorPage />}></Route>
 									<Route path="/level/:levelId" element={<GamePage />}></Route>
+									<Route path="/level/main/:levelId" element={<GamePage isMainLevel />}></Route>
 									<Route path="/level-creator" element={<LevelCreatorPage />}></Route>
 									<Route
 										path="/recover-password"

@@ -1,10 +1,16 @@
 import { supabase } from '../config/supabase-config';
 import { getRequest } from '../utils/fetch-request';
 
-export const getLevel = (levelId: string, userId?: string): Promise<LevelData> => {
-	const userLevel = !!userId;
-	const url = userLevel ? '' : `/levels/${levelId}.json`;
-	return getRequest<LevelData>(url);
+export const getMainLevel = async (levelId: string) => {
+	const mainLevelURL = `/levels/${levelId}.json`;
+	return getRequest<LevelData>(mainLevelURL);
+};
+
+export const getOnlineLevel = async (levelId: string) => {
+	const { data } = await supabase.from('level_files').select('file').eq('id', levelId);
+	const file = data?.[0]?.file?.toString();
+	if (!file) throw new Error('Level request failed');
+	return JSON.parse(file) as LevelData;
 };
 
 export type UploadLevelData = {
@@ -21,6 +27,7 @@ export const uploadLevel = async (levelData: UploadLevelData) => {
 			likes: 0,
 			dislikes: 0,
 			userId: levelData.userId,
+			timesPlayed: 0,
 		})
 		.select();
 

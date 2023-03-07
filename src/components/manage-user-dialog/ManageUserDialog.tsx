@@ -7,6 +7,7 @@ import { Stack } from '@mui/system';
 import AvatarButton from './AvatarButton';
 import { useState } from 'react';
 import { showDeleteAccountDialogState } from './../../store/showDeleteAccountDialog';
+import { blueGrey } from '@mui/material/colors';
 
 const ManageUserDialog = () => {
 	const [showManageUserDialog, setShowManageUserDialog] = useRecoilState(showManageUserDialogState);
@@ -29,10 +30,12 @@ const ManageUserDialog = () => {
 						<AvatarButton user={user} setUploadingAvatar={setUploadingAvatar} />
 
 						<Stack justifyContent="center">
-							<Typography variant="h6" lineHeight="1.35rem" sx={{ fontWeight: 'bolder' }}>
+							<Typography variant="h6" lineHeight="1.35rem" sx={{ fontWeight: 'bolder' }} color={blueGrey[800]}>
 								{user.profile.nickname}
 							</Typography>
-							<Typography variant="caption" marginTop="0.5rem">{user.profile.email}</Typography>
+							<Typography variant="caption" marginTop="0.5rem" color={blueGrey[500]}>
+								{user.profile.email}
+							</Typography>
 						</Stack>
 					</Stack>
 					<Divider />

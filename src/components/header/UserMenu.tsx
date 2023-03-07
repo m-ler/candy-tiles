@@ -1,4 +1,5 @@
 import { Divider, ListItemIcon, Menu, MenuItem, Stack, Typography } from '@mui/material';
+import { blueGrey } from '@mui/material/colors';
 import { MdLogout } from 'react-icons/md';
 import { useSetRecoilState } from 'recoil';
 import useSignOut from '../../hooks/useSignOut';
@@ -27,10 +28,10 @@ const UserMenu = ({ anchorEl, user, onMenuClose }: Props) => {
 				<Stack direction="row" spacing={2}>
 					<UserAvatar size={56} fontSize={28} />
 					<Stack justifyContent="center">
-						<Typography variant="subtitle1" sx={{ fontWeight: 'bolder' }}>
+						<Typography variant="subtitle1" color={blueGrey[800]} sx={{ fontWeight: 'bolder' }}>
 							{user.profile.nickname}
 						</Typography>
-						<Typography variant="caption">{user.profile.email}</Typography>
+						<Typography variant="caption" fontSize="0.75rem" color={blueGrey[500]}>{user.profile.email}</Typography>
 					</Stack>
 				</Stack>
 			</MenuItem>

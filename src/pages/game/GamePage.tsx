@@ -11,12 +11,16 @@ import { completedLevelsState } from '../../store/completedLevels';
 import useToast from '../../hooks/useToast';
 import Header from '../../components/header';
 
-const GamePage = () => {
+type Props = {
+	isMainLevel?: boolean;
+};
+
+const GamePage = ({ isMainLevel }: Props) => {
 	const createToast = useToast();
 	const navigate = useNavigate();
 	const queryClient = useQueryClient();
 	const selectedLevelId = useParams()['levelId'] || '';
-	const selectedLevelQuery = useSelectedLevel(selectedLevelId);
+	const selectedLevelQuery = useSelectedLevel(!!isMainLevel, selectedLevelId);
 	const completedLevels = useRecoilValue(completedLevelsState);
 	let levelAvaliable = true;
 
@@ -31,10 +35,9 @@ const GamePage = () => {
 	});
 
 	const checkLevelAvailability = () => {
-		const levelType = selectedLevelQuery.data?.type;
 		const levelId = selectedLevelQuery.data?.id;
 		const levelLocked = !completedLevels.main.some((x) => x.id === (levelId || 0) - 1);
-		levelAvaliable = levelType === 'Online' || !levelLocked || levelId === 1;
+		levelAvaliable = !isMainLevel || !levelLocked || levelId === 1;
 
 		if (levelAvaliable) return;
 		createToast({ message: 'Level locked', severity: 'error', durationMs: 3000 });
