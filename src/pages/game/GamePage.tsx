@@ -10,6 +10,7 @@ import { useRecoilValue } from 'recoil';
 import { completedLevelsState } from '../../store/completedLevels';
 import useToast from '../../hooks/useToast';
 import Header from '../../components/header';
+import { incrementOnlineLevelTimesPlayed } from '../../api/levels';
 
 type Props = {
 	isMainLevel?: boolean;
@@ -25,6 +26,7 @@ const GamePage = ({ isMainLevel }: Props) => {
 	let levelAvaliable = true;
 
 	useEffect(() => {
+		incrementOnlineLevelTimesPlayed(parseInt(selectedLevelId));
 		return () => {
 			queryClient.removeQueries(['selected-level']);
 		};

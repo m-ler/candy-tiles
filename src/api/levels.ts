@@ -38,7 +38,14 @@ export const uploadLevel = async (levelData: UploadLevelData) => {
 };
 
 export const getOnlineLevels = async () =>
-	supabase.from('levels').select(`
+	supabase
+		.from('levels')
+		.select(
+			`
     *,
     user:userId ( * )
-  `);
+  `,
+		)
+		.order('created_at', { ascending: false });
+
+export const incrementOnlineLevelTimesPlayed = async (levelId: number) => supabase.rpc('increment_level_times_played', { row_id: levelId });

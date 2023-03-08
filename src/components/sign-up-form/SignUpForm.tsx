@@ -60,7 +60,7 @@ const SignUpForm = ({ onClose }: Props) => {
 					InputProps={{
 						startAdornment: (
 							<InputAdornment position="start">
-								<MdBorderColor className="max-w-[16px]"></MdBorderColor>
+								{usernameValidation.isLoading ? <InputAdornmentLoader /> : <MdBorderColor className="max-w-[16px]"></MdBorderColor>}
 							</InputAdornment>
 						),
 					}}
@@ -72,7 +72,9 @@ const SignUpForm = ({ onClose }: Props) => {
 					helperText={passwordValidation.data?.validationMessage}
 					error={!passwordValidation.data?.valid && passwordValidation.isSuccess}
 					onBlur={passwordOnBlur}
-					onChange={(e) => {setPasswordValue(e.target.value) }}
+					onChange={(e) => {
+						setPasswordValue(e.target.value);
+					}}
 					InputProps={{
 						startAdornment: (
 							<InputAdornment position="start">

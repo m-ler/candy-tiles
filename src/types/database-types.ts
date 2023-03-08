@@ -92,7 +92,12 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      increment_level_times_played: {
+        Args: {
+          row_id: number
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

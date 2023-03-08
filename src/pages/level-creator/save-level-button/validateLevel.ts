@@ -24,7 +24,7 @@ const createValidationList = (): void => {
 		{ validate: validateIceTiles, failReason: `Level must contain at least ${iceTiles} ice ${iceTiles === 1 ? 'tile' : 'tiles'}.` },
 		{ validate: validateRockTiles, failReason: `Level must contain at least ${rockTiles} rock ${rockTiles === 1 ? 'tile' : 'tiles'}.` },
 		{ validate: validateIceCreams, failReason: `Level must contain at least ${iceCreams} ice ${iceCreams === 1 ? 'cream' : 'creams'}.` },
-		{ validate: validateEmptyTitle, failReason: 'Level must have a title' },
+		{ validate: validateEmptyTitle, failReason: 'Level title is empty.' },
 	];
 };
 

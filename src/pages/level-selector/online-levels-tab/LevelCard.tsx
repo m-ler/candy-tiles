@@ -18,7 +18,7 @@ const LevelCard = ({ level }: Props) => {
 
 	return (
 		<Slide in={true}>
-			<Card sx={{ border: '1px solid', borderColor: blueGrey[50] }} elevation={0}>
+			<Card sx={{ border: '1px solid', borderColor: blueGrey[50], flexShrink: 0 }} elevation={0}>
 				<CardActionArea onClick={() => navigate(`/level/${level.id}`)}>
 					<Stack padding={2} gap={2} display="flex" justifyContent="space-between" sx={{ flexDirection: { xs: 'column', sm: 'row' } }}>
 						<Stack direction="row" alignItems="center" spacing={2}>
@@ -66,7 +66,7 @@ const LevelCard = ({ level }: Props) => {
 							<Tooltip title="Times played">
 								<Stack direction="row" alignItems="center" spacing={0.6}>
 									<MdRemoveRedEye />
-									<Typography fontSize="0.75rem">{numberFormatter.format(349)}</Typography>
+									<Typography fontSize="0.75rem">{numberFormatter.format(level.timesPlayed)}</Typography>
 								</Stack>
 							</Tooltip>
 						</Stack>

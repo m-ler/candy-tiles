@@ -1,13 +1,14 @@
 import { Container, Paper, Stack, Tab, Tabs } from '@mui/material';
 import anime from 'animejs';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import TabPanel from '../../mui/components/TabPanel';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { completedLevelsState } from '../../store/completedLevels';
 import Header from '../../components/header';
 import MainLevelsTab from './main-levels-tab';
 import OnlineLevelsTab from './online-levels-tab';
 import { grey } from '@mui/material/colors';
+import { selectedTabState } from './store/selectedTab';
 
 const animateButtons = () => {
 	anime({
@@ -20,7 +21,7 @@ const animateButtons = () => {
 };
 
 const LevelSelectorPage = () => {
-	const [selectedTab, setSelectedTab] = useState(0);
+	const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState);
 	const completedLevels = useRecoilValue(completedLevelsState);
 
 	useEffect(() => {
@@ -54,7 +55,7 @@ const LevelSelectorPage = () => {
 						<MainLevelsTab completedLevels={completedLevels} />
 					</TabPanel>
 
-					<TabPanel className="overflow-auto" index={1} value={selectedTab}>
+					<TabPanel className="overflow-hidden" index={1} value={selectedTab}>
 						<OnlineLevelsTab />
 					</TabPanel>
 				</Stack>
