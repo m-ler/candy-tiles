@@ -1,7 +1,7 @@
 import { Avatar, Card, CardActionArea, Slide, Typography } from '@mui/material';
 import { blueGrey, grey, red, yellow } from '@mui/material/colors';
 import { Stack } from '@mui/system';
-import { MdRemoveRedEye, MdStarRate } from 'react-icons/md';
+import { MdBarChart, MdStarRate } from 'react-icons/md';
 import { ImHeart, ImHeartBroken } from 'react-icons/im';
 import { useNavigate } from 'react-router-dom';
 import { LevelWithUserDB } from '../../../types/database-aliases';
@@ -65,7 +65,7 @@ const LevelCard = ({ level }: Props) => {
 							</Tooltip>
 							<Tooltip title="Times played">
 								<Stack direction="row" alignItems="center" spacing={0.6}>
-									<MdRemoveRedEye />
+									<MdBarChart />
 									<Typography fontSize="0.75rem">{numberFormatter.format(level.timesPlayed)}</Typography>
 								</Stack>
 							</Tooltip>

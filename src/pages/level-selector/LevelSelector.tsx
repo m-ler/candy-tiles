@@ -1,7 +1,6 @@
-import { Container, Paper, Stack, Tab, Tabs } from '@mui/material';
+import { Box, Container, Paper, Stack, Tab, Tabs } from '@mui/material';
 import anime from 'animejs';
 import { useEffect } from 'react';
-import TabPanel from '../../mui/components/TabPanel';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { completedLevelsState } from '../../store/completedLevels';
 import Header from '../../components/header';
@@ -9,6 +8,7 @@ import MainLevelsTab from './main-levels-tab';
 import OnlineLevelsTab from './online-levels-tab';
 import { grey } from '@mui/material/colors';
 import { selectedTabState } from './store/selectedTab';
+import SwipeableViews from 'react-swipeable-views';
 
 const animateButtons = () => {
 	anime({
@@ -28,9 +28,8 @@ const LevelSelectorPage = () => {
 		selectedTab === 0 && animateButtons();
 	}, [selectedTab]);
 
-	const onTabChange = (event: React.SyntheticEvent, newValue: number) => {
-		setSelectedTab(newValue);
-	};
+	const onTabChange = (e: React.SyntheticEvent, newValue: number) => setSelectedTab(newValue);
+	const onSwipeableChange = (index: number) => setSelectedTab(index);
 
 	return (
 		<>
@@ -46,18 +45,27 @@ const LevelSelectorPage = () => {
 						className="px-[16px] py-[8px] sticky top-0 left-0"
 						textColor="primary"
 						indicatorColor="primary"
+						style={{ flexShrink: 0 }}
 					>
 						<Tab label="Main Levels"></Tab>
 						<Tab label="Online levels"></Tab>
 						<Tab label="My levels"></Tab>
 					</Tabs>
-					<TabPanel className="overflow-auto" index={0} value={selectedTab}>
-						<MainLevelsTab completedLevels={completedLevels} />
-					</TabPanel>
+					<SwipeableViews
+						index={selectedTab}
+						onChangeIndex={onSwipeableChange}
+						containerStyle={{
+							transition: '0.35s ',
+						}}
+					>
+						<Box className="overflow-hidden" display={selectedTab === 0 ? 'block' : 'none'}>
+							<MainLevelsTab completedLevels={completedLevels} />
+						</Box>
 
-					<TabPanel className="overflow-hidden" index={1} value={selectedTab}>
-						<OnlineLevelsTab />
-					</TabPanel>
+						<Box className="overflow-hidden" display={selectedTab === 1 ? 'block' : 'none'}>
+							<OnlineLevelsTab />
+						</Box>
+					</SwipeableViews>
 				</Stack>
 			</Container>
 		</>

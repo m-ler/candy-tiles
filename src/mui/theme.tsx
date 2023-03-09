@@ -72,5 +72,14 @@ export const muiTheme = createTheme({
 				},
 			},
 		},
+		MuiPagination: {
+			styleOverrides: {
+				root: {
+					'& .MuiPaginationItem-page.Mui-selected': {
+						fontWeight: '700',
+					},
+				},
+			},
+		},
 	},
 });

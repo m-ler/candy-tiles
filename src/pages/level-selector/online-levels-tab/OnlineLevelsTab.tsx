@@ -1,32 +1,45 @@
 import { Box, CircularProgress, Pagination } from '@mui/material';
 import { Stack } from '@mui/system';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useMutation } from 'react-query';
 import { getOnlineLevels } from '../../../api/levels';
 import { LevelWithUserDB } from '../../../types/database-aliases';
 import LevelCard from './LevelCard';
 
+const LEVELS_PER_PAGE = 5;
+
 const OnlineLevelsTab = () => {
-	const onlineLevelsMutation = useMutation(() => getOnlineLevels());
+	const [currentPage, setCurrentPage] = useState(1);
+	const onlineLevels = useMutation((page: number) => getOnlineLevels(page, LEVELS_PER_PAGE));
 	useEffect(() => {
-		onlineLevelsMutation.mutate();
-	}, []);
+		onlineLevels.mutate(currentPage);
+	}, [currentPage]);
+
+	const paginationCount = Math.ceil((onlineLevels.data?.count || 0) / LEVELS_PER_PAGE);
 
 	return (
 		<Stack overflow="hidden" maxHeight="100%">
 			<Stack spacing={1} padding={2} overflow="auto">
-				{onlineLevelsMutation.isLoading && (
+				{onlineLevels.isLoading && (
 					<Box display="flex" justifyContent="center">
 						<CircularProgress />
 					</Box>
 				)}
-				{((onlineLevelsMutation.data?.data || []) as LevelWithUserDB[]).map((level) => (
+				{((onlineLevels.data?.data || []) as LevelWithUserDB[]).map((level) => (
 					<LevelCard key={level.id} level={level} />
 				))}
 			</Stack>
-			<Box display="flex" padding={2}>
-				<Pagination page={1} count={2} color="secondary" sx={{ margin: '0 auto' }}></Pagination>
-			</Box>
+			{paginationCount > 1 && (
+				<Box display="flex" padding={2}>
+					<Pagination
+						page={currentPage}
+						onChange={(e, page) => setCurrentPage(page)}
+						count={paginationCount}
+						color="secondary"
+						sx={{ margin: '0 auto' }}
+					></Pagination>
+				</Box>
+			)}
 		</Stack>
 	);
 };

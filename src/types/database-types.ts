@@ -9,27 +9,11 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
-      level_files: {
-        Row: {
-          file: Json | null
-          id: number
-          levelId: number | null
-        }
-        Insert: {
-          file?: Json | null
-          id?: number
-          levelId?: number | null
-        }
-        Update: {
-          file?: Json | null
-          id?: number
-          levelId?: number | null
-        }
-      }
       levels: {
         Row: {
           created_at: string | null
           dislikes: number | null
+          file: Json | null
           id: number
           likes: number | null
           timesPlayed: number
@@ -39,6 +23,7 @@ export interface Database {
         Insert: {
           created_at?: string | null
           dislikes?: number | null
+          file?: Json | null
           id?: number
           likes?: number | null
           timesPlayed?: number
@@ -48,6 +33,7 @@ export interface Database {
         Update: {
           created_at?: string | null
           dislikes?: number | null
+          file?: Json | null
           id?: number
           likes?: number | null
           timesPlayed?: number
