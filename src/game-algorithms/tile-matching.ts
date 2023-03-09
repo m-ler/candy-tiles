@@ -461,11 +461,14 @@ export const matchAllCandiesOfColor = (
 };
 
 export const levelHasPossibleCombinations = (itemList: readonly LevelItem[], tileList: readonly LevelTile[]): boolean => {
-	const activeChocolateItem = itemList.some((item) => item?.type === 'Chocolate');
-	if (activeChocolateItem) return true;
-
 	const interactableTileTypes: string[] = ['Normal', 'Ice'];
 	const interactableItemTypes: string[] = ['Candy', 'SuperCandy', 'Chocolate'];
+
+	const avaliableChocolateItem = itemList.some(
+		(item, index) => item?.type === 'Chocolate' && interactableItemTypes.includes(tileList[index]?.type || ''),
+	);
+	if (avaliableChocolateItem) return true;
+
 	const interactableTilesIndices = findAllIndeces(tileList, (tile) => interactableTileTypes.includes(tile?.type || ''));
 	const interactableItems = [...itemList].map((x, i) =>
 		interactableTilesIndices.includes(i) && interactableItemTypes.includes(x?.type || '') ? x : null,
