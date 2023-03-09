@@ -34,16 +34,21 @@ export const getOnlineLevels = async (page: number, size: number) => {
 	const { from, to } = getPagination(page, size - 1);
 	return supabase
 		.from('levels')
-		.select(
-			`
-			id, created_at, userId, title, likes, dislikes, timesPlayed
-    ,
-    user:userId ( * )
-  `,
-			{ count: 'exact' },
-		)
+		.select(`id, created_at, userId, title, likes, dislikes, timesPlayed,user:userId ( * )`, { count: 'exact' })
 		.order('created_at', { ascending: false })
 		.range(from, to);
 };
 
+export const getUserLevels = async (page: number, size: number, userId: string) => {
+	const { from, to } = getPagination(page, size - 1);
+	return supabase
+		.from('levels')
+		.select(`id, created_at, userId, title, likes, dislikes, timesPlayed,user:userId ( * )`, { count: 'exact' })
+		.order('created_at', { ascending: false })
+		.range(from, to)
+		.eq('userId', userId);
+};
+
 export const incrementOnlineLevelTimesPlayed = async (levelId: number) => supabase.rpc('increment_level_times_played', { row_id: levelId });
+
+export const deleteLevel = async (levelId: number) => supabase.from('levels').delete().eq('id', levelId);

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useMutation } from 'react-query';
 import { getOnlineLevels } from '../../../api/levels';
 import { LevelWithUserDB } from '../../../types/database-aliases';
-import LevelCard from './LevelCard';
+import LevelCard from '../LevelCard';
 
 const LEVELS_PER_PAGE = 5;
 

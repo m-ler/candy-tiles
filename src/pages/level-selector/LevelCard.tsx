@@ -4,13 +4,15 @@ import { Stack } from '@mui/system';
 import { MdBarChart, MdStarRate } from 'react-icons/md';
 import { ImHeart, ImHeartBroken } from 'react-icons/im';
 import { useNavigate } from 'react-router-dom';
-import { LevelWithUserDB } from '../../../types/database-aliases';
-import Tooltip from '../../../mui/components/Tooltip';
+import { LevelWithUserDB } from '../../types/database-aliases';
+import Tooltip from '../../mui/components/Tooltip';
 
 type Props = {
 	level: LevelWithUserDB;
+	actions?: React.ReactNode;
 };
-const LevelCard = ({ level }: Props) => {
+
+const LevelCard = ({ level, actions }: Props) => {
 	const navigate = useNavigate();
 	const levelDate = new Date(level.created_at || '').toLocaleDateString().slice(0, 10);
 	const karma = (level.likes || 0) - (level.dislikes || 0);
@@ -18,7 +20,10 @@ const LevelCard = ({ level }: Props) => {
 
 	return (
 		<Slide in={true}>
-			<Card sx={{ border: '1px solid', borderColor: blueGrey[50], flexShrink: 0 }} elevation={0}>
+			<Card
+				sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, border: '1px solid', borderColor: blueGrey[50], flexShrink: 0 }}
+				elevation={0}
+			>
 				<CardActionArea onClick={() => navigate(`/level/${level.id}`)}>
 					<Stack padding={2} gap={2} display="flex" justifyContent="space-between" sx={{ flexDirection: { xs: 'column', sm: 'row' } }}>
 						<Stack direction="row" alignItems="center" spacing={2}>
@@ -44,34 +49,39 @@ const LevelCard = ({ level }: Props) => {
 								</Tooltip>
 							</Stack>
 						</Stack>
-						<Stack
-							gap={1.5}
-							alignItems="flex-end"
-							color={blueGrey[500]}
-							borderTop="solid"
-							borderColor={blueGrey[50]}
-							sx={{
-								flexDirection: { xs: 'row', sm: 'column' },
-								justifyContent: { xs: 'left', sm: 'center' },
-								borderTopWidth: { xs: '1px', sm: '0px' },
-								paddingTop: { xs: 2, sm: 0 },
-							}}
-						>
-							<Tooltip title="Karma">
-								<Stack direction="row" alignItems="center" spacing={0.6}>
-									{karma >= 0 ? <ImHeart color={red[400]} /> : <ImHeartBroken color={blueGrey[900]} />}
-									<Typography fontSize="0.75rem">{numberFormatter.format(karma)}</Typography>
-								</Stack>
-							</Tooltip>
-							<Tooltip title="Times played">
-								<Stack direction="row" alignItems="center" spacing={0.6}>
-									<MdBarChart />
-									<Typography fontSize="0.75rem">{numberFormatter.format(level.timesPlayed)}</Typography>
-								</Stack>
-							</Tooltip>
-						</Stack>
 					</Stack>
 				</CardActionArea>
+				<Stack
+					gap={1.5}
+					alignItems="center"
+					color={blueGrey[500]}
+					borderTop="solid"
+					borderColor={blueGrey[50]}
+					margin="auto 0"
+					direction="row"
+					sx={{
+						justifyContent: { xs: 'left', sm: 'center' },
+						borderTopWidth: { xs: '1px', sm: '0px' },
+						paddingY: { xs: 2, sm: 0 },
+						paddingX: 2,
+					}}
+				>
+					<Stack gap={1} sx={{ flexDirection: { xs: 'row', sm: 'column' } }}>
+						<Tooltip title="Karma">
+							<Stack direction="row" alignItems="center" spacing={0.6}>
+								{karma >= 0 ? <ImHeart color={red[400]} /> : <ImHeartBroken color={blueGrey[900]} />}
+								<Typography fontSize="0.75rem">{numberFormatter.format(karma)}</Typography>
+							</Stack>
+						</Tooltip>
+						<Tooltip title="Times played">
+							<Stack direction="row" alignItems="center" spacing={0.6}>
+								<MdBarChart />
+								<Typography fontSize="0.75rem">{numberFormatter.format(level.timesPlayed)}</Typography>
+							</Stack>
+						</Tooltip>
+					</Stack>
+					{actions}
+				</Stack>
 			</Card>
 		</Slide>
 	);

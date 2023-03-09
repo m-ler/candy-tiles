@@ -9,6 +9,7 @@ import OnlineLevelsTab from './online-levels-tab';
 import { grey } from '@mui/material/colors';
 import { selectedTabState } from './store/selectedTab';
 import SwipeableViews from 'react-swipeable-views';
+import MyLevelsTab from './my-levels-tab';
 
 const animateButtons = () => {
 	anime({
@@ -64,6 +65,10 @@ const LevelSelectorPage = () => {
 
 						<Box className="overflow-hidden" display={selectedTab === 1 ? 'block' : 'none'}>
 							<OnlineLevelsTab />
+						</Box>
+
+						<Box className="overflow-hidden" display={selectedTab === 2 ? 'block' : 'none'}>
+							<MyLevelsTab />
 						</Box>
 					</SwipeableViews>
 				</Stack>
