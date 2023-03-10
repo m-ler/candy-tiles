@@ -31,7 +31,7 @@ const LevelCreatorPage = () => {
 				>
 					<div className="flex p-[12px] bg-black/20 border-b border-white/25">
 						<Tooltip title="Cancel">
-							<IconButton onClick={() => navigate('/')}>
+							<IconButton onClick={() => navigate(-1)}>
 								<MdArrowBack className="text-p-main"></MdArrowBack>
 							</IconButton>
 						</Tooltip>

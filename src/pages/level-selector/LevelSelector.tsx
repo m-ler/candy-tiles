@@ -10,6 +10,7 @@ import { grey } from '@mui/material/colors';
 import { selectedTabState } from './store/selectedTab';
 import SwipeableViews from 'react-swipeable-views';
 import MyLevelsTab from './my-levels-tab';
+import { loggedUserState } from '../../store/loggedUser';
 
 const animateButtons = () => {
 	anime({
@@ -24,6 +25,7 @@ const animateButtons = () => {
 const LevelSelectorPage = () => {
 	const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState);
 	const completedLevels = useRecoilValue(completedLevelsState);
+	const loggedUser = useRecoilValue(loggedUserState);
 
 	useEffect(() => {
 		selectedTab === 0 && animateButtons();
@@ -50,7 +52,7 @@ const LevelSelectorPage = () => {
 					>
 						<Tab label="Main Levels"></Tab>
 						<Tab label="Online levels"></Tab>
-						<Tab label="My levels"></Tab>
+						{!!loggedUser && <Tab label="My levels"></Tab>}
 					</Tabs>
 					<SwipeableViews
 						index={selectedTab}

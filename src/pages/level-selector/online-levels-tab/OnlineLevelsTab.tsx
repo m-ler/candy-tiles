@@ -3,8 +3,10 @@ import { Stack } from '@mui/system';
 import { useEffect, useState } from 'react';
 import { useMutation } from 'react-query';
 import { getOnlineLevels } from '../../../api/levels';
+import FetchErrorState from '../../../components/FetchErrorState';
 import { LevelWithUserDB } from '../../../types/database-aliases';
 import LevelCard from '../LevelCard';
+import EmptyState from './EmptyState';
 
 const LEVELS_PER_PAGE = 5;
 
@@ -16,6 +18,11 @@ const OnlineLevelsTab = () => {
 	}, [currentPage]);
 
 	const paginationCount = Math.ceil((onlineLevels.data?.count || 0) / LEVELS_PER_PAGE);
+
+	const noLevels = onlineLevels.data?.data?.length === 0;
+
+	if (onlineLevels.error || onlineLevels.data?.error) return <FetchErrorState />;
+	if (noLevels) return <EmptyState />;
 
 	return (
 		<Stack overflow="hidden" maxHeight="100%">

@@ -3,10 +3,12 @@ import { useEffect, useState } from 'react';
 import { useMutation } from 'react-query';
 import { useRecoilValue } from 'recoil';
 import { getUserLevels } from '../../../api/levels';
+import FetchErrorState from '../../../components/FetchErrorState';
 import { loggedUserState } from '../../../store/loggedUser';
 import { LevelWithUserDB } from '../../../types/database-aliases';
 import LevelCard from '../LevelCard';
 import DeleteLevelDialog from './DeleteLevelDialog';
+import EmptyState from './EmptyState';
 import LevelActions from './LevelActions';
 
 const LEVELS_PER_PAGE = 5;
@@ -16,10 +18,15 @@ const MyLevelsTab = () => {
 	const myLevels = useMutation((page: number) => getUserLevels(page, LEVELS_PER_PAGE, loggedUser?.auth.id || ''));
 	useEffect(() => {
 		!!loggedUser && myLevels.mutate(currentPage);
-	}, [currentPage]);
+	}, [currentPage, loggedUser?.auth.id]);
 
 	const paginationCount = Math.ceil((myLevels.data?.count || 0) / LEVELS_PER_PAGE);
 	const [deleteLevel, setDeleteLevel] = useState<LevelWithUserDB | null>(null);
+
+	const noLevels = myLevels.data?.data?.length === 0;
+
+	if (myLevels.error || myLevels.data?.error) return <FetchErrorState />;
+	if (noLevels) return <EmptyState />;
 
 	return (
 		<>

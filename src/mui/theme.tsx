@@ -81,5 +81,12 @@ export const muiTheme = createTheme({
 				},
 			},
 		},
+		MuiButton: {
+			styleOverrides: {
+				root: {
+					fontWeight: '700',
+				},
+			},
+		},
 	},
 });
