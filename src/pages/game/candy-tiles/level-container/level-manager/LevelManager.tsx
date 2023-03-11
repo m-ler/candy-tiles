@@ -57,7 +57,7 @@ const LevelManager = () => {
 	const setMatchList = useSetRecoilState(matchListState);
 	const setPossibleCombinations = useSetRecoilState(possibleCombinationsState);
 	const [comboCount, setComboCount] = useRecoilState(comboCountState);
-	const selectedLevel = useMemo(() => selectedLevelQuery.data, [selectedLevelQuery.data]) as LevelData;
+	const selectedLevel = useMemo(() => selectedLevelQuery.data?.file, [selectedLevelQuery.data]) as LevelFile;
 	const playAudio = useAudio();
 
 	const itemsWereSwapped = useRef(false);

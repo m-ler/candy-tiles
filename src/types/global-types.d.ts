@@ -1,5 +1,6 @@
 import { AlertColor } from '@mui/material';
 import { User } from '@supabase/supabase-js';
+import { LevelDb } from './database-aliases';
 
 export {};
 
@@ -21,6 +22,8 @@ declare global {
 		firstLetter: string;
 		avatarURL: string;
 		latestUpdateTime: number;
+		likedLevels: number[];
+		dislikedLevels: number[];
 	};
 
 	type LoggedUserData = {
@@ -64,7 +67,7 @@ declare global {
 		tasks: LevelTasks;
 	};
 
-	type LevelData = {
+	type LevelFile = {
 		id: number;
 		title: string | null;
 		initialItems: LevelItem[];
@@ -72,8 +75,9 @@ declare global {
 		score: number;
 		maximumMoves: number;
 		tasks: LevelTasks;
-		rating: number | null;
 	};
+
+	type LevelData = LevelDb & { file: LevelFile; isMainLevel: boolean };
 
 	const gameSFXList = [
 		'buttonClick1',

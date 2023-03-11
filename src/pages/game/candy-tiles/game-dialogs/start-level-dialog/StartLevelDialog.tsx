@@ -14,10 +14,10 @@ import useAudio from '../../../../../hooks/useAudio';
 
 const StartLevelDialog = () => {
 	const selectedLevel = useSelectedLevel();
-	const targetScore = useMemo(() => selectedLevel.data?.score || 0, [selectedLevel.data]);
-	const targetIceTiles = useMemo(() => selectedLevel.data?.tasks.iceTiles || 0, [selectedLevel.data]);
-	const targetRockTiles = useMemo(() => selectedLevel.data?.tasks.rockTiles || 0, [selectedLevel.data]);
-	const targetIceCreams = useMemo(() => selectedLevel.data?.tasks.iceCreams || 0, [selectedLevel.data]);
+	const targetScore = useMemo(() => selectedLevel.data?.file.score || 0, [selectedLevel.data]);
+	const targetIceTiles = useMemo(() => selectedLevel.data?.file.tasks.iceTiles || 0, [selectedLevel.data]);
+	const targetRockTiles = useMemo(() => selectedLevel.data?.file.tasks.rockTiles || 0, [selectedLevel.data]);
+	const targetIceCreams = useMemo(() => selectedLevel.data?.file.tasks.iceCreams || 0, [selectedLevel.data]);
 
 	const [show, setShow] = useState(true);
 	const playAudio = useAudio();

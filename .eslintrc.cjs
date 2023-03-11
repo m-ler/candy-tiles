@@ -19,6 +19,7 @@ module.exports = {
 		'sourceType': 'module',
 	},
 	'plugins': ['react', '@typescript-eslint'],
+	'ignorePatterns': ['tailwind.config.cjs'],
 	'rules': {
 		'react/react-in-jsx-scope': 'off',
 		'linebreak-style': ['error', 'windows'],

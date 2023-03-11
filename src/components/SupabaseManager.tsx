@@ -1,7 +1,7 @@
 import { Session } from '@supabase/supabase-js';
 import { useEffect } from 'react';
 import { useMutation } from 'react-query';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { getUserProfile } from '../api/user';
 import { supabase } from '../config/supabase-config';
 import { loggedUserState } from '../store/loggedUser';
@@ -9,7 +9,7 @@ import { UserDb } from '../types/database-aliases';
 import { useNavigate } from 'react-router-dom';
 
 const getLoggedUserObj = (profile: UserDb, session: Session | null): LoggedUserData | null =>
-	!!session
+	session
 		? ({
 				auth: session.user,
 				profile: {
@@ -19,12 +19,14 @@ const getLoggedUserObj = (profile: UserDb, session: Session | null): LoggedUserD
 					firstLetter: (session.user.user_metadata.nickname || ' ')[0].toUpperCase(),
 					latestUpdateTime: Date.now(),
 					nickname: session.user.user_metadata.nickname,
+					likedLevels: profile.likedLevels || [],
+					dislikedLevels: profile.dislikedLevels || [],
 				},
 		  } as LoggedUserData)
 		: null;
 
 const SupabaseManager = () => {
-	const [loggedUser, setLoggedUser] = useRecoilState(loggedUserState);
+	const setLoggedUser = useSetRecoilState(loggedUserState);
 	const navigate = useNavigate();
 
 	const userMutation = useMutation('user-mutation', (session: Session | null) => getUserProfile(session?.user.id || ''), {

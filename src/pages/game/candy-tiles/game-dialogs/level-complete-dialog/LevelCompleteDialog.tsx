@@ -18,6 +18,8 @@ import anime from 'animejs';
 import Tooltip from './../../../../../mui/components/Tooltip';
 import { completedLevelsState } from '../../../../../store/completedLevels';
 import useSelectedLevel from '../../../../../hooks/useSelectedLevel';
+import RateButtons from './RateButtons';
+import { loggedUserState } from '../../../../../store/loggedUser';
 
 const animateScore = (score: number) => {
 	anime({
@@ -32,6 +34,7 @@ const animateScore = (score: number) => {
 
 const LevelCompleteDialog = () => {
 	const levelComplete = useRecoilValue(levelCompleteState);
+	const loggedUser = useRecoilValue(loggedUserState);
 	const selectedLevel = useSelectedLevel();
 	const animateMount = useDialogMountAnimation('#level-complete-dialog', { duration: 500, delay: 500 });
 	const score = useRecoilValue(scoreState);
@@ -42,6 +45,8 @@ const LevelCompleteDialog = () => {
 	const animateUnmount = useUnmountAnimation('#game-container');
 	const [completedLevels, setCompletedLevels] = useRecoilState(completedLevelsState);
 	const levelId = useMemo(() => selectedLevel.data?.id, [selectedLevel.data]);
+
+	const canRate = !selectedLevel.data?.isMainLevel && !!loggedUser;
 
 	useEffect(() => {
 		levelComplete && onLevelComplete();
@@ -55,7 +60,7 @@ const LevelCompleteDialog = () => {
 	};
 
 	const updateCompletedLevels = () => {
-		if (selectedLevel.data?.type === 'Online') return;
+		//if (selectedLevel.data?.type === 'Online') return;
 
 		setCompletedLevels((state) => {
 			const newState = structuredClone(state);
@@ -91,6 +96,14 @@ const LevelCompleteDialog = () => {
 						{score} points
 					</span>
 				</div>
+
+				{canRate && (
+					<RateButtons
+						levelId={levelId || 0}
+						userLikes={loggedUser.profile.likedLevels || []}
+						userDislikes={loggedUser.profile.dislikedLevels || []}
+					/>
+				)}
 
 				<div className="flex gap-x-[10px]">
 					<Tooltip title="Play again">

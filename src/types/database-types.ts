@@ -45,31 +45,34 @@ export interface Database {
         Row: {
           avatarURL: string | null
           createdAt: string | null
+          dislikedLevels: number[] | null
           email: string | null
           id: number
+          likedLevels: number[] | null
           nickname: string
           passedLevels: Json | null
-          ratedLevels: Json | null
           userId: string
         }
         Insert: {
           avatarURL?: string | null
           createdAt?: string | null
+          dislikedLevels?: number[] | null
           email?: string | null
           id?: number
+          likedLevels?: number[] | null
           nickname: string
           passedLevels?: Json | null
-          ratedLevels?: Json | null
           userId: string
         }
         Update: {
           avatarURL?: string | null
           createdAt?: string | null
+          dislikedLevels?: number[] | null
           email?: string | null
           id?: number
+          likedLevels?: number[] | null
           nickname?: string
           passedLevels?: Json | null
-          ratedLevels?: Json | null
           userId?: string
         }
       }
@@ -78,6 +81,18 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
+      increment_level_dislikes: {
+        Args: {
+          row_id: number
+        }
+        Returns: undefined
+      }
+      increment_level_likes: {
+        Args: {
+          row_id: number
+        }
+        Returns: undefined
+      }
       increment_level_times_played: {
         Args: {
           row_id: number

@@ -6,7 +6,7 @@ import { selectedLevelState } from '../store/selectedLevel';
 
 const DEFAULT_LEVEL = '0';
 
-export default (isMainLevel: boolean, selectedLevelId?: string) => {
+export default (isMainLevel = true, selectedLevelId?: string) => {
 	const idRef = useRef<string>(DEFAULT_LEVEL);
 	idRef.current = selectedLevelId ? selectedLevelId : idRef.current;
 	const setSelectedLevel = useSetRecoilState(selectedLevelState);
@@ -19,7 +19,7 @@ export default (isMainLevel: boolean, selectedLevelId?: string) => {
 		refetchInterval: false,
 		retry: 1,
 		onSuccess: (data) => {
-			setSelectedLevel(structuredClone(data) as LevelData);
+			setSelectedLevel(structuredClone(data) );
 		},
 	});
 };

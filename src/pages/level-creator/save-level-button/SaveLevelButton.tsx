@@ -16,7 +16,7 @@ const SaveLevelButton = () => {
 	const setShowUserAuthDialog = useSetRecoilState(showUserAuthDialogState);
 	const toast = useToast();
 	const validateLevelMutation = useMutation(
-		(data: { levelData: LevelData; levelRules: LevelRules }) => validateLevel(data.levelData, data.levelRules),
+		(data: { levelData: LevelFile; levelRules: LevelRules }) => validateLevel(data.levelData, data.levelRules),
 		{
 			onSuccess: (data) => {
 				if (data.valid) {

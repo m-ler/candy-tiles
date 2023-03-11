@@ -23,7 +23,7 @@ const GamePage = ({ isMainLevel }: Props) => {
 	const selectedLevelId = useParams()['levelId'] || '';
 	const selectedLevelQuery = useSelectedLevel(!!isMainLevel, selectedLevelId);
 	const completedLevels = useRecoilValue(completedLevelsState);
-	let levelAvaliable = true;
+	let levelAvaliable = true;	
 
 	useEffect(() => {
 		incrementOnlineLevelTimesPlayed(parseInt(selectedLevelId));
@@ -37,7 +37,7 @@ const GamePage = ({ isMainLevel }: Props) => {
 	});
 
 	const checkLevelAvailability = () => {
-		const levelId = selectedLevelQuery.data?.id;
+		const levelId = selectedLevelQuery.data?.file.id;
 		const levelLocked = !completedLevels.main.some((x) => x.id === (levelId || 0) - 1);
 		levelAvaliable = !isMainLevel || !levelLocked || levelId === 1;
 

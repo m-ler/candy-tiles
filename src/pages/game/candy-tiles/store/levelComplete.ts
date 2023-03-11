@@ -14,7 +14,7 @@ export const levelCompleteState = selector<boolean>({
 		const finishedMoving = get(finishedMovingState);
 		const possibleCombinations = get(possibleCombinationsState);
 		const levelMoves = get(levelMovesState);
-		const targetTasks = levelData.tasks as { [key: string]: number };
+		const targetTasks = levelData?.file.tasks as { [key: string]: number };
 		const tasks = get(levelTasksState) as { [key: string]: number };
 		const scorePercentage = get(levelScorePercentageState);
 

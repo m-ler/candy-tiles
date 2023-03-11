@@ -5,7 +5,7 @@ type Validation = {
 	failReason: string;
 };
 
-let _levelData: LevelData;
+let _levelData: LevelFile;
 let _levelRules: LevelRules;
 let _validationList: Validation[];
 
@@ -33,7 +33,7 @@ type LevelValidation = {
 	messages: string[];
 };
 
-export default async (levelData: LevelData, levelRules: LevelRules): Promise<LevelValidation> => {
+export default async (levelData: LevelFile, levelRules: LevelRules): Promise<LevelValidation> => {
 	_levelData = levelData;
 	_levelRules = levelRules;
 

@@ -1,22 +1,6 @@
 import { atom } from 'recoil';
 
-const defaultValue: LevelData = {
-	id: 0,
-	type: 'Main',
-	userId: '',
-	initialItems: [],
-	initialTiles: [],
-	score: 0,
-	maximumMoves: 0,
-	tasks: {
-		iceTiles: 0,
-		rockTiles: 0,
-		iceCreams: 0,
-	},
-	rating: null,
-};
-
-export const selectedLevelState = atom<LevelData>({
+export const selectedLevelState = atom<LevelData | null>({
 	key: 'selectedLevel',
-	default: defaultValue,
+	default: null,
 });

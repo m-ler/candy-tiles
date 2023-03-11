@@ -34,7 +34,7 @@ const animateScoreUpdate = (scoreElement: HTMLElement, newScore: number): void =
 
 const ScoreBar = () => {
 	const selectedLevel = useSelectedLevel();
-	const targetScore = useMemo(() => selectedLevel.data?.score || 0, [selectedLevel.data]);
+	const targetScore = useMemo(() => selectedLevel.data?.file.score || 0, [selectedLevel.data]);
 	const score = useRecoilValue(scoreState);
 	const scoreNumberElementRef = useRef<HTMLElement | null>(null);
 	const scoreProgressPercentage = clampNumber(Math.floor((score * 100) / targetScore), 0, 100);
@@ -59,7 +59,7 @@ const ScoreBar = () => {
 				<Tooltip title="Target score">
 					<div className="absolute top-[100%] pt-[4px] flex gap-x-[8px] items-center">
 						<FaFlagCheckered className="text-p-main" size={12}></FaFlagCheckered>
-						<span className="text-[12px] text-p-main font-YellowCandy">{selectedLevel.data?.score}</span>
+						<span className="text-[12px] text-p-main font-YellowCandy">{selectedLevel.data?.file.score}</span>
 					</div>
 				</Tooltip>
 				<ScoreBarStar

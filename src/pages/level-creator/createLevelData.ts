@@ -1,4 +1,4 @@
-export default ({ levelRules, itemList, slotList, tileList, levelTitle }: LevelDataEditor): LevelData => ({
+export default ({ levelRules, itemList, slotList, tileList, levelTitle }: LevelDataEditor): LevelFile => ({
 	id: 0,
 	maximumMoves: levelRules.maximumMoves,
 	rating: null,
