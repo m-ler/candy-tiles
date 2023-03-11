@@ -7,6 +7,7 @@ import useUnmountAnimation from '../../../../hooks/useUnmountAnimation';
 import MenuIconButtonSecondary from '../../../../mui/components/MenuIconButtonSecondary';
 import Tooltip from '../../../../mui/components/Tooltip';
 import useDialogUnmountAnimation from './hooks/useDialogUnmountAnimation';
+import RateLevelButtons from './RateLevelButtons';
 
 type Props = {
 	dialogID: string;
@@ -35,22 +36,25 @@ const GameOverActions = ({ dialogID }: Props) => {
 	};
 
 	return (
-		<div className="flex gap-[12px]">
-			<Tooltip title="Go back">
-				<div>
-					<MenuIconButtonSecondary color="secondary" onClick={goBackOnClick}>
-						<FaHome className=""></FaHome>
-					</MenuIconButtonSecondary>
-				</div>
-			</Tooltip>
-			<Tooltip title="Try again">
-				<div>
-					<MenuIconButtonSecondary color="secondary" onClick={tryAgainOnClick}>
-						<MdReplay></MdReplay>
-					</MenuIconButtonSecondary>
-				</div>
-			</Tooltip>
-		</div>
+		<>
+			<RateLevelButtons />
+			<div className="flex gap-[12px]">
+				<Tooltip title="Go back">
+					<div>
+						<MenuIconButtonSecondary color="secondary" onClick={goBackOnClick}>
+							<FaHome className=""></FaHome>
+						</MenuIconButtonSecondary>
+					</div>
+				</Tooltip>
+				<Tooltip title="Try again">
+					<div>
+						<MenuIconButtonSecondary color="secondary" onClick={tryAgainOnClick}>
+							<MdReplay></MdReplay>
+						</MenuIconButtonSecondary>
+					</div>
+				</Tooltip>
+			</div>
+		</>
 	);
 };
 

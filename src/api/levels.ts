@@ -36,7 +36,8 @@ export const uploadLevel = async (levelData: UploadLevelData) =>
 	});
 
 export const getOnlineLevels = async (page: number, size: number) => {
-	const { from, to } = getPagination(page, size - 1);
+	const { from, to } = getPagination(page, size);
+	
 	return supabase
 		.from('levels')
 		.select(`id, created_at, userId, title, likes, dislikes, timesPlayed,user:userId ( * )`, { count: 'exact' })
@@ -45,7 +46,7 @@ export const getOnlineLevels = async (page: number, size: number) => {
 };
 
 export const getUserLevels = async (page: number, size: number, userId: string) => {
-	const { from, to } = getPagination(page, size - 1);
+	const { from, to } = getPagination(page, size);
 	return supabase
 		.from('levels')
 		.select(`id, created_at, userId, title, likes, dislikes, timesPlayed,user:userId ( * )`, { count: 'exact' })
@@ -60,5 +61,5 @@ export const deleteLevel = async (levelId: number) => supabase.from('levels').de
 
 export const rateLevel = async (levelId: number, userId: number, like: boolean) => {
 	await supabase.rpc(like ? 'increment_level_likes' : 'increment_level_dislikes', { row_id: levelId });
-	return supabase.from('users').update({likedLevels: supabase})
+	return supabase.rpc(like ? 'add_user_liked_level' : 'add_user_disliked_level', { user_id: userId, level_id: levelId });
 };

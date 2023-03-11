@@ -18,7 +18,7 @@ import anime from 'animejs';
 import Tooltip from './../../../../../mui/components/Tooltip';
 import { completedLevelsState } from '../../../../../store/completedLevels';
 import useSelectedLevel from '../../../../../hooks/useSelectedLevel';
-import RateButtons from './RateButtons';
+import RateLevelButtons from '../RateLevelButtons';
 import { loggedUserState } from '../../../../../store/loggedUser';
 
 const animateScore = (score: number) => {
@@ -45,8 +45,6 @@ const LevelCompleteDialog = () => {
 	const animateUnmount = useUnmountAnimation('#game-container');
 	const [completedLevels, setCompletedLevels] = useRecoilState(completedLevelsState);
 	const levelId = useMemo(() => selectedLevel.data?.id, [selectedLevel.data]);
-
-	const canRate = !selectedLevel.data?.isMainLevel && !!loggedUser;
 
 	useEffect(() => {
 		levelComplete && onLevelComplete();
@@ -97,13 +95,7 @@ const LevelCompleteDialog = () => {
 					</span>
 				</div>
 
-				{canRate && (
-					<RateButtons
-						levelId={levelId || 0}
-						userLikes={loggedUser.profile.likedLevels || []}
-						userDislikes={loggedUser.profile.dislikedLevels || []}
-					/>
-				)}
+				<RateLevelButtons />
 
 				<div className="flex gap-x-[10px]">
 					<Tooltip title="Play again">

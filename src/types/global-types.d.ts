@@ -16,6 +16,7 @@ declare global {
 	};
 
 	type UserProfileData = {
+		id: number;
 		uid: string;
 		email: string;
 		nickname: string;

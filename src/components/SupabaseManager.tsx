@@ -13,6 +13,7 @@ const getLoggedUserObj = (profile: UserDb, session: Session | null): LoggedUserD
 		? ({
 				auth: session.user,
 				profile: {
+					id: profile.id,
 					uid: session.user.id,
 					email: session.user.email || '',
 					avatarURL: profile.avatarURL,
@@ -36,7 +37,7 @@ const SupabaseManager = () => {
 	});
 
 	useEffect(() => {
-		supabase.auth.onAuthStateChange((event, session) => {
+		supabase.auth.onAuthStateChange((event, session) => {			
 			if (event === 'SIGNED_OUT') {
 				setLoggedUser(null);
 				navigate(0);

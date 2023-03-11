@@ -43,8 +43,6 @@ const LevelCard = ({ level, actions }: Props) => {
 										<MdStarRate />
 										<MdStarRate />
 										<MdStarRate />
-										<MdStarRate />
-										<MdStarRate />
 									</Stack>
 								</Tooltip>
 							</Stack>
@@ -69,7 +67,7 @@ const LevelCard = ({ level, actions }: Props) => {
 					<Stack gap={1} sx={{ flexDirection: { xs: 'row', sm: 'column' } }}>
 						<Tooltip title="Karma">
 							<Stack direction="row" alignItems="center" spacing={0.6}>
-								{karma >= 0 ? <ImHeart color={red[400]} /> : <ImHeartBroken color={blueGrey[900]} />}
+								{karma >= 0 ? <ImHeart color={karma === 0 ? blueGrey[400] : red[400]} /> : <ImHeartBroken color={blueGrey[900]} />}
 								<Typography fontSize="0.75rem">{numberFormatter.format(karma)}</Typography>
 							</Stack>
 						</Tooltip>

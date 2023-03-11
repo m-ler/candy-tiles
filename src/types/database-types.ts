@@ -81,6 +81,20 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
+      add_user_disliked_level: {
+        Args: {
+          user_id: number
+          level_id: number
+        }
+        Returns: undefined
+      }
+      add_user_liked_level: {
+        Args: {
+          user_id: number
+          level_id: number
+        }
+        Returns: undefined
+      }
       increment_level_dislikes: {
         Args: {
           row_id: number
