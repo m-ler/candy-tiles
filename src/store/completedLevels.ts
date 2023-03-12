@@ -1,6 +1,7 @@
 import { atom } from 'recoil';
+import { getStorageValue } from '../utils/storage';
 
-const STORAGE_KEY = 'completed-main-levels';
+const {savedValue, defaultValue, key} = getStorageValue('completed-main-levels', {main: [], online: []})
 
 type CompletedLevel = {
 	id: number;
@@ -14,12 +15,12 @@ export type CompletedLevels = {
 
 export const completedLevelsState = atom<CompletedLevels>({
 	key: 'completedLevels',
-	default: { main: [], online: [] },
+	default: defaultValue,
 	effects: [
 		({ setSelf, onSet }) => {
-			const savedValue = localStorage.getItem(STORAGE_KEY);
+			const savedValue = localStorage.getItem(key);
 			savedValue && setSelf({ main: JSON.parse(savedValue), online: [] });
-			onSet((newValue) => localStorage.setItem(STORAGE_KEY, JSON.stringify(newValue.main)));
+			onSet((newValue) => localStorage.setItem(key, JSON.stringify(newValue.main)));
 		},
 	],
 });

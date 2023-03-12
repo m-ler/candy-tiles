@@ -1,17 +1,19 @@
 import { Box, CircularProgress, Pagination } from '@mui/material';
 import { Stack } from '@mui/system';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useMutation } from 'react-query';
+import { useRecoilState } from 'recoil';
 import { getOnlineLevels } from '../../../api/levels';
 import FetchErrorState from '../../../components/FetchErrorState';
 import { LevelWithUserDB } from '../../../types/database-aliases';
 import LevelCard from '../LevelCard';
+import { onlineLevelsPageState } from '../store/onlineLevelsPage';
 import EmptyState from './EmptyState';
 
 const LEVELS_PER_PAGE = 5;
 
 const OnlineLevelsTab = () => {
-	const [currentPage, setCurrentPage] = useState(1);
+	const [currentPage, setCurrentPage] = useRecoilState(onlineLevelsPageState);
 	const onlineLevels = useMutation((page: number) => getOnlineLevels(page, LEVELS_PER_PAGE));
 	useEffect(() => {
 		onlineLevels.mutate(currentPage);
@@ -36,17 +38,16 @@ const OnlineLevelsTab = () => {
 					<LevelCard key={level.id} level={level} />
 				))}
 			</Stack>
-			{paginationCount > 1 && (
-				<Box display="flex" padding={2}>
-					<Pagination
-						page={currentPage}
-						onChange={(e, page) => setCurrentPage(page)}
-						count={paginationCount}
-						color="secondary"
-						sx={{ margin: '0 auto' }}
-					></Pagination>
-				</Box>
-			)}
+
+			<Box display="flex" padding={2}>
+				<Pagination
+					page={currentPage}
+					onChange={(e, page) => setCurrentPage(page)}
+					count={paginationCount}
+					color="secondary"
+					sx={{ margin: '0 auto' }}
+				></Pagination>
+			</Box>
 		</Stack>
 	);
 };

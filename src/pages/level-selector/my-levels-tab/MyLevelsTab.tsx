@@ -1,12 +1,14 @@
 import { Box, CircularProgress, Pagination, Stack } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useMutation } from 'react-query';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { getUserLevels } from '../../../api/levels';
 import FetchErrorState from '../../../components/FetchErrorState';
+import { supabase } from '../../../config/supabase-config';
 import { loggedUserState } from '../../../store/loggedUser';
 import { LevelWithUserDB } from '../../../types/database-aliases';
 import LevelCard from '../LevelCard';
+import { myLevelsPageState } from '../store/myLevelsPage';
 import DeleteLevelDialog from './DeleteLevelDialog';
 import EmptyState from './EmptyState';
 import LevelActions from './LevelActions';
@@ -14,10 +16,13 @@ import LevelActions from './LevelActions';
 const LEVELS_PER_PAGE = 5;
 const MyLevelsTab = () => {
 	const loggedUser = useRecoilValue(loggedUserState);
-	const [currentPage, setCurrentPage] = useState(1);
+	const [currentPage, setCurrentPage] = useRecoilState(myLevelsPageState);
 	const myLevels = useMutation((page: number) => getUserLevels(page, LEVELS_PER_PAGE, loggedUser?.auth.id || ''));
 	useEffect(() => {
 		!!loggedUser && myLevels.mutate(currentPage);
+		supabase.auth.onAuthStateChange((event) => {
+			event === 'SIGNED_OUT' && setCurrentPage(1);
+		});
 	}, [currentPage, loggedUser?.auth.id]);
 
 	const paginationCount = Math.ceil((myLevels.data?.count || 0) / LEVELS_PER_PAGE);
@@ -41,17 +46,16 @@ const MyLevelsTab = () => {
 						<LevelCard key={level.id} level={level} actions={<LevelActions level={level} setLevel={setDeleteLevel} />} />
 					))}
 				</Stack>
-				{paginationCount > 1 && (
-					<Box display="flex" padding={2}>
-						<Pagination
-							page={currentPage}
-							onChange={(e, page) => setCurrentPage(page)}
-							count={paginationCount}
-							color="secondary"
-							sx={{ margin: '0 auto' }}
-						></Pagination>
-					</Box>
-				)}
+
+				<Box display="flex" padding={2}>
+					<Pagination
+						page={currentPage}
+						onChange={(e, page) => setCurrentPage(page)}
+						count={paginationCount}
+						color="secondary"
+						sx={{ margin: '0 auto' }}
+					></Pagination>
+				</Box>
 			</Stack>
 			<DeleteLevelDialog level={deleteLevel} setLevel={setDeleteLevel} onLevelDeleted={() => myLevels.mutate(currentPage)} />
 		</>

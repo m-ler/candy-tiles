@@ -11,6 +11,7 @@ import { selectedTabState } from './store/selectedTab';
 import SwipeableViews from 'react-swipeable-views';
 import MyLevelsTab from './my-levels-tab';
 import { loggedUserState } from '../../store/loggedUser';
+import { supabase } from '../../config/supabase-config';
 
 const animateButtons = () => {
 	anime({
@@ -29,6 +30,10 @@ const LevelSelectorPage = () => {
 
 	useEffect(() => {
 		selectedTab === 0 && animateButtons();
+
+		supabase.auth.onAuthStateChange((event) => {
+			event === 'SIGNED_OUT' && selectedTab === 2 && setSelectedTab(1);
+		});
 	}, [selectedTab]);
 
 	const onTabChange = (e: React.SyntheticEvent, newValue: number) => setSelectedTab(newValue);
