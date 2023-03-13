@@ -44,35 +44,35 @@ export interface Database {
       users: {
         Row: {
           avatarURL: string | null
+          completedLevels: Json | null
           createdAt: string | null
           dislikedLevels: number[] | null
           email: string | null
           id: number
           likedLevels: number[] | null
           nickname: string
-          passedLevels: Json | null
           userId: string
         }
         Insert: {
           avatarURL?: string | null
+          completedLevels?: Json | null
           createdAt?: string | null
           dislikedLevels?: number[] | null
           email?: string | null
           id?: number
           likedLevels?: number[] | null
           nickname: string
-          passedLevels?: Json | null
           userId: string
         }
         Update: {
           avatarURL?: string | null
+          completedLevels?: Json | null
           createdAt?: string | null
           dislikedLevels?: number[] | null
           email?: string | null
           id?: number
           likedLevels?: number[] | null
           nickname?: string
-          passedLevels?: Json | null
           userId?: string
         }
       }

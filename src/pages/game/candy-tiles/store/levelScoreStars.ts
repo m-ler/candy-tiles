@@ -2,7 +2,7 @@ import { selector } from 'recoil';
 import { SCORE_RATING } from '../../../../config';
 import { levelScorePercentageState } from './levelScorePercentage';
 
-type ScoreStars = {
+export type ScoreStars = {
 	first: boolean;
 	second: boolean;
 	third: boolean;

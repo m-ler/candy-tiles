@@ -1,5 +1,6 @@
 import { AlertColor } from '@mui/material';
 import { User } from '@supabase/supabase-js';
+import { CompletedLevels } from '../store/completedLevels';
 import { LevelDb } from './database-aliases';
 
 export {};
@@ -25,6 +26,7 @@ declare global {
 		latestUpdateTime: number;
 		likedLevels: number[];
 		dislikedLevels: number[];
+		completedLevels: CompletedLevels;
 	};
 
 	type LoggedUserData = {

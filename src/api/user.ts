@@ -2,7 +2,10 @@ import { supabase } from './../config/supabase-config';
 import { checkFileExists } from './storage';
 
 export const getUserProfile = async (userId: string) => supabase.from('users').select('*').eq('userId', userId);
-export const updateUser = async (userId: string, newData: object) => supabase.from('users').update(newData).eq('userId', userId);
+export const updateUser = async (userId: string, newData: object) => {
+	await supabase.from('users').update(newData).eq('userId', userId);
+	supabase.auth.refreshSession();
+};
 
 export const uploadAvatar = async (file: File, userId: string) => {
 	const fileExtension = file.type.split('/')[1];

@@ -7,6 +7,7 @@ import { supabase } from '../config/supabase-config';
 import { loggedUserState } from '../store/loggedUser';
 import { UserDb } from '../types/database-aliases';
 import { useNavigate } from 'react-router-dom';
+import { CompletedLevels } from '../store/completedLevels';
 
 const getLoggedUserObj = (profile: UserDb, session: Session | null): LoggedUserData | null =>
 	session
@@ -17,11 +18,12 @@ const getLoggedUserObj = (profile: UserDb, session: Session | null): LoggedUserD
 					uid: session.user.id,
 					email: session.user.email || '',
 					avatarURL: profile.avatarURL,
-					firstLetter: (session.user.user_metadata.nickname || ' ')[0].toUpperCase(),
+					firstLetter: (session.user.user_metadata.nickname.toUpperCase() || '')[0],
 					latestUpdateTime: Date.now(),
 					nickname: session.user.user_metadata.nickname,
 					likedLevels: profile.likedLevels || [],
 					dislikedLevels: profile.dislikedLevels || [],
+					completedLevels: profile.completedLevels as CompletedLevels,
 				},
 		  } as LoggedUserData)
 		: null;
@@ -37,7 +39,7 @@ const SupabaseManager = () => {
 	});
 
 	useEffect(() => {
-		supabase.auth.onAuthStateChange((event, session) => {			
+		supabase.auth.onAuthStateChange((event, session) => {
 			if (event === 'SIGNED_OUT') {
 				setLoggedUser(null);
 				navigate(0);

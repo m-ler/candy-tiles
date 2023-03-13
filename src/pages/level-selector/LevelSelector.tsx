@@ -2,7 +2,6 @@ import { Box, Container, Paper, Stack, Tab, Tabs } from '@mui/material';
 import anime from 'animejs';
 import { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { completedLevelsState } from '../../store/completedLevels';
 import Header from '../../components/header';
 import MainLevelsTab from './main-levels-tab';
 import OnlineLevelsTab from './online-levels-tab';
@@ -25,7 +24,6 @@ const animateButtons = () => {
 
 const LevelSelectorPage = () => {
 	const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState);
-	const completedLevels = useRecoilValue(completedLevelsState);
 	const loggedUser = useRecoilValue(loggedUserState);
 
 	useEffect(() => {
@@ -67,7 +65,7 @@ const LevelSelectorPage = () => {
 						}}
 					>
 						<Box className="overflow-hidden" display={selectedTab === 0 ? 'block' : 'none'}>
-							<MainLevelsTab completedLevels={completedLevels} />
+							<MainLevelsTab />
 						</Box>
 
 						<Box className="overflow-hidden" display={selectedTab === 1 ? 'block' : 'none'}>

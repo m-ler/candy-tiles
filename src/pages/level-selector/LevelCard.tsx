@@ -6,6 +6,9 @@ import { ImHeart, ImHeartBroken } from 'react-icons/im';
 import { useNavigate } from 'react-router-dom';
 import { LevelWithUserDB } from '../../types/database-aliases';
 import Tooltip from '../../mui/components/Tooltip';
+import { useRecoilValue } from 'recoil';
+import { loggedUserState } from '../../store/loggedUser';
+import { completedLevelsState } from '../../store/completedLevels';
 
 type Props = {
 	level: LevelWithUserDB;
@@ -13,10 +16,14 @@ type Props = {
 };
 
 const LevelCard = ({ level, actions }: Props) => {
+	const loggedUser = useRecoilValue(loggedUserState);
 	const navigate = useNavigate();
 	const levelDate = new Date(level.created_at || '').toLocaleDateString().slice(0, 10);
 	const karma = (level.likes || 0) - (level.dislikes || 0);
 	const numberFormatter = Intl.NumberFormat('en', { notation: 'compact' });
+	const localCompletedLevels = useRecoilValue(completedLevelsState);
+	const completedOnlineLevels = loggedUser ? loggedUser.profile.completedLevels.online : localCompletedLevels.online;
+	const stars = completedOnlineLevels.find((x) => x.id === level.id)?.stars || 0;
 
 	return (
 		<Slide in={true}>
@@ -28,7 +35,7 @@ const LevelCard = ({ level, actions }: Props) => {
 					<Stack padding={2} gap={2} display="flex" justifyContent="space-between" sx={{ flexDirection: { xs: 'column', sm: 'row' } }}>
 						<Stack direction="row" alignItems="center" spacing={2}>
 							<Avatar alt={level.user.nickname} src={level.user.avatarURL || ''} sx={{ width: 42, height: 42 }}>
-								{level.user.nickname[0] || ''}
+								{level.user.nickname.toLocaleUpperCase()[0] || ''}
 							</Avatar>
 							<Stack>
 								<Typography variant="h6" fontSize="1rem" color={blueGrey[900]}>
@@ -39,10 +46,10 @@ const LevelCard = ({ level, actions }: Props) => {
 									{`${level.user.nickname} | ${levelDate}`}
 								</Typography>
 								<Tooltip title="Your score">
-									<Stack direction="row" marginTop={0.5} color={blueGrey[100]}>
-										<MdStarRate />
-										<MdStarRate />
-										<MdStarRate />
+									<Stack direction="row" marginTop={0.5}>
+										<MdStarRate color={stars >= 1 ? yellow[700] : blueGrey[100]} />
+										<MdStarRate color={stars >= 2 ? yellow[700] : blueGrey[100]} />
+										<MdStarRate color={stars >= 3 ? yellow[700] : blueGrey[100]} />
 									</Stack>
 								</Tooltip>
 							</Stack>

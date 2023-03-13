@@ -1,4 +1,5 @@
 import useMountAnimation from '../../../hooks/useMountAnimation';
+import CompletedLevelUpdater from './CompletedLevelUpdater';
 import GameDialogs from './game-dialogs/GameDialogs';
 import LeftPanel from './left-panel';
 import LevelContainer from './level-container';
@@ -14,6 +15,7 @@ const CandyTiles = () => {
 				<LeftPanel></LeftPanel>
 				<LevelContainer></LevelContainer>
 				<GameDialogs></GameDialogs>
+				<CompletedLevelUpdater />
 			</section>
 		</>
 	);

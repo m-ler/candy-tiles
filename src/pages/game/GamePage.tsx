@@ -23,14 +23,17 @@ const GamePage = ({ isMainLevel }: Props) => {
 	const selectedLevelId = useParams()['levelId'] || '';
 	const selectedLevelQuery = useSelectedLevel(!!isMainLevel, selectedLevelId);
 	const completedLevels = useRecoilValue(completedLevelsState);
-	let levelAvaliable = true;	
+	let levelAvaliable = true;
 
 	useEffect(() => {
-		incrementOnlineLevelTimesPlayed(parseInt(selectedLevelId));
 		return () => {
 			queryClient.removeQueries(['selected-level']);
 		};
 	}, []);
+
+	useEffect(() => {
+		selectedLevelQuery.data && !selectedLevelQuery.data?.isMainLevel && incrementOnlineLevelTimesPlayed(parseInt(selectedLevelId));
+	}, [selectedLevelQuery.data]);
 
 	useEffect(() => {
 		!!selectedLevelQuery.data && checkLevelAvailability();
