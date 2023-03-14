@@ -7,12 +7,15 @@ import GridEditorLayer from './GridEditorLayer';
 import Item from './Item';
 import Tile from './Tile';
 import Slot from './Slot';
+import useAudio from '../../../hooks/useAudio';
+import { randomNumber } from '../../../utils/math';
 
 const GridEditor = () => {
 	const [slotList, setSlotList] = useRecoilState(slotListEditorState);
 	const [tileList, setTileList] = useRecoilState(tileListEditorState);
 	const [itemList, setItemList] = useRecoilState(itemListEditorState);
 	const selectedElement = useRecoilValue(selectedElementState);
+	const playAudio = useAudio();
 
 	const updateTileSlotList = (index: number, create: boolean) => {
 		setSlotList((list) => {
@@ -56,18 +59,21 @@ const GridEditor = () => {
 				renderChild={renderSlot}
 				interactable={slotLayerInteractable}
 				childAttribute="data-tile-slot"
+				onSpawn={() => playAudio({ audioName: 'tileClick', speed: randomNumber(0.8, 1.3) })}
 			></GridEditorLayer>
 			<GridEditorLayer
 				setRenderList={updateTileList}
 				renderChild={renderTile}
 				interactable={tileLayerInteractable}
 				childAttribute="data-tile"
+				onSpawn={() => playAudio({ audioName: 'put1', speed: randomNumber(0.8, 1), volume: 0.5 })}
 			></GridEditorLayer>
 			<GridEditorLayer
 				setRenderList={updateItemList}
 				renderChild={renderItem}
 				interactable={itemLayerInteractable}
 				childAttribute="data-item"
+				onSpawn={() => playAudio({ audioName: 'pop1', speed: randomNumber(0.8, 1) })}
 			></GridEditorLayer>
 		</div>
 	);

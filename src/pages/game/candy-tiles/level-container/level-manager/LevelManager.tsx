@@ -8,11 +8,11 @@ import {
 	getMatchGroupCenterIndex,
 	levelHasPossibleCombinations,
 	repositionItems,
-} from '../../../../../game-algorithms/tile-matching';
+} from '../../../game-algorithms/tile-matching';
 import { levelItemsState } from '../../store/levelItems';
 import { levelTilesState } from '../../store/levelTiles';
 import { swappedItemsState } from '../../store/swappedItems';
-import { getLevelItemByFusion } from '../../../../../game-algorithms/candy-fusions';
+import { getLevelItemByFusion } from '../../../game-algorithms/candy-fusions';
 import { finishedMovingState } from '../../store/finishedMoving';
 import { matchListState } from '../../store/matchList';
 import uuid from 'react-uuid';
@@ -23,6 +23,8 @@ import useSelectedLevel from '../../../../../hooks/useSelectedLevel';
 import useAudio from '../../../../../hooks/useAudio';
 import { delay } from '../../../../../utils/delay';
 import { comboCountState } from './../../store/comboCount';
+import { LevelFile } from '../../../../../types';
+import { LevelItem, LevelTile, MatchResult, SwappedItems } from '../../types';
 
 const applyMatches = (matchInfo: MatchResult, itemList: LevelItem[]): LevelItem[] => {
 	const newItemList = structuredClone(itemList) as LevelItem[];
@@ -49,7 +51,7 @@ const validateInitialItems = (initialItems: readonly LevelItem[], initialTiles: 
 
 const LevelManager = () => {
 	const selectedLevelQuery = useSelectedLevel();
-	const [swappedItems, setSwappedItems] = useRecoilState(swappedItemsState);
+	const [swappedItems, setSwappedItems] = useRecoilState<SwappedItems>(swappedItemsState);
 	const [levelItems, setLevelItems] = useRecoilState(levelItemsState);
 	const [levelTiles, setLevelTiles] = useRecoilState(levelTilesState);
 	const setLevelMoves = useSetRecoilState(levelMovesState);

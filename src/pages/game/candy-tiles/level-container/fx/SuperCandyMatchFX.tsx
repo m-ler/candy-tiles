@@ -3,8 +3,9 @@ import { useEffect, useRef } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { COLUMN_NUMBER, ROW_NUMBER } from '../../../../../config';
 import candyHexColors from '../../../../../data/candy-hex-colors';
-import { getItemColumnIndex, getItemRowIndex } from '../../../../../game-algorithms/tile-matching';
+import { getItemColumnIndex, getItemRowIndex } from '../../../game-algorithms/tile-matching';
 import { levelFxListState } from '../../store/levelFxList';
+import { CandyColor } from '../../types';
 
 type Props = {
 	color: CandyColor;

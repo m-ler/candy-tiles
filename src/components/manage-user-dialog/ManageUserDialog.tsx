@@ -8,6 +8,7 @@ import AvatarButton from './AvatarButton';
 import { useState } from 'react';
 import { showDeleteAccountDialogState } from './../../store/showDeleteAccountDialog';
 import { blueGrey } from '@mui/material/colors';
+import { LoggedUserData } from '../../types';
 
 const ManageUserDialog = () => {
 	const [showManageUserDialog, setShowManageUserDialog] = useRecoilState(showManageUserDialogState);

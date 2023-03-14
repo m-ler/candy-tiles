@@ -1,11 +1,10 @@
-import { Avatar, Card, CardActionArea, Slide, Typography } from '@mui/material';
+import { Avatar, Card, CardActionArea, Slide, Tooltip, Typography } from '@mui/material';
 import { blueGrey, grey, red, yellow } from '@mui/material/colors';
 import { Stack } from '@mui/system';
 import { MdBarChart, MdStarRate } from 'react-icons/md';
 import { ImHeart, ImHeartBroken } from 'react-icons/im';
 import { useNavigate } from 'react-router-dom';
 import { LevelWithUserDB } from '../../types/database-aliases';
-import Tooltip from '../../mui/components/Tooltip';
 import { useRecoilValue } from 'recoil';
 import { loggedUserState } from '../../store/loggedUser';
 import { completedLevelsState } from '../../store/completedLevels';

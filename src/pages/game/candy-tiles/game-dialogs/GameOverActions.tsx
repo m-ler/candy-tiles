@@ -1,38 +1,25 @@
+import { Tooltip } from '@mui/material';
 import { FaHome } from 'react-icons/fa';
 import { MdReplay } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import useAudio from '../../../../hooks/useAudio';
 import useReloadPage from '../../../../hooks/useReloadPage';
-import useUnmountAnimation from '../../../../hooks/useUnmountAnimation';
-import MenuIconButtonSecondary from '../../../../mui/components/MenuIconButtonSecondary';
-import Tooltip from '../../../../mui/components/Tooltip';
-import useDialogUnmountAnimation from './hooks/useDialogUnmountAnimation';
+import MenuIconButtonSecondary from '../MenuIconButtonSecondary';
 import RateLevelButtons from './RateLevelButtons';
 
-type Props = {
-	dialogID: string;
-};
-const GameOverActions = ({ dialogID }: Props) => {
+const GameOverActions = () => {
 	const navigate = useNavigate();
 	const reloadPage = useReloadPage();
-	const animateGameUnmount = useUnmountAnimation('#game-container');
-	const animateDialogUnmount = useDialogUnmountAnimation(`#${dialogID}`);
 	const playAudio = useAudio();
 
 	const goBackOnClick = () => {
 		playAudio({ audioName: 'buttonClick1', volume: 0.5 });
-		animateDialogUnmount({
-			duration: 300,
-			complete: () => animateGameUnmount(() => navigate('/levels')),
-		});
+		navigate('/levels');
 	};
 
 	const tryAgainOnClick = () => {
 		playAudio({ audioName: 'buttonClick1', volume: 0.5 });
-		animateDialogUnmount({
-			duration: 300,
-			complete: () => animateGameUnmount(reloadPage),
-		});
+		reloadPage();
 	};
 
 	return (

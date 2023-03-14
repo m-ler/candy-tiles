@@ -4,7 +4,7 @@ import { showUserAuthDialogState } from '../store/showUserAuthenticationDialog';
 import { DialogContent, Tab, Tabs } from '@mui/material';
 import SignInForm from './sign-in-form';
 import { useState } from 'react';
-import TabPanel from '../mui/components/TabPanel';
+import TabPanel from './TabPanel';
 import SwipeableViews from 'react-swipeable-views';
 import SignUpForm from './sign-up-form';
 import { loggedUserState } from '../store/loggedUser';

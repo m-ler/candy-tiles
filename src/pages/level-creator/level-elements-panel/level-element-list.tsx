@@ -14,6 +14,7 @@ import superRedCandySprite from './../../../assets/img/candies/super-red.png';
 import superYellowCandySprite from './../../../assets/img/candies/super-yellow.png';
 import chocolateSprite from './../../../assets/img/candies/chocolate.png';
 import iceCreamSprite from './../../../assets/img/candies/ice-cream.png';
+import { LevelEditorElement } from '../types';
 
 export default [
 	{

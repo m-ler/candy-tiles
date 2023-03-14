@@ -9,6 +9,7 @@ import { useMutation } from 'react-query';
 import { uploadLevel, UploadLevelData } from '../../../api/levels';
 import { loggedUserState } from './../../../store/loggedUser';
 import { showUserAuthDialogState } from '../../../store/showUserAuthenticationDialog';
+import { LevelFile, LevelRules } from '../../../types';
 
 const SaveLevelButton = () => {
 	const levelDataEditor = useRecoilValue(levelDataEditorState);

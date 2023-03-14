@@ -1,5 +1,6 @@
 import { useRecoilValue } from 'recoil';
 import { levelFxListState } from '../../store/levelFxList';
+import { LevelFX } from '../../types';
 import CandyScoreFX from '../fx/CandyScoreFX';
 import SuperCandyMatchFX from '../fx/SuperCandyMatchFX';
 import TileScoreFX from '../fx/TileScoreFX';

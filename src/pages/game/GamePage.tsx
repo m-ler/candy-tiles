@@ -55,7 +55,7 @@ const GamePage = ({ isMainLevel }: Props) => {
 	return (
 		<>
 			<Header />
-			<section id="game-container" className="w-[min(1600px,100%)] m-auto flex gap-x-[15px] md:h-full">
+			<section className="w-[min(1600px,100%)] m-auto flex gap-x-[15px] md:h-full overflow-hidden">
 				<CandyTiles></CandyTiles>
 				<VolumeDialog></VolumeDialog>
 			</section>

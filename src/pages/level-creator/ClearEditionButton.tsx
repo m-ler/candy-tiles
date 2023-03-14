@@ -1,7 +1,6 @@
-import { IconButton } from '@mui/material';
+import { IconButton, Tooltip } from '@mui/material';
 import { MdOutlineDeleteForever } from 'react-icons/md';
 import { useSetRecoilState } from 'recoil';
-import Tooltip from '../../mui/components/Tooltip';
 import { showClearEditorDialogState } from './store/showClearEditorDialog';
 
 const ClearEditionButton = () => {

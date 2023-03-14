@@ -1,4 +1,5 @@
 import { supabase } from '../../../config/supabase-config';
+import { LevelFile, LevelRules } from '../../../types';
 
 type Validation = {
 	validate: () => boolean;

@@ -1,4 +1,5 @@
 import { selector } from 'recoil';
+import { Toast } from '../types';
 import { toastListState } from './toastList';
 
 export const activeToastState = selector<Toast>({

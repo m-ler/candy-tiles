@@ -4,12 +4,12 @@ import { FaFlagCheckered } from 'react-icons/fa';
 import { useRecoilValue } from 'recoil';
 import { SCORE_RATING } from '../../../../../config';
 import useSelectedLevel from '../../../../../hooks/useSelectedLevel';
-import Tooltip from '../../../../../mui/components/Tooltip';
-import { muiPalette } from '../../../../../mui/theme';
+import { muiPalette } from '../../../../../config/mui-theme';
 import { clampNumber } from '../../../../../utils/math';
 import { scoreState } from '../../store/score';
 import ComboCounter from './ComboCounter';
 import ScoreBarStar from './ScoreBarStar';
+import { Tooltip } from '@mui/material';
 
 const scoreObj = { score: 0 };
 let scoreAnimation: AnimeInstance;

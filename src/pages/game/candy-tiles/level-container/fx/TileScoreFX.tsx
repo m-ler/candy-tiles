@@ -1,7 +1,7 @@
 import anime from 'animejs';
 import { useEffect, useRef } from 'react';
 import { COLUMN_NUMBER, ROW_NUMBER } from '../../../../../config';
-import { getItemColumnIndex, getItemRowIndex } from '../../../../../game-algorithms/tile-matching';
+import { getItemColumnIndex, getItemRowIndex } from '../../../game-algorithms/tile-matching';
 import { useSetRecoilState } from 'recoil';
 import { levelFxListState } from './../../store/levelFxList';
 

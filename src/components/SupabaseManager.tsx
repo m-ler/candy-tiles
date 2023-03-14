@@ -8,6 +8,7 @@ import { loggedUserState } from '../store/loggedUser';
 import { UserDb } from '../types/database-aliases';
 import { useNavigate } from 'react-router-dom';
 import { CompletedLevels } from '../store/completedLevels';
+import { LoggedUserData } from '../types';
 
 const getLoggedUserObj = (profile: UserDb, session: Session | null): LoggedUserData | null =>
 	session

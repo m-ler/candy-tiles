@@ -1,5 +1,5 @@
 import { Button, ButtonProps } from '@mui/material';
-import { muiPalette } from '../../../mui/theme';
+import { muiPalette } from '../../../config/mui-theme';
 import { useNavigate } from 'react-router-dom';
 import useAudio from '../../../hooks/useAudio';
 import { AiFillStar } from 'react-icons/ai';

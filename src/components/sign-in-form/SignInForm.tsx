@@ -1,6 +1,6 @@
 import { FormHelperText, InputAdornment, Link, Stack } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
-import TextFieldMain from '../../mui/components/TextFieldMain';
+import TextFieldMain from '../TextFieldMain';
 import { MdEmail, MdLock } from 'react-icons/md';
 import useFormValidation from './hooks/useFormValidation';
 import InputAdornmentLoader from '../InputAdornmentLoader';

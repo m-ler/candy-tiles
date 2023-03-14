@@ -5,7 +5,7 @@ import { MdEmail } from 'react-icons/md';
 import { useMutation } from 'react-query';
 import { sendPaswordRecovery } from '../../api/auth';
 import InputAdornmentLoader from '../../components/InputAdornmentLoader';
-import TextFieldMain from '../../mui/components/TextFieldMain';
+import TextFieldMain from '../../components/TextFieldMain';
 import useFormValidations from './hooks/useFormValidations';
 
 const errorMessages = {

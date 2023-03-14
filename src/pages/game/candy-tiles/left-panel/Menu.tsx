@@ -1,31 +1,29 @@
 import { useNavigate } from 'react-router-dom';
-import useUnmountAnimation from '../../../../hooks/useUnmountAnimation';
-import MenuIconButton from '../../../../mui/components/MenuIconButton';
+import MenuIconButton from '../MenuIconButton';
 import { FaHome } from 'react-icons/fa';
 import { MdReplay, MdVolumeUp } from 'react-icons/md';
 import useReloadPage from '../../../../hooks/useReloadPage';
 import useAudio from '../../../../hooks/useAudio';
-import Tooltip from '../../../../mui/components/Tooltip';
 import useSelectedLevel from '../../../../hooks/useSelectedLevel';
 import { useSetRecoilState } from 'recoil';
 import { showVolumeDialogState } from './../../store/showVolumeDialog';
+import { Tooltip } from '@mui/material';
 
 const Menu = () => {
 	const selectedLevel = useSelectedLevel().data;
 	const navigate = useNavigate();
-	const unmountAnimation = useUnmountAnimation('#game-container');
 	const reloadPage = useReloadPage();
 	const playAudio = useAudio();
 	const setShowVolumeDialog = useSetRecoilState(showVolumeDialogState);
 
 	const homeOnClick = () => {
 		playAudio({ audioName: 'buttonClick1', volume: 0.5 });
-		unmountAnimation(() => navigate('/levels'));
+		navigate('/levels');
 	};
 
 	const resetLevelOnClick = () => {
 		playAudio({ audioName: 'buttonClick1', volume: 0.5 });
-		unmountAnimation(() => reloadPage());
+		reloadPage();
 	};
 
 	const volumeOnClick = () => {

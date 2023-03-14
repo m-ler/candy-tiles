@@ -6,7 +6,7 @@ import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { resetPassword } from '../../api/auth';
 import InputAdornmentLoader from '../../components/InputAdornmentLoader';
-import TextFieldMain from '../../mui/components/TextFieldMain';
+import TextFieldMain from '../../components/TextFieldMain';
 import useFormValidations from './hooks/useFormValidations';
 import useToast from '../../hooks/useToast';
 import { UserResponse } from '@supabase/supabase-js';

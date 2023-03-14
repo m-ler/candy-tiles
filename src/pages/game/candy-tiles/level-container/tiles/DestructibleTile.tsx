@@ -1,10 +1,11 @@
-import { forwardRef, useEffect, useState } from 'react';
+import { ForwardedRef, forwardRef, useEffect, useState } from 'react';
 import useEffectAfterMount from '../../../../../hooks/useEffectAfterMount';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { matchListState } from '../../store/matchList';
 import { levelTilesState } from '../../store/levelTiles';
 import useAudio from '../../../../../hooks/useAudio';
 import useScore from '../../hooks/useScore';
+import { GameSFX } from '../../../../../types';
 
 type Props = {
 	tileType: string;
@@ -17,7 +18,9 @@ type Props = {
 	className?: string;
 };
 
-const DestructibleTile = forwardRef<HTMLDivElement, Props>((props: Props, ref) => {
+type DestructibleTileRef = HTMLDivElement;
+
+const DestructibleTile = (props: Props, ref: ForwardedRef<DestructibleTileRef>) => {
 	const [damaged, setDamaged] = useState(false);
 	const [destroyed, setDestroyed] = useState(false);
 	const matchList = useRecoilValue(matchListState);
@@ -72,6 +75,6 @@ const DestructibleTile = forwardRef<HTMLDivElement, Props>((props: Props, ref) =
 			<span className="absolute bottom-0 right-0 text-[12px] text-white/80 font-bold">{props.index}</span>
 		</div>
 	);
-});
+};
 
-export default DestructibleTile;
+export default forwardRef<DestructibleTileRef, Props>(DestructibleTile);

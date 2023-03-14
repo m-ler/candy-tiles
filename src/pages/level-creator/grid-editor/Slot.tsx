@@ -1,7 +1,5 @@
 import anime from 'animejs';
-import useAudio from '../../../hooks/useAudio';
 import useEffectAfterMount from '../../../hooks/useEffectAfterMount';
-import { randomNumber } from '../../../utils/math';
 
 const animateSlotSpawn = (index: number) => {
 	anime({
@@ -22,15 +20,12 @@ type Props = {
 };
 
 const Slot = ({ index, slotAvaliable }: Props) => {
-	const playAudio = useAudio();
-
 	useEffectAfterMount(() => {
 		!!slotAvaliable && onSpawn();
 	}, [slotAvaliable]);
 
 	const onSpawn = () => {
 		animateSlotSpawn(index);
-		playAudio({ audioName: 'tileClick', speed: randomNumber(0.8, 1.3) });
 	};
 
 	return (

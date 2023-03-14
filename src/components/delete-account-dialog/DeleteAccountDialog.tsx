@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { MdLock } from 'react-icons/md';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import useDeleteAccount from '../../hooks/useDeleteAccount';
-import TextFieldMain from '../../mui/components/TextFieldMain';
+import TextFieldMain from '../TextFieldMain';
 import { loggedUserState } from '../../store/loggedUser';
 import Dialog from '../Dialog';
 import InputAdornmentLoader from '../InputAdornmentLoader';

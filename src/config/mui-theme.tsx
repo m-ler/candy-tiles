@@ -88,5 +88,14 @@ export const muiTheme = createTheme({
 				},
 			},
 		},
+		MuiTooltip: {
+			styleOverrides: {
+				tooltip: ({ theme }) => ({
+					backgroundColor: 'rgba(20,20,20,0.4)',
+					backdropFilter: 'blur(10px);',
+					color: theme.palette.primary.light,
+				}),
+			},
+		},
 	},
 });

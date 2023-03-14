@@ -9,6 +9,7 @@ import { refreshSession } from '../../../../api/auth';
 import { rateLevel } from '../../../../api/levels';
 import useSelectedLevel from '../../../../hooks/useSelectedLevel';
 import { loggedUserState } from '../../../../store/loggedUser';
+import { UserProfileData } from '../../../../types';
 
 const RateLevelButtons = () => {
 	const loggedUser = useRecoilValue(loggedUserState);

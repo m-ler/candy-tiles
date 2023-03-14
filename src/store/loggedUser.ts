@@ -1,5 +1,6 @@
 import { getStorageValue, saveRecoilStateToStorage } from './../utils/storage';
 import { atom } from 'recoil';
+import { LoggedUserData } from '../types';
 
 const { savedValue, key } = getStorageValue('logged-user', null);
 

@@ -6,10 +6,11 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { matchListState } from './../../store/matchList';
 import { levelTasksState } from './../../store/levelTasks';
 import useTileInteraction from './hooks/useTileInteraction';
+import { LevelTasks } from '../../types';
 
 const IceTile = ({ index }: TileProps) => {
 	const matchList = useRecoilValue(matchListState);
-	const setLevelTasks = useSetRecoilState(levelTasksState);
+	const setLevelTasks = useSetRecoilState<LevelTasks>(levelTasksState);
 	const matched = useMemo(() => !!matchList.some((x) => x.index === index && x.matched), [matchList]);
 
 	const [tileElement, setTileElement] = useState<HTMLDivElement | null>(null);

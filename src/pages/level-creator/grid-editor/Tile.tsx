@@ -1,7 +1,6 @@
 import anime from 'animejs';
-import useAudio from '../../../hooks/useAudio';
 import useEffectAfterMount from '../../../hooks/useEffectAfterMount';
-import { randomNumber } from '../../../utils/math';
+import { LevelEditorElement } from '../types';
 
 const animateTileSpawn = (index: number) => {
 	anime({
@@ -20,15 +19,12 @@ type Props = {
 };
 
 const Tile = ({ index, tileObj, slotAvaliable }: Props) => {
-	const playAudio = useAudio();
-
 	useEffectAfterMount(() => {
 		!!tileObj && onSpawn();
 	}, [tileObj]);
 
 	const onSpawn = () => {
 		animateTileSpawn(index);
-		playAudio({ audioName: 'put1', speed: randomNumber(0.8, 1), volume: 0.5 });
 	};
 
 	return (

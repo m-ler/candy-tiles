@@ -1,6 +1,7 @@
 import uuid from 'react-uuid';
-import { COLUMN_NUMBER, ROW_NUMBER } from '../config';
-import { findAllIndeces, getArrayNumberSum, getNumberRangeArray, getNumberSequenceArray } from '../utils/array';
+import { COLUMN_NUMBER, ROW_NUMBER } from '../../../config';
+import { findAllIndeces, getArrayNumberSum, getNumberRangeArray, getNumberSequenceArray } from '../../../utils/array';
+import { Candy, CandyColor, Chocolate, IceCream, LevelItem, LevelTile, MatchDetail, MatchGroup, MatchResult, SuperCandy, SwappedItems } from '../candy-tiles/types';
 export const CANDY_COLOR_LIST: string[] = ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple'];
 export const CANDY_TYPES_ARRAY = ['Candy', 'SuperCandy'];
 const DEFAULT_SWAPPED_CANDY_COLOR: CandyColor = 'Red';

@@ -1,5 +1,5 @@
 import { Button, ButtonProps } from '@mui/material';
-import { muiPalette } from '../theme';
+import { muiPalette } from '../../../config/mui-theme';
 
 const MenuIconButton = (props: ButtonProps): JSX.Element => (
 	<Button

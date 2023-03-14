@@ -12,6 +12,7 @@ import anime from 'animejs';
 import { randomNumber } from '../../../../../utils/math';
 import useAudio from '../../../../../hooks/useAudio';
 import useScore from '../../hooks/useScore';
+import { CandyColor } from '../../types';
 
 const candyImages: { [key: string]: string } = {
 	'Red': red,

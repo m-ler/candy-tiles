@@ -1,14 +1,15 @@
-import { checkForAdjacentMatch } from '../../../../../game-algorithms/tile-matching';
+import { checkForAdjacentMatch } from '../../../game-algorithms/tile-matching';
 import { TileProps } from './Tile';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { matchListState } from '../../store/matchList';
 import rockTileSprite from './../../../../../assets/img/tiles/rock.png';
 import DestructibleTile from './DestructibleTile';
 import { levelTasksState } from '../../store/levelTasks';
+import { LevelTasks } from '../../types';
 
 const RockTile = ({ index }: TileProps) => {
 	const matchList = useRecoilValue(matchListState);
-	const setLevelTasks = useSetRecoilState(levelTasksState);
+	const setLevelTasks = useSetRecoilState<LevelTasks>(levelTasksState);
 	const matched = checkForAdjacentMatch(index, matchList) || matchList.some((x) => x.index === index && x.matched);
 
 	const onDesctructed = () => {

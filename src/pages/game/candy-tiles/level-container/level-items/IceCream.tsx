@@ -6,6 +6,7 @@ import iceCreamSprite from './../../../../../assets/img/candies/ice-cream.png';
 import useAudio from '../../../../../hooks/useAudio';
 import useScore from '../../hooks/useScore';
 import { levelTasksState } from '../../store/levelTasks';
+import { LevelTasks } from '../../types';
 
 type IceCreamProps = {
 	id: string;
@@ -19,7 +20,7 @@ const IceCream = ({ id, index }: IceCreamProps) => {
 	const levelItems = useRecoilValue(levelItemsState);
 	const playAudio = useAudio();
 	const matched = useMemo(() => !levelItems.some((x) => x?.id === id), [levelItems]);
-	const setLevelTasks = useSetRecoilState(levelTasksState);
+	const setLevelTasks = useSetRecoilState<LevelTasks>(levelTasksState);
 	useScore(matched, index, 'IceCream');
 
 	useEffectAfterMount(() => {

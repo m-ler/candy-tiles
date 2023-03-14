@@ -1,7 +1,8 @@
+import { Tooltip } from '@mui/material';
 import { useRecoilState } from 'recoil';
+import { LevelItem, LevelTile } from '../../game/candy-tiles/types';
 import { selectedElementState } from '../store/selectedElement';
 import levelElementList from './level-element-list';
-import Tooltip from './../../../mui/components/Tooltip';
 
 type Props = {
 	elementId: number;

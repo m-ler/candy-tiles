@@ -4,13 +4,14 @@ import { TbHandMove } from 'react-icons/tb';
 import { BsSnow } from 'react-icons/bs';
 import { MdDriveFileRenameOutline, MdIcecream } from 'react-icons/md';
 import { GiBrickWall } from 'react-icons/gi';
-import TextFieldMain from '../../mui/components/TextFieldMain';
+import TextFieldMain from '../../components/TextFieldMain';
 import { useRecoilState } from 'recoil';
 import { levelRulesState } from './store/levelRules';
 import { levelEditorTitleState } from './store/levelEditorTitle';
+import { LevelRules } from '../../types';
 
 const LevelForm = () => {
-	const [levelRules, setLevelRules] = useRecoilState(levelRulesState);
+	const [levelRules, setLevelRules] = useRecoilState<LevelRules>(levelRulesState);
 	const [levelEditorTitle, setLevelEditorTitle] = useRecoilState(levelEditorTitleState);
 
 	return (
@@ -45,7 +46,7 @@ const LevelForm = () => {
 					label="Target score"
 					variant="filled"
 					type="number"
-					value={levelRules.targetScore}
+					value={levelRules.targetScore || ''}
 					inputProps={{
 						inputMode: 'numeric',
 						min: 100,
@@ -71,7 +72,7 @@ const LevelForm = () => {
 					label="Moves"
 					variant="filled"
 					type="number"
-					value={levelRules.maximumMoves}
+					value={levelRules.maximumMoves || ''}
 					inputProps={{
 						inputMode: 'numeric',
 						min: 1,
@@ -100,7 +101,7 @@ const LevelForm = () => {
 					label="Ice tiles"
 					variant="filled"
 					type="number"
-					value={levelRules.tasks.iceTiles}
+					value={levelRules.tasks.iceTiles || ''}
 					inputProps={{
 						inputMode: 'numeric',
 						min: 0,
@@ -129,7 +130,7 @@ const LevelForm = () => {
 					label="Rock tiles"
 					variant="filled"
 					type="number"
-					value={levelRules.tasks.rockTiles}
+					value={levelRules.tasks.rockTiles || ''}
 					inputProps={{
 						inputMode: 'numeric',
 						min: 0,
@@ -158,7 +159,7 @@ const LevelForm = () => {
 					label="Ice creams"
 					variant="filled"
 					type="number"
-					value={levelRules.tasks.iceCreams}
+					value={levelRules.tasks.iceCreams || ''}
 					inputProps={{
 						inputMode: 'numeric',
 						min: 0,

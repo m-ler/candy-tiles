@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { COLUMN_NUMBER, ROW_NUMBER } from '../../../../../config';
-import { tilesAreAdjacent } from '../../../../../game-algorithms/tile-matching';
+import { tilesAreAdjacent } from '../../../game-algorithms/tile-matching';
 import { finishedMovingState } from '../../store/finishedMoving';
 import { levelMovesState } from '../../store/levelMoves';
 import { levelTilesState } from '../../store/levelTiles';

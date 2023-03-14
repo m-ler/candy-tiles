@@ -4,6 +4,7 @@ import { MdModeEditOutline, MdOutlineCameraAlt, MdOutlineRemoveCircleOutline } f
 import useRemoveAvatar from '../../hooks/useRemoveAvatar';
 import useToast from '../../hooks/useToast';
 import useUploadAvatar from '../../hooks/useUploadAvatar';
+import { LoggedUserData } from '../../types';
 import UserAvatar from '../UserAvatar';
 
 type Props = {

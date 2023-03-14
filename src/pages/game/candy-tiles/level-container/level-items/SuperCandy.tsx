@@ -13,6 +13,7 @@ import { levelFxListState } from '../../store/levelFxList';
 import uuid from 'react-uuid';
 import useAudio from '../../../../../hooks/useAudio';
 import useScore from '../../hooks/useScore';
+import { CandyColor, SuperCandyFX } from '../../types';
 
 const candyImages: { [key: string]: string } = {
 	'Red': superRed,

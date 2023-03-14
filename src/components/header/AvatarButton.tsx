@@ -1,5 +1,6 @@
+import { Tooltip } from '@mui/material';
 import { useState } from 'react';
-import Tooltip from '../../mui/components/Tooltip';
+import { LoggedUserData } from '../../types';
 import UserAvatar from '../UserAvatar';
 import UserMenu from './UserMenu';
 

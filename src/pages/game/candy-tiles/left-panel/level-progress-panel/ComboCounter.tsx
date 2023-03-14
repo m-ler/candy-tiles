@@ -1,8 +1,8 @@
-import Tooltip from '../../../../../mui/components/Tooltip';
 import { useRecoilValue } from 'recoil';
 import { comboCountState } from './../../store/comboCount';
 import { useEffect } from 'react';
 import anime from 'animejs';
+import { Tooltip } from '@mui/material';
 
 const ComboCounter = () => {
 	const comboCount = useRecoilValue(comboCountState);

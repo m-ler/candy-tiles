@@ -1,5 +1,6 @@
 import { AuthResponse, PostgrestSingleResponse, UserResponse } from '@supabase/supabase-js';
 import { supabase } from '../config/supabase-config';
+import { SignInData } from '../types';
 import { deleteDirectory } from './storage';
 
 export const createUser = async (email: string, nickname: string, password: string): Promise<PostgrestSingleResponse<null>> => {

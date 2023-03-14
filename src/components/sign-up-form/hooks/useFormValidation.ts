@@ -1,5 +1,6 @@
 import { useMutation } from 'react-query';
 import { supabase } from '../../../config/supabase-config';
+import { FieldValidation } from '../../../types';
 import { validateDuplicatedEmail, validateEmail, validateField } from './../../../utils/form';
 
 const validatePasswordLength = (value: string) => value.length > 5;

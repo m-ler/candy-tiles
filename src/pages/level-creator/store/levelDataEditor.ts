@@ -4,6 +4,7 @@ import { itemListEditorState } from './itemListEditor';
 import { levelRulesState } from './levelRules';
 import { slotListEditorState } from './slotListEditor';
 import { tileListEditorState } from './tileListEditor';
+import { LevelDataEditor } from '../types';
 
 export const levelDataEditorState = selector<LevelDataEditor>({
 	key: 'levelDataEditor',

@@ -6,16 +6,21 @@ type Props = {
 	renderChild: (index: number) => JSX.Element;
 	interactable: boolean;
 	childAttribute: string;
+	onSpawn?: () => void;
 };
 
-const GridEditorLayer = ({ setRenderList, renderChild, interactable, childAttribute }: Props) => {
-	const playAudio = useAudio();	
+const GridEditorLayer = ({ setRenderList, renderChild, interactable, childAttribute, onSpawn }: Props) => {
+	const playAudio = useAudio();
 
 	const handleMouse = (event: React.MouseEvent) => {
 		const buttonDown = event.buttons === 1 || event.buttons === 2;
 		const targetIsChild = (event.target as HTMLElement).hasAttribute(childAttribute);
-		event.buttons === 2 && playAudio({ audioName: 'pop1', speed: 0.5});
-		targetIsChild && buttonDown && interactable && setItems(parseInt((event.target as HTMLElement).getAttribute('data-index') || ''), event.buttons === 1);
+		event.buttons === 2 && playAudio({ audioName: 'pop1', speed: 0.5 });
+		const canSpawn = targetIsChild && buttonDown && interactable;
+		if (canSpawn) {
+			setItems(parseInt((event.target as HTMLElement).getAttribute('data-index') || ''), event.buttons === 1);
+			event.buttons === 1 && onSpawn?.();
+		}
 	};
 
 	const setItems = (index: number, create: boolean) => setRenderList(index, create);

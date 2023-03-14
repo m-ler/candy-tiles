@@ -1,4 +1,5 @@
 import { useMutation } from 'react-query';
+import { FieldValidation } from '../../../types';
 import { validateField } from '../../../utils/form';
 
 const validatePassword = (value: string) => value.length >= 6;

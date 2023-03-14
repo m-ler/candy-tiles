@@ -1,7 +1,6 @@
 import { useMutation } from 'react-query';
+import { FieldValidation } from '../../../types';
 import { validateEmail, validateField } from '../../../utils/form';
-
-const validatePassword = async (value: string): Promise<boolean> => value.length > 0;
 
 const emailValidations: FieldValidation<string>[] = [
 	{

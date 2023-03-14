@@ -3,13 +3,7 @@ import { createUser } from '../api/auth';
 import { useNavigate } from 'react-router-dom';
 import { PostgrestSingleResponse } from '@supabase/supabase-js';
 import { useState } from 'react';
-
-const errorMessages = {
-	'auth/email-already-in-use': 'That email is already in use.',
-	'auth/invalid-email': 'Invalid email.',
-	'auth/weak-password': 'That password is too weak.',
-	'default': 'There was an error on the server. Please try again later.',
-} as { [key: string]: string };
+import { UserData } from '../types';
 
 export default (onUserCreated?: () => void) => {
 	const navigate = useNavigate();

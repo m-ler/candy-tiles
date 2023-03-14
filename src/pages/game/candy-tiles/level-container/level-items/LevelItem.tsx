@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { ANIMATION_TIME_MS, COLUMN_NUMBER } from '../../../../../config';
-import { getItemColumnIndex, getItemRowIndex } from '../../../../../game-algorithms/tile-matching';
+import { getItemColumnIndex, getItemRowIndex } from '../../../game-algorithms/tile-matching';
 import useEffectAfterMount from '../../../../../hooks/useEffectAfterMount';
 import { levelItemsState } from '../../store/levelItems';
 import Candy from './Candy';
@@ -10,6 +10,7 @@ import SuperCandy from './SuperCandy';
 import { liveItemsIds, removeLiveItem } from '../grids/ItemGrid';
 import anime from 'animejs';
 import IceCream from './IceCream';
+import { LevelItem as LevelItemType } from '../../types';
 
 type ItemPosition = {
 	x: number;
@@ -20,7 +21,7 @@ type LevelItemProps = {
 	initialIndex: number;
 };
 
-const getItemComponent = (item: LevelItem | null, index: number): JSX.Element => {
+const getItemComponent = (item: LevelItemType | null, index: number): JSX.Element => {
 	const id = item?.id || '';
 	switch (item?.type) {
 		case 'Candy':
@@ -62,7 +63,7 @@ const animatePosition = (element: HTMLElement, position: ItemPosition): void => 
 
 const LevelItem = ({ initialIndex }: LevelItemProps) => {
 	const levelItems = useRecoilValue(levelItemsState);
-	const [levelItemTarget, setLevelItemTarget] = useState<LevelItem | null>(levelItems[initialIndex]);
+	const [levelItemTarget, setLevelItemTarget] = useState<LevelItemType | null>(levelItems[initialIndex]);
 
 	const elementRef = useRef<HTMLDivElement | null>(null);
 	const rowIndexRef = useRef<number>(0);

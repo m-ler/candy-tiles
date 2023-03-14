@@ -1,7 +1,6 @@
 import anime from 'animejs';
-import useAudio from '../../../hooks/useAudio';
 import useEffectAfterMount from '../../../hooks/useEffectAfterMount';
-import { randomNumber } from '../../../utils/math';
+import { LevelEditorElement } from '../types';
 
 const animateItemSpawn = (index: number) => {
 	anime({
@@ -20,15 +19,12 @@ type Props = {
 };
 
 const Item = ({ index, itemObj, slotAvaliable }: Props) => {
-	const playAudio = useAudio();
-
 	useEffectAfterMount(() => {
 		!!itemObj && onSpawn();
 	}, [itemObj]);
 
 	const onSpawn = () => {
 		animateItemSpawn(index);
-		playAudio({ audioName: 'pop1', speed: randomNumber(0.8, 1) });
 	};
 
 	return (

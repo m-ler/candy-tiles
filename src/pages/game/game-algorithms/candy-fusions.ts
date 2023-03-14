@@ -1,4 +1,5 @@
 import uuid from 'react-uuid';
+import { Chocolate, LevelItem, MatchDetail, SuperCandy } from '../candy-tiles/types';
 
 export const getLevelItemByFusion = (matchDetail: MatchDetail, itemToFuse: LevelItem): LevelItem => {
 	let item: LevelItem = null;

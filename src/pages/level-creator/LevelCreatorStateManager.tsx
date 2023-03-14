@@ -1,16 +1,18 @@
 import { useEffect } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { LevelRules } from '../../types';
 import { itemListEditorState } from './store/itemListEditor';
 import { levelDataEditorState } from './store/levelDataEditor';
 import { levelEditorTitleState } from './store/levelEditorTitle';
 import { levelRulesState } from './store/levelRules';
 import { slotListEditorState } from './store/slotListEditor';
 import { tileListEditorState } from './store/tileListEditor';
+import { LevelDataEditor } from './types';
 
 const LOCAL_STORAGE_LEVEL_EDITOR = 'level-editor-data';
 
 const LevelCreatorStateManager = () => {
-	const setLevelRules = useSetRecoilState(levelRulesState);
+	const setLevelRules = useSetRecoilState<LevelRules>(levelRulesState);
 	const setSlotListEditor = useSetRecoilState(slotListEditorState);
 	const setTileListEditor = useSetRecoilState(tileListEditorState);
 	const setItemListEditor = useSetRecoilState(itemListEditorState);

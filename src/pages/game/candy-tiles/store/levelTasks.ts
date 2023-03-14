@@ -1,4 +1,5 @@
 import { atom } from 'recoil';
+import { LevelTasks } from '../types';
 
 export const levelTasksState = atom<LevelTasks>({
 	key: 'levelTasks',

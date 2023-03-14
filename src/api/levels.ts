@@ -1,6 +1,7 @@
 import { getPagination } from './../utils/pagination';
 import { supabase } from '../config/supabase-config';
 import { getRequest } from '../utils/fetch-request';
+import { LevelData, LevelFile } from '../types';
 
 export const getMainLevel = async (levelId: string) => {
 	const mainLevelURL = `/levels/${levelId}.json`;

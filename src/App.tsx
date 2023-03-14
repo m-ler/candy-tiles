@@ -8,7 +8,7 @@ import PrivateRoute from './components/PrivateRoute';
 import SupabaseManager from './components/SupabaseManager';
 import Toast from './components/Toast';
 import UserInteractionDetection from './components/UserInteractionDetection';
-import { muiTheme } from './mui/theme';
+import { muiTheme } from './config/mui-theme';
 import GamePage from './pages/game';
 import HomePage from './pages/home';
 import Background from './pages/home/Background';

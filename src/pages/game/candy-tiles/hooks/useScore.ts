@@ -5,6 +5,7 @@ import { LEVEL_ELEMENTS_SCORES } from '../../../../config';
 import { levelFxListState } from './../store/levelFxList';
 import uuid from 'react-uuid';
 import { comboCountState } from './../store/comboCount';
+import { CandyColor, LevelFX } from '../types';
 
 export default (matched: boolean, index: number, type: string, color?: CandyColor): void => {
 	const setScore = useSetRecoilState(scoreState);

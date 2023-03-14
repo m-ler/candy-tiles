@@ -3,13 +3,7 @@ import { signIn } from '../api/auth';
 import { useNavigate } from 'react-router-dom';
 import { AuthResponse } from '@supabase/supabase-js';
 import { useState } from 'react';
-
-const errorMessages = {
-	'auth/user-not-found': "The email you entered doesn't belong to an account.",
-	'auth/wrong-password': 'Your password was incorrect. Please double-check your password.',
-	'auth/too-many-requests': 'Access to this account has been temporarily disabled due to many failed login attempts.',
-	'default': 'There was an error on the server. Please try again later.',
-} as { [key: string]: string };
+import { SignInData } from '../types';
 
 export default () => {
 	const [errorMessage, setErrorMessage] = useState('');

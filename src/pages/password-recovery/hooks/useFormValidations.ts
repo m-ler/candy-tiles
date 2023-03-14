@@ -1,4 +1,5 @@
 import { useMutation } from 'react-query';
+import { FieldValidation } from '../../../types';
 import { validateDuplicatedEmail, validateEmail, validateField } from '../../../utils/form';
 
 const emailValidations: FieldValidation<string>[] = [

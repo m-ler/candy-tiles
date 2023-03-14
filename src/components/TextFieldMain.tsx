@@ -1,5 +1,5 @@
 import { styled, TextField } from '@mui/material';
-import { muiPalette } from '../theme';
+import { muiPalette } from '../config/mui-theme';
 
 const TextFieldMain = styled(TextField)(({ theme }) => ({
 	width: '100%',

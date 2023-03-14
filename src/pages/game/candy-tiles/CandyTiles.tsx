@@ -1,4 +1,3 @@
-import useMountAnimation from '../../../hooks/useMountAnimation';
 import CompletedLevelUpdater from './CompletedLevelUpdater';
 import GameDialogs from './game-dialogs/GameDialogs';
 import LeftPanel from './left-panel';
@@ -6,8 +5,6 @@ import LevelContainer from './level-container';
 import LevelStateManager from './LevelStateManager';
 
 const CandyTiles = () => {
-	useMountAnimation('#game-container');
-
 	return (
 		<>
 			<LevelStateManager></LevelStateManager>

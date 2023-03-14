@@ -1,6 +1,7 @@
 import { Avatar, IconButton } from '@mui/material';
 import { useRecoilValue } from 'recoil';
 import { loggedUserState } from '../store/loggedUser';
+import { LoggedUserData } from '../types';
 
 type Props = {
 	size: number;

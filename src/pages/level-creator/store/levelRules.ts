@@ -1,4 +1,5 @@
 import { atom } from 'recoil';
+import { LevelRules } from '../../../types';
 
 export const levelRulesState = atom<LevelRules>({
 	key: 'levelRules',

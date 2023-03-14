@@ -1,5 +1,6 @@
 import { useRecoilValue } from 'recoil';
 import { userInteractedWithDocumentState } from '../store/userInteractedWithDocument';
+import { GameSFX } from '../types';
 
 import buttonClick1 from './../assets/audio/buttonClick1.mp3';
 import candyBounce from './../assets/audio/candyBounce.mp3';

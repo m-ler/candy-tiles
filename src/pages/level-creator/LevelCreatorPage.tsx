@@ -1,4 +1,4 @@
-import { Container, IconButton, Stack } from '@mui/material';
+import { Container, IconButton, Stack, Tooltip } from '@mui/material';
 import { createPortal } from 'react-dom';
 import { MdArrowBack } from 'react-icons/md';
 import GridEditor from './grid-editor';
@@ -9,7 +9,6 @@ import MouseButtonsIndicators from './MouseButtonsIndicators';
 import SaveLevelButton from './save-level-button';
 import DownloadLevelButton from './DownloadLevelButton';
 import { useNavigate } from 'react-router-dom';
-import Tooltip from '../../mui/components/Tooltip';
 import LevelCreatorStateManager from './LevelCreatorStateManager';
 import Header from '../../components/header';
 import ClearEditionButton from './ClearEditionButton';
