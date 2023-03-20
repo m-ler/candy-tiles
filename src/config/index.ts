@@ -18,3 +18,4 @@ export const LEVEL_ELEMENTS_SCORES: { [key: string]: number } = {
 	RockTile: 500,
 };
 export const COMBO_LIMIT = 3;
+export const MAIN_LEVELS_COUNT = 50;

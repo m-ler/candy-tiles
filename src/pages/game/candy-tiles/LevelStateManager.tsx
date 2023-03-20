@@ -24,7 +24,7 @@ const LevelStateManager = () => {
 	const resetPossibleCombinations = useResetRecoilState(possibleCombinationsState);
 
 	useEffect(() => {
-		return () => {
+		return () => {			
 			resetLevelStateToDefault();
 		};
 	}, []);

@@ -15,6 +15,8 @@ import { useNavigate } from 'react-router-dom';
 import anime from 'animejs';
 import RateLevelButtons from '../RateLevelButtons';
 import DelayComponent from '../../../../../components/DelayComponent';
+import useSelectedLevel from '../../../../../hooks/useSelectedLevel';
+import { MAIN_LEVELS_COUNT } from '../../../../../config';
 
 const animateScore = (score: number) => {
 	anime({
@@ -34,6 +36,7 @@ const LevelCompleteDialog = () => {
 	const playAudio = useAudio();
 	const reloadPage = useReloadPage();
 	const navigate = useNavigate();
+	const selectedLevel = useSelectedLevel();
 
 	useEffect(() => {
 		levelComplete && onLevelComplete();
@@ -45,7 +48,12 @@ const LevelCompleteDialog = () => {
 	};
 
 	const onPlayAgainClick = () => reloadPage();
-	const onNextClick = () => navigate('/levels');
+	const onNextLevelClick = () => {
+		const levelId = selectedLevel.data?.file.id || 0;
+		const goToNextLevel = selectedLevel.data?.isMainLevel && levelId < MAIN_LEVELS_COUNT;
+		navigate(goToNextLevel ? `/level/main/${levelId + 1}` : '/levels', { replace: goToNextLevel });
+		goToNextLevel && navigate(0);
+	};
 
 	return levelComplete ? (
 		<DelayComponent delayMs={500}>
@@ -76,8 +84,8 @@ const LevelCompleteDialog = () => {
 							</div>
 						</Tooltip>
 
-						<Tooltip title="More levels">
-							<Button variant="contained" color="secondary" disableElevation sx={{ fontWeight: 'bolder' }} onClick={onNextClick}>
+						<Tooltip title={selectedLevel.data?.isMainLevel ? 'Next' : 'More levels'}>
+							<Button variant="contained" color="secondary" disableElevation sx={{ fontWeight: 'bolder' }} onClick={onNextLevelClick}>
 								Next
 							</Button>
 						</Tooltip>

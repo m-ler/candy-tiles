@@ -10,7 +10,7 @@ import LevelCard from '../LevelCard';
 import { onlineLevelsPageState } from '../store/onlineLevelsPage';
 import EmptyState from './EmptyState';
 
-const LEVELS_PER_PAGE = 5;
+const LEVELS_PER_PAGE = 25;
 
 const OnlineLevelsTab = () => {
 	const [currentPage, setCurrentPage] = useRecoilState(onlineLevelsPageState);

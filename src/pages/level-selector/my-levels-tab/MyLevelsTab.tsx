@@ -13,7 +13,7 @@ import DeleteLevelDialog from './DeleteLevelDialog';
 import EmptyState from './EmptyState';
 import LevelActions from './LevelActions';
 
-const LEVELS_PER_PAGE = 5;
+const LEVELS_PER_PAGE = 25;
 const MyLevelsTab = () => {
 	const loggedUser = useLoggedUser();
 	const [currentPage, setCurrentPage] = useRecoilState(myLevelsPageState);

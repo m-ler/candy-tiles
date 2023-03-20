@@ -22,7 +22,6 @@ const GamePage = ({ isMainLevel }: Props) => {
 	const selectedLevelId = useParams()['levelId'] || '';
 	const selectedLevelQuery = useSelectedLevel(!!isMainLevel, selectedLevelId);
 	let levelAvaliable = true;
-
 	const completedLevels = useCompletedLevels().main;
 
 	useEffect(() => {
