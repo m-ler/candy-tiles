@@ -1,6 +1,5 @@
 import { Navigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-import { loggedUserState } from './../store/loggedUser';
+import useLoggedUser from '../hooks/useLoggedUser';
 
 type Props = {
 	allowAnonymousUsers: boolean;
@@ -9,8 +8,8 @@ type Props = {
 };
 
 const PrivateRoute = ({ allowAnonymousUsers, allowLoggedUsers, children }: Props) => {
-	const currentUser = useRecoilValue(loggedUserState);
-	const allow = allowLoggedUsers ? !!currentUser : allowAnonymousUsers ? currentUser === null : false;
+	const loggedUser = useLoggedUser();
+	const allow = allowLoggedUsers ? !!loggedUser : allowAnonymousUsers ? loggedUser === null : false;
 	return <>{allow ? children : <Navigate to="/"></Navigate>}</>;
 };
 

@@ -1,14 +1,9 @@
 import { Grid } from '@mui/material';
-import { useRecoilValue } from 'recoil';
-import { completedLevelsState } from '../../../store/completedLevels';
-import { loggedUserState } from '../../../store/loggedUser';
+import useCompletedLevels from '../../../hooks/useCompletedLevels';
 import SelectLevelButton from './SelectLevelButton';
 
 const MainLevelsTab = () => {
-	const localCompletedLevels = useRecoilValue(completedLevelsState);
-	const loggedUser = useRecoilValue(loggedUserState);
-
-	const completedLevels = loggedUser ? loggedUser.profile.completedLevels : localCompletedLevels;
+	const completedLevels = useCompletedLevels();
 
 	return (
 		<Grid container columns={{ xs: 2, sm: 4, md: 8 }} spacing={2} padding={2}>

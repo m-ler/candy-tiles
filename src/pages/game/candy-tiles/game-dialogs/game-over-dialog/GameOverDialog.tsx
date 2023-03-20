@@ -1,17 +1,14 @@
 import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
-import { levelMovesState } from '../../store/levelMoves';
 import CandyTilesDialog from '../CandyTilesDialog';
 import { finishedMovingState } from '../../store/finishedMoving';
 import GameOverActions from '../GameOverActions';
 import useAudio from '../../../../../hooks/useAudio';
-import { levelCompleteState } from '../../store/levelComplete';
+import { gameOverState } from '../../store/gameOver';
 
 const GameOverDialog = () => {
-	const levelMoves = useRecoilValue(levelMovesState);
 	const finishedMoving = useRecoilValue(finishedMovingState);
-	const levelComplete = useRecoilValue(levelCompleteState);
-	const gameOver = levelMoves.spentAllMoves && finishedMoving && !levelComplete;
+	const gameOver = useRecoilValue(gameOverState);
 	const playAudio = useAudio();
 
 	useEffect(() => {

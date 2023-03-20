@@ -1,13 +1,12 @@
 import useToast from './useToast';
 import { uploadAvatar } from '../api/user';
 import { useMutation } from 'react-query';
-import { useRecoilValue } from 'recoil';
-import { loggedUserState } from '../store/loggedUser';
 import { refreshSession } from '../api/auth';
+import useLoggedUser from './useLoggedUser';
 
 export default () => {
 	const toast = useToast();
-	const loggedUser = useRecoilValue(loggedUserState);
+	const loggedUser = useLoggedUser();
 
 	const uploadAvatarMutation = useMutation(
 		'uploat-user-avatar',

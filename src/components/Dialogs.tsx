@@ -1,11 +1,10 @@
-import { useRecoilValue } from 'recoil';
-import { loggedUserState } from '../store/loggedUser';
+import useLoggedUser from '../hooks/useLoggedUser';
 import DeleteAccountDialog from './delete-account-dialog';
 import ManageUserDialog from './manage-user-dialog';
 import UserAuthDialog from './UserAuthDialog';
 
 const Dialogs = () => {
-	const loggedUser = useRecoilValue(loggedUserState);
+	const loggedUser = useLoggedUser();
 
 	return (
 		<>

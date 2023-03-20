@@ -1,21 +1,21 @@
 import { Button, DialogContent, Divider, LinearProgress, Typography } from '@mui/material';
 import Dialog from '../Dialog';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { showManageUserDialogState } from './../../store/showManageUserDialog';
-import { loggedUserState } from './../../store/loggedUser';
 import { Stack } from '@mui/system';
 import AvatarButton from './AvatarButton';
 import { useState } from 'react';
 import { showDeleteAccountDialogState } from './../../store/showDeleteAccountDialog';
 import { blueGrey } from '@mui/material/colors';
 import { LoggedUserData } from '../../types';
+import useLoggedUser from '../../hooks/useLoggedUser';
 
 const ManageUserDialog = () => {
 	const [showManageUserDialog, setShowManageUserDialog] = useRecoilState(showManageUserDialogState);
 	const setShowDeleteAccountDialog = useSetRecoilState(showDeleteAccountDialogState);
 
 	const dialogOnClose = () => setShowManageUserDialog(false);
-	const user = useRecoilValue(loggedUserState) as LoggedUserData;
+	const user = useLoggedUser() as LoggedUserData;
 	const [uploadingAvatar, setUploadingAvatar] = useState(false);
 	const onDeleteAccountClick = () => {
 		setShowDeleteAccountDialog(true);

@@ -1,7 +1,7 @@
 import { Box, Container, Paper, Stack, Tab, Tabs } from '@mui/material';
 import anime from 'animejs';
 import { useEffect } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import Header from '../../components/header';
 import MainLevelsTab from './main-levels-tab';
 import OnlineLevelsTab from './online-levels-tab';
@@ -9,8 +9,8 @@ import { grey } from '@mui/material/colors';
 import { selectedTabState } from './store/selectedTab';
 import SwipeableViews from 'react-swipeable-views';
 import MyLevelsTab from './my-levels-tab';
-import { loggedUserState } from '../../store/loggedUser';
 import { supabase } from '../../config/supabase-config';
+import useLoggedUser from '../../hooks/useLoggedUser';
 
 const animateButtons = () => {
 	anime({
@@ -24,7 +24,7 @@ const animateButtons = () => {
 
 const LevelSelectorPage = () => {
 	const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState);
-	const loggedUser = useRecoilValue(loggedUserState);
+	const loggedUser = useLoggedUser();
 
 	useEffect(() => {
 		selectedTab === 0 && animateButtons();

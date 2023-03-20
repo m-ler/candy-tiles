@@ -4,13 +4,13 @@ import { updateUser } from '../../../api/user';
 import { levelCompleteState } from './store/levelComplete';
 import { levelScoreStarsState } from './store/levelScoreStars';
 import { CompletedLevels, completedLevelsState } from '../../../store/completedLevels';
-import { loggedUserState } from '../../../store/loggedUser';
 import useSelectedLevel from '../../../hooks/useSelectedLevel';
+import useLoggedUser from '../../../hooks/useLoggedUser';
 
 const CompletedLevelUpdater = () => {
 	const [completedLevels, setCompletedLevels] = useRecoilState(completedLevelsState);
 	const selectedLevel = useSelectedLevel();
-	const loggedUser = useRecoilValue(loggedUserState);
+	const loggedUser = useLoggedUser();
 	const levelId = useMemo(
 		() => (selectedLevel.data?.isMainLevel ? selectedLevel.data.file.id : selectedLevel.data?.id),
 		[selectedLevel.data],

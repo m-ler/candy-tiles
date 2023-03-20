@@ -4,15 +4,14 @@ import { blueGrey, red } from '@mui/material/colors';
 import { BsSuitHeartFill } from 'react-icons/bs';
 import { ImHeartBroken } from 'react-icons/im';
 import { useMutation } from 'react-query';
-import { useRecoilValue } from 'recoil';
 import { refreshSession } from '../../../../api/auth';
 import { rateLevel } from '../../../../api/levels';
+import useLoggedUser from '../../../../hooks/useLoggedUser';
 import useSelectedLevel from '../../../../hooks/useSelectedLevel';
-import { loggedUserState } from '../../../../store/loggedUser';
 import { UserProfileData } from '../../../../types';
 
 const RateLevelButtons = () => {
-	const loggedUser = useRecoilValue(loggedUserState);
+	const loggedUser = useLoggedUser();
 	const selectedLevel = useSelectedLevel();
 	const levelId = useSelectedLevel().data?.id || 0;
 	const userProfile = loggedUser?.profile || ({} as UserProfileData);

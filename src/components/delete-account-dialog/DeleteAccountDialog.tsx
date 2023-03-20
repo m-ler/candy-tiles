@@ -2,19 +2,19 @@ import { LoadingButton } from '@mui/lab';
 import { DialogContent, DialogTitle, FormHelperText, InputAdornment, Stack } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { MdLock } from 'react-icons/md';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import useDeleteAccount from '../../hooks/useDeleteAccount';
 import TextFieldMain from '../TextFieldMain';
-import { loggedUserState } from '../../store/loggedUser';
 import Dialog from '../Dialog';
 import InputAdornmentLoader from '../InputAdornmentLoader';
 import { showDeleteAccountDialogState } from './../../store/showDeleteAccountDialog';
+import useLoggedUser from '../../hooks/useLoggedUser';
 
 const DeleteAccountDialog = () => {
 	const [showDeleteAccountDialog, setShowDeleteAccountDialog] = useRecoilState(showDeleteAccountDialogState);
 	const [passwordValue, setPasswordValue] = useState('');
 	const { deleteAccountMutation, errorMessage } = useDeleteAccount();
-	const loggedUser = useRecoilValue(loggedUserState);
+	const loggedUser = useLoggedUser();
 
 	useEffect(() => {
 		deleteAccountMutation.isSuccess && !deleteAccountMutation.data?.error && setShowDeleteAccountDialog(false);
@@ -42,12 +42,12 @@ const DeleteAccountDialog = () => {
 							InputProps={{
 								startAdornment: (
 									<InputAdornment position="start">
-										{false ? <InputAdornmentLoader /> : <MdLock className="max-w-[16px]"></MdLock>}
+										{deleteAccountMutation.isLoading ? <InputAdornmentLoader /> : <MdLock className="max-w-[16px]"></MdLock>}
 									</InputAdornment>
 								),
 							}}
 							helperText={''}
-							error={false}
+							error={deleteAccountMutation.isError}
 							onChange={(e) => setPasswordValue(e.target.value)}
 							onBlur={passwordOnBlur}
 						></TextFieldMain>

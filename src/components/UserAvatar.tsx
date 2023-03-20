@@ -1,6 +1,5 @@
 import { Avatar, IconButton } from '@mui/material';
-import { useRecoilValue } from 'recoil';
-import { loggedUserState } from '../store/loggedUser';
+import useLoggedUser from '../hooks/useLoggedUser';
 import { LoggedUserData } from '../types';
 
 type Props = {
@@ -10,7 +9,7 @@ type Props = {
 };
 
 const UserAvatar = ({ size, fontSize, onClick }: Props) => {
-	const user = useRecoilValue(loggedUserState) as LoggedUserData;
+	const user = useLoggedUser() as LoggedUserData;
 
 	return (
 		<IconButton onClick={onClick}>

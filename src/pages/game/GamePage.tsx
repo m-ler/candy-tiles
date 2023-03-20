@@ -6,11 +6,10 @@ import CandyTiles from './candy-tiles';
 import LevelError from './LevelError';
 import LevelSkeleton from './LevelSkeleton';
 import VolumeDialog from './VolumeDialog';
-import { useRecoilValue } from 'recoil';
-import { completedLevelsState } from '../../store/completedLevels';
 import useToast from '../../hooks/useToast';
 import Header from '../../components/header';
 import { incrementOnlineLevelTimesPlayed } from '../../api/levels';
+import useCompletedLevels from '../../hooks/useCompletedLevels';
 
 type Props = {
 	isMainLevel?: boolean;
@@ -22,8 +21,9 @@ const GamePage = ({ isMainLevel }: Props) => {
 	const queryClient = useQueryClient();
 	const selectedLevelId = useParams()['levelId'] || '';
 	const selectedLevelQuery = useSelectedLevel(!!isMainLevel, selectedLevelId);
-	const completedLevels = useRecoilValue(completedLevelsState);
 	let levelAvaliable = true;
+
+	const completedLevels = useCompletedLevels().main;
 
 	useEffect(() => {
 		return () => {
@@ -41,7 +41,8 @@ const GamePage = ({ isMainLevel }: Props) => {
 
 	const checkLevelAvailability = () => {
 		const levelId = selectedLevelQuery.data?.file.id;
-		const levelLocked = !completedLevels.main.some((x) => x.id === (levelId || 0) - 1);
+		const levelLocked = !completedLevels.some((x) => x.id === (levelId || 0) - 1);
+
 		levelAvaliable = !isMainLevel || !levelLocked || levelId === 1;
 
 		if (levelAvaliable) return;

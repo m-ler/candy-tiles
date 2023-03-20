@@ -1,11 +1,11 @@
 import { Box, CircularProgress, Pagination, Stack } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useMutation } from 'react-query';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { getUserLevels } from '../../../api/levels';
 import FetchErrorState from '../../../components/FetchErrorState';
 import { supabase } from '../../../config/supabase-config';
-import { loggedUserState } from '../../../store/loggedUser';
+import useLoggedUser from '../../../hooks/useLoggedUser';
 import { LevelWithUserDB } from '../../../types/database-aliases';
 import LevelCard from '../LevelCard';
 import { myLevelsPageState } from '../store/myLevelsPage';
@@ -15,7 +15,7 @@ import LevelActions from './LevelActions';
 
 const LEVELS_PER_PAGE = 5;
 const MyLevelsTab = () => {
-	const loggedUser = useRecoilValue(loggedUserState);
+	const loggedUser = useLoggedUser();
 	const [currentPage, setCurrentPage] = useRecoilState(myLevelsPageState);
 	const myLevels = useMutation((page: number) => getUserLevels(page, LEVELS_PER_PAGE, loggedUser?.auth.id || ''));
 	useEffect(() => {

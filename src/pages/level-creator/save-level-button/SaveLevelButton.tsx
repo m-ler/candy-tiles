@@ -7,13 +7,13 @@ import { levelDataEditorState } from '../store/levelDataEditor';
 import { LoadingButton } from '@mui/lab';
 import { useMutation } from 'react-query';
 import { uploadLevel, UploadLevelData } from '../../../api/levels';
-import { loggedUserState } from './../../../store/loggedUser';
 import { showUserAuthDialogState } from '../../../store/showUserAuthenticationDialog';
 import { LevelFile, LevelRules } from '../../../types';
+import useLoggedUser from '../../../hooks/useLoggedUser';
 
 const SaveLevelButton = () => {
 	const levelDataEditor = useRecoilValue(levelDataEditorState);
-	const loggedUser = useRecoilValue(loggedUserState);
+	const loggedUser = useLoggedUser();
 	const setShowUserAuthDialog = useSetRecoilState(showUserAuthDialogState);
 	const toast = useToast();
 	const validateLevelMutation = useMutation(

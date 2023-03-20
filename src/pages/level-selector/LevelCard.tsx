@@ -5,9 +5,7 @@ import { MdBarChart, MdStarRate } from 'react-icons/md';
 import { ImHeart, ImHeartBroken } from 'react-icons/im';
 import { useNavigate } from 'react-router-dom';
 import { LevelWithUserDB } from '../../types/database-aliases';
-import { useRecoilValue } from 'recoil';
-import { loggedUserState } from '../../store/loggedUser';
-import { completedLevelsState } from '../../store/completedLevels';
+import useCompletedLevels from '../../hooks/useCompletedLevels';
 
 type Props = {
 	level: LevelWithUserDB;
@@ -15,14 +13,12 @@ type Props = {
 };
 
 const LevelCard = ({ level, actions }: Props) => {
-	const loggedUser = useRecoilValue(loggedUserState);
 	const navigate = useNavigate();
 	const levelDate = new Date(level.created_at || '').toLocaleDateString().slice(0, 10);
 	const karma = (level.likes || 0) - (level.dislikes || 0);
 	const numberFormatter = Intl.NumberFormat('en', { notation: 'compact' });
-	const localCompletedLevels = useRecoilValue(completedLevelsState);
-	const completedOnlineLevels = loggedUser ? loggedUser.profile.completedLevels.online : localCompletedLevels.online;
-	const stars = completedOnlineLevels.find((x) => x.id === level.id)?.stars || 0;
+	const completedLevels = useCompletedLevels();
+	const stars = completedLevels.online.find((x) => x.id === level.id)?.stars || 0;
 
 	return (
 		<Slide in={true}>
