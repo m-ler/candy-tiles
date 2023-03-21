@@ -1,3 +1,5 @@
+![](https://github.com/m-ler/candy-tiles/blob/main/.github/assets/social-banner.jpg)
+
 <h1 align="center">
   Candy Tiles
 </h1>
@@ -19,4 +21,14 @@
 ## Live demo
 🔗 https://candy-tiles.netlify.app/
 
+## Screenshots
 
+<p align="center">
+  <img src=".github/assets/screenshots/0.jpg" width="410"></img>
+  <img src=".github/assets/screenshots/1.jpg" width="410"></img>
+</p>
+
+<p align="center">
+  <img src=".github/assets/screenshots/2.jpg" width="410"></img>
+  <img src=".github/assets/screenshots/3.jpg" width="410"></img>
+</p>
