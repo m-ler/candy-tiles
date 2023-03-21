@@ -22,8 +22,8 @@ export const createUser = async (email: string, nickname: string, password: stri
 		createdAt: data.user?.created_at,
 		nickname,
 		avatarURL: null,
-		passedLevels: null,
-		ratedLevels: null,
+		likedLevels: [],
+		dislikedLevels: [],
 	});
 };
 
