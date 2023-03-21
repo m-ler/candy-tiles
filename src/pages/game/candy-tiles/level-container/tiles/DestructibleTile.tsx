@@ -72,7 +72,7 @@ const DestructibleTile = (props: Props, ref: ForwardedRef<DestructibleTileRef>) 
 					opacity: damaged ? 0.6 : 1,
 				}}
 			></img>
-			<span className="absolute bottom-0 right-0 text-[12px] text-white/80 font-bold">{props.index}</span>
+			<span className="absolute bottom-0 right-0 text-[12px] text-white/80 font-bold hidden">{props.index}</span>
 		</div>
 	);
 };
