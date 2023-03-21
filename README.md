@@ -23,7 +23,7 @@
 
 ## 📸 Screenshots
 
-<p align="center">t
+<p align="center">
   <img src=".github/assets/screenshots/0.jpg" width="410"></img>
   <img src=".github/assets/screenshots/1.jpg" width="410"></img>
 </p>
