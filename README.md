@@ -1,7 +1,7 @@
 ![Banner](.github/assets/social-banner.jpg)
 
 <h1 align="center">
-  Candy Tiles
+ 🍭 Candy Tiles
 </h1>
 
 <h5 align="center">
@@ -18,12 +18,12 @@
   <img src="https://img.shields.io/badge/Supabase-181818?style=for-the-badge&logo=supabase&logoColor=white"/>
 </p>
 
-## Live demo
+## 🚀 Live demo
 🔗 https://candy-tiles.netlify.app/
 
-## Screenshots
+## 📸 Screenshots
 
-<p align="center">
+<p align="center">t
   <img src=".github/assets/screenshots/0.jpg" width="410"></img>
   <img src=".github/assets/screenshots/1.jpg" width="410"></img>
 </p>
