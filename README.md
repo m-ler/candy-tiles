@@ -1,4 +1,4 @@
-![](https://github.com/m-ler/candy-tiles/blob/main/.github/assets/social-banner.jpg)
+![Banner](.github/assets/social-banner.jpg)
 
 <h1 align="center">
   Candy Tiles
