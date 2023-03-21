@@ -5,7 +5,7 @@
 </h1>
 
 <h5 align="center">
-  A match-three puzzle game with cloud features built with React.
+  A match-three video game built with React, where players can create and share their own levels with the community.
 </h5>
 
 <p align="center">
