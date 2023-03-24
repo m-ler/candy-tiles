@@ -1,5 +1,4 @@
-import { Button, DialogContent, Divider, LinearProgress, Typography } from '@mui/material';
-import Dialog from '../Dialog';
+import { Button, Dialog, DialogContent, Divider, LinearProgress, Typography } from '@mui/material';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { showManageUserDialogState } from './../../store/showManageUserDialog';
 import { Stack } from '@mui/system';

@@ -1,10 +1,9 @@
-import { DialogContent, DialogTitle, Slider } from '@mui/material';
+import { Dialog, DialogContent, DialogTitle, Slider } from '@mui/material';
 import { showVolumeDialogState } from './store/showVolumeDialog';
 import { useRecoilState } from 'recoil';
 import { MdVolumeDown, MdVolumeUp } from 'react-icons/md';
 import { gameVolumeState } from './../../store/gameVolume';
 import { useMemo } from 'react';
-import Dialog from '../../components/Dialog';
 import { blueGrey } from '@mui/material/colors';
 
 const VolumeDialog = () => {

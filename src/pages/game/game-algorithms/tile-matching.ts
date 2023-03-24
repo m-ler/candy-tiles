@@ -17,7 +17,7 @@ const emptyMatchDetail: MatchDetail = {
 	up: 0,
 };
 
-const getAdjacentIndexes = (index: number): number[] => {
+export const getAdjacentIndexes = (index: number): number[] => {
 	const verticalAdjacentIndexOffsets = [index - COLUMN_NUMBER, index + COLUMN_NUMBER];
 	const horizontalAdjacentIndexOffsets = [index + 1, index - 1];
 
@@ -32,15 +32,7 @@ export const tilesAreAdjacent = (firstIndex: number, secondIndex: number): boole
 	return areAdjacent;
 };
 
-type TileMovePosition = [number, number];
-
-export const getTileTargetPosition = (index: number, tileTargetIndex: number): TileMovePosition => {
-	const top = tileTargetIndex === index - ROW_NUMBER ? -100 : tileTargetIndex === index + ROW_NUMBER ? 100 : 0;
-	const left = tileTargetIndex === index - 1 ? -100 : tileTargetIndex === index + 1 ? 100 : 0;
-	return [top, left];
-};
-
-const getCandyMatchings = (
+export const getCandyMatchings = (
 	candy: {
 		index: number;
 	} & (Candy | SuperCandy),
@@ -160,7 +152,7 @@ const getColumnBaseTile = (tileList: readonly LevelTile[], columnIndex: number):
 	return avaliableTiles.findLastIndex((x) => x !== null) + 1;
 };
 
-const getIceCreamMatchings = (
+export const getIceCreamMatchings = (
 	iceCream: {
 		index: number;
 	} & IceCream,

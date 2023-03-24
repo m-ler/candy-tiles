@@ -1,7 +1,6 @@
-import Dialog from './Dialog';
 import { useRecoilState } from 'recoil';
 import { showUserAuthDialogState } from '../store/showUserAuthenticationDialog';
-import { DialogContent, Tab, Tabs } from '@mui/material';
+import { Dialog, DialogContent, Tab, Tabs } from '@mui/material';
 import SignInForm from './sign-in-form';
 import { useState } from 'react';
 import TabPanel from './TabPanel';

@@ -1,11 +1,10 @@
 import { LoadingButton } from '@mui/lab';
-import { DialogContent, DialogTitle, FormHelperText, InputAdornment, Stack } from '@mui/material';
+import { Dialog, DialogContent, DialogTitle, FormHelperText, InputAdornment, Stack } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { MdLock } from 'react-icons/md';
 import { useRecoilState } from 'recoil';
 import useDeleteAccount from '../../hooks/useDeleteAccount';
 import TextFieldMain from '../TextFieldMain';
-import Dialog from '../Dialog';
 import InputAdornmentLoader from '../InputAdornmentLoader';
 import { showDeleteAccountDialogState } from './../../store/showDeleteAccountDialog';
 import useLoggedUser from '../../hooks/useLoggedUser';
