@@ -1,0 +1,41 @@
+body::before {
+	content: '';
+	position: absolute;
+	width: 100vw;
+	height: 100vh;
+	top: 0;
+	left: 0;
+	background: rgba(0, 0, 0, 0.5) url('./../img/illustrations/home-bg.jpg');
+	background-blend-mode: darken;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-attachment: fixed;
+	backdrop-filter: opacity(0.8);
+	z-index: -10;
+}
+
+#app::before {
+	content: '';
+	position: absolute;
+	width: 100vw;
+	height: 100vh;
+	top: 0;
+	left: 0;
+	background: linear-gradient(to top, #a38946 10%, transparent);
+	z-index: -9;
+}
+
+#app::after {
+	content: '';
+	position: absolute;
+	width: 100vw;
+	height: 100vh;
+	top: 0;
+	left: 0;
+	background: url('./../svg/clouds.svg');
+	background-repeat: no-repeat;
+	background-position: bottom;
+	background-size: cover;
+	opacity: 0.5;
+	z-index: -8;
+}

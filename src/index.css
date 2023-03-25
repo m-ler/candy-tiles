@@ -1,6 +1,7 @@
 @import url('./assets/style/tailwind-text-fill-stroke-plugin.css');
 @import url('./assets/style/fonts.css');
 @import url('./assets/style/scrollbar.css');
+@import url('./assets/style/background.css');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

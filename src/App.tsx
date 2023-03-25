@@ -11,7 +11,6 @@ import UserInteractionDetection from './components/UserInteractionDetection';
 import { muiTheme } from './config/mui-theme';
 import GamePage from './pages/game';
 import HomePage from './pages/home';
-import Background from './pages/home/Background';
 import LevelCreatorPage from './pages/level-creator';
 import LevelSelectorPage from './pages/level-selector';
 import PasswordRecoveryPage from './pages/password-recovery/index';
@@ -27,7 +26,6 @@ const App = () => {
 					<CssBaseline />
 					<BrowserRouter>
 						<QueryClientProvider client={queryClient}>
-							<Background />
 							<SupabaseManager />
 							<Dialogs />
 							<UserInteractionDetection></UserInteractionDetection>
