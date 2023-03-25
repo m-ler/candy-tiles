@@ -1,4 +1,4 @@
-const mime = require('mime');
+import mime from 'mime';
 
 export const downloadBase64File = (fileName: string, extension: string, base64: string) => {
 	const mimeType = mime.getType(extension) || '';
