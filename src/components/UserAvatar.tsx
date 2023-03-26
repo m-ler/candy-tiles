@@ -12,7 +12,7 @@ const UserAvatar = ({ size, fontSize, onClick }: Props) => {
 	const user = useLoggedUser() as LoggedUserData;
 
 	return (
-		<IconButton onClick={onClick}>
+		<IconButton data-cy="logged-user-button" onClick={onClick}>
 			<Avatar
 				src={user.profile.avatarURL}
 				sx={{

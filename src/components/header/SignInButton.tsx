@@ -9,7 +9,7 @@ const SignInButton = () => {
 
 	return (
 		<Tooltip title="Sign in">
-			<IconButton onClick={signInButtonOnClick} sx={{ color: 'primary.light' }}>
+			<IconButton data-cy="login-button" onClick={signInButtonOnClick} sx={{ color: 'primary.light' }}>
 				<MdAccountCircle size={32} />
 			</IconButton>
 		</Tooltip>

@@ -29,9 +29,10 @@ const SignInForm = ({ onClose }: Props) => {
 	const validForm = emailValidation.data?.valid && !!passwordValue.length;
 
 	return (
-		<form>
+		<form onSubmit={(e) => e.preventDefault()}>
 			<Stack spacing={2}>
 				<TextFieldMain
+					name="email"
 					label="Email"
 					variant="filled"
 					InputProps={{
@@ -47,6 +48,7 @@ const SignInForm = ({ onClose }: Props) => {
 					onBlur={emailOnBlur}
 				></TextFieldMain>
 				<TextFieldMain
+					name="password"
 					label="Password"
 					variant="filled"
 					type="password"
@@ -63,10 +65,10 @@ const SignInForm = ({ onClose }: Props) => {
 					{errorMessage}
 				</FormHelperText>
 				<Stack direction="row" justifyContent="space-between" alignItems="center">
-					<Link to="/recover-password" component={RouterLink} fontSize="14px"  onClick={() => onClose?.()}>
+					<Link to="/recover-password" component={RouterLink} fontSize="14px" onClick={() => onClose?.()}>
 						Forgot your password?
 					</Link>
-					<LoadingButton variant="contained" onClick={singInOnClick} disabled={!validForm} loading={signInMutation.isLoading} type='submit'>
+					<LoadingButton variant="contained" onClick={singInOnClick} disabled={!validForm} loading={signInMutation.isLoading} type="submit">
 						<span>SIGN IN</span>
 					</LoadingButton>
 				</Stack>

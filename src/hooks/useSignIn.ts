@@ -14,6 +14,7 @@ export default () => {
 				setErrorMessage(data.error.message);
 				return;
 			}
+
 			navigate(0);
 		},
 	});
