@@ -19,3 +19,5 @@ export const LEVEL_ELEMENTS_SCORES: { [key: string]: number } = {
 };
 export const COMBO_LIMIT = 3;
 export const MAIN_LEVELS_COUNT = 50;
+export const ONLINE_LEVELS_PAGE_LENGTH = 3;
+export const MY_LEVELS_PAGE_LENGTH = 25

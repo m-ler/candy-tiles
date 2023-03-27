@@ -23,6 +23,7 @@ const LevelCard = ({ level, actions }: Props) => {
 	return (
 		<Slide in={true}>
 			<Card
+				data-cy="online-level-card"
 				sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, border: '1px solid', borderColor: blueGrey[50], flexShrink: 0 }}
 				elevation={0}
 			>

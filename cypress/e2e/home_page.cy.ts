@@ -2,14 +2,9 @@ describe('Home page', () => {
 	it('successfuly loads', () => {
 		cy.visit('/');
 	});
-});
 
-describe('Page elements', () => {
-	it('shows CREATE button', () => {
+	it('loads page elements', () => {
 		cy.get('[data-cy=create-level-button]').should('exist');
-	});
-
-	it('shows PLAY button', () => {
 		cy.get('[data-cy=play-button]').should('exist');
 	});
 

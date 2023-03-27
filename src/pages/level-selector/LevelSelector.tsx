@@ -53,8 +53,8 @@ const LevelSelectorPage = () => {
 						indicatorColor="primary"
 						style={{ flexShrink: 0 }}
 					>
-						<Tab label="Main Levels"></Tab>
-						<Tab label="Online levels"></Tab>
+						<Tab label="Main Levels" data-cy="main-levels-tab-button"></Tab>
+						<Tab label="Online levels" data-cy="online-levels-tab-button"></Tab>
 						{!!loggedUser && <Tab label="My levels"></Tab>}
 					</Tabs>
 					<SwipeableViews

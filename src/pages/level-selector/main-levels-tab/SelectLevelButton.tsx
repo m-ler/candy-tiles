@@ -26,6 +26,7 @@ const SelectLevelButton = (props: Props): JSX.Element => {
 
 	return (
 		<Button
+			data-cy="main-level-button"
 			className="translate-x-[-5000px] flex flex-col relative"
 			data-level-button
 			disabled={props.locked}

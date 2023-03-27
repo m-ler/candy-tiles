@@ -4,6 +4,7 @@ import { useMutation } from 'react-query';
 import { useRecoilState } from 'recoil';
 import { getUserLevels } from '../../../api/levels';
 import FetchErrorState from '../../../components/FetchErrorState';
+import { MY_LEVELS_PAGE_LENGTH } from '../../../config';
 import { supabase } from '../../../config/supabase-config';
 import useLoggedUser from '../../../hooks/useLoggedUser';
 import { LevelWithUserDB } from '../../../types/database-aliases';
@@ -13,11 +14,10 @@ import DeleteLevelDialog from './DeleteLevelDialog';
 import EmptyState from './EmptyState';
 import LevelActions from './LevelActions';
 
-const LEVELS_PER_PAGE = 25;
 const MyLevelsTab = () => {
 	const loggedUser = useLoggedUser();
 	const [currentPage, setCurrentPage] = useRecoilState(myLevelsPageState);
-	const myLevels = useMutation((page: number) => getUserLevels(page, LEVELS_PER_PAGE, loggedUser?.auth.id || ''));
+	const myLevels = useMutation((page: number) => getUserLevels(page, MY_LEVELS_PAGE_LENGTH, loggedUser?.auth.id || ''));
 	useEffect(() => {
 		!!loggedUser && myLevels.mutate(currentPage);
 		supabase.auth.onAuthStateChange((event) => {
@@ -25,7 +25,7 @@ const MyLevelsTab = () => {
 		});
 	}, [currentPage, loggedUser?.auth.id]);
 
-	const paginationCount = Math.ceil((myLevels.data?.count || 0) / LEVELS_PER_PAGE);
+	const paginationCount = Math.ceil((myLevels.data?.count || 0) / MY_LEVELS_PAGE_LENGTH);
 	const [deleteLevel, setDeleteLevel] = useState<LevelWithUserDB | null>(null);
 
 	const noLevels = myLevels.data?.data?.length === 0;
