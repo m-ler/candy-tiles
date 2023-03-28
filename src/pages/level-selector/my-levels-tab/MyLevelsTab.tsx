@@ -35,7 +35,7 @@ const MyLevelsTab = () => {
 
 	return (
 		<>
-			<Stack overflow="hidden" maxHeight="100%">
+			<Stack overflow="hidden" maxHeight="100%" data-cy="my-levels-tab">
 				<Stack spacing={1} padding={2} overflow="auto">
 					{myLevels.isLoading && (
 						<Box display="flex" justifyContent="center">
@@ -54,6 +54,7 @@ const MyLevelsTab = () => {
 						count={paginationCount}
 						color="secondary"
 						sx={{ margin: '0 auto' }}
+						data-cy="my-levels-pagination"
 					></Pagination>
 				</Box>
 			</Stack>

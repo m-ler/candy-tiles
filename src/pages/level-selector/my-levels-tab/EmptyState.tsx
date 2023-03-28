@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 const EmptyState = () => {
 	const navigate = useNavigate();
 	return (
-		<Container maxWidth="sm">
+		<Container maxWidth="sm" data-cy="my-levels-empty-state">
 			<Stack alignItems="center" paddingX={2} paddingY={4}>
 				<SpaceIllustration width={150} />
 				<Typography fontWeight="700" fontSize={18} color={blueGrey[800]} paddingTop={3}>

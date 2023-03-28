@@ -27,7 +27,7 @@ const DeleteLevelDialog = ({ level, setLevel, onLevelDeleted }: Props) => {
 	});
 
 	return (
-		<Dialog open={!!level} onClose={onClose}>
+		<Dialog open={!!level} onClose={onClose} data-cy="delete-level-dialog">
 			<DialogTitle>Delete {`'${level?.title || ''}'`}</DialogTitle>
 			<DialogContent>
 				<DialogContentText>This level will be permanently deleted. This action cannot be undone. </DialogContentText>

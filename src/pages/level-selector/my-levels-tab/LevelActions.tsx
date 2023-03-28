@@ -13,7 +13,7 @@ const LevelActions = ({ level, setLevel }: Props) => {
 	return (
 		<>
 			<Stack alignItems="center" marginY="auto" marginLeft="auto">
-				<IconButton edge="end" onClick={(e) => setAnchorEl(e.currentTarget)}>
+				<IconButton data-cy="level-card-menu-button" edge="end" onClick={(e) => setAnchorEl(e.currentTarget)}>
 					<MdMoreVert />
 				</IconButton>
 			</Stack>
@@ -25,6 +25,7 @@ const LevelActions = ({ level, setLevel }: Props) => {
 				transformOrigin={{ horizontal: 'right', vertical: 'center' }}
 			>
 				<MenuItem
+					data-cy="delete-level-menu-button"
 					onClick={() => {
 						setAnchorEl(null);
 						setLevel(level);

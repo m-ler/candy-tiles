@@ -4,7 +4,7 @@ import DonutLoveIllustration from '../assets/svgr/DonutLoveIllustration';
 
 const FetchErrorState = () => {
 	return (
-		<Container maxWidth="sm">
+		<Container maxWidth="sm" data-cy="fetch-error-state-message">
 			<Stack alignItems="center" paddingX={2} paddingY={4}>
 				<DonutLoveIllustration width={150} />
 				<Typography fontWeight="700" fontSize={18} color={blueGrey[800]} paddingTop={3}>

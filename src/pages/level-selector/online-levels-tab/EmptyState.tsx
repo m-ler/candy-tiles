@@ -5,7 +5,7 @@ import UFOIllustration from '../../../assets/svgr/UFOIllustration';
 
 const EmptyState = () => {
 	return (
-		<Container maxWidth="sm">
+		<Container maxWidth="sm" data-cy="online-levels-empty-state">
 			<Stack alignItems="center" paddingX={2} paddingY={4}>
 				<UFOIllustration width={150} />
 				<Typography fontWeight="700" fontSize={18} color={blueGrey[800]} paddingTop={3}>

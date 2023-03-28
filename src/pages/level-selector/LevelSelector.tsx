@@ -35,7 +35,6 @@ const LevelSelectorPage = () => {
 	}, [selectedTab]);
 
 	const onTabChange = (e: React.SyntheticEvent, newValue: number) => setSelectedTab(newValue);
-	const onSwipeableChange = (index: number) => setSelectedTab(index);
 
 	return (
 		<>
@@ -55,11 +54,11 @@ const LevelSelectorPage = () => {
 					>
 						<Tab label="Main Levels" data-cy="main-levels-tab-button"></Tab>
 						<Tab label="Online levels" data-cy="online-levels-tab-button"></Tab>
-						{!!loggedUser && <Tab label="My levels"></Tab>}
+						{!!loggedUser && <Tab label="My levels" data-cy="my-levels-tab-button"></Tab>}
 					</Tabs>
 					<SwipeableViews
 						index={selectedTab}
-						onChangeIndex={onSwipeableChange}
+						//onChangeIndex={onSwipeableChange}
 						containerStyle={{
 							transition: '0.35s ',
 						}}
