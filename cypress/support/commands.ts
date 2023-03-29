@@ -17,7 +17,15 @@ Cypress.Commands.add('login', () => {
 			const loggedUser = JSON.parse(localStorage.getItem('logged-user')) as LoggedUserData | null;
 			expect(loggedUser.auth?.aud).to.equal('authenticated');
 		});
-		
 	});
+});
+
+Cypress.Commands.add('loginAndGoToMyLevels', () => {
+	cy.intercept('GET', 'https://wjkhdliegkpfcyhdsnvk.supabase.co/rest/v1/levels?*', { fixture: 'online-levels.json' }).as('myLevelsRequest');
+	cy.visit('/levels');
+	cy.login();
+	cy.visit('/levels');
+	cy.get('[data-cy=my-levels-tab-button]').click();
+	cy.wait('@myLevelsRequest').then((interception) => interception);
 });
 
