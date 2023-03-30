@@ -100,24 +100,18 @@ describe('My levels tab', { testIsolation: true }, () => {
 	});
 
 	it('clicking a level card should redirect to level page', () => {
-		cy.intercept('GET', 'https://wjkhdliegkpfcyhdsnvk.supabase.co/rest/v1/levels?*', { fixture: 'online-levels.json' }).as('getMyLevels');
-		cy.visit('/levels');
-		cy.login();
-		cy.visit('/levels');
-
-		cy.intercept('GET', 'https://wjkhdliegkpfcyhdsnvk.supabase.co/rest/v1/levels?*', { fixture: 'level.json' });
-		cy.wait('@getMyLevels').then((interception) => {
-			cy.get('[data-cy=my-levels-tab-button]').click();
-			cy.get('[data-cy=my-levels-tab]').find('[data-cy=online-level-card]').first().click();
-			cy.location('pathname').should('equal', `/level/${interception.response.body[0].id}`);
+		cy.loginAndGoToMyLevels().then((interception) => {
+			cy.intercept('GET', 'https://wjkhdliegkpfcyhdsnvk.supabase.co/rest/v1/levels?*', { fixture: 'level.json' }).then(() => {
+				cy.get('[data-cy=my-levels-tab-button]').click();
+				cy.get('[data-cy=my-levels-tab]').find('[data-cy=online-level-card]').first().click();
+				cy.location('pathname').should('equal', `/level/${interception.response.body[0].id}`);
+			});
 		});
 	});
 
-	it('empty state message should appear if there are not user levels to show', () => {
+	it('empty state message should appear if there are no user levels to show', () => {
 		cy.intercept('GET', 'https://wjkhdliegkpfcyhdsnvk.supabase.co/rest/v1/levels?*', []).as('myOnlineLevels');
-		cy.visit('/levels');
-		cy.login();
-		cy.visit('/levels');
+		cy.loginAndGoToMyLevels(false);
 		cy.wait('@myOnlineLevels');
 
 		cy.get('[data-cy=my-levels-tab-button]').click();
@@ -126,9 +120,7 @@ describe('My levels tab', { testIsolation: true }, () => {
 
 	it('validation message should appear if user levels request fails', () => {
 		cy.intercept('GET', 'https://wjkhdliegkpfcyhdsnvk.supabase.co/rest/v1/levels?*', { statusCode: 500 }).as('myOnlineLevels');
-		cy.visit('/levels');
-		cy.login();
-		cy.visit('/levels');
+		cy.loginAndGoToMyLevels(false);
 		cy.wait('@myOnlineLevels');
 
 		cy.get('[data-cy=my-levels-tab-button]').click();
@@ -136,13 +128,7 @@ describe('My levels tab', { testIsolation: true }, () => {
 	});
 
 	it('should open the delete level dialog when user clicks the delete button from the level card menu ', () => {
-		cy.intercept('GET', 'https://wjkhdliegkpfcyhdsnvk.supabase.co/rest/v1/levels?*', { fixture: 'online-levels.json' }).as(
-			'myOnlineLevels',
-		);
-		cy.visit('/levels');
-		cy.login();
-		cy.visit('/levels');
-		cy.wait('@myOnlineLevels');
+		cy.loginAndGoToMyLevels();
 
 		cy.get('[data-cy=my-levels-tab-button]').click();
 		cy.get('[data-cy=my-levels-tab]')
@@ -157,13 +143,7 @@ describe('My levels tab', { testIsolation: true }, () => {
 	});
 
 	it('should close the delete level dialog when user clicks the dialog close button', () => {
-		cy.intercept('GET', 'https://wjkhdliegkpfcyhdsnvk.supabase.co/rest/v1/levels?*', { fixture: 'online-levels.json' }).as(
-			'myOnlineLevels',
-		);
-		cy.visit('/levels');
-		cy.login();
-		cy.visit('/levels');
-		cy.wait('@myOnlineLevels');
+		cy.loginAndGoToMyLevels();
 
 		cy.get('[data-cy=my-levels-tab-button]').click();
 		cy.get('[data-cy=my-levels-tab]').find('[data-cy=online-level-card] [data-cy="level-card-menu-button"]').first().click();
@@ -174,12 +154,8 @@ describe('My levels tab', { testIsolation: true }, () => {
 	});
 
 	it('should delete user level when user clicks the dialog DELETE button', () => {
-		cy.intercept('GET', 'https://wjkhdliegkpfcyhdsnvk.supabase.co/rest/v1/levels?*', { fixture: 'online-levels.json' }).as('myLevels');
 		cy.intercept('DELETE', 'https://wjkhdliegkpfcyhdsnvk.supabase.co/rest/v1/levels?*', { statusCode: 200 }).as('deleteMyLevel');
-		cy.visit('/levels');
-		cy.login();
-		cy.visit('/levels');
-		cy.wait('@myLevels');
+		cy.loginAndGoToMyLevels();
 
 		cy.get('[data-cy=my-levels-tab-button]').click();
 		cy.get('[data-cy=my-levels-tab]').find('[data-cy=online-level-card] [data-cy="level-card-menu-button"]').first().click();
@@ -204,13 +180,9 @@ describe('My levels tab', { testIsolation: true }, () => {
 		});
 	});
 
-	it('should show error message toast if delete request level fails', () => {
+	it('should show error message toast if delete level request fails', () => {
 		cy.intercept('DELETE', 'https://wjkhdliegkpfcyhdsnvk.supabase.co/rest/v1/levels?*', { statusCode: 500 }).as('deleteMyLevel');
-		cy.intercept('GET', 'https://wjkhdliegkpfcyhdsnvk.supabase.co/rest/v1/levels?*', { fixture: 'online-levels.json' }).as('myLevels');
-		cy.visit('/levels');
-		cy.login();
-		cy.visit('/levels');
-		cy.wait('@myLevels');
+		cy.loginAndGoToMyLevels();
 
 		cy.get('[data-cy=my-levels-tab-button]').click();
 		cy.get('[data-cy=my-levels-tab]').find('[data-cy=online-level-card] [data-cy="level-card-menu-button"]').first().click();

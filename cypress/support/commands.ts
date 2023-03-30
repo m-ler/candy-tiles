@@ -20,12 +20,15 @@ Cypress.Commands.add('login', () => {
 	});
 });
 
-Cypress.Commands.add('loginAndGoToMyLevels', () => {
-	cy.intercept('GET', 'https://wjkhdliegkpfcyhdsnvk.supabase.co/rest/v1/levels?*', { fixture: 'online-levels.json' }).as('myLevelsRequest');
+Cypress.Commands.add('loginAndGoToMyLevels', (interceptLevelRequest = true) => {
+	interceptLevelRequest &&
+		cy
+			.intercept('GET', 'https://wjkhdliegkpfcyhdsnvk.supabase.co/rest/v1/levels?*', { fixture: 'online-levels.json' })
+			.as('myLevelsRequest');
 	cy.visit('/levels');
 	cy.login();
 	cy.visit('/levels');
 	cy.get('[data-cy=my-levels-tab-button]').click();
-	cy.wait('@myLevelsRequest').then((interception) => interception);
+	interceptLevelRequest && cy.wait('@myLevelsRequest').then((interception) => interception);
 });
 
