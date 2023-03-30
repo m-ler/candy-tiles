@@ -1,7 +1,7 @@
 import { LevelWithUserDB } from '../../src/types/database-aliases';
 import { MAIN_LEVELS_COUNT } from './../../src/config/index';
 describe('Levels page', () => {
-	it('successfuly loads', () => {
+	it('page successfuly loads', () => {
 		cy.visit('/levels');
 	});
 

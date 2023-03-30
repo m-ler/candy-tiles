@@ -1,5 +1,5 @@
 describe('Home page', () => {
-	it('successfuly loads', () => {
+	it('page successfuly loads', () => {
 		cy.visit('/');
 	});
 
@@ -10,7 +10,7 @@ describe('Home page', () => {
 
 	it('CREATE button redirects to create level page', () => {
 		cy.get('[data-cy=create-level-button]').click();
-		cy.location('pathname').should('equal', '/level-creator');
+		cy.location('pathname').should('equal', '/level-editor');
 	});
 
 	it('PLAY button  redirects to levels page', () => {

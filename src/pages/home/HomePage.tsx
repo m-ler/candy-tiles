@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
 	const navigate = useNavigate();
-	const createOnClick = () => navigate('level-creator');
+	const createOnClick = () => navigate('level-editor');
 	const playOnClick = () => navigate('levels');
 
 	return (

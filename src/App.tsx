@@ -11,7 +11,7 @@ import UserInteractionDetection from './components/UserInteractionDetection';
 import { muiTheme } from './config/mui-theme';
 import GamePage from './pages/game';
 import HomePage from './pages/home';
-import LevelCreatorPage from './pages/level-creator';
+import LevelEditorPage from './pages/level-editor';
 import LevelSelectorPage from './pages/level-selector';
 import PasswordRecoveryPage from './pages/password-recovery/index';
 import ResetPasswordPage from './pages/reset-password';
@@ -36,7 +36,7 @@ const App = () => {
 									<Route path="/levels" element={<LevelSelectorPage />}></Route>
 									<Route path="/level/:levelId" element={<GamePage />}></Route>
 									<Route path="/level/main/:levelId" element={<GamePage isMainLevel />}></Route>
-									<Route path="/level-creator" element={<LevelCreatorPage />}></Route>
+									<Route path="/level-editor" element={<LevelEditorPage />}></Route>
 									<Route
 										path="/recover-password"
 										element={

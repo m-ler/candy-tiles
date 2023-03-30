@@ -11,7 +11,7 @@ import { LevelDataEditor } from './types';
 
 const LOCAL_STORAGE_LEVEL_EDITOR = 'level-editor-data';
 
-const LevelCreatorStateManager = () => {
+const LevelEditorStateManager = () => {
 	const setLevelRules = useSetRecoilState<LevelRules>(levelRulesState);
 	const setSlotListEditor = useSetRecoilState(slotListEditorState);
 	const setTileListEditor = useSetRecoilState(tileListEditorState);
@@ -46,4 +46,4 @@ const LevelCreatorStateManager = () => {
 	return <></>;
 };
 
-export default LevelCreatorStateManager;
+export default LevelEditorStateManager;

@@ -22,7 +22,7 @@ const EmptyState = () => {
 					color="secondary"
 					disableElevation
 					endIcon={<TbArrowUpRight size={18} />}
-					onClick={() => navigate('/level-creator')}
+					onClick={() => navigate('/level-editor')}
 				>
 					Create level
 				</Button>

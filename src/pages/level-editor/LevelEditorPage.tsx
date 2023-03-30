@@ -9,12 +9,12 @@ import MouseButtonsIndicators from './MouseButtonsIndicators';
 import SaveLevelButton from './save-level-button';
 import DownloadLevelButton from './DownloadLevelButton';
 import { useNavigate } from 'react-router-dom';
-import LevelCreatorStateManager from './LevelCreatorStateManager';
+import LevelEditorStateManager from './LevelEditorStateManager';
 import Header from '../../components/header';
 import ClearEditionButton from './ClearEditionButton';
 import ClearEditorDialog from './ClearEditorDialog';
 
-const LevelCreatorPage = () => {
+const LevelEditorPage = () => {
 	const navigate = useNavigate();
 
 	return (
@@ -52,11 +52,11 @@ const LevelCreatorPage = () => {
 				</Stack>
 			</Container>
 			<MouseButtonsIndicators></MouseButtonsIndicators>
-			<LevelCreatorStateManager></LevelCreatorStateManager>
+			<LevelEditorStateManager></LevelEditorStateManager>
 			<ClearEditorDialog />
 			{createPortal(<LevelEditorCursor></LevelEditorCursor>, document.body)}
 		</>
 	);
 };
 
-export default LevelCreatorPage;
+export default LevelEditorPage;
