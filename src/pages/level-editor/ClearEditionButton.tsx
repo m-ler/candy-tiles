@@ -8,7 +8,7 @@ const ClearEditionButton = () => {
 
 	return (
 		<Tooltip title="Clear editor">
-			<IconButton sx={{ color: 'primary.main' }} onClick={() => setShowClearEditor(true)}>
+			<IconButton sx={{ color: 'primary.main' }} onClick={() => setShowClearEditor(true)} data-cy="clear-editor-button">
 				<MdOutlineDeleteForever />
 			</IconButton>
 		</Tooltip>

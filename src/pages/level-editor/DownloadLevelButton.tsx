@@ -17,6 +17,7 @@ const DownloadLevelButton = () => {
 	return (
 		<Tooltip title="Export level to JSON file">
 			<Button
+				data-cy="level-editor-download-button"
 				onClick={handleClick}
 				startIcon={<MdDownload />}
 				sx={{ fontWeight: 'bolder', marginLeft: 'auto', whiteSpace: 'nowrap', minWidth: 'auto', textOverflow: 'ellipsis' }}

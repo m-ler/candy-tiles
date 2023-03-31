@@ -1,11 +1,8 @@
 import { LevelWithUserDB } from '../../src/types/database-aliases';
 import { MAIN_LEVELS_COUNT } from './../../src/config/index';
 describe('Levels page', () => {
-	it('page successfuly loads', () => {
-		cy.visit('/levels');
-	});
-
 	it('main levels tab should load all levels', () => {
+		cy.visit('/levels');
 		cy.get('[data-cy=main-levels-tab-button').click();
 
 		cy.get('[data-cy=main-levels-tab]')
@@ -16,7 +13,7 @@ describe('Levels page', () => {
 	});
 });
 
-describe('Online levels tab', { testIsolation: true }, () => {
+describe('Online levels tab', () => {
 	it('should load all levels from the first page of online levels', () => {
 		cy.intercept('GET', 'https://wjkhdliegkpfcyhdsnvk.supabase.co/rest/v1/levels?*', { fixture: 'online-levels.json' });
 		cy.visit('/levels');
@@ -48,8 +45,8 @@ describe('Online levels tab', { testIsolation: true }, () => {
 		);
 		cy.visit('/levels');
 
-		cy.intercept('GET', 'https://wjkhdliegkpfcyhdsnvk.supabase.co/rest/v1/levels?*', { fixture: 'level.json' });
 		cy.wait('@getOnlineLevels').then((interception) => {
+			cy.intercept('GET', 'https://wjkhdliegkpfcyhdsnvk.supabase.co/rest/v1/levels?*', { fixture: 'level.json' });
 			cy.get('[data-cy=online-levels-tab-button]').click();
 			cy.get('[data-cy=online-levels-tab]').find('[data-cy=online-level-card]').first().click();
 			cy.location('pathname').should('equal', `/level/${interception.response.body[0].id}`);
@@ -77,7 +74,7 @@ describe('Online levels tab', { testIsolation: true }, () => {
 	});
 });
 
-describe('My levels tab', { testIsolation: true }, () => {
+describe('My levels tab', () => {
 	it('should load all levels from the first page of user levels', () => {
 		cy.loginAndGoToMyLevels();
 

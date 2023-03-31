@@ -10,7 +10,7 @@ const ClearEditorDialog = () => {
 	const onClose = () => setShowClearEditor(false);
 
 	return (
-		<Dialog open={showClearEditor} onClose={onClose}>
+		<Dialog open={showClearEditor} onClose={onClose} data-cy="clear-editor-dialog">
 			<DialogTitle id="alert-dialog-title">Clear level editor?</DialogTitle>
 			<DialogContent>
 				<DialogContentText>This action will reset all your progress and cannot be undone.</DialogContentText>

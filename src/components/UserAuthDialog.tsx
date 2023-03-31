@@ -18,7 +18,7 @@ const UserAuthDialog = () => {
 	const onSwipeableChange = (index: number) => setSelectedTab(index);
 
 	return (
-		<Dialog open={showUserAuthDialog && loggedUser !== null} onClose={dialogOnClose} fullWidth={true} maxWidth={'xs'}>
+		<Dialog open={showUserAuthDialog && loggedUser !== null} onClose={dialogOnClose} fullWidth={true} maxWidth={'xs'} data-cy="auth-dialog">
 			<DialogContent sx={{ overflow: 'visible' }}>
 				<Tabs value={selectedTab} onChange={onTabChange} variant="fullWidth" sx={{ marginBottom: '14px' }}>
 					<Tab label="Sign in"></Tab>

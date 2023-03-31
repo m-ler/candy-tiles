@@ -23,6 +23,7 @@ const LevelElement = ({ elementId, imageSrc, name }: Props) => {
 	return (
 		<Tooltip title={name}>
 			<div
+			data-cy="editor-level-element-button"
 				onClick={handleClick}
 				className={`flex gap-x-[16px] min-w-[50px] max-w-[50px] items-center p-[8px] cursor-pointer bg-black/20 hover:bg-t-dark duration-200 rounded select-none ${
 					thisElementSelected ? 'bg-p-main border-[2px] border-p-light' : ''

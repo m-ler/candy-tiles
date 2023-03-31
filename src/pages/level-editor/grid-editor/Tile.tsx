@@ -29,6 +29,7 @@ const Tile = ({ index, tileObj, slotAvaliable }: Props) => {
 
 	return (
 		<div
+			data-cy="grid-editor-tile"
 			data-tile
 			data-index={index}
 			className="select-none hover:border-[5px] hover:border-s-main/50 hover:bg-s-main/10 box-border "

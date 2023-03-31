@@ -29,8 +29,8 @@ const LevelEditorPage = () => {
 					onContextMenu={(e) => e.preventDefault()}
 				>
 					<div className="flex p-[12px] bg-black/20 border-b border-white/25">
-						<Tooltip title="Cancel">
-							<IconButton onClick={() => navigate(-1)}>
+						<Tooltip title="Go back">
+							<IconButton onClick={() => navigate(-1)} data-cy="level-editor-go-back-button">
 								<MdArrowBack className="text-p-main"></MdArrowBack>
 							</IconButton>
 						</Tooltip>

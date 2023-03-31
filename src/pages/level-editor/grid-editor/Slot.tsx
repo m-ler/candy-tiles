@@ -30,6 +30,7 @@ const Slot = ({ index, slotAvaliable }: Props) => {
 
 	return (
 		<div
+			data-cy="grid-editor-slot"
 			data-tile-slot
 			data-index={index}
 			className={`border select-none hover:bg-white/10 ${slotAvaliable ? 'border-white/20' : 'border-white/5'}`}

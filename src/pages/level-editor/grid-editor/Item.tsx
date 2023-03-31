@@ -29,6 +29,7 @@ const Item = ({ index, itemObj, slotAvaliable }: Props) => {
 
 	return (
 		<div
+			data-cy="grid-editor-item-slot"
 			data-item
 			data-index={index}
 			className=" p-[15%] select-none hover:border-[5px] hover:border-t-main/50 hover:bg-s-main/10"

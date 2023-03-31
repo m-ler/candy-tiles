@@ -64,6 +64,7 @@ const SaveLevelButton = () => {
 
 	return (
 		<LoadingButton
+			data-cy="level-editor-save-button"
 			onClick={handleClick}
 			startIcon={<MdSave />}
 			loadingPosition="start"
