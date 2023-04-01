@@ -40,8 +40,8 @@ const ResetPasswordPage = () => {
 	return (
 		<Slide direction="down" in={true} mountOnEnter unmountOnExit>
 			<Container maxWidth="xs">
-				<Stack spacing={2}>
-					<Typography variant="h1" color="primary.light" sx={{ fontSize: '2rem', fontFamily: 'YellowCandy' }}>
+				<Stack spacing={2} mt={4}>
+					<Typography variant="h1" color="primary.light" fontSize="2rem" fontWeight="500">
 						Reset password
 					</Typography>
 					<TextFieldMain

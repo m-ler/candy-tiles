@@ -27,8 +27,8 @@ const PasswordRecoveryPage = () => {
 		<Slide direction="down" in={true} mountOnEnter unmountOnExit>
 			<Container maxWidth="xs">
 				<form>
-					<Stack spacing={2}>
-						<Typography variant="h1" color="primary.light" sx={{ fontSize: '2rem', fontFamily: 'YellowCandy' }}>
+					<Stack spacing={2} mt={4}>
+						<Typography variant="h1" color="primary.light" fontWeight="500" fontSize="2rem">
 							Password recovery
 						</Typography>
 						<TextFieldMain
