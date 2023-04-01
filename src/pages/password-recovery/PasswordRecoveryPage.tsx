@@ -16,7 +16,7 @@ const errorMessages = {
 const PasswordRecoveryPage = () => {
 	const [emailValue, setEmailValue] = useState('');
 	const { emailValidation } = useFormValidations();
-	const sendRecovery = useMutation('send-recovery', () => sendPaswordRecovery(emailValue));
+	const sendRecovery = useMutation(() => sendPaswordRecovery(emailValue));
 
 	const emailOnBlur = () => emailValidation.mutate(emailValue);
 	const sendOnClick = () => sendRecovery.mutate();
@@ -26,7 +26,7 @@ const PasswordRecoveryPage = () => {
 	return (
 		<Slide direction="down" in={true} mountOnEnter unmountOnExit>
 			<Container maxWidth="xs">
-				<form>
+				<form onSubmit={(e) => e.preventDefault()}>
 					<Stack spacing={2} mt={4}>
 						<Typography variant="h1" color="primary.light" fontWeight="500" fontSize="2rem">
 							Password recovery
@@ -34,6 +34,7 @@ const PasswordRecoveryPage = () => {
 						<TextFieldMain
 							label="Email"
 							variant="filled"
+							name="password-recovery"
 							InputProps={{
 								startAdornment: (
 									<InputAdornment position="start">
@@ -49,7 +50,7 @@ const PasswordRecoveryPage = () => {
 						<FormHelperText error hidden={!sendRecovery.isError}>
 							{errorMessage}
 						</FormHelperText>
-						<FormHelperText sx={{ color: 'success.light' }} hidden={!sendRecovery.isSuccess}>
+						<FormHelperText sx={{ color: 'success.light' }} hidden={!sendRecovery.isSuccess || Boolean(sendRecovery.data?.['error'])}>
 							We sent an email with a password-reset link.
 						</FormHelperText>
 						<LoadingButton

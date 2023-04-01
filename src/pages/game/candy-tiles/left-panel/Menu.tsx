@@ -39,7 +39,7 @@ const Menu = () => {
 			<div className="flex justify-between gap-[10px]">
 				<Tooltip title="Go back">
 					<div>
-						<MenuIconButton onClick={homeOnClick}>
+						<MenuIconButton onClick={homeOnClick} data-cy="left-panel-go-back-button">
 							<FaHome></FaHome>
 						</MenuIconButton>
 					</div>
@@ -47,7 +47,7 @@ const Menu = () => {
 
 				<Tooltip title="Reset level">
 					<div>
-						<MenuIconButton onClick={resetLevelOnClick}>
+						<MenuIconButton onClick={resetLevelOnClick} data-cy="left-panel-reset-level-button">
 							<MdReplay></MdReplay>
 						</MenuIconButton>
 					</div>
@@ -55,7 +55,7 @@ const Menu = () => {
 
 				<Tooltip title="Adjust volume">
 					<div>
-						<MenuIconButton onClick={volumeOnClick}>
+						<MenuIconButton onClick={volumeOnClick} data-cy="left-panel-adjust-volume-button">
 							<MdVolumeUp></MdVolumeUp>
 						</MenuIconButton>
 					</div>

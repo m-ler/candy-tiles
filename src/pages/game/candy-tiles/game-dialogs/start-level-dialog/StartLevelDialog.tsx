@@ -27,7 +27,7 @@ const StartLevelDialog = () => {
 
 	return show ? (
 		<CandyTilesDialog>
-			<div className="flex flex-col w-full items-center gap-[12px]">
+			<div className="flex flex-col w-full items-center gap-[12px]" data-cy="start-level-dialog">
 				<span className="m-auto font-YellowCandy text-[24px] text-p-light">Target</span>
 
 				<div className="flex flex-wrap gap-[12px]">

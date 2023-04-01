@@ -22,7 +22,7 @@ const ManageUserDialog = () => {
 	};
 
 	return (
-		<Dialog open={showManageUserDialog} onClose={dialogOnClose} maxWidth="xs">
+		<Dialog open={showManageUserDialog} onClose={dialogOnClose} maxWidth="xs" data-cy="manage-user-dialog">
 			<DialogContent>
 				<Stack spacing={2}>
 					{uploadingAvatar && <LinearProgress />}

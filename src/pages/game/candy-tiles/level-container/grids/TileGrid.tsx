@@ -81,6 +81,7 @@ const TileGrid = () => {
 
 	return (
 		<div
+			data-cy="level-tiles-grid"
 			className="grid absolute top-0 left-0 w-full h-full"
 			style={{
 				gridTemplateColumns: `repeat(${COLUMN_NUMBER}, 1fr)`,

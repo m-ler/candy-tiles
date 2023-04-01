@@ -37,3 +37,8 @@ Cypress.Commands.add('fillGridEditor', () => {
 	cy.get('[data-cy=grid-editor-item-slot]').each(($slot) => cy.wrap($slot).click({ force: true }));
 });
 
+Cypress.Commands.add('moveLevelCandies', (from, to) => {
+	cy.get('[data-cy=level-tiles-grid]').children().eq(from).trigger('mousedown').trigger('mouseover');
+	cy.get('[data-cy=level-tiles-grid]').children().eq(to).trigger('mouseover').trigger('mouseup', { force: true });
+});
+

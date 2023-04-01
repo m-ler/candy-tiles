@@ -13,7 +13,7 @@ const ItemGrid = () => {
 	const tilesLayout = useMemo(() => selectedLevel.data?.file.initialTiles || [], [selectedLevel.data]);
 
 	return (
-		<div className="absolute top-0 left-0 w-full h-full pointer-events-none duration-1000">
+		<div className="absolute top-0 left-0 w-full h-full pointer-events-none duration-1000" data-cy="level-items-grid">
 			{Array(TILE_COUNT)
 				.fill('')
 				.map((x, index) => {

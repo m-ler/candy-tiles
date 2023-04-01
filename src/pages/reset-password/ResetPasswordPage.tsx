@@ -21,7 +21,7 @@ const ResetPasswordPage = () => {
 	const { newPasswordValidation } = useFormValidations();
 	const navigate = useNavigate();
 	const toast = useToast();
-	const resetPasswordMutation = useMutation<UserResponse>('reset-password', () => resetPassword(newPasswordValue));
+	const resetPasswordMutation = useMutation<UserResponse>(() => resetPassword(newPasswordValue));
 
 	useEffect(() => {
 		resetPasswordMutation.isSuccess && !resetPasswordMutation.data.error && onPasswordReset();
@@ -36,7 +36,7 @@ const ResetPasswordPage = () => {
 	const resetOnClick = () => resetPasswordMutation.mutate();
 
 	const errorMessage = errorMessages[resetPasswordMutation.data?.error?.name || ''] || errorMessages['default'];
-
+	
 	return (
 		<Slide direction="down" in={true} mountOnEnter unmountOnExit>
 			<Container maxWidth="xs">
@@ -47,6 +47,7 @@ const ResetPasswordPage = () => {
 					<TextFieldMain
 						label="New password"
 						type="password"
+						name="reset-password"
 						variant="filled"
 						InputProps={{
 							startAdornment: (
@@ -60,7 +61,11 @@ const ResetPasswordPage = () => {
 						helperText={newPasswordValidation.data?.validationMessage}
 						error={!newPasswordValidation.data?.valid && newPasswordValidation.isSuccess}
 					></TextFieldMain>
-					<FormHelperText error hidden={!resetPasswordMutation.data?.error && !resetPasswordMutation.isError}>
+					<FormHelperText
+						error
+						hidden={!resetPasswordMutation.data?.error && !resetPasswordMutation.isError}
+						data-cy="reset-password-error-message"
+					>
 						{errorMessage}
 					</FormHelperText>
 					<LoadingButton

@@ -7,5 +7,6 @@ declare namespace Cypress {
 		login(): Chainable;
 		loginAndGoToMyLevels(interceptLevelRequest?: boolean): Chainable<Interception>;
 		fillGridEditor(): Chainable;
+		moveLevelCandies(from: number, to: number): Chainable<Interception>;
 	}
 }

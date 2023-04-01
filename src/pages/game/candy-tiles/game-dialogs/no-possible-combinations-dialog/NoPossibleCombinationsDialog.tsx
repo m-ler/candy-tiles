@@ -21,7 +21,7 @@ const NoPossibleCombinationsDialog = () => {
 
 	return !possibleCombinations && !levelComplete ? (
 		<CandyTilesDialog>
-			<div className="flex flex-col w-full items-center gap-[12px]">
+			<div className="flex flex-col w-full items-center gap-[12px]" data-cy="no-moves-dialog">
 				<div>
 					<span className="m-auto font-YellowCandy text-[22px] block text-center text-p-light">No moves!</span>
 					<span className="m-auto font-YellowCandy text-[18px] block text-center text-s-light">You ran out of possible combinations!</span>

@@ -53,6 +53,7 @@ const ScoreBar = () => {
 					}}
 				></span>
 				<span
+					data-cy="score-number"
 					className="text-white font-YellowCandy text-[18px] md:text-[14px] absolute block top-0 left-0 right-0 bottom-0 text-center leading-[40px] font-medium"
 					ref={scoreNumberElementRef}
 				></span>

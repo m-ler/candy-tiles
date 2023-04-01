@@ -58,7 +58,7 @@ const LevelCompleteDialog = () => {
 	return levelComplete ? (
 		<DelayComponent delayMs={500}>
 			<CandyTilesDialog className="max-w-[300px]">
-				<div className="flex flex-col w-full items-center gap-[12px] relative">
+				<div className="flex flex-col w-full items-center gap-[12px] relative" data-cy="level-complete-dialog">
 					<span className="m-auto font-YellowCandy text-[24px] block text-center text-p-light">Level complete!</span>
 					<div className="w-fit flex gap-x-[20px] justify-center bg-black/25 p-[16px] rounded-lg z-0">
 						<Star id="level-complete-star1" animationDelayMs={200} lit={levelScoreStars.first}></Star>

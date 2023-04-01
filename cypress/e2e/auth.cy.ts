@@ -79,3 +79,33 @@ describe('Sign up form', () => {
 		cy.contains('Sign up failed. Please try again.').should('be.visible');
 	});
 });
+
+describe('User avatar menu', () => {
+	beforeEach(() => {
+		cy.login();
+		cy.visit('/levels');
+		cy.get('[data-cy=user-avatar-header-button]').click();
+		cy.get('[data-cy=user-avatar-menu]').should('be.visible');
+	});
+
+	it('clicking outside the menu should close it ', () => {
+		cy.get('body').click();
+		cy.get('[data-cy=user-avatar-menu]').should('not.exist');
+	});
+
+	it('clicking the avatar button inside the menu should open the manage user dialog', () => {
+		cy.get('[data-cy=user-avatar-menu]').find('li').first().click();
+		cy.get('[data-cy=manage-user-dialog]').should('be.visible');
+	});
+
+	it('clicking the logout button should logout the current user', () => {
+		cy.get('[data-cy=user-avatar-menu]').find('li').eq(1).click();
+		cy.get('[data-cy=user-avatar-header-button]').should('not.exist');
+		cy.get('[data-cy=login-button]').should('be.visible');
+
+		cy.then(() => {
+			const loggedUser = JSON.parse(localStorage.getItem('logged-user'));
+			cy.wrap(loggedUser).should('be.null');
+		});
+	});
+});

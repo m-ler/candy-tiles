@@ -15,7 +15,7 @@ const VolumeDialog = () => {
 	const handleSliderChange = (e: Event, newValue: number | number[]) => setGameVolume((newValue as number) / 100);
 
 	return (
-		<Dialog open={showVolumeDialog} onClose={handleClose} fullWidth={true} maxWidth={'xs'}>
+		<Dialog open={showVolumeDialog} onClose={handleClose} fullWidth={true} maxWidth={'xs'} data-cy="adjust-volume-dialog">
 			<DialogTitle>Volume</DialogTitle>
 			<DialogContent sx={{ overflow: 'visible' }}>
 				<div className="flex gap-x-[16px] items-center mt-[12px]" style={{ color: blueGrey[600] }}>

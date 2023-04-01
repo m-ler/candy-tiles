@@ -29,14 +29,15 @@ const DeleteAccountDialog = () => {
 		});
 
 	return (
-		<Dialog open={showDeleteAccountDialog} onClose={dialogOnClose} fullWidth maxWidth="xs">
+		<Dialog open={showDeleteAccountDialog} onClose={dialogOnClose} fullWidth maxWidth="xs" data-cy="delete-account-dialog">
 			<DialogTitle>Delete account</DialogTitle>
 			<DialogContent>
-				<form>
+				<form onSubmit={(e) => e.preventDefault()}>
 					<Stack spacing={2} alignItems="flex-start">
 						<TextFieldMain
 							label="Confirm password"
 							type="password"
+							name="confirm-password"
 							variant="filled"
 							InputProps={{
 								startAdornment: (

@@ -19,7 +19,7 @@ const UserMenu = ({ anchorEl, user, onMenuClose }: Props) => {
 	const open = !!anchorEl;
 
 	return (
-		<Menu open={open} anchorEl={anchorEl} onClose={() => onMenuClose?.()} elevation={4}>
+		<Menu open={open} anchorEl={anchorEl} onClose={() => onMenuClose?.()} elevation={4} data-cy="user-avatar-menu">
 			<MenuItem
 				onClick={() => {
 					setShowManageUserDialog(true);
@@ -32,7 +32,9 @@ const UserMenu = ({ anchorEl, user, onMenuClose }: Props) => {
 						<Typography variant="subtitle1" color={blueGrey[800]} sx={{ fontWeight: 'bolder' }}>
 							{user.profile.nickname}
 						</Typography>
-						<Typography variant="caption" fontSize="0.75rem" color={blueGrey[500]}>{user.profile.email}</Typography>
+						<Typography variant="caption" fontSize="0.75rem" color={blueGrey[500]}>
+							{user.profile.email}
+						</Typography>
 					</Stack>
 				</Stack>
 			</MenuItem>
