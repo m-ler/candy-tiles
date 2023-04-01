@@ -15,7 +15,6 @@ const UserAuthDialog = () => {
 	const loggedUser = useRecoilState(loggedUserState);
 
 	const onTabChange = (event: React.SyntheticEvent, newValue: number) => setSelectedTab(newValue);
-	const onSwipeableChange = (index: number) => setSelectedTab(index);
 
 	return (
 		<Dialog open={showUserAuthDialog && loggedUser !== null} onClose={dialogOnClose} fullWidth={true} maxWidth={'xs'} data-cy="auth-dialog">
@@ -27,7 +26,6 @@ const UserAuthDialog = () => {
 
 				<SwipeableViews
 					index={selectedTab}
-					onChangeIndex={onSwipeableChange}
 					containerStyle={{
 						transition: '0.35s ',
 					}}

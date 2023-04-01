@@ -32,7 +32,7 @@ const SignInForm = ({ onClose }: Props) => {
 		<form onSubmit={(e) => e.preventDefault()}>
 			<Stack spacing={2}>
 				<TextFieldMain
-					name="email"
+					name="signin-email"
 					label="Email"
 					variant="filled"
 					InputProps={{
@@ -48,7 +48,7 @@ const SignInForm = ({ onClose }: Props) => {
 					onBlur={emailOnBlur}
 				></TextFieldMain>
 				<TextFieldMain
-					name="password"
+					name="signin-password"
 					label="Password"
 					variant="filled"
 					type="password"
@@ -61,7 +61,7 @@ const SignInForm = ({ onClose }: Props) => {
 					}}
 					onChange={(e) => setPasswordValue(e.target.value)}
 				></TextFieldMain>
-				<FormHelperText error hidden={!signInMutation.data?.error}>
+				<FormHelperText error hidden={!signInMutation.data?.error && !signInMutation.error}>
 					{errorMessage}
 				</FormHelperText>
 				<Stack direction="row" justifyContent="space-between" alignItems="center">

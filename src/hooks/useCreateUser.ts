@@ -8,6 +8,7 @@ import { UserData } from '../types';
 export default (onUserCreated?: () => void) => {
 	const navigate = useNavigate();
 	const [errorMessage, setErrorMessage] = useState('');
+	const onError = () => setErrorMessage('Sign up failed. Please try again.');
 	const createUserMutation = useMutation<PostgrestSingleResponse<null>, unknown, UserData>(
 		'createUser',
 		({ email, nickname, password }: UserData) => createUser(email, nickname, password),
@@ -21,6 +22,7 @@ export default (onUserCreated?: () => void) => {
 				onUserCreated?.();
 				navigate(0);
 			},
+			onError: onError,
 		},
 	);
 

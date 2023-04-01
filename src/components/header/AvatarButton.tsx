@@ -17,7 +17,7 @@ const AvatarButton = ({ user }: Props) => {
 	return (
 		<>
 			<Tooltip title={user.profile.nickname}>
-				<div>
+				<div data-cy="user-avatar-header-button">
 					<UserAvatar size={40} fontSize={18} onClick={handleClick} />
 				</div>
 			</Tooltip>

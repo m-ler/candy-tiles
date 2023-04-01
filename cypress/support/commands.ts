@@ -8,10 +8,10 @@ Cypress.Commands.add('login', () => {
 	cy.session(email, () => {
 		cy.visit('/levels');
 		cy.get('[data-cy=login-button]').click();
-		cy.get('input[name=email]').type(email);
-		cy.get('input[name=password]').type(`${password}{enter}`, { log: false });
+		cy.get('input[name=signin-email]').type(email);
+		cy.get('input[name=signin-password]').type(`${password}{enter}`, { log: false });
 
-		cy.get('[data-cy=logged-user-button]').should('exist');
+		cy.get('[data-cy=user-avatar-header-button]').should('exist');
 
 		cy.then(() => {
 			const loggedUser = JSON.parse(localStorage.getItem('logged-user')) as LoggedUserData | null;

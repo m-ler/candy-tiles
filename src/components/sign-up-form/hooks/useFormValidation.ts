@@ -25,7 +25,7 @@ const emailValidations: FieldValidation<string>[] = [
 const passwordValidations: FieldValidation<string>[] = [
 	{
 		validate: validatePasswordLength,
-		failReason: 'Password must contain at least 6 characters',
+		failReason: 'Password must contain at least 6 characters.',
 	},
 ];
 

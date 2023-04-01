@@ -33,10 +33,11 @@ const SignUpForm = ({ onClose }: Props) => {
 	const validForm = [emailValidation, usernameValidation, passwordValidation].every((x) => x.data?.valid);
 
 	return (
-		<form>
+		<form onSubmit={(e) => e.preventDefault()}>
 			<Stack spacing={2}>
 				<TextFieldMain
 					label="Email"
+					name="signup-email"
 					variant="filled"
 					InputProps={{
 						startAdornment: (
@@ -52,6 +53,7 @@ const SignUpForm = ({ onClose }: Props) => {
 				></TextFieldMain>
 				<TextFieldMain
 					label="Username"
+					name="signup-username"
 					variant="filled"
 					helperText={usernameValidation.data?.validationMessage}
 					error={!usernameValidation.data?.valid && usernameValidation.isSuccess}
@@ -67,6 +69,7 @@ const SignUpForm = ({ onClose }: Props) => {
 				></TextFieldMain>
 				<TextFieldMain
 					label="Password"
+					name="signup-password"
 					variant="filled"
 					type="password"
 					helperText={passwordValidation.data?.validationMessage}
@@ -83,7 +86,7 @@ const SignUpForm = ({ onClose }: Props) => {
 						),
 					}}
 				></TextFieldMain>
-				<FormHelperText error hidden={!createUserMutation.data?.error || !createUserMutation.error}>
+				<FormHelperText error hidden={!createUserMutation.data?.error && !createUserMutation.error}>
 					{errorMessage}
 				</FormHelperText>
 				<Stack direction="row" justifyContent="center" alignItems="center">
