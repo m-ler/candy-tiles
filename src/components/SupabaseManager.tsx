@@ -11,7 +11,7 @@ import { CompletedLevels } from '../store/completedLevels';
 import { LoggedUserData } from '../types';
 
 const getLoggedUserObj = (profile: UserDb, session: Session | null): LoggedUserData | null =>
-	session
+	session && profile
 		? ({
 				auth: session.user,
 				profile: {

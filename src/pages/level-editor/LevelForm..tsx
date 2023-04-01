@@ -18,6 +18,7 @@ const LevelForm = () => {
 		<Grid container spacing={2} columns={{ xs: 2, sm: 3, md: 6 }}>
 			<Grid item xs={1}>
 				<TextFieldMain
+					name="level-title"
 					onChange={(e) => setLevelEditorTitle(e.target.value)}
 					label="Title"
 					variant="filled"
@@ -36,10 +37,18 @@ const LevelForm = () => {
 			</Grid>
 			<Grid item xs={1}>
 				<TextFieldMain
+					name="level-target-score"
 					onChange={(e) =>
 						setLevelRules((state) => ({
 							...state,
 							targetScore: parseInt(e.target.value),
+						}))
+					}
+					onBlur={() =>
+						isNaN(levelRules.targetScore) &&
+						setLevelRules((state) => ({
+							...state,
+							targetScore: 100,
 						}))
 					}
 					id="target-score"
@@ -62,10 +71,18 @@ const LevelForm = () => {
 			</Grid>
 			<Grid item xs={1}>
 				<TextFieldMain
+					name="level-maximum-moves"
 					onChange={(e) =>
 						setLevelRules((state) => ({
 							...state,
 							maximumMoves: parseInt(e.target.value),
+						}))
+					}
+					onBlur={() =>
+						isNaN(levelRules.maximumMoves) &&
+						setLevelRules((state) => ({
+							...state,
+							maximumMoves: 1,
 						}))
 					}
 					id="moves-number"
@@ -88,6 +105,7 @@ const LevelForm = () => {
 			</Grid>
 			<Grid item xs={1}>
 				<TextFieldMain
+					name="level-ice-tiles"
 					onChange={(e) =>
 						setLevelRules((state) => ({
 							...state,
@@ -117,6 +135,7 @@ const LevelForm = () => {
 			</Grid>
 			<Grid item xs={1}>
 				<TextFieldMain
+					name="level-rock-tiles"
 					onChange={(e) =>
 						setLevelRules((state) => ({
 							...state,
@@ -146,6 +165,7 @@ const LevelForm = () => {
 			</Grid>
 			<Grid item xs={1}>
 				<TextFieldMain
+					name="level-ice-creams"
 					onChange={(e) =>
 						setLevelRules((state) => ({
 							...state,

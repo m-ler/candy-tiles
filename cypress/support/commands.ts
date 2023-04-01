@@ -32,3 +32,8 @@ Cypress.Commands.add('loginAndGoToMyLevels', (interceptLevelRequest = true) => {
 	interceptLevelRequest && cy.wait('@myLevelsRequest').then((interception) => interception);
 });
 
+Cypress.Commands.add('fillGridEditor', () => {
+	cy.get('[data-cy=editor-element-button-Blue-candy').click();
+	cy.get('[data-cy=grid-editor-item-slot]').each(($slot) => cy.wrap($slot).click({ force: true }));
+});
+

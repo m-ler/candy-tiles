@@ -24,7 +24,7 @@ const LevelEditorCursor = () => {
 	};
 
 	return (
-		<div ref={setCursorElement} className="fixed pointer-events-none">
+		<div ref={setCursorElement} className="fixed pointer-events-none" data-cy="level-editor-cursor">
 			{holdingRightMouseButton ? (
 				<FaEraser className="block text-t-dark translate-x-1/2 translate-y-1/2" size={30}></FaEraser>
 			) : selectedElement ? (
