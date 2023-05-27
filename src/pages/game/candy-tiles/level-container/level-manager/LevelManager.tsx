@@ -26,17 +26,25 @@ import { comboCountState } from './../../store/comboCount';
 import { LevelFile } from '../../../../../types';
 import { LevelItem, LevelTile, MatchResult, SwappedItems } from '../../types';
 
-const applyMatches = (matchInfo: MatchResult, itemList: LevelItem[]): LevelItem[] => {
-	const newItemList = structuredClone(itemList) as LevelItem[];
+const applyMatches = (matchInfo: MatchResult, itemList: LevelItem[]) => {
+	let itemsFused = false;
+	const matchResult = structuredClone(itemList) as LevelItem[];
 	const matchGroupsCenters = matchInfo.matchingGroups.map((group) => getMatchGroupCenterIndex(group, matchInfo.matchingList));
 	matchInfo.matchingList
 		.filter((x) => x.matched)
 		.forEach((y) => {
 			const itemIsAtMatchGroupCenter = matchGroupsCenters.includes(y.index);
-			newItemList[y.index] = itemIsAtMatchGroupCenter ? getLevelItemByFusion(y, newItemList[y.index]) : null;
+			if (itemIsAtMatchGroupCenter) {
+				const fusedItem = getLevelItemByFusion(y, matchResult[y.index]);
+				if (fusedItem !== null) itemsFused = true;
+				matchResult[y.index] = getLevelItemByFusion(y, matchResult[y.index]);
+				return;
+			}
+
+			matchResult[y.index] = null;
 		});
 
-	return newItemList;
+	return { matchResult, itemsFused };
 };
 
 const validateInitialItems = (initialItems: readonly LevelItem[], initialTiles: readonly LevelTile[]): LevelItem[] => {
@@ -120,7 +128,8 @@ const LevelManager = () => {
 
 			playAudio({ audioName: 'match', speed: 1 + (combo + 1) / 10 });
 			setComboCount((combo) => (combo < COMBO_LIMIT ? combo + 1 : combo));
-			const matchResult = applyMatches(matchInfo, itemList);
+			const { matchResult, itemsFused } = applyMatches(matchInfo, itemList);
+			itemsFused && playAudio({ audioName: 'fusionMatch' });
 
 			setLevelItems(matchResult);
 			setMatchList(matchInfo.matchingList);

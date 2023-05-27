@@ -53,7 +53,6 @@ const SuperCandy = ({ color, id, index }: SuperCandyProps) => {
 	useScore(matched, index, 'SuperCandy', color);
 
 	useEffect(() => {
-		playAudio({ audioName: 'fusionMatch' });
 		animateItemSpawn(elementRef.current as HTMLElement);
 	}, []);
 

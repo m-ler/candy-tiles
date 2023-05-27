@@ -46,7 +46,6 @@ const Chocolate = ({ id, index }: ChocolateProps) => {
 	useScore(matched, index, 'Chocolate');
 
 	useEffect(() => {
-		playAudio({ audioName: 'fusionMatch' });
 		animateItemSpawn(elementRef.current as HTMLElement, () => {
 			spinAnimationRef.current = animateChocolateScale(elementRef.current as HTMLElement);
 		});
