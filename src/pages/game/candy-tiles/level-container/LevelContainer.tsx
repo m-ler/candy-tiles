@@ -36,8 +36,11 @@ const LevelContainer = () => {
 	gameOver && animateGameOver();
 
 	return (
-		<div className='w-full grow overflow-hidden'>
-			<section id="level-container" className="max-w-full max-h-full mx-auto md:my-auto aspect-square rounded-lg overflow-hidden relative select-none">
+		<div className="w-full grow overflow-hidden">
+			<section
+				id="level-container"
+				className="max-w-full max-h-full mx-auto md:my-auto aspect-square rounded-lg overflow-hidden relative select-none touch-none"
+			>
 				<LevelManager></LevelManager>
 				<TileGrid></TileGrid>
 				<DelayComponent delayMs={ANIMATION_TIME_MS}>

@@ -40,6 +40,7 @@ const TileGrid = () => {
 	const tileGridElementRef = useRef<HTMLDivElement | null>(null);
 	const levelMoves = useRecoilValue(levelMovesState);
 	const playAudio = useAudio();
+	const touchedTilesIndeces = useRef<Set<number>>(new Set([]));
 
 	useEffect(() => {
 		updateGridInteraction();
@@ -79,6 +80,19 @@ const TileGrid = () => {
 		firstTile.current = null;
 	};
 
+	const handleTouchStartOrEnd = () => touchedTilesIndeces.current.clear();
+	const handleTouchMove = (e: React.TouchEvent) => {
+		const touchedElement = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY);
+		if (touchedElement === null || !elementIsTile(touchedElement as HTMLElement)) return;
+		touchedTilesIndeces.current.add(Number(touchedElement?.getAttribute('data-index')));
+
+		if (touchedTilesIndeces.current.size >= 2) {
+			const indeces = Array.from(touchedTilesIndeces.current);
+			if (tilesAreAdjacent(indeces[0], indeces[1])) setSwappedItems([indeces[0], indeces[1]]);
+			touchedTilesIndeces.current.clear();
+		}
+	};
+
 	return (
 		<div
 			data-cy="level-tiles-grid"
@@ -87,6 +101,9 @@ const TileGrid = () => {
 				gridTemplateColumns: `repeat(${COLUMN_NUMBER}, 1fr)`,
 				gridTemplateRows: `repeat(${ROW_NUMBER}, 1fr)`,
 			}}
+			onTouchMove={handleTouchMove}
+			onTouchStart={handleTouchStartOrEnd}
+			onTouchEnd={handleTouchStartOrEnd}
 			onMouseDown={handleMouseDown}
 			onMouseUp={handleMouseUp}
 			onMouseOver={handleMouseOver}
