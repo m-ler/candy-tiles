@@ -1,3 +1,4 @@
+import { GAME_SFX_LIST } from './../types/index';
 import { useRecoilValue } from 'recoil';
 import { userInteractedWithDocumentState } from '../store/userInteractedWithDocument';
 import { GameSFX } from '../types';
@@ -23,7 +24,7 @@ import tileClick from './../assets/audio/tileClick.mp3';
 import woosh1 from './../assets/audio/woosh1.mp3';
 
 type AudioList = { [key in GameSFX]: string };
-const audioList: AudioList = {
+const audioSRCs: AudioList = {
 	buttonClick1,
 	candyBounce,
 	chocolateMatch,
@@ -52,11 +53,18 @@ type AudioOptions = {
 	preservePitch?: boolean;
 };
 
+const audioList: { [key in GameSFX | string]: HTMLAudioElement | null } = {};
+
+GAME_SFX_LIST.forEach((audio) => {
+	audioList[audio] = new Audio(audioSRCs[audio]);
+});
+
 export default (): ((options: AudioOptions) => HTMLAudioElement) => {
 	const userInteractedWithDocument = useRecoilValue(userInteractedWithDocumentState);
 
 	return (options: AudioOptions) => {
-		const audio = new Audio(audioList[options.audioName]);
+		const audio = audioList[options.audioName] as HTMLAudioElement;
+		audio.currentTime = 0;
 		audio.volume = (options.volume || 1) * window.gameVolume;
 		audio.playbackRate = options.speed || 1;
 		audio.preservesPitch = options.preservePitch || false;

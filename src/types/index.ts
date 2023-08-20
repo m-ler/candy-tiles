@@ -61,7 +61,7 @@ export type LevelFile = {
 
 export type LevelData = LevelDb & { file: LevelFile; isMainLevel: boolean };
 
-const gameSFXList = [
+export const GAME_SFX_LIST = [
 	'buttonClick1',
 	'candyBounce',
 	'chocolateMatch',
@@ -83,6 +83,6 @@ const gameSFXList = [
 	'woosh1',
 ] as const;
 
-export type GameSFX = (typeof gameSFXList)[number];
+export type GameSFX = (typeof GAME_SFX_LIST)[number];
 
 export type Toast = { message: string; durationMs: number; severity: AlertColor };
