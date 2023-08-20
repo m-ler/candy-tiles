@@ -7,7 +7,7 @@ const MainLevelsTab = () => {
 	const completedLevels = useCompletedLevels();
 
 	return (
-		<Grid container columns={{ xs: 2, sm: 4, md: 8 }} spacing={2} padding={2} data-cy="main-levels-tab">
+		<Grid container columns={{ xs: 3, sm: 6, md: 10 }} spacing={1} padding={2} data-cy="main-levels-tab">
 			{new Array(MAIN_LEVELS_COUNT).fill(0).map((x, index) => {
 				const levelAvaliable = index === 0 || completedLevels.main.some((x) => x.id === index);
 				const stars = completedLevels.main.find((x) => x.id === index + 1)?.stars || 0;

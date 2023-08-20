@@ -1,5 +1,4 @@
 import { Button, ButtonProps } from '@mui/material';
-import { muiPalette } from '../../../config/mui-theme';
 import { useNavigate } from 'react-router-dom';
 import useAudio from '../../../hooks/useAudio';
 import { AiFillStar } from 'react-icons/ai';
@@ -33,15 +32,16 @@ const SelectLevelButton = (props: Props): JSX.Element => {
 			onClick={handleClick}
 			sx={{
 				width: '100%',
+				height: '100%',
 				minWidth: 20,
-				backgroundColor: muiPalette.primary.dark,
+				backgroundColor: 'secondary.dark',
 				fontSize: 20,
 				color: 'white',
 				fontWeight: 'bold',
 				fontFamily: 'YellowCandy',
 				padding: '0.75rem',
 				'&:hover': {
-					backgroundColor: muiPalette.tertiary.dark,
+					backgroundColor: 'tertiary.dark',
 				},
 				'&:disabled': {
 					opacity: 0.5,
